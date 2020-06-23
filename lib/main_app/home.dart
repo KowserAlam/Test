@@ -22,7 +22,6 @@ class _HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-
     var bottomNavBar = BottomNavigationBar(
 //        selectedItemColor: Theme.of(context).primaryColor,
 //        unselectedItemColor: Colors.grey,
@@ -38,6 +37,7 @@ class _HomeState extends State<Home> {
         selectedFontSize: 10,
         unselectedFontSize: 10,
         type: BottomNavigationBarType.fixed,
+
         items: [
 
           // dashboard
