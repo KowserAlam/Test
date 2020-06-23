@@ -211,7 +211,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   )
                 : Icon(
                     Icons.visibility_off,
-                    color: Theme.of(context).textTheme.body1.color,
+                    color: Theme.of(context).textTheme.subtitle1.color,
                   ),
             onPressed: () {
               signViewModel.isObscurePassword = !isObscure;

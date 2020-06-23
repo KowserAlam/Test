@@ -43,6 +43,7 @@ class AuthService {
 
   Future<bool> removeUser() {
     _instance = AuthService();
+     _localStorageService.remove(JsonKeys.company);
     return _localStorageService.remove(JsonKeys.user);
   }
 

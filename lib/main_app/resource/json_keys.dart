@@ -21,5 +21,6 @@ class JsonKeys{
   static var questionAnsList = "question_ans_list";
   static var professionalId = "professional_id";
   static var savedAt = "savedAt";
+  static var company = "company";
 
 }

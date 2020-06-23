@@ -135,13 +135,14 @@ class Company extends Equatable {
     slug = json['slug']?.toString();
     noOfItResources = json['no_of_it_resources']?.toString();
     noOfItResources = json['no_of_it_resources']?.toString();
-    totalNumberOfHumanResources = json['total_number_of_human_resources']?.toString();
-    legalStructureOfThisCompany = json['legal_structure_of_this_company']?.toString();
+    totalNumberOfHumanResources =
+        json['total_number_of_human_resources']?.toString();
+    legalStructureOfThisCompany =
+        json['legal_structure_of_this_company']?.toString();
     basisMembershipNo = json['basis_membership_no']?.toString();
     area = json['area']?.toString();
     city = json['city']?.toString();
     country = json['country']?.toString();
-
   }
 
   Map<String, dynamic> toJson() {
@@ -156,7 +157,7 @@ class Company extends Equatable {
     data['company_name_facebook'] = this.companyNameFacebook;
     data['company_name_google'] = this.companyNameGoogle;
     data['basis_membership_no'] = this.basisMembershipNo;
-    data['year_of_eastablishment'] = this.yearOfEstablishment.toIso8601String();
+    data['year_of_eastablishment'] = this.yearOfEstablishment?.toIso8601String();
     data['company_profile'] = this.companyProfile;
     data['company_contact_no_one'] = this.companyContactNoOne;
     data['company_contact_no_two'] = this.companyContactNoTwo;
@@ -190,13 +191,42 @@ class Company extends Equatable {
   List<Object> get props => [
         name,
         email,
+        companyNameBdjobs,
+        companyNameFacebook,
+        companyNameGoogle,
+        basisMemberShipNo,
+        yearOfEstablishment,
         address,
+        postCode,
         companyContactNoOne,
+        companyContactNoTwo,
+        companyContactNoThree,
+        webAddress,
+        organizationHead,
+        organizationHeadDesignation,
+        organizationHeadNumber,
+        legalStructure,
+        noOfHumanResources,
+        noOfResources,
         contactPerson,
         contactPersonDesignation,
         contactPersonMobileNo,
         contactPersonEmail,
+        companyProfile,
         profilePicture,
+        latitude,
+        longitude,
         createdDate,
+        division,
+        district,
+        user,
+        slug,
+        noOfItResources,
+        totalNumberOfHumanResources,
+        legalStructureOfThisCompany,
+        basisMembershipNo,
+        area,
+        city,
+        country,
       ];
 }

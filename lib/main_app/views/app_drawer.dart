@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobxprss_company/features/company_profile/models/company.dart';
+import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
+import 'package:jobxprss_company/features/settings/settings_screen.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
 import 'package:jobxprss_company/main_app/job_express_company_app.dart';
@@ -30,7 +33,6 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   void initState() {
-
 //    Future.delayed(Duration.zero).then((value) {
 //      var upvm = Provider.of<UserProfileViewModel>(context,listen: false);
 //      var user = upvm?.userData?.personalInfo;
@@ -41,6 +43,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var headerBackgroundColor = Color(0xff08233A);
@@ -48,89 +51,93 @@ class _AppDrawerState extends State<AppDrawer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-//          Container(
-//            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-//            decoration: BoxDecoration(
-//              color: headerBackgroundColor,
-//              image: DecorationImage(
-//                  image: AssetImage(kUserProfileCoverImageAsset),
-//                  fit: BoxFit.cover),
-//            ),
-//            child: Consumer<UserProfileViewModel>(builder: (context, upvm, _) {
-////              var baseUrl = FlavorConfig.instance.values.baseUrl;
-//              var user = upvm?.userData?.personalInfo;
-//
-//              var imageUrl = user?.profileImage ?? kDefaultUserImageNetwork;
-//              return Container(
-//                height: 160,
-////                  decoration: BoxDecoration(
-////                    color: headerBackgroundColor,
-////                    image: DecorationImage(
-////                        image: AssetImage(kUserProfileCoverImageAsset),
-////                        fit: BoxFit.cover),
-////                  ),
-//                child: Column(
-//                  children: [
-//                    Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: [
-//                        IconButton(
-//                          icon: Icon(
-//                            Icons.settings,
-//                          ),
-//                          color: navBarTextColor,
-//                          onPressed: () {
-//                            Navigator.pop(context);
-//                            Navigator.push(
-//                                context,
-//                                CupertinoPageRoute(
-//                                    builder: (context) => ConfigScreen()));
-//                          },
-//                        ),
-//                        Container(
-//                          child: IconButton(
-//                            icon: Icon(Icons.menu),
-//                            color: navBarTextColor,
-//                            onPressed: () {
-//                              Navigator.pop(context);
-//                            },
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                    //profile image
-//                    Container(
-//                      padding: const EdgeInsets.all(4.0),
-//                      height: 65,
-//                      width: 65,
-//                      decoration: BoxDecoration(
-//                        borderRadius: BorderRadius.circular(100),
-//                      ),
-//                      child: ClipRRect(
-//                        child: CachedNetworkImage(
-//                          imageUrl: imageUrl,
-//                          fit: BoxFit.cover,
-//                          placeholder: (context, _) => Image.asset(
-//                            kDefaultUserImageAsset,
-//                            fit: BoxFit.cover,
-//                          ),
-//                        ),
-//                        borderRadius: BorderRadius.circular(100),
-//                      ),
-//                    ),
-//                    Text(
-//                      user?.fullName ?? "",
-//                      style: TextStyle(color: navBarTextColor, fontSize: 18),
-//                    ),
-//                    Text(
-//                      user?.email ?? "",
-//                      style: TextStyle(color: navBarTextColor),
-//                    ),
-//                  ],
-//                ),
-//              );
-//            }),
-//          ),
+          Container(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            decoration: BoxDecoration(
+              color: headerBackgroundColor,
+              image: DecorationImage(
+                  image: AssetImage(kUserProfileCoverImageAsset),
+                  fit: BoxFit.cover),
+            ),
+            child: FutureBuilder<Company>(
+                future: CompanyRepository().getCompanyFromLocalStorage(),
+                builder: (context, AsyncSnapshot<Company> snapshot) {
+                  var company = snapshot.data;
+
+                  var imageUrl = company?.profilePicture ?? "";
+                  return Container(
+                    height: 160,
+//                  decoration: BoxDecoration(
+//                    color: headerBackgroundColor,
+//                    image: DecorationImage(
+//                        image: AssetImage(kUserProfileCoverImageAsset),
+//                        fit: BoxFit.cover),
+//                  ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.settings,
+                              ),
+                              color: navBarTextColor,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => ConfigScreen()));
+                              },
+                            ),
+                            Container(
+                              child: IconButton(
+                                icon: Icon(Icons.menu),
+                                color: navBarTextColor,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        //profile image
+                        Container(
+                          padding: const EdgeInsets.all(4.0),
+                          height: 65,
+                          width: 65,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).backgroundColor
+                          ),
+                          child: ClipRRect(
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (context, _) => Image.asset(
+                                kCompanyImagePlaceholder,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text(
+                          company?.name ?? "",
+                          style:
+                              TextStyle(color: navBarTextColor, fontSize: 18),
+                        ),
+                        Text(
+                          company?.email ?? "",
+                          style: TextStyle(color: navBarTextColor),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -205,8 +212,7 @@ _handleSignOut(context) {
 //      .resetState();
 //  Provider.of<UserProfileViewModel>(context, listen: false).resetState();
 
-
-  AuthService.getInstance().then((value) => value.removeUser()).then((value){
+  AuthService.getInstance().then((value) => value.removeUser()).then((value) {
     RestartWidget.restartApp(context);
   });
 }
@@ -247,7 +253,7 @@ class DrawerListWidget extends StatelessWidget {
                   ? Theme.of(context).primaryColor
                   : Theme.of(context).scaffoldBackgroundColor,
               width: 4,
-              height: AppBar().preferredSize.height/1.2,
+              height: AppBar().preferredSize.height / 1.2,
             ),
             Expanded(
               child: Row(
@@ -263,10 +269,11 @@ class DrawerListWidget extends StatelessWidget {
                   Text(
                     label,
                     style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600, color: color),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: color),
                   ),
                 ],
-
               ),
             ),
           ],

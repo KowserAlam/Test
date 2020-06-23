@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/local_storage.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 
 class SigninViewModel with ChangeNotifier {
@@ -98,16 +100,12 @@ class SigninViewModel with ChangeNotifier {
 
   Future<bool> loginWithEmailAndPassword() async {
     isBusyLogin = true;
-    var body = {
-      JsonKeys.email: email,
-      JsonKeys.password: password
-    };
+    var body = {JsonKeys.email: email, JsonKeys.password: password};
 
     try {
       var baseUrl = FlavorConfig.instance.values.baseUrl;
       var url = "$baseUrl${Urls.signInUrl}";
-      http.Response response =
-          await http.post(url, body: body);
+      http.Response response = await http.post(url, body: body);
 
       print(response.body);
       print(response.statusCode);
@@ -152,9 +150,12 @@ class SigninViewModel with ChangeNotifier {
     _errorMessage = null;
   }
 
-  _saveAuthData(Map<String, dynamic> json) async {
-    var authModel = AuthUserModel.fromJson(json);
+  _saveAuthData(Map<String, dynamic> data) async {
+    var authModel = AuthUserModel.fromJson(data);
+    var storage = await LocalStorageService.getInstance();
     var auth = await AuthService.getInstance();
+    var company = Company.fromJson(data['company']);
+    storage.saveString(JsonKeys.company, json.encode(company.toJson()));
     return auth.saveUser(authModel.toJson());
   }
 

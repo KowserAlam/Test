@@ -4,6 +4,8 @@ import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart'
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/token_refresh_scheduler.dart';
+import 'package:jobxprss_company/main_app/views/widgets/bottom_appbar_fab.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -20,8 +22,64 @@ class _HomeState extends State<Home> {
     TokenRefreshScheduler.getInstance();
     super.initState();
   }
+
+  _bottomAppbarItem({
+    String label,
+    @required IconData icon,
+    Function onTap,
+  }) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Icon(icon),
+            if (label != null)
+              Text(
+                label ?? "",
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    var bottomAppbar = FABBottomAppBar(
+      selectedIndex: currentIndex,
+      selectedColor: Theme.of(context).primaryColor,
+      notchedShape: CircularNotchedRectangle(),
+      centerItemText: StringResources.postText,
+      onTap: (int index){
+        _paeViewController.animateToPage(index,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut);
+      },
+      iconSize: 17,
+      color: Colors.grey[700],
+      items: [
+        // dashboard
+        FABBottomAppBarItem(
+            iconData: FontAwesomeIcons.home,
+            label: StringResources.dashBoardText),
+        //manageJobs
+        FABBottomAppBarItem(
+            iconData: FontAwesomeIcons.briefcase,
+            label: StringResources.manageJobsText),
+
+
+        //manage candidate
+        FABBottomAppBarItem(
+            iconData: FontAwesomeIcons.users,
+            label: StringResources.manageCandidatesText),
+        // shortedListedCandidatesText
+        FABBottomAppBarItem(
+            iconData: FontAwesomeIcons.solidHeart,
+            label: StringResources.shortedListedCandidatesText),
+      ],
+    );
     var bottomNavBar = BottomNavigationBar(
 //        selectedItemColor: Theme.of(context).primaryColor,
 //        unselectedItemColor: Colors.grey,
@@ -37,9 +95,7 @@ class _HomeState extends State<Home> {
         selectedFontSize: 10,
         unselectedFontSize: 10,
         type: BottomNavigationBarType.fixed,
-
         items: [
-
           // dashboard
           BottomNavigationBarItem(
               icon: Padding(
@@ -83,7 +139,6 @@ class _HomeState extends State<Home> {
                 child: Icon(FontAwesomeIcons.solidHeart),
               ),
               title: Text(StringResources.shortedListedCandidatesText)),
-
         ]);
 
     return WillPopScope(
@@ -99,7 +154,15 @@ class _HomeState extends State<Home> {
       },
       child: FlavorBanner(
         child: Scaffold(
-          bottomNavigationBar: bottomNavBar,
+          bottomNavigationBar: bottomAppbar,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            tooltip: 'Post',
+            child: Icon(Icons.add),
+            elevation: 2.0,
+          ),
           body: PageView(
             onPageChanged: (index) {
               setState(() {
@@ -108,12 +171,19 @@ class _HomeState extends State<Home> {
             },
             controller: _paeViewController,
             children: <Widget>[
-
-            DashBoardScreen(),
-            Center(child: Text("2"),),
-            Center(child: Text("3"),),
-            Center(child: Text("4"),),
-            Center(child: Text("5"),),
+              DashBoardScreen(),
+              Center(
+                child: Text("2"),
+              ),
+              Center(
+                child: Text("3"),
+              ),
+              Center(
+                child: Text("4"),
+              ),
+              Center(
+                child: Text("5"),
+              ),
             ],
           ),
         ),
@@ -121,5 +191,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-

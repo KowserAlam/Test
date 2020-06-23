@@ -8,9 +8,11 @@ import 'package:jobxprss_company/features/company_profile/models/company_screen_
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/local_storage.dart';
 
-class CompanyListRepository {
+class CompanyRepository {
   Future<Either<AppError, CompanyScreenDataModel>> getList({String query,int pageSize =10,int page=1}) async {
     try {
       var url = "${Urls.companySearchUrl}/?page_size=$pageSize&name=${query??""}&page=${page}";
@@ -67,5 +69,11 @@ class CompanyListRepository {
       }
       return null;
     });
+  }
+  Future<Company> getCompanyFromLocalStorage()async{
+    var storage  =await LocalStorageService.getInstance();
+    var data = storage.getString(JsonKeys.company);
+    var decodedData = json.decode(data);
+    return Company.fromJson(decodedData);
   }
 }

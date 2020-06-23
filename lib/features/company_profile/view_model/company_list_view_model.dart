@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/models/company_screen_data_model.dart';
-import 'package:jobxprss_company/features/company_profile/repositories/company_list_repository.dart';
+import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
@@ -11,7 +11,7 @@ class CompanyListViewModel with ChangeNotifier {
   List<Company> companyList = [];
   bool _isFetchingData = false;
   bool _isFetchingMoreData = false;
-  CompanyListRepository _companyListRepository = CompanyListRepository();
+  CompanyRepository _companyListRepository = CompanyRepository();
   String _query;
   int _companiesCount = 0;
   bool isInSearchMode = false;
@@ -115,7 +115,7 @@ class CompanyListViewModel with ChangeNotifier {
     _isFetchingData = false;
     _isFetchingMoreData = false;
     isInSearchMode = false;
-    _companyListRepository = CompanyListRepository();
+    _companyListRepository = CompanyRepository();
     _companiesCount = 0;
     _query = "";
     _page = 1;
