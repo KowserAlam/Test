@@ -56,7 +56,7 @@ class AuthService {
 
   String _getAssessToken()  {
     var user = _instance.getUser();
-    if (user?.userId == null || user?.professionalId == null) {
+    if (user?.userId == null || user?.cId == null) {
       return null;
     }
     return user.accessToken;

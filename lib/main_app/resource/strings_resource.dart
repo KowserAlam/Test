@@ -173,6 +173,7 @@ class StringResources {
   static var experienceText = "Experience";
   static var educationsText = "Education";
   static var skillsText = "Skills";
+  static var jobsPostedText = "Job(s) Posted";
   static var skillText = "Skill";
   static var professionalSkillText = "Professional Skills";
   static var projectsText = "Portfolio";
@@ -445,9 +446,15 @@ static const String deadlineText = "Deadline";
 static const String applyText = "Apply";
 static const String applyFilterText = "Apply Filter";
 static const String appliedText = "Applied";
+static const String applicationsText = "Application(s)";
+static const String shortListedText = "Shortlisted";
+static const String postText = "Post";
 
 static const String favoriteText = "Favorite";
 static const String jobsText = "Jobs";
+static const String manageJobsText = "Manage Jobs";
+static const String manageCandidatesText = "Candidates";
+static const String shortedListedCandidatesText = "Shortlisted";
 static const String careerAdviceText = "Career Advice";
 static const String aboutUsText = "About Us";
 static const String contactUsText = "Contact Us";

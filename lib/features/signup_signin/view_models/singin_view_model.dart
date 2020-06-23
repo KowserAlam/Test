@@ -105,7 +105,7 @@ class SigninViewModel with ChangeNotifier {
 
     try {
       var baseUrl = FlavorConfig.instance.values.baseUrl;
-      var url = "$baseUrl${Urls.loginUrl}";
+      var url = "$baseUrl${Urls.signInUrl}";
       http.Response response =
           await http.post(url, body: body);
 

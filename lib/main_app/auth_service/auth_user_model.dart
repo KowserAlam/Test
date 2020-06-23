@@ -1,21 +1,19 @@
-import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
-import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 
 class AuthUserModel {
   String refresh;
   String accessToken;
   String email;
   String userId;
-  String fullName;
-  String professionalId;
+  String name;
+  String cId;
 
   AuthUserModel(
       {this.refresh,
       this.accessToken,
       this.email,
       this.userId,
-      this.fullName,
-      this.professionalId,});
+      this.name,
+      this.cId,});
 
   AuthUserModel.fromJson(Map<String, dynamic> json) {
     refresh = json['refresh'];
@@ -24,11 +22,9 @@ class AuthUserModel {
       email = json["user"]['email'];
       userId = json['user']['id']?.toString();
     }
-    if (json['pro'] != null) {
-      fullName = json['pro']['full_name'];
-      professionalId = json['pro']['id'];
-
-
+    if (json['company'] != null) {
+      name = json['company']['name'];
+      cId = json['company']['name'];
     }
   }
   AuthUserModel.fromJsonLocal(Map<String, dynamic> json) {
@@ -36,8 +32,8 @@ class AuthUserModel {
     accessToken = json['access']?.toString();
     userId = json['user_id']?.toString();
       email = json["email"]?.toString();
-      fullName = json['full_name']?.toString();
-      professionalId = json['professional_id']?.toString();
+      name = json['name']?.toString();
+      cId = json['c_id']?.toString();
 
   }
 
@@ -47,13 +43,13 @@ class AuthUserModel {
     data['access'] = this.accessToken;
     data['email'] = this.email;
     data['user_id'] = this.userId;
-    data['full_name'] = this.fullName;
-    data['professional_id'] = this.professionalId;
+    data['name'] = this.name;
+    data['c_id'] = this.cId;
     return data;
   }
 
   @override
   String toString() {
-    return 'AuthUserModel{refresh: $refresh, accessToken: $accessToken, email: $email, userId: $userId, fullName: $fullName, professionalId: $professionalId}';
+    return 'AuthUserModel{refresh: $refresh, accessToken: $accessToken, email: $email, userId: $userId, fullName: $name, professionalId: $cId}';
   }
 }

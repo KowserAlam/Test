@@ -10,11 +10,13 @@ class Urls {
   /// Those url should not contain base url
   /// base url will added by [ApiClient] before sending request
 
-  static String loginUrl = "/api/pro/signin/";
-  static String signUpUrl = "/api/professional/create_with_user/";
-  static String passwordResetUrl = "/api/professional/password_reset/";
+  static String signInUrl = "/api/company/signin/";
+  static String passwordResetUrl = "api/company/forgot-password/";
   static String dashboardUrl = "/api/app-dashboard";
   static String passwordChangeUrl = "/api/pro/change-password/";
+  static String postJobUrl = "/api/company/post-job/"; //<str:name>/
+  static String openJobsCompany = "http://dev.ishraak.com/api/job/search/"; //?company_name=
+
 
   static String industryListUrl = "/api/industry/";
   static String companyListUrl = "/api/company/";

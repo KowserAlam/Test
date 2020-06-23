@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/token_refresh_scheduler.dart';
@@ -50,7 +51,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text(StringResources.dashBoardText)),
-          //jobs
+          //manageJobs
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(
@@ -60,27 +61,29 @@ class _HomeState extends State<Home> {
                   FontAwesomeIcons.briefcase,
                 ),
               ),
-              title: Text(StringResources.jobsText)),
-          //applied
+              title: Text(StringResources.manageJobsText)),
+
+          //post
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Icon(FontAwesomeIcons.solidPlusSquare),
+              ),
+              title: Text(StringResources.postText)),
+          //manage candidate
           BottomNavigationBarItem(
               icon: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
-                  child: Icon(FontAwesomeIcons.solidCheckSquare)),
-              title: Text(StringResources.appliedText)),
-          // favourite
+                  child: Icon(FontAwesomeIcons.users)),
+              title: Text(StringResources.manageCandidatesText)),
+          // shortedListedCandidatesText
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Icon(FontAwesomeIcons.solidHeart),
               ),
-              title: Text(StringResources.favoriteText)),
-          //notifications
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Icon(FontAwesomeIcons.solidBell),
-              ),
-              title: Text(StringResources.notificationsText)),
+              title: Text(StringResources.shortedListedCandidatesText)),
+
         ]);
 
     return WillPopScope(
@@ -106,7 +109,7 @@ class _HomeState extends State<Home> {
             controller: _paeViewController,
             children: <Widget>[
 
-            Center(child: Text("1"),),
+            DashBoardScreen(),
             Center(child: Text("2"),),
             Center(child: Text("3"),),
             Center(child: Text("4"),),
