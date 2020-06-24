@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/token_refresh_scheduler.dart';
+import 'package:jobxprss_company/main_app/views/app_drawer.dart';
 import 'package:jobxprss_company/main_app/views/widgets/bottom_appbar_fab.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -16,6 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var _paeViewController = PageController();
   int currentIndex = 0;
+  String appbarTitle = StringResources.appName;
 
   @override
   void initState() {
@@ -23,26 +26,37 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  _bottomAppbarItem({
-    String label,
-    @required IconData icon,
-    Function onTap,
-  }) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          children: [
-            Icon(icon),
-            if (label != null)
-              Text(
-                label ?? "",
-              ),
-          ],
-        ),
-      ),
-    );
+  _updateAppBar(int index) {
+    switch (index) {
+      case 0:
+        appbarTitle = StringResources.dashBoardText;
+        break;
+      case 1:
+        appbarTitle = StringResources.manageJobsText;
+        break;
+      case 2:
+        appbarTitle = StringResources.manageCandidatesText;
+        break;
+      case 3:
+        appbarTitle = StringResources.shortedListedCandidatesText;
+        break;
+    }
+  }
+
+  _modeToPage(int index )async{
+    int quickJumpTarget;
+
+    if (index > currentIndex) {
+      quickJumpTarget = currentIndex + 1;
+    } else if (index < currentIndex) {
+      quickJumpTarget = currentIndex - 1;
+    }
+    
+    await _paeViewController.animateToPage(quickJumpTarget,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut);
+// quickJumpTarget.compareTo(index).modInverse(modulus);
+    _paeViewController.jumpToPage(index);
   }
 
   @override
@@ -52,10 +66,10 @@ class _HomeState extends State<Home> {
       selectedColor: Theme.of(context).primaryColor,
       notchedShape: CircularNotchedRectangle(),
       centerItemText: StringResources.postText,
-      onTap: (int index){
-        _paeViewController.animateToPage(index,
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOut);
+      onTap: (int index) {
+
+        _modeToPage(index);
+
       },
       iconSize: 17,
       color: Colors.grey[700],
@@ -69,15 +83,14 @@ class _HomeState extends State<Home> {
             iconData: FontAwesomeIcons.briefcase,
             label: StringResources.manageJobsText),
 
-
         //manage candidate
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.users,
-            label: StringResources.manageCandidatesText),
+            label: StringResources.candidatesText),
         // shortedListedCandidatesText
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidHeart,
-            label: StringResources.shortedListedCandidatesText),
+            label: StringResources.shortedListedText),
       ],
     );
     var bottomNavBar = BottomNavigationBar(
@@ -131,14 +144,14 @@ class _HomeState extends State<Home> {
               icon: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Icon(FontAwesomeIcons.users)),
-              title: Text(StringResources.manageCandidatesText)),
+              title: Text(StringResources.candidatesText)),
           // shortedListedCandidatesText
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Icon(FontAwesomeIcons.solidHeart),
               ),
-              title: Text(StringResources.shortedListedCandidatesText)),
+              title: Text(StringResources.shortedListedText)),
         ]);
 
     return WillPopScope(
@@ -146,6 +159,7 @@ class _HomeState extends State<Home> {
         if (currentIndex == 0)
           return true;
         else {
+
           _paeViewController.animateToPage(0,
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut);
@@ -154,6 +168,11 @@ class _HomeState extends State<Home> {
       },
       child: FlavorBanner(
         child: Scaffold(
+          appBar: AppBar(
+            title: Text(appbarTitle),
+            actions: [],
+          ),
+          drawer: AppDrawer(),
           bottomNavigationBar: bottomAppbar,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -165,6 +184,7 @@ class _HomeState extends State<Home> {
           ),
           body: PageView(
             onPageChanged: (index) {
+              _updateAppBar(index);
               setState(() {
                 currentIndex = index;
               });
@@ -172,9 +192,7 @@ class _HomeState extends State<Home> {
             controller: _paeViewController,
             children: <Widget>[
               DashBoardScreen(),
-              Center(
-                child: Text("2"),
-              ),
+              ManageJobsScreen(),
               Center(
                 child: Text("3"),
               ),

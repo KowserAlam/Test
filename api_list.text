@@ -1,0 +1,103 @@
+
+api/ job/search/
+api/ job/list/
+api/ job/recent/
+api/ job/applied/
+api/ job/favourite/
+api/ job/similar/<str:identifier>/
+api/ job/get/<slug:slug>/
+api/ job-source/list/
+api/ job-category/list/
+api/ job-gender/list/
+api/ job-site/list/
+api/ job-nature/list/
+api/ job-type/list/
+api/ job-status/list/
+api/ job-creator-type/list
+api/ country/list/
+api/ company-shortlist/mark/<str:pk>/
+api/ application/list/<str:job_id>/
+api/ application/shortlist/<str:job_id>/
+api/ company/update/<str:pk>/
+api/ company/list
+api/ company/search/
+api/ industry/list
+api/ job_type/list
+api/ experience/list
+api/ currency/list
+api/ qualification/list
+api/ gender/list
+api/ job/apply/
+api/ job/favourite/toggle
+api/ job/top-favourites/
+api/ job/top-categories/
+api/ job/top-skills/
+api/ job/top-companies/
+api/ job/trending_keywords/
+api/ skill/list/
+api/ job/salary-range/
+api/ job/update/<str:pk>/
+api/ job/create/
+api/ job/trending_keywords/save/
+api/ vital_stats/get/
+api/ quick-apply/
+api/ notification/mark-read/<str:pk>/
+api/ notification/
+api/ notification/get/<str:pk>/
+api/ employer-message/mark-read/<str:pk>/
+api/ employer-message/
+api/ employer-message/get/<str:pk>/
+api/ pro/change-password/
+api/ pro/dashboard/skill/
+api/ pro/dashboard/infobox/
+api/ pro/profile-completeness/
+api/ pro/check-professional-exist/
+api/ pro/credential/send-email/
+api/ professional/password_reset/
+api/ professional/signup-email-verification/<str:token> [name='code-verify']
+api/ professional/create_with_user/
+api/ professional/profile/<str:pk>/
+api/ pro/public-profile/<str:pk>/
+api/ professional/profile_update/<str:pk>/
+api/ professional/job_alert/
+api/ professional/job_alert_notification/
+api/ professional/profile_update_partial/<str:pk>/
+api/ professional/professional_education/
+api/ professional/professional_education/<str:pk>/
+api/ professional/professional_skill/ [name='professional-skill']
+api/ professional/professional_skill/<str:pk>/
+api/ professional/professional_work_experience/
+api/ professional/professional_work_experience/<str:pk>/
+api/ professional/professional_portfolio/
+api/ professional/professional_portfolio/<str:pk>/
+api/ professional/professional_membership/
+api/ professional/professional_membership/<str:pk>/
+api/ professional/professional_certification/
+api/ professional/professional_certification/<str:pk>/
+api/ professional/professional_reference/
+api/ professional/professional_reference/<str:pk>/
+api/ professional/professional_education_object/<str:pk>/
+api/ professional/religion/
+api/ professional/nationality/
+api/ professional/organization/
+api/ professional/major/
+api/ professional/institute/
+api/ professional/institute_search/
+api/ professional/certificate_name/
+api/ professional/professional_skill_object/<str:pk>/
+api/ professional/pro_recent_activity/
+api/ professional/email-subscription-on-off/<str:pk>/
+api/ testimonial_show/
+api/ ^media\/(?P<path>.*)$
+api/ settings/
+api/ career_advise_show/
+api/ career_advise/
+log/
+api/app-dashboard/<int:user_id>
+api/profile-info/<int:user_id>
+api/send_email_to_admin_contact_us/
+api/pro/signin/
+api/company/signin/
+api/token/ [name='token_obtain_pair']
+api/token/refresh/ [name='token_refresh']
+api/token/verify/ [name='token_verify']

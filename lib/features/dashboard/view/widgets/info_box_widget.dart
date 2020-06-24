@@ -53,7 +53,7 @@ class InfoBoxWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    /// Skill
+                    /// jobs
                     Expanded(
                       child: _boxItem(
                           linearGradient: LinearGradient(colors: [
@@ -65,7 +65,7 @@ class InfoBoxWidget extends StatelessWidget {
                           count: infoBoxData?.skillsCount ?? 0),
                     ),
 
-                    /// applied
+                    /// applications
                     Expanded(
                       child:
 
@@ -81,7 +81,7 @@ class InfoBoxWidget extends StatelessWidget {
                               count: infoBoxData?.appliedJobCount),
                     ),
 
-                    /// favorite
+                    /// shortlited
                     Expanded(
                       child: _boxItem(
                           linearGradient: LinearGradient(colors: [
@@ -110,9 +110,9 @@ class InfoBoxWidget extends StatelessWidget {
     return LayoutBuilder(builder: (context, constrain) {
       var screenHeight = MediaQuery.of(context).size.height;
       var deviceWidth = MediaQuery.of(context).size.width;
-      double iconSize = deviceWidth * .083;
+      double iconSize = deviceWidth * .075;
       double numberFontSize = iconSize / 1.6;
-      double textFontSize = iconSize / 3;
+      double textFontSize = iconSize / 2.7;
       double boxHeight = iconSize * (1.2+(screenHeight* .002));
       return Container(
         margin: EdgeInsets.all(4),

@@ -95,18 +95,18 @@ class _DashBoardScreenState extends State<DashBoardScreen>
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(StringResources.dashBoardText),
-        actions: [
-//          IconButton(
-//            icon: Icon(FontAwesomeIcons.solidComment),
-//            onPressed: () {
-//              Navigator.of(context).push(CupertinoPageRoute(
-//                  builder: (BuildContext context) => MessageScreen()));
-//            },
-//          )
-        ],
-      ),
+//      appBar: AppBar(
+//        title: Text(StringResources.dashBoardText),
+//        actions: [
+////          IconButton(
+////            icon: Icon(FontAwesomeIcons.solidComment),
+////            onPressed: () {
+////              Navigator.of(context).push(CupertinoPageRoute(
+////                  builder: (BuildContext context) => MessageScreen()));
+////            },
+////          )
+//        ],
+//      ),
       drawer: AppDrawer(
         routeName: 'dashboard',
       ),
