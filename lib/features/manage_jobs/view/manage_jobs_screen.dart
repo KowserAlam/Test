@@ -1,6 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/job_list_tile_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -108,7 +109,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
 
             JobListModel job = jobList[index];
 
-            return ListTile(title: Text(job.title??""),);
+            return JobListTileWidget(job);
           });
 
 
@@ -126,29 +127,23 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
                 ? ListView(
               children: [errorWidget()],
             )
-                : Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    controller: _scrollController,
-                    children: [
+                : ListView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  controller: _scrollController,
+                  children: [
 
-                      (jobListViewModel.jobList.length == 0 &&
-                          !jobListViewModel.isFetchingData)
-                          ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:
-                          Text(StringResources.noJobsFound),
-                        ),
-                      )
-                          : jobListWidget,
-                    ],
-                  ),
+                    (jobListViewModel.jobList.length == 0 &&
+                        !jobListViewModel.isFetchingData)
+                        ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:
+                        Text(StringResources.noJobsFound),
+                      ),
+                    )
+                        : jobListWidget,
+                  ],
                 ),
-              ],
-            ),
           ),
         ),
       );

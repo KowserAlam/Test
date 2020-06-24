@@ -13,8 +13,8 @@ class JobListModel {
   String jobNature;
   String jobSite;
   String jobType;
-  bool isFavourite;
-  bool isApplied;
+  int appliedCount;
+  int favoriteCount;
   DateTime postDate;
   DateTime applicationDeadline;
 
@@ -29,25 +29,22 @@ class JobListModel {
     this.jobNature,
     this.jobSite,
     this.jobType,
-    this.isApplied,
-    this.isFavourite,
     this.postDate,
     this.applicationDeadline,
+    this.appliedCount,
+    this.favoriteCount,
   });
 
   JobListModel.fromJson(Map<String, dynamic> json) {
     String baseUrl = FlavorConfig?.instance?.values?.baseUrl;
 
+    appliedCount = json['applied_count']??0;
+    favoriteCount = json['favorite_count']??0;
     jobId = json['job_id'];
     slug = json['slug'];
     title = json['title'];
     jobCity = json['job_city'];
     employmentStatus = json['employment_status'];
-//    companyName = json['company_name'];
-
-//    if (json['profile_picture'] != null) {
-//      profilePicture = "$baseUrl/media/${json['profile_picture']}";
-//    }
 
     if(json['company'] != null){
       profilePicture = "$baseUrl${json['company']['profile_picture']}";
@@ -56,9 +53,6 @@ class JobListModel {
     jobNature = json['job_nature'];
     jobSite = json['job_site'];
     jobType = json['job_type'];
-
-    isApplied = json['is_applied']  as bool?? false;
-    isFavourite = json['is_favourite'] as bool?? false;
 
 
     if (json['application_deadline'] != null) {

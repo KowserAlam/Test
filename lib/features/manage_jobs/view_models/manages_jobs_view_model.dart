@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/view/repositories/job_repository.dart';
+import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
+import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -43,7 +45,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  _modeToPage(int index )async{
+  _modeToPage(int index) async {
     int quickJumpTarget;
 
     if (index > currentIndex) {
@@ -51,10 +53,9 @@ class _HomeState extends State<Home> {
     } else if (index < currentIndex) {
       quickJumpTarget = currentIndex - 1;
     }
-    
+
     await _paeViewController.animateToPage(quickJumpTarget,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
 // quickJumpTarget.compareTo(index).modInverse(modulus);
     _paeViewController.jumpToPage(index);
   }
@@ -67,9 +68,7 @@ class _HomeState extends State<Home> {
       notchedShape: CircularNotchedRectangle(),
       centerItemText: StringResources.postText,
       onTap: (int index) {
-
         _modeToPage(index);
-
       },
       iconSize: 17,
       color: Colors.grey[700],
@@ -159,7 +158,6 @@ class _HomeState extends State<Home> {
         if (currentIndex == 0)
           return true;
         else {
-
           _paeViewController.animateToPage(0,
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut);
@@ -177,7 +175,10 @@ class _HomeState extends State<Home> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                  CupertinoPageRoute(builder: (context) => PostNewJobScreen()));
+            },
             tooltip: 'Post',
             child: Icon(Icons.add),
             elevation: 2.0,

@@ -43,7 +43,7 @@ extension StringExtension on String {
       return null;
   }
 
-  String get titleCase {
+  String get toSentenceCase {
     if(this != null){
       String x = '';
       for(int i=1; i<this.length; i++){
@@ -54,6 +54,7 @@ extension StringExtension on String {
       return null;
   }
 }
+
 extension ListExtension<T> on List<T>{
 
   T get firstOrNull {

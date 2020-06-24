@@ -109,21 +109,22 @@ class _AppDrawerState extends State<AppDrawer> {
                           width: 65,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).backgroundColor
-                          ),
+                              color: Theme.of(context)
+                                  .backgroundColor
+                                  .withOpacity(0.8)),
                           child: ClipRRect(
                             child: CachedNetworkImage(
                               imageUrl: imageUrl,
-                              fit: BoxFit.cover,
                               placeholder: (context, _) => Image.asset(
                                 kCompanyImagePlaceholder,
-                                fit: BoxFit.cover,
                               ),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        SizedBox(height: 5,),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Text(
                           company?.name ?? "",
                           style:

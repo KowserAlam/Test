@@ -116,7 +116,10 @@ class Company extends Equatable {
     contactPersonEmail = json['contact_person_email']?.toString();
     companyProfile = json['features.company_profile']?.toString();
     if (json['profile_picture'] != null) {
-      profilePicture = "$baseUrl${json['profile_picture']}";
+      if ((json['profile_picture'] as String).contains(baseUrl))
+        profilePicture = json['profile_picture'];
+      else
+        profilePicture = "$baseUrl${json['profile_picture']}";
     }
 
     try {
@@ -157,7 +160,8 @@ class Company extends Equatable {
     data['company_name_facebook'] = this.companyNameFacebook;
     data['company_name_google'] = this.companyNameGoogle;
     data['basis_membership_no'] = this.basisMembershipNo;
-    data['year_of_eastablishment'] = this.yearOfEstablishment?.toIso8601String();
+    data['year_of_eastablishment'] =
+        this.yearOfEstablishment?.toIso8601String();
     data['company_profile'] = this.companyProfile;
     data['company_contact_no_one'] = this.companyContactNoOne;
     data['company_contact_no_two'] = this.companyContactNoTwo;

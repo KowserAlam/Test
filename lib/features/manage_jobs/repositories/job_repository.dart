@@ -19,6 +19,7 @@ class JobRepository {
 
 var companyName = await AuthService.getInstance().then((value) => value.getUser().cId);
     var url = "${Urls.openJobsCompany}$companyName";
+    print(url);
 
     try {
       var response = await ApiClient().getRequest(url);
