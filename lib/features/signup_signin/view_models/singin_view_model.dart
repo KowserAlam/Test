@@ -112,7 +112,7 @@ class SigninViewModel with ChangeNotifier {
 
       isBusyLogin = false;
       if (response.statusCode == 200) {
-        Map<String, dynamic> decodedJson = jsonDecode(response.body);
+        Map<String, dynamic> decodedJson = jsonDecode(utf8.decode(response.bodyBytes));
         _saveAuthData(decodedJson);
         clearMessage();
         return true;

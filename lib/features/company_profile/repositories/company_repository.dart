@@ -20,8 +20,9 @@ class CompanyRepository {
       var res = await ApiClient().getRequest(url);
       debugPrint(res.statusCode.toString());
       if (res.statusCode == 200) {
-        var decodedJson = json.decode(res.body);
+        var decodedJson = json.decode(utf8.decode(res.bodyBytes));
 //        debugPrint(decodedJson.toString());
+
         CompanyScreenDataModel list = CompanyScreenDataModel.fromJson(decodedJson);
         return Right(list);
       } else {
@@ -73,7 +74,10 @@ class CompanyRepository {
   Future<Company> getCompanyFromLocalStorage()async{
     var storage  =await LocalStorageService.getInstance();
     var data = storage.getString(JsonKeys.company);
+
+
     var decodedData = json.decode(data);
+//    print(decodedData);
     return Company.fromJson(decodedData);
   }
 }

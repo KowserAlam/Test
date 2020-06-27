@@ -198,6 +198,7 @@ class StringResources {
 
   //Company Details Screen
   static var companyDetailsText = "Company Details";
+
   static var companyBasicInfoSectionText = "BASIC INFO";
   static var companyBasisMembershipNoText = "Basis Membership No";
   static var companyProfileText = "Company Profile";

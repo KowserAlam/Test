@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/features/signup_signin/view/signin_screen.dart';
@@ -26,6 +27,7 @@ class JobExpressCompanyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => PasswordChangeViewModel()),
       ChangeNotifierProvider(create: (context) => DashboardViewModel()),
       ChangeNotifierProvider(create: (context) => ManageJobViewModel()),
+      ChangeNotifierProvider(create: (context) => CompanyProfileViewModel()),
     ];
     var appName = FlavorConfig.appName();
 

@@ -212,9 +212,6 @@ class _CompanyListScreenState extends State<CompanyListScreen>
                                               CupertinoPageRoute(
                                                   builder: (context) =>
                                                       CompanyDetails(
-                                                        company:
-                                                            companySuggestion[
-                                                                index],
                                                       )));
                                         },
                                         child: CompanyListTile(

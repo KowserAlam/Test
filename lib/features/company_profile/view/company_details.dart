@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -9,23 +10,24 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
+import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
+import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:jobxprss_company/method_extension.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class CompanyDetails extends StatefulWidget {
-  final Company company;
-
-  CompanyDetails({@required this.company});
+  CompanyDetails();
 
   @override
   _CompanyDetailsState createState() => _CompanyDetailsState();
 }
 
-class _CompanyDetailsState extends State<CompanyDetails> {
+class _CompanyDetailsState extends State<CompanyDetails> with AfterLayoutMixin {
   static double _cameraZoom = 10.4746;
   Completer<GoogleMapController> _controller = Completer();
   final CameraPosition initialCameraPosition = CameraPosition(
@@ -35,20 +37,20 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
   List<Marker> markers = [];
 
-  Future<void> _goToPosition({double lat, double long}) async {
-    var markId = MarkerId(widget.company.name);
+  Future<void> _goToPosition(Company company) async {
+    var markId = MarkerId(company.name);
     Marker _marker = Marker(
       onTap: () {
         print("tapped");
       },
-      position: LatLng(lat, long),
-      infoWindow: InfoWindow(title: widget.company.name ?? ""),
+      position: LatLng(company.latitude, company.longitude),
+      infoWindow: InfoWindow(title: company.name ?? ""),
       markerId: markId,
     );
     markers.add(_marker);
     final GoogleMapController _googleMapController = await _controller.future;
     var position = CameraPosition(
-      target: LatLng(lat, long),
+      target: LatLng(company.latitude, company.longitude),
       zoom: _cameraZoom,
     );
 
@@ -57,28 +59,17 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   }
 
   @override
-  void initState() {
-    double lat = widget.company.latitude;
-    double long = widget.company.longitude;
-
-    if (lat != null && long != null) {
-      _goToPosition(lat: lat, long: long);
-    }
-    super.initState();
+  void afterFirstLayout(BuildContext context) {
+    var vm = Provider.of<CompanyProfileViewModel>(context, listen: false);
+    vm.getCompanyDetails().then((c) {
+      if (c?.latitude != null && c?.longitude != null) _goToPosition(c);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    Company companyDetails = widget.company;
-
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    Color sectionColor = Theme.of(context).backgroundColor;
-    Color summerySectionBorderColor = Colors.grey[300];
-    Color summerySectionColor =
-        !isDarkMode ? Colors.grey[200] : Colors.grey[600];
-    Color backgroundColor = !isDarkMode ? Colors.grey[200] : Colors.grey[700];
-
     //Styles
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     TextStyle headerTextStyle =
         new TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     TextStyle sectionTitleFont =
@@ -89,11 +80,24 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     TextStyle descriptionFontStyleBold =
         TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
     double fontAwesomeIconSize = 15;
-
     double iconSize = 14;
     double sectionIconSize = 20;
     Color clockIconColor = Colors.orange;
 
+    Color sectionColor = Theme.of(context).backgroundColor;
+    Color summerySectionBorderColor = Colors.grey[300];
+    Color summerySectionColor =
+        !isDarkMode ? Colors.grey[200] : Colors.grey[600];
+    Color backgroundColor = !isDarkMode ? Colors.grey[200] : Colors.grey[700];
+
+// widgets
+
+    var vm = Provider.of<CompanyProfileViewModel>(context);
+    Company companyDetails = vm.company;
+
+    if (companyDetails == null) {
+      return Loader();
+    }
     Text richText(String title, String description) {
       return Text.rich(
         TextSpan(children: <TextSpan>[
@@ -280,12 +284,14 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),
 
-          richText(StringResources.companyDistrictText, companyDetails.district),
+          richText(
+              StringResources.companyDistrictText, companyDetails.district),
           SizedBox(
             height: 5,
           ),
 
-          richText(StringResources.companyPostCodeText, companyDetails.postCode),
+          richText(
+              StringResources.companyPostCodeText, companyDetails.postCode),
           SizedBox(
             height: 5,
           ),
@@ -396,24 +402,23 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(StringResources.companyEmailText + ': ',
-                        style: descriptionFontStyleBold),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                      text: StringResources.companyEmailText + ': ',
+                      style: descriptionFontStyleBold),
+                  WidgetSpan(
+                    child: GestureDetector(
                         onTap: () {
                           UrlLauncherHelper.sendMail(
                               companyDetails.email.trim());
                         },
                         child: Text(
                           companyDetails.email ?? "",
+                          softWrap: true,
                           style: TextStyle(color: Colors.lightBlue),
                         )),
-                  ],
-                ),
+                  )
+                ])),
                 SizedBox(
                   height: 5,
                 ),
@@ -426,23 +431,24 @@ class _CompanyDetailsState extends State<CompanyDetails> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(StringResources.companyWebAddressText + ': ',
+                    Text.rich(
+                      TextSpan(children: [
+                        TextSpan(
+                            text: StringResources.companyWebAddressText + ': ',
                             style: descriptionFontStyleBold),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              UrlLauncherHelper.launchUrl(
-                                  companyDetails.webAddress.trim());
-                            },
-                            child: Text(
-                              companyDetails.webAddress,
-                              style: TextStyle(color: Colors.lightBlue),
-                            )),
-                      ],
+                        WidgetSpan(
+                          child: GestureDetector(
+                              onTap: () {
+                                UrlLauncherHelper.launchUrl(
+                                    companyDetails.webAddress.trim());
+                              },
+                              child: Text(
+                                companyDetails.webAddress,
+                                style: TextStyle(color: Colors.lightBlue),
+                              )),
+                        )
+                      ]),
+                      softWrap: true,
                     ),
                     SizedBox(
                       height: 5,
