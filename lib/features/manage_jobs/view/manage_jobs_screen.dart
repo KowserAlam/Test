@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/view/job_list_tile_widget.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_list_tile_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';

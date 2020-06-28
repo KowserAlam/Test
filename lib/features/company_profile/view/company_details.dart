@@ -16,9 +16,7 @@ import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
-import 'package:jobxprss_company/method_extension.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class CompanyDetails extends StatefulWidget {
   CompanyDetails();

@@ -21,7 +21,6 @@ class JobModel {
   String salary;
   String otherBenefits;
   String rawContent;
-  String webAddress;
   bool termsAndCondition;
   DateTime createdAt;
   String industry;
@@ -65,7 +64,6 @@ class JobModel {
       this.salary,
       this.otherBenefits,
       this.rawContent,
-      this.webAddress,
       this.termsAndCondition,
       this.createdAt,
       this.industry,
@@ -122,7 +120,6 @@ class JobModel {
     salary = json['salary']?.toString();
     otherBenefits = json['other_benefits'];
     rawContent = json['raw_content'];
-    webAddress = json['web_address'];
     termsAndCondition = json['terms_and_condition'];
     industry = json['industry'];
     employmentStatus = json['employment_status'];

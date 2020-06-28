@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
+import 'package:http/http.dart' as http;
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 
 enum ApiUrlType {
   login,
@@ -26,7 +24,8 @@ class ApiClient {
   Future<http.Response> getRequest(String url) async {
     var completeUrl = _buildUrl(url);
     var headers = await _getHeaders();
-    return httClient.get(completeUrl, headers: headers);
+    return _checkTokenValidity().then((value) => httClient.get(completeUrl, headers: headers));
+//    return httClient.get(completeUrl, headers: headers);
   }
 
   Future<http.Response> postRequest(
@@ -35,7 +34,7 @@ class ApiClient {
     var headers = await _getHeaders();
     var encodedBody = json.encode(body);
 //    print(headers);
-    return httClient.post(completeUrl, headers: headers, body: encodedBody);
+    return _checkTokenValidity().then((value) => httClient.post(completeUrl, headers: headers, body: encodedBody));
   }
 
   Future<http.Response> putRequest(
@@ -43,7 +42,7 @@ class ApiClient {
     var completeUrl = _buildUrl(url);
     var headers = await _getHeaders();
     var encodedBody = json.encode(body);
-    return httClient.put(completeUrl, headers: headers, body: encodedBody);
+    return _checkTokenValidity().then((value) => httClient.put(completeUrl, headers: headers, body: encodedBody));
   }
 
   Future<Map<String, String>> _getHeaders() async {
@@ -65,4 +64,14 @@ class ApiClient {
     String baseUrl = FlavorConfig.instance.values.baseUrl;
     return baseUrl + partialUrl;
   }
+
+ Future<bool> _checkTokenValidity()async{
+    var authService = await AuthService.getInstance();
+    if(!authService.isAccessTokenValid())
+    return authService.refreshToken();
+    else{
+      return true;
+    }
+  }
+
 }

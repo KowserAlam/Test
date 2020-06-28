@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -11,11 +13,10 @@ import 'package:jobxprss_company/method_extension.dart';
 
 class JobListTileWidget extends StatefulWidget {
   final JobListModel jobModel;
-  final Function onTap;
   final Function onApply;
   final Function onFavorite;
 
-  JobListTileWidget(this.jobModel, {this.onTap, this.onFavorite, this.onApply});
+  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply});
 
   @override
   _JobListTileWidgetState createState() => _JobListTileWidgetState();
@@ -50,27 +51,23 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
-    var companyLocation = Container(
-      child: Row(
-        children: <Widget>[
-          Icon(
-            FeatherIcons.mapPin,
-            color: subtitleColor,
-            size: iconSize,
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Expanded(
-            child: Text(
-              widget.jobModel.jobCity ?? "",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: subTitleStyle,
-            ),
-          )
-        ],
-      ),
+    var companyLocation = Row(
+      children: <Widget>[
+        Icon(
+          FeatherIcons.mapPin,
+          color: subtitleColor,
+          size: iconSize,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(
+          widget.jobModel.jobCity ?? "",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: subTitleStyle,
+        )
+      ],
     );
     bool isDateExpired = widget.jobModel.applicationDeadline != null
         ? (widget.jobModel.applicationDeadline.isBefore(DateTime.now()) &&
@@ -138,7 +135,10 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       child: Material(
         color: backgroundColor,
         child: InkWell(
-          onTap: widget.onTap,
+          onTap: () {
+            Navigator.of(context)
+                .push(CupertinoPageRoute(builder: (context) => JobDetails(widget.jobModel.slug)));
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

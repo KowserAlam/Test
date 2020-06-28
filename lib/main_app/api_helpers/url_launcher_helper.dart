@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class UrlLauncherHelper {
 
@@ -20,6 +21,7 @@ class UrlLauncherHelper {
 
 
   static launchUrl(String url) async {
+    if(url.isNotEmptyOrNotNull)
     debugPrint("Launching url: $url");
     if(!url.contains('https://', 0)){
       url = 'https://' + url;
