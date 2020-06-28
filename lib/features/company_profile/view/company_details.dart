@@ -759,9 +759,9 @@ class _CompanyDetailsState extends State<CompanyDetails> with AfterLayoutMixin {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(StringResources.companyDetailsText),
-      ),
+//      appBar: AppBar(
+//        title: Text(StringResources.companyDetailsText),
+//      ),
       body: ListView(
         children: [
           Container(

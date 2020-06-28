@@ -1,6 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -46,9 +47,8 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>
                 itemCount: candidates.length,
                 itemBuilder: (BuildContext context,int index){
                   Candidate candidate = candidates[index];
-              return ListTile(
-                leading: CachedNetworkImage(imageUrl: candidate.image??"",),
-                title: Text(candidate.fullName??""),);
+                 return CandidateListTile(candidate);
+
             });
           },
         ),

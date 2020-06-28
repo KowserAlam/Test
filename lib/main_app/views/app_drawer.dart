@@ -146,18 +146,18 @@ class _AppDrawerState extends State<AppDrawer> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Divider(height: 1),
-                  //companyProfile
-                  DrawerListWidget(
-                    label: StringResources.companyProfileText,
-                    icon: FontAwesomeIcons.solidBuilding,
-                    isSelected: false,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => CompanyDetails()));
-                    },
-                  ),
-                  Divider(height: 1),
+//                  //companyProfile
+//                  DrawerListWidget(
+//                    label: StringResources.companyProfileText,
+//                    icon: FontAwesomeIcons.solidBuilding,
+//                    isSelected: false,
+//                    onTap: () {
+//                      Navigator.pop(context);
+//                      Navigator.of(context).push(CupertinoPageRoute(
+//                          builder: (context) => CompanyDetails()));
+//                    },
+//                  ),
+//                  Divider(height: 1),
                   //about us
                   DrawerListWidget(
                     label: StringResources.aboutUsText,

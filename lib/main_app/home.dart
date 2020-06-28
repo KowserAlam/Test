@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobxprss_company/features/company_profile/view/company_details.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
@@ -38,10 +39,10 @@ class _HomeState extends State<Home> {
         appbarTitle = StringResources.manageJobsText;
         break;
       case 2:
-        appbarTitle = StringResources.manageCandidatesText;
+        appbarTitle = StringResources.shortedListedCandidatesText;
         break;
       case 3:
-        appbarTitle = StringResources.shortedListedCandidatesText;
+        appbarTitle = StringResources.companyDetailsText;
         break;
     }
   }
@@ -85,74 +86,74 @@ class _HomeState extends State<Home> {
 
         //manage candidate
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.users,
-            label: StringResources.candidatesText),
+            iconData: FontAwesomeIcons.heart,
+            label: StringResources.shortedListedText),
         // shortedListedCandidatesText
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.solidHeart,
-            label: StringResources.shortedListedText),
+            iconData: FontAwesomeIcons.solidBuilding,
+            label: StringResources.profileText),
       ],
     );
-    var bottomNavBar = BottomNavigationBar(
-//        selectedItemColor: Theme.of(context).primaryColor,
-//        unselectedItemColor: Colors.grey,
-        onTap: (int index) {
-          _paeViewController.animateToPage(index,
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOut);
-        },
-        currentIndex: currentIndex,
-        iconSize: 17,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        selectedFontSize: 10,
-        unselectedFontSize: 10,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          // dashboard
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 3,
-                ),
-                child: Icon(
-                  FontAwesomeIcons.home,
-                ),
-              ),
-              title: Text(StringResources.dashBoardText)),
-          //manageJobs
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 3,
-                ),
-                child: Icon(
-                  FontAwesomeIcons.briefcase,
-                ),
-              ),
-              title: Text(StringResources.manageJobsText)),
-
-          //post
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Icon(FontAwesomeIcons.solidPlusSquare),
-              ),
-              title: Text(StringResources.postText)),
-          //manage candidate
-          BottomNavigationBarItem(
-              icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Icon(FontAwesomeIcons.users)),
-              title: Text(StringResources.candidatesText)),
-          // shortedListedCandidatesText
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Icon(FontAwesomeIcons.solidHeart),
-              ),
-              title: Text(StringResources.shortedListedText)),
-        ]);
+//    var bottomNavBar = BottomNavigationBar(
+////        selectedItemColor: Theme.of(context).primaryColor,
+////        unselectedItemColor: Colors.grey,
+//        onTap: (int index) {
+//          _paeViewController.animateToPage(index,
+//              duration: const Duration(milliseconds: 400),
+//              curve: Curves.easeInOut);
+//        },
+//        currentIndex: currentIndex,
+//        iconSize: 17,
+//        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+//        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+//        selectedFontSize: 10,
+//        unselectedFontSize: 10,
+//        type: BottomNavigationBarType.fixed,
+//        items: [
+//          // dashboard
+//          BottomNavigationBarItem(
+//              icon: Padding(
+//                padding: const EdgeInsets.only(
+//                  bottom: 3,
+//                ),
+//                child: Icon(
+//                  FontAwesomeIcons.home,
+//                ),
+//              ),
+//              title: Text(StringResources.dashBoardText)),
+//          //manageJobs
+//          BottomNavigationBarItem(
+//              icon: Padding(
+//                padding: const EdgeInsets.only(
+//                  bottom: 3,
+//                ),
+//                child: Icon(
+//                  FontAwesomeIcons.briefcase,
+//                ),
+//              ),
+//              title: Text(StringResources.manageJobsText)),
+//
+//          //post
+//          BottomNavigationBarItem(
+//              icon: Padding(
+//                padding: const EdgeInsets.only(bottom: 5),
+//                child: Icon(FontAwesomeIcons.solidPlusSquare),
+//              ),
+//              title: Text(StringResources.postText)),
+//          //manage candidate
+//          BottomNavigationBarItem(
+//              icon: Padding(
+//                  padding: const EdgeInsets.only(bottom: 5),
+//                  child: Icon(FontAwesomeIcons.users)),
+//              title: Text(StringResources.candidatesText)),
+//          // shortedListedCandidatesText
+//          BottomNavigationBarItem(
+//              icon: Padding(
+//                padding: const EdgeInsets.only(bottom: 5),
+//                child: Icon(FontAwesomeIcons.solidHeart),
+//              ),
+//              title: Text(StringResources.shortedListedText)),
+//        ]);
 
     return WillPopScope(
       onWillPop: () async {
@@ -197,11 +198,9 @@ class _HomeState extends State<Home> {
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
               Center(
-                child: Text("4"),
+                child: Text(StringResources.shortedListedText),
               ),
-              Center(
-                child: Text("5"),
-              ),
+              CompanyDetails(),
             ],
           ),
         ),

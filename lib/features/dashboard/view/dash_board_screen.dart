@@ -125,8 +125,8 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                       ProfileCompletePercentIndicatorWidget(
                           dashboardViewModel.profileCompletePercent / 100),
                       InfoBoxWidget(
-                        onTapApplied: widget.onTapApplied,
-                        onTapFavourite: widget.onTapFavourite,
+                        onTapApplications: widget.onTapApplied,
+                        onTapShortListed: widget.onTapFavourite,
                       ),
                       JobChartWidget(
                         animate: true,

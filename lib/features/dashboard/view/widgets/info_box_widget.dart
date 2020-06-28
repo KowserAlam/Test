@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class InfoBoxWidget extends StatelessWidget {
-  final Function onTapFavourite;
-  final Function onTapApplied;
+  final Function onTapShortListed;
+  final Function onTapApplications;
 
-  InfoBoxWidget({this.onTapFavourite, this.onTapApplied});
+  InfoBoxWidget({this.onTapShortListed, this.onTapApplications});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class InfoBoxWidget extends StatelessWidget {
                           ]),
                           iconData: FeatherIcons.command,
                           label: StringResources.jobsPostedText,
-                          count: infoBoxData?.skillsCount ?? 0),
+                          count: infoBoxData?.numberOfJobs ?? 0),
                     ),
 
                     /// applications
@@ -77,8 +77,8 @@ class InfoBoxWidget extends StatelessWidget {
                               ]),
                               iconData: FeatherIcons.fileText,
                               label: StringResources.applicationsText,
-                              onTap: onTapApplied,
-                              count: infoBoxData?.appliedJobCount),
+                              onTap: onTapApplications,
+                              count: infoBoxData?.applicationCount),
                     ),
 
                     /// shortlited
@@ -90,8 +90,8 @@ class InfoBoxWidget extends StatelessWidget {
                           ]),
                           iconData: FeatherIcons.heart,
                           label: StringResources.shortListedText,
-                          count: infoBoxData?.favouriteJobCount,
-                          onTap: onTapFavourite),
+                          count: infoBoxData?.shortListed,
+                          onTap: onTapShortListed),
                     ),
                   ],
                 ),

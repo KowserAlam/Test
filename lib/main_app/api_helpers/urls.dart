@@ -17,6 +17,9 @@ class Urls {
   static String postJobUrl = "/api/company/post-job/"; //<str:name>/
   static String openJobsCompany = "/api/job/search/?company="; //cname
   static String manageCandidateList = "/api/application/list"; //cname
+  static String infoBoxUrl = "/api/company/dashboard/infobox/"; //cname
+  static String dashboardChartUrl = "/api/company/dashboard/chart/"; //cname
+  static String dashboardRecentActivityUrl = "/api/company/dashboard/recent_activity/"; //cname
 
 
   static String industryListUrl = "/api/industry/";

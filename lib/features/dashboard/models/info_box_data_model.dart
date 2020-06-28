@@ -1,15 +1,15 @@
 class InfoBoxDataModel {
-  int favouriteJobCount;
-  int appliedJobCount;
-  int skillsCount;
+  int numberOfJobs;
+  int applicationCount;
+  int shortListed;
 
   InfoBoxDataModel(
-      {this.favouriteJobCount, this.appliedJobCount, this.skillsCount});
+      {this.numberOfJobs, this.applicationCount, this.shortListed});
 
   InfoBoxDataModel.fromJson(Map<String, dynamic> json) {
-    favouriteJobCount = json['favourite_job_count'];
-    appliedJobCount = json['applied_job_count'];
-    skillsCount = json['skills_count'];
+    numberOfJobs = json['company_number_of_job'];
+    applicationCount = json['company_appilcation_count'];
+    shortListed = json['company_application_shortlist_count'];
   }
 
 }
