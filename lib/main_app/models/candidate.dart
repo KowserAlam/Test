@@ -19,20 +19,20 @@ class Candidate {
   String linkedinId;
   String dateOfBirth;
   String bloodGroup;
-  int expectedSalaryMin;
-  int expectedSalaryMax;
+  String expectedSalaryMin;
+  String expectedSalaryMax;
   String permanentAddress;
   String currentLocation;
   String currentCompany;
   String currentDesignation;
   String industryExpertise;
-  int user;
+  String user;
   String gender;
   String status;
   String experience;
   String qualification;
-  int nationality;
-  int religion;
+  String nationality;
+  String religion;
 
   Candidate(
       {this.id,
@@ -69,42 +69,42 @@ class Candidate {
       this.religion});
 
   Candidate.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    modifiedAt = json['modified_at'];
-    slug = json['slug'];
-    professionalId = json['professional_id'];
-    fullName = json['full_name'];
-    email = json['email'];
-    phone = json['phone'];
-    address = json['address'];
-    aboutMe = json['about_me'];
+    id = json['id']?.toString();
+    modifiedAt = json['modified_at']?.toString();
+    slug = json['slug']?.toString();
+    professionalId = json['professional_id']?.toString();
+    fullName = json['full_name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    address = json['address']?.toString();
+    aboutMe = json['about_me']?.toString();
     if (json['image'] != null) {
       var baseUrl = FlavorConfig.instance?.values?.baseUrl;
       image = "$baseUrl${json['image']}";
     }
 
     jobAlertStatus = json['job_alert_status'];
-    fatherName = json['father_name'];
-    motherName = json['mother_name'];
-    facebookId = json['facebook_id'];
-    twitterId = json['twitter_id'];
-    linkedinId = json['linkedin_id'];
-    dateOfBirth = json['date_of_birth'];
-    bloodGroup = json['blood_group'];
-    expectedSalaryMin = json['expected_salary_min'];
-    expectedSalaryMax = json['expected_salary_max'];
-    permanentAddress = json['permanent_address'];
-    currentLocation = json['current_location'];
-    currentCompany = json['current_company'];
-    currentDesignation = json['current_designation'];
-    industryExpertise = json['industry_expertise'];
-    user = json['user'];
-    gender = json['gender'];
-    status = json['status'];
-    experience = json['experience'];
-    qualification = json['qualification'];
-    nationality = json['nationality'];
-    religion = json['religion'];
+    fatherName = json['father_name']?.toString();
+    motherName = json['mother_name']?.toString();
+    facebookId = json['facebook_id']?.toString();
+    twitterId = json['twitter_id']?.toString();
+    linkedinId = json['linkedin_id']?.toString();
+    dateOfBirth = json['date_of_birth']?.toString();
+    bloodGroup = json['blood_group']?.toString();
+    expectedSalaryMin = json['expected_salary_min']?.toString();
+    expectedSalaryMax = json['expected_salary_max']?.toString();
+    permanentAddress = json['permanent_address']?.toString();
+    currentLocation = json['current_location']?.toString();
+    currentCompany = json['current_company']?.toString();
+    currentDesignation = json['current_designation']?.toString();
+    industryExpertise = json['industry_expertise']?.toString();
+    user = json['user']?.toString();
+    gender = json['gender']?.toString();
+    status = json['status']?.toString();
+    experience = json['experience']?.toString();
+    qualification = json['qualification']?.toString();
+    nationality = json['nationality']?.toString();
+    religion = json['religion']?.toString();
   }
 
   Map<String, dynamic> toJson() {
