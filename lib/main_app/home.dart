@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -194,9 +195,7 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               DashBoardScreen(),
               ManageJobsScreen(),
-              Center(
-                child: Text("3"),
-              ),
+//              ManageCandidateScreen(),
               Center(
                 child: Text("4"),
               ),

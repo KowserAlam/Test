@@ -102,7 +102,10 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => onPressed(index),
+            onTap: ()  {
+              if(widget.selectedIndex != index)
+              onPressed(index);
+            },
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

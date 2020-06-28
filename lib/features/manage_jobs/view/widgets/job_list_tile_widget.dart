@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
-import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/method_extension.dart';
@@ -40,6 +39,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
     var backgroundColor = Theme.of(context).backgroundColor;
+    var primaryColor = Theme.of(context).primaryColor;
     var scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
     var titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
@@ -79,13 +79,36 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         style: subTitleStyle.apply(color: Colors.green),
       ),
     );
-    var applicationCounts = Container(
-      child: Text(
-        "${widget.jobModel.appliedCount} ${StringResources.applicationsText}",
-        style: subTitleStyle,
+    var viewApplications = Tooltip(
+      message: "View Applications",
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (BuildContext context) => ManageCandidateScreen(widget.jobModel.jobId)));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "${widget.jobModel.appliedCount} ${StringResources.applicationsText}",
+            style: TextStyle(color: primaryColor),
+          ),
+        ),
       ),
     );
-
+    var editButton = IconButton(
+      constraints: BoxConstraints(maxHeight: 40, maxWidth: 40),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      iconSize: 18,
+      tooltip: "Edit Job",
+      color: primaryColor,
+      icon: Icon(FeatherIcons.edit),
+      onPressed: () {
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => PostNewJobScreen()));
+      },
+    );
     var jobType = Row(
       children: <Widget>[
         Icon(
@@ -136,8 +159,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         color: backgroundColor,
         child: InkWell(
           onTap: () {
-            Navigator.of(context)
-                .push(CupertinoPageRoute(builder: (context) => JobDetails(widget.jobModel.slug)));
+            Navigator.of(context).push(CupertinoPageRoute(
+                builder: (context) => JobDetails(widget.jobModel.slug)));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,8 +176,9 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         if (widget.jobModel.jobCity != null) companyLocation,
-                        applicationCounts,
+                        jobType,
                         jobStatus,
+                        editButton,
                       ],
                     ),
                   ],
@@ -167,9 +191,9 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    jobType,
                     publishDate,
                     applicationDeadlineWidget,
+                    viewApplications,
                   ],
                 ),
               ),
