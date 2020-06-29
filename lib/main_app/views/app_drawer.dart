@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
-import 'package:jobxprss_company/features/company_profile/view/company_details.dart';
+import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/settings/settings_screen.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';

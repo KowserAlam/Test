@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobxprss_company/features/company_profile/view/company_details.dart';
+import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
@@ -277,7 +277,7 @@ class _JobDetailsState extends State<JobDetails> {
                             ? Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => CompanyDetails()))
+                                    builder: (context) => CompanyProfile()))
                             : null;
                       },
                     ),

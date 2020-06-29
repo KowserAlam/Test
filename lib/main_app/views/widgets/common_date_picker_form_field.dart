@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_text_field.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 
-class CommonDatePickerWidget extends StatefulWidget {
+class CommonDatePickerFormField extends StatefulWidget {
   final String label;
   final String errorText;
   final DateTime date;
@@ -11,37 +13,40 @@ class CommonDatePickerWidget extends StatefulWidget {
   final Function onTapDateClear;
   final DateTime minDate;
   final DateTime maxDate;
+  final FocusNode focusNode;
 
-
-  const CommonDatePickerWidget(
-      {@required this.label,
-      @required this.date,
-      @required this.onDateTimeChanged,
-      this.onTapDateClear,
-      this.maxDate,
-      this.minDate,
-      this.errorText});
+  const CommonDatePickerFormField({
+    @required this.label,
+    @required this.date,
+    @required this.onDateTimeChanged,
+    this.onTapDateClear,
+    this.maxDate,
+    this.minDate,
+    this.errorText,
+    this.focusNode,
+  });
 
   @override
-  _CommonDatePickerWidgetState createState() => _CommonDatePickerWidgetState();
+  _CommonDatePickerFormFieldState createState() => _CommonDatePickerFormFieldState();
 }
 
-class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
+class _CommonDatePickerFormFieldState extends State<CommonDatePickerFormField> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16),
-        Text(
-          widget.label ?? "",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        InkWell(
+//        SizedBox(height: 16),
+//        Text(
+//          "",
+//          textAlign: TextAlign.left,
+//          style: TextStyle(fontWeight: FontWeight.bold),
+//        ),
+//        SizedBox(
+//          height: 8,
+//        ),
+        CustomTextFormField(
+          labelText: widget.label,
           onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
             currentFocus?.unfocus();
@@ -52,45 +57,64 @@ class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
 //            _showDatePicker(context);
 //            _selectDateAndroid(context);
           },
-          child: Container(
-            height: 50,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(7),
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
-                BoxShadow(
-                    color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Material(
-              color: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    widget.date != null
-                        ? DateFormatUtil.formatDate(widget.date)
-                        : StringResources.chooseDateText,
-                  ),
-                  if (widget.onTapDateClear != null)
-                    widget.date != null
-                        ? InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Icon(Icons.close),
-                            ),
-                            onTap: widget.onTapDateClear,
-                          )
-                        : SizedBox(),
-                ],
-              ),
-            ),
-          ),
+          readOnly: true,
+          focusNode: widget.focusNode,
+          controller: TextEditingController()
+            ..text = widget.date != null
+                ? DateFormatUtil.formatDate(widget.date)
+                : "",
+          hintText: StringResources.chooseDateText,
         ),
+//        InkWell(
+//          onTap: () {
+//            FocusScopeNode currentFocus = FocusScope.of(context);
+//            currentFocus?.unfocus();
+//            _showCupertinoDatePicker(context);
+////            Theme.of(context).platform == TargetPlatform.iOS
+////                ?
+////            _showCupertinoDatePicker(context):
+////            _showDatePicker(context);
+////            _selectDateAndroid(context);
+//          },
+//          child: Container(
+//            height: 40,
+//            width: double.infinity,
+//            decoration: BoxDecoration(
+//              color: Theme.of(context).backgroundColor,
+//              borderRadius: BorderRadius.circular(7),
+//              boxShadow: [
+//                BoxShadow(
+//                    color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
+//                BoxShadow(
+//                    color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
+//              ],
+//            ),
+//            padding: EdgeInsets.symmetric(horizontal: 8),
+//            child: Material(
+//              color: Colors.transparent,
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                children: <Widget>[
+//                  Text(
+//                    widget.date != null
+//                        ? DateFormatUtil.formatDate(widget.date)
+//                        : StringResources.chooseDateText,
+//                  ),
+//                  if (widget.onTapDateClear != null)
+//                    widget.date != null
+//                        ? InkWell(
+//                            child: Padding(
+//                              padding: const EdgeInsets.all(4.0),
+//                              child: Icon(Icons.close),
+//                            ),
+//                            onTap: widget.onTapDateClear,
+//                          )
+//                        : SizedBox(),
+//                ],
+//              ),
+//            ),
+//          ),
+//        ),
         if (widget.errorText != null)
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -106,7 +130,8 @@ class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
   _showCupertinoDatePicker(context) {
     var _miniDate =
         widget.maxDate ?? DateTime.now().subtract(Duration(days: 360 * 100));
-    var _maxDate = widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
+    var _maxDate =
+        widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
 
     showDialog(
         context: context,
@@ -146,7 +171,8 @@ class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
                           ),
                         ),
                         onTap: () {
-                          widget.onDateTimeChanged(widget.date ?? DateTime.now());
+                          widget
+                              .onDateTimeChanged(widget.date ?? DateTime.now());
                           Navigator.pop(context);
                         }),
                   ],
@@ -157,26 +183,26 @@ class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
         });
   }
 
- _selectDateAndroid(BuildContext context) async {
+  _selectDateAndroid(BuildContext context) async {
     var _miniDate =
         widget.maxDate ?? DateTime.now().subtract(Duration(days: 360 * 100));
-    var _maxDate = widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
+    var _maxDate =
+        widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
     showDatePicker(
       firstDate: _miniDate,
-      initialDate: widget.date??DateTime.now(),
+      initialDate: widget.date ?? DateTime.now(),
       lastDate: _maxDate,
       context: context,
     ).then((value) {
       widget.onDateTimeChanged(value);
-
     });
-
   }
 
   _showDatePicker(context) {
     var _miniDate =
         widget.maxDate ?? DateTime.now().subtract(Duration(days: 360 * 100));
-    var _maxDate = widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
+    var _maxDate =
+        widget.minDate ?? DateTime.now().add(Duration(days: 360 * 10));
 
     showDialog(
         context: context,
@@ -211,7 +237,8 @@ class _CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
                           ),
                         ),
                         onTap: () {
-                          widget.onDateTimeChanged(widget.date ?? DateTime.now());
+                          widget
+                              .onDateTimeChanged(widget.date ?? DateTime.now());
                           Navigator.pop(context);
                         }),
                   ],

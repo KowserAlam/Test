@@ -186,6 +186,7 @@ class StringResources {
   static var contactText = "Contact";
   static var contactInfo = "Contact Info";
   static var qualificationText = "Qualification";
+  static var updateInfoText = "Update Info";
 
 
   static String saveText = "Save";
@@ -199,11 +200,12 @@ class StringResources {
   //Company Details Screen
   static var companyDetailsText = "Company Details";
 
-  static var companyBasicInfoSectionText = "BASIC INFO";
+  static var basicInfoText = "BASIC INFO";
   static var companyBasisMembershipNoText = "Basis Membership No";
   static var companyProfileText = "Company Profile";
   static var companyIndustryText = "Industry";
   static var companyYearsOfEstablishmentText = "Year of Establishment";
+  static var legalStructureText = "Legal Structure";
   static var basisMembershipText = "BASIS Membership No";
   static var companyAddressSectionText = "ADDRESS";
   static var companyAddressText = "Address";
@@ -366,7 +368,7 @@ class StringResources {
   static var locationText = "Location";
   static var currentCompany = "Current Company";
   static var nameOfCompany = "Name Of Company";
-  static var currentCompanyHint = "eg. ABC Corporation";
+  static var companyNameHint = "eg. ABC Corporation";
   static var currentDesignation = "Current Designation";
   static var currentDesignationHint =  "eg. Software Engineer";
   static var locationHintText = "eg. Dhaka, Bangladesh";

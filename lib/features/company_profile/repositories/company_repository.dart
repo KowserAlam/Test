@@ -7,15 +7,18 @@ import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/models/company_screen_data_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
+import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
 
 class CompanyRepository {
-  Future<Either<AppError, CompanyScreenDataModel>> getList({String query,int pageSize =10,int page=1}) async {
+  Future<Either<AppError, CompanyScreenDataModel>> getList(
+      {String query, int pageSize = 10, int page = 1}) async {
     try {
-      var url = "${Urls.companySearchUrl}/?page_size=$pageSize&name=${query??""}&page=${page}";
+      var url =
+          "${Urls.companySearchUrl}/?page_size=$pageSize&name=${query ?? ""}&page=${page}";
       debugPrint(url);
       var res = await ApiClient().getRequest(url);
       debugPrint(res.statusCode.toString());
@@ -23,7 +26,8 @@ class CompanyRepository {
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
 //        debugPrint(decodedJson.toString());
 
-        CompanyScreenDataModel list = CompanyScreenDataModel.fromJson(decodedJson);
+        CompanyScreenDataModel list =
+            CompanyScreenDataModel.fromJson(decodedJson);
         return Right(list);
       } else {
         return Left(AppError.serverError);
@@ -53,7 +57,36 @@ class CompanyRepository {
     return list;
   }
 
-  Future<Company> getCompanyDetails(String name) async {
+  Future<bool> updateCompany(Map<String, dynamic> data) async {
+    try {
+      var name =
+          await AuthService.getInstance().then((value) => value.getUser().cId);
+      String url = "${Urls.companyProfileUpdateUrl}/$name/";
+      var res = await ApiClient().putRequest(url, data);
+      print(url);
+      print(res.statusCode);
+
+      print(res.body);
+      if (res.statusCode == 200) {
+
+        // after update response returning broken data
+        // so need to force reload data
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> saveCompanyLocalStorage(Map<String, dynamic> data) async {
+    var storage = await LocalStorageService.getInstance();
+    return storage.saveString(JsonKeys.company, json.encode(data));
+  }
+
+  Future<Company> getCompanyFromServer(String name) async {
     var result = await getList(query: name);
     return result.fold((l) {
       print(l);
@@ -63,6 +96,7 @@ class CompanyRepository {
       print(companyList);
       if (companyList.length > 0) {
         if (companyList.first.name == name) {
+          saveCompanyLocalStorage(companyList.first.toJson());
           return companyList.first;
         } else {
           return null;
@@ -71,10 +105,10 @@ class CompanyRepository {
       return null;
     });
   }
-  Future<Company> getCompanyFromLocalStorage()async{
-    var storage  =await LocalStorageService.getInstance();
-    var data = storage.getString(JsonKeys.company);
 
+  Future<Company> getCompanyFromLocalStorage() async {
+    var storage = await LocalStorageService.getInstance();
+    var data = storage.getString(JsonKeys.company);
 
     var decodedData = json.decode(data);
 //    print(decodedData);

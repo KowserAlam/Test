@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobxprss_company/features/company_profile/view/company_details.dart';
+import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
         appbarTitle = StringResources.shortedListedCandidatesText;
         break;
       case 3:
-        appbarTitle = StringResources.companyDetailsText;
+        appbarTitle = StringResources.companyProfileText;
         break;
     }
   }
@@ -200,7 +200,7 @@ class _HomeState extends State<Home> {
               Center(
                 child: Text(StringResources.shortedListedText),
               ),
-              CompanyDetails(),
+              CompanyProfile(),
             ],
           ),
         ),

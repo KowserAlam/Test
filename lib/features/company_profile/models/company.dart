@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 // ignore: must_be_immutable
 class Company extends Equatable {
@@ -114,7 +115,7 @@ class Company extends Equatable {
     contactPersonDesignation = json['contact_person_designation']?.toString();
     contactPersonMobileNo = json['contact_person_mobile_no']?.toString();
     contactPersonEmail = json['contact_person_email']?.toString();
-    companyProfile = json['features.company_profile']?.toString();
+    companyProfile = json['company_profile']?.toString();
     if (json['profile_picture'] != null) {
       if ((json['profile_picture'] as String).contains(baseUrl))
         profilePicture = json['profile_picture'];
@@ -161,7 +162,7 @@ class Company extends Equatable {
     data['company_name_google'] = this.companyNameGoogle;
     data['basis_membership_no'] = this.basisMembershipNo;
     data['year_of_eastablishment'] =
-        this.yearOfEstablishment?.toIso8601String();
+        this.yearOfEstablishment?.toYYYMMDDString;
     data['company_profile'] = this.companyProfile;
     data['company_contact_no_one'] = this.companyContactNoOne;
     data['company_contact_no_two'] = this.companyContactNoTwo;

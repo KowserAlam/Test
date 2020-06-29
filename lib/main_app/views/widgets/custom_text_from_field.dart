@@ -12,14 +12,19 @@ class CustomTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry contentPadding;
   final FocusNode focusNode;
   final bool autofocus;
+  final bool enabled;
   final bool autovalidate;
+  final bool readOnly;
   final TextInputAction textInputAction;
   final ValueChanged<String> onFieldSubmitted;
   final Widget prefix;
   final Function onChanged;
   final   int maxLength;
+  final GestureTapCallback onTap;
 
   const CustomTextFormField({
+    this.readOnly= false,
+    this.enabled = true,
     this.maxLength,
     this.validator,
     this.prefix,
@@ -33,6 +38,7 @@ class CustomTextFormField extends StatelessWidget {
     this.labelText,
     this.hintText,
     this.minLines,
+    this.onTap,
     this.keyboardType,
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -67,6 +73,9 @@ class CustomTextFormField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            onTap: onTap,
+            readOnly: readOnly,
+            enabled: enabled,
             maxLength: maxLength,
             minLines: minLines,
             onChanged: onChanged,

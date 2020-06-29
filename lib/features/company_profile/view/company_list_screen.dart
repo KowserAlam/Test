@@ -11,8 +11,8 @@ import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
-import 'company_details.dart';
-import 'company_list_tile.dart';
+import 'company_profile.dart';
+import 'widgets/company_list_tile.dart';
 
 class CompanyListScreen extends StatefulWidget {
   @override
@@ -211,7 +211,7 @@ class _CompanyListScreenState extends State<CompanyListScreen>
                                               context,
                                               CupertinoPageRoute(
                                                   builder: (context) =>
-                                                      CompanyDetails(
+                                                      CompanyProfile(
                                                       )));
                                         },
                                         child: CompanyListTile(
