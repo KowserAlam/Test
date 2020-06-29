@@ -62,7 +62,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
       if(profileImageBase64 != null){
         data.addAll({
-          "company_profile":profileImageBase64
+          "profile_picture":profileImageBase64
         });
       }
       var res = await companyVm.updateCompany(data);

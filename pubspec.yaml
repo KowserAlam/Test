@@ -62,9 +62,9 @@ dependencies:
   percent_indicator: ^2.1.5
   jwt_decode: ^0.1.0
   flutter_html: ^0.11.0
-  flutter_gifimage: ^1.0.1
-  dropdown_search: ^0.4.3
-  html_editor: ^1.0.1
+#  flutter_gifimage: ^1.0.1
+#  dropdown_search: ^0.4.3
+#  html_editor: ^1.0.1
   http_extensions_cache: ^0.1.3
 
 

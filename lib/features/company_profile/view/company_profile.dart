@@ -180,7 +180,27 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionIcon: FeatherIcons.userCheck,
       sectionLabel: StringResources.basicInfoText,
       sectionBody: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if( companyDetails?.companyProfile != null)
+        Text.rich(TextSpan(children: [
+          TextSpan(
+              text: StringResources.companyProfileText + ': ',
+              style: descriptionFontStyleBold),
+          WidgetSpan(
+              child: GestureDetector(
+                  onTap: () {
+                    UrlLauncherHelper.launchUrl(
+                        companyDetails.companyProfile.trim());
+                  },
+                  child: Text(
+                    companyDetails.companyProfile,
+                    style: TextStyle(color: Colors.lightBlue),
+                  )))
+        ])),
+          SizedBox(
+            height: 5
+          ),
 
           richText(
               StringResources.companyYearsOfEstablishmentText,
