@@ -20,6 +20,7 @@ class Urls {
   static String infoBoxUrl = "/api/company/dashboard/infobox/"; //cname
   static String dashboardChartUrl = "/api/company/dashboard/chart/"; //cname
   static String dashboardRecentActivityUrl = "/api/company/dashboard/recent_activity/"; //cname
+  static String professionalPublicProfileUrl = "/api/pro/public-profile/"; //pro_id
 
 
   static String industryListUrl = "/api/industry/";

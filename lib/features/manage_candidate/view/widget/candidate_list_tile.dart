@@ -31,7 +31,7 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var experience = Text(
-      "${candidate.experience ?? ""} Year experience",
+      "Experience: ${candidate.experience ?? ""} Year",
       style: subTitleStyle,
     );
     var profileImage = Container(
