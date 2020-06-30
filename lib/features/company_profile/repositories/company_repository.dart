@@ -86,23 +86,25 @@ class CompanyRepository {
     return storage.saveString(JsonKeys.company, json.encode(data));
   }
 
-  Future<Company> getCompanyFromServer(String name) async {
+  Future<Either<AppError,Company>> getCompanyFromServer() async {
+    var name =
+    await AuthService.getInstance().then((value) => value.getUser().cId);
     var result = await getList(query: name);
     return result.fold((l) {
       print(l);
-      return null;
+      return Left(l);
     }, (CompanyScreenDataModel data) {
       var companyList = data.companies;
       print(companyList);
       if (companyList.length > 0) {
         if (companyList.first.name == name) {
           saveCompanyLocalStorage(companyList.first.toJson());
-          return companyList.first;
+          return Right(companyList.first);
         } else {
-          return null;
+          return Left(AppError.unknownError);
         }
       }
-      return null;
+      return Left(AppError.unknownError);
     });
   }
 

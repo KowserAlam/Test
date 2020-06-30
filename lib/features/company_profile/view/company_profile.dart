@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:after_layout/after_layout.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,11 +10,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_edit_profile.dart';
+import 'package:jobxprss_company/features/company_profile/view/widgets/profile_section_base.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
+import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
+import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +38,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
   final Widget sectionDivider = SizedBox(
     height: 1.5,
   );
+  var mapLoadDelay = Duration(milliseconds: 600);
 
   List<Marker> markers = [];
 
@@ -64,10 +67,46 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
   void afterFirstLayout(BuildContext context) {
     var vm = Provider.of<CompanyProfileViewModel>(context, listen: false);
     vm.getCompanyDetails().then((c) {
-      if (c?.latitude != null && c?.longitude != null) _goToPosition(c);
+      _loadMap(vm.company);
     });
   }
 
+  _loadMap(Company company) {
+    Future.delayed(mapLoadDelay).then((value) {
+      if (company?.latitude != null && company?.longitude != null)
+        _goToPosition(company);
+    });
+  }
+
+  errorWidget() {
+    var vm = Provider.of<CompanyProfileViewModel>(context);
+    switch (vm.appError) {
+      case AppError.serverError:
+        return FailureFullScreenWidget(
+          errorMessage: StringResources.unableToLoadData,
+          onTap: () {
+            return vm.refresh();
+          },
+        );
+
+      case AppError.networkError:
+        return FailureFullScreenWidget(
+          errorMessage: StringResources.unableToReachServerMessage,
+          onTap: () {
+            return vm.refresh();
+          },
+        );
+        
+      default:
+        return FailureFullScreenWidget(
+          errorMessage: StringResources.somethingIsWrong,
+          onTap: () {
+            return vm.refresh();
+          },
+        );
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     //Styles
@@ -82,14 +121,6 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
     TextStyle descriptionFontStyleBold =
         TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
     double fontAwesomeIconSize = 15;
-    double iconSize = 14;
-    double sectionIconSize = 20;
-    Color clockIconColor = Colors.orange;
-
-    Color sectionColor = Theme.of(context).backgroundColor;
-    Color summerySectionBorderColor = Colors.grey[300];
-    Color summerySectionColor =
-        !isDarkMode ? Colors.grey[200] : Colors.grey[600];
     Color backgroundColor = !isDarkMode ? Colors.grey[200] : Colors.grey[700];
 
 // widgets
@@ -97,11 +128,44 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
     var vm = Provider.of<CompanyProfileViewModel>(context);
     Company companyDetails = vm.company;
 
-    if (companyDetails == null) {
-      return Scaffold(
-        body: Center(child: Loader()),
+    /// show loading
+    if (vm.showLoading) {
+      return RefreshIndicator(
+        onRefresh: vm.refresh,
+        child: Scaffold(
+          body: Center(child: Loader()),
+        ),
       );
     }
+
+
+
+    /// app error
+    if (vm.showApError) {
+      return RefreshIndicator(
+        onRefresh: vm.refresh,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: errorWidget(),),
+        ),
+      );
+    }
+
+    /// in case null
+
+    if (vm.company == null) {
+      return Scaffold(
+        body: RefreshIndicator(
+          onRefresh: vm.refresh,
+          child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: SizedBox()),
+        ),
+      );
+    }
+    
+
     Text richText(String title, String description) {
       return Text.rich(
         TextSpan(children: <TextSpan>[
@@ -117,7 +181,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       );
     }
 
-    var header = SectionBase(
+    var header = ProfileSectionBase(
       sectionBody: Container(
         padding: EdgeInsets.only(bottom: 20),
         child: Row(
@@ -176,41 +240,38 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var basicIfno2 = SectionBase(
+    var basicInfo = ProfileSectionBase(
       sectionIcon: FeatherIcons.userCheck,
       sectionLabel: StringResources.basicInfoText,
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if( companyDetails?.companyProfile != null)
-        Text.rich(TextSpan(children: [
-          TextSpan(
-              text: StringResources.companyProfileText + ': ',
-              style: descriptionFontStyleBold),
-          WidgetSpan(
-              child: GestureDetector(
-                  onTap: () {
-                    UrlLauncherHelper.launchUrl(
-                        companyDetails.companyProfile.trim());
-                  },
-                  child: Text(
-                    companyDetails.companyProfile,
-                    style: TextStyle(color: Colors.lightBlue),
-                  )))
-        ])),
-          SizedBox(
-            height: 5
-          ),
-
+          if (companyDetails?.companyProfile != null)
+            Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: StringResources.companyProfileText + ': ',
+                  style: descriptionFontStyleBold),
+              WidgetSpan(
+                  child: GestureDetector(
+                      onTap: () {
+                        UrlLauncherHelper.launchUrl(
+                            companyDetails.companyProfile.trim());
+                      },
+                      child: Text(
+                        companyDetails.companyProfile,
+                        style: TextStyle(color: Colors.lightBlue),
+                      )))
+            ])),
+          SizedBox(height: 5),
           richText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
-                  ? DateFormatUtil.formatDate(companyDetails.yearOfEstablishment)
+                  ? DateFormatUtil.formatDate(
+                      companyDetails.yearOfEstablishment)
                   : StringResources.unspecifiedText),
           SizedBox(
             height: 5,
           ),
-
           richText(StringResources.companyBasisMembershipNoText,
               companyDetails.basisMemberShipNo),
           SizedBox(
@@ -219,76 +280,8 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         ],
       ),
     );
-    var basicInfo = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            FaIcon(
-              FeatherIcons.userCheck,
-              size: fontAwesomeIconSize,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              StringResources.basicInfoText,
-              style: sectionTitleFont,
-            )
-          ],
-        ),
-        SizedBox(
-          height: 5,
-        ),
 
-        //Company Profile
-        companyDetails.companyProfile == null
-            ? SizedBox()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                        text: StringResources.companyProfileText + ': ',
-                        style: descriptionFontStyleBold),
-                    WidgetSpan(
-                        child: GestureDetector(
-                            onTap: () {
-                              UrlLauncherHelper.launchUrl(
-                                  companyDetails.companyProfile.trim());
-                            },
-                            child: Text(
-                              companyDetails.companyProfile,
-                              style: TextStyle(color: Colors.lightBlue),
-                            )))
-                  ])),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
-//
-//          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
-//          SizedBox(height: 5,),
-
-        richText(
-            StringResources.companyYearsOfEstablishmentText,
-            companyDetails.yearOfEstablishment != null
-                ? DateFormatUtil.formatDate(companyDetails.yearOfEstablishment)
-                : StringResources.unspecifiedText),
-        SizedBox(
-          height: 5,
-        ),
-
-        richText(StringResources.companyBasisMembershipNoText,
-            companyDetails.basisMemberShipNo),
-        SizedBox(
-          height: 5,
-        ),
-      ],
-    );
-
-    var address = SectionBase(
+    var address = ProfileSectionBase(
       sectionLabel: StringResources.companyAddressSectionText,
       sectionIcon: FeatherIcons.map,
       sectionBody: Column(
@@ -317,7 +310,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var contact = SectionBase(
+    var contact = ProfileSectionBase(
       sectionLabel: StringResources.companyContactSectionText,
       sectionIcon: FeatherIcons.userCheck,
       sectionBody: Container(
@@ -466,7 +459,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var socialNetworks = SectionBase(
+    var socialNetworks = ProfileSectionBase(
       sectionLabel: StringResources.companySocialNetworksSectionText,
       sectionIcon: FeatherIcons.cast,
       sectionBody: Container(
@@ -567,7 +560,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var organizationHead = SectionBase(
+    var organizationHead = ProfileSectionBase(
       sectionIcon: FeatherIcons.userCheck,
       sectionLabel: StringResources.companyOrganizationHeadSectionText,
       sectionBody: Column(
@@ -592,7 +585,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var contactPerson = SectionBase(
+    var contactPerson = ProfileSectionBase(
       sectionLabel: StringResources.companyContactPersonSectionText,
       sectionIcon: FeatherIcons.userCheck,
       sectionBody: Column(
@@ -628,7 +621,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var otherInfo = SectionBase(
+    var otherInfo = ProfileSectionBase(
       sectionLabel: StringResources.companyOtherInformationText,
       sectionIcon: FontAwesomeIcons.exclamationCircle,
       sectionBody: Column(
@@ -653,120 +646,79 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
 
-    var googleMap = SectionBase(
-      sectionLabel:      StringResources.companyLocationOnMapText,
-      sectionIcon:       FeatherIcons.mapPin,
+    var googleMap = ProfileSectionBase(
+      sectionLabel: StringResources.companyLocationOnMapText,
+      sectionIcon: FeatherIcons.mapPin,
       sectionBody: Column(
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width,
-          child: GoogleMap(
-            markers: markers.toSet(),
-            gestureRecognizers: Set()
-              ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
-              ..add(Factory<ScaleGestureRecognizer>(
-                      () => ScaleGestureRecognizer()))
-              ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
-              ..add(Factory<VerticalDragGestureRecognizer>(
-                      () => VerticalDragGestureRecognizer())),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            initialCameraPosition: initialCameraPosition,
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder<bool>(
+                future: Future.delayed(mapLoadDelay).then((value) => true),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return SizedBox();
+                  return GoogleMap(
+                    markers: markers.toSet(),
+                    gestureRecognizers: Set()
+                      ..add(Factory<PanGestureRecognizer>(
+                          () => PanGestureRecognizer()))
+                      ..add(Factory<ScaleGestureRecognizer>(
+                          () => ScaleGestureRecognizer()))
+                      ..add(Factory<TapGestureRecognizer>(
+                          () => TapGestureRecognizer()))
+                      ..add(Factory<VerticalDragGestureRecognizer>(
+                          () => VerticalDragGestureRecognizer())),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    initialCameraPosition: initialCameraPosition,
+                  );
+                }),
           ),
-        ),
-      ],
-    ),);
+        ],
+      ),
+    );
 
     return Scaffold(
 //      appBar: AppBar(
 //        title: Text(StringResources.companyDetailsText),
 //      ),
-      body: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            color: backgroundColor,
-            child: Column(
-              children: [
-                header,
-                sectionDivider,
-                basicIfno2,
-                sectionDivider,
-                address,
-                sectionDivider,
-                contact,
-                sectionDivider,
-                socialNetworks,
-                sectionDivider,
-                organizationHead,
-                sectionDivider,
-                contactPerson,
-                sectionDivider,
-                otherInfo,
-                sectionDivider,
-                googleMap,
-                sectionDivider,
-              ],
-            ),
-          )
-        ],
+      body: RefreshIndicator(
+        onRefresh: vm.refresh,
+        child: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              color: backgroundColor,
+              child: Column(
+                children: [
+                  header,
+                  sectionDivider,
+                  basicInfo,
+                  sectionDivider,
+                  address,
+                  sectionDivider,
+                  contact,
+                  sectionDivider,
+                  socialNetworks,
+                  sectionDivider,
+                  organizationHead,
+                  sectionDivider,
+                  contactPerson,
+                  sectionDivider,
+                  otherInfo,
+                  sectionDivider,
+                  googleMap,
+                  sectionDivider,
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class SectionBase extends StatelessWidget {
-  final Widget sectionBody;
-  final IconData sectionIcon;
-  final String sectionLabel;
 
-  SectionBase({
-    @required this.sectionBody,
-    this.sectionIcon,
-    this.sectionLabel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle sectionTitleFont =
-        TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
-    Color sectionColor = Theme.of(context).backgroundColor;
-    double fontAwesomeIconSize = 15;
-    double iconSize = 14;
-    double sectionIconSize = 20;
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: sectionColor,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(3), topRight: Radius.circular(3))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (sectionIcon != null || sectionLabel != null)
-            Row(
-              children: <Widget>[
-                Icon(
-                  sectionIcon,
-                  size: fontAwesomeIconSize,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  sectionLabel,
-                  style: sectionTitleFont,
-                )
-              ],
-            ),
-          SizedBox(
-            height: 5,
-          ),
-          if (sectionBody != null) sectionBody
-        ],
-      ),
-    );
-  }
-}

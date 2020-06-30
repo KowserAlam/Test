@@ -83,7 +83,10 @@ class ManageJobViewModel with ChangeNotifier {
     }
   }
 
-  refresh() {}
+  Future<bool> refresh() {
+    _pageCount = 0;
+    return getJobList();
+  }
 
   bool get shouldShowAppError => _appError != null && _jobList.length == 0;
 
