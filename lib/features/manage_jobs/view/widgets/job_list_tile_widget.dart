@@ -76,7 +76,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     var jobStatus = Container(
       child: Text(
         isDateExpired ? "Expired" : "Active",
-        style: subTitleStyle.apply(color: Colors.green),
+        style: subTitleStyle.apply(
+            color: isDateExpired ? Colors.red : Colors.green),
       ),
     );
     var viewApplications = Tooltip(
@@ -86,13 +87,15 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           Navigator.push(
               context,
               CupertinoPageRoute(
-                  builder: (BuildContext context) => ManageCandidateScreen(widget.jobModel.jobId)));
+                  builder: (BuildContext context) =>
+                      ManageCandidateScreen(widget.jobModel.jobId)));
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             "${StringResources.viewApplicationsText} ${widget.jobModel.appliedCount}",
-            style: TextStyle(color: primaryColor,fontWeight: FontWeight.bold,fontSize: 12),
+            style: TextStyle(
+                color: primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       ),

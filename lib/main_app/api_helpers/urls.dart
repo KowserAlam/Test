@@ -24,6 +24,7 @@ class Urls {
   static String companyProfileUpdateUrl = "/api/company/update"; //id
 
 
+  static String countryListUrl = "/api/country/list/";
   static String industryListUrl = "/api/industry/";
   static String companyListUrl = "/api/company/";
   static String genderListUrl = "/api/gender/list";

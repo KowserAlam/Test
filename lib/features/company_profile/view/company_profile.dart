@@ -96,7 +96,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
             return vm.refresh();
           },
         );
-        
+
       default:
         return FailureFullScreenWidget(
           errorMessage: StringResources.somethingIsWrong,
@@ -106,7 +106,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         );
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     //Styles
@@ -138,8 +138,6 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       );
     }
 
-
-
     /// app error
     if (vm.showApError) {
       return RefreshIndicator(
@@ -147,7 +145,8 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         child: Scaffold(
           body: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
-            child: errorWidget(),),
+            child: errorWidget(),
+          ),
         ),
       );
     }
@@ -159,12 +158,10 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         body: RefreshIndicator(
           onRefresh: vm.refresh,
           child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: SizedBox()),
+              physics: AlwaysScrollableScrollPhysics(), child: SizedBox()),
         ),
       );
     }
-    
 
     Text richText(String title, String description) {
       return Text.rich(
@@ -288,24 +285,18 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           richText(StringResources.companyAddressText, companyDetails.address),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
 //
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),
 
           richText(
-              StringResources.companyDistrictText, companyDetails.district),
-          SizedBox(
-            height: 5,
-          ),
+              StringResources.companyCityText, companyDetails.city),
+          SizedBox(height: 5),
 
           richText(
               StringResources.companyPostCodeText, companyDetails.postCode),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
         ],
       ),
     );
@@ -720,5 +711,3 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
     );
   }
 }
-
-

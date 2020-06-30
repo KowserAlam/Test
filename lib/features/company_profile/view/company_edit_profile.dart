@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/features/company_profile/view/widgets/change_image_profile_widget.dart';
+import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
@@ -12,6 +14,7 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.d
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:provider/provider.dart';
+
 
 class CompanyEditProfile extends StatefulWidget {
   final Company company;
@@ -24,6 +27,7 @@ class CompanyEditProfile extends StatefulWidget {
 
 class _CompanyEditProfileState extends State<CompanyEditProfile> {
   Company company;
+  CompanyEditProfileViewModel _vm = CompanyEditProfileViewModel();
   var _formKey = GlobalKey<FormState>();
   String profileImageBase64;
 
@@ -191,6 +195,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
           hintText: StringResources.companyPostCodeText,
         ),
         spaceBetween,
+        DropdownSearch(),
 
       ],
     );

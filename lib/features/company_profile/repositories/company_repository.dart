@@ -12,6 +12,7 @@ import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
+import 'package:logger/logger.dart';
 
 class CompanyRepository {
   Future<Either<AppError, CompanyScreenDataModel>> getList(
@@ -22,10 +23,12 @@ class CompanyRepository {
       debugPrint(url);
       var res = await ApiClient().getRequest(url);
       debugPrint(res.statusCode.toString());
+      debugPrint(res.body.toString());
+
       if (res.statusCode == 200) {
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
 //        debugPrint(decodedJson.toString());
-
+        Logger().i(decodedJson);
         CompanyScreenDataModel list =
             CompanyScreenDataModel.fromJson(decodedJson);
         return Right(list);
@@ -66,7 +69,7 @@ class CompanyRepository {
       print(url);
       print(res.statusCode);
 
-      print(res.body);
+//      print(res.body);
       if (res.statusCode == 200) {
         // after update response returning broken data
         // so need to force reload data
