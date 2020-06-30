@@ -45,7 +45,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
   Future<void> _refreshData() async {
     var dbVM = Provider.of<DashboardViewModel>(context, listen: false);
 //    var upVM = Provider.of<UserProfileViewModel>(context, listen: false);
-//    return Future.wait([dbVM.getDashboardData(), upVM.getUserData()]);
+    return dbVM.getDashboardData();
   }
 
   _signOut(context) {

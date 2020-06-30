@@ -30,6 +30,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   var _companyNameTextController = TextEditingController();
   var _companyProfileTextController = TextEditingController();
   var _legalStructureTextController = TextEditingController();
+  var _basisMembershipNoTextController = TextEditingController();
+  var _addressTextController = TextEditingController();
+  var _districtTextController = TextEditingController();
+  var _postCodeTextController = TextEditingController();
   DateTime yearOfEstablishment;
 
   var spaceBetween = SizedBox(
@@ -44,6 +48,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     _companyProfileTextController.text = company.companyProfile;
     yearOfEstablishment = company.yearOfEstablishment;
     _legalStructureTextController.text = company.legalStructure;
+    _basisMembershipNoTextController.text = company.basisMembershipNo;
+    _addressTextController.text = company.address;
+    _districtTextController.text = company.district;
+    _postCodeTextController.text = company.postCode;
 
     super.initState();
   }
@@ -58,6 +66,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text,
         "company_profile": _companyProfileTextController.text,
+        "basis_membership_no": _basisMembershipNoTextController.text,
+        "address": _addressTextController.text,
+        "district": _districtTextController.text,
+        "post_code": _postCodeTextController.text,
       };
 
       if(profileImageBase64 != null){
@@ -66,7 +78,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         });
       }
       var res = await companyVm.updateCompany(data);
-      if (res != null) {
+      if (res) {
         Navigator.pop(context);
       }
     }
@@ -98,6 +110,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
           labelText: StringResources.nameText,
           hintText: StringResources.companyNameHint,
         ),
+        spaceBetween,
       ],
     );
     var basicInfo = Column(
@@ -135,6 +148,62 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         //Legal Structure
         spaceBetween,
         CustomTextFormField(
+          keyboardType: TextInputType.number,
+          //focusNode: _fatherNameFocusNode,
+//                    textInputAction: TextInputAction.next,
+          onFieldSubmitted: (a) {
+//                      FocusScope.of(context)
+//                          .requestFocus(_motherNameFocusNode);
+          },
+          controller: _basisMembershipNoTextController,
+          labelText: StringResources.companyBasisMembershipNoText,
+        ),
+        spaceBetween,
+      ],
+    );
+    var address = Column(
+      children: [
+        spaceBetween,
+        Text(
+          StringResources.companyAddressSectionText,
+          style: labelStyle,
+        ),
+        spaceBetween,
+        CustomTextFormField(
+          keyboardType: TextInputType.multiline,
+          minLines: 3,maxLines: 8,
+          controller: _addressTextController,
+          labelText: StringResources.addressText,
+          hintText: StringResources.addressHintText,
+        ),
+        spaceBetween,
+        CustomTextFormField(
+          keyboardType: TextInputType.text,
+          controller: _districtTextController,
+          labelText: StringResources.companyDistrictText,
+          hintText: StringResources.companyDistrictText,
+        ),
+        spaceBetween,
+        CustomTextFormField(
+          keyboardType: TextInputType.text,
+          controller: _postCodeTextController,
+          labelText: StringResources.companyPostCodeText,
+          hintText: StringResources.companyPostCodeText,
+        ),
+        spaceBetween,
+
+      ],
+    );
+
+    var otherInfo = Column(
+      children: [
+        spaceBetween,
+        Text(
+          StringResources.companyOtherInformationText,
+          style: labelStyle,
+        ),
+        spaceBetween,
+        CustomTextFormField(
           keyboardType: TextInputType.text,
           //focusNode: _fatherNameFocusNode,
 //                    textInputAction: TextInputAction.next,
@@ -145,8 +214,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
           controller: _legalStructureTextController,
           labelText: StringResources.legalStructureText,
         ),
+        spaceBetween,
       ],
     );
+
 
     return Scaffold(
       appBar: AppBar(
@@ -168,6 +239,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                 children: [
                   header,
                   basicInfo,
+                  address,
+                  otherInfo,
                 ],
               ),
             ),

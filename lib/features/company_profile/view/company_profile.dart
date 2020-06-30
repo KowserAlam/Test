@@ -273,7 +273,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
             height: 5,
           ),
           richText(StringResources.companyBasisMembershipNoText,
-              companyDetails.basisMemberShipNo),
+              companyDetails.basisMembershipNo),
           SizedBox(
             height: 5,
           ),

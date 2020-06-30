@@ -9,7 +9,6 @@ class Company extends Equatable {
   String companyNameBdjobs;
   String companyNameFacebook;
   String companyNameGoogle;
-  String basisMemberShipNo;
   DateTime yearOfEstablishment;
   String address;
   String postCode;
@@ -50,7 +49,6 @@ class Company extends Equatable {
     this.companyNameBdjobs,
     this.companyNameFacebook,
     this.companyNameGoogle,
-    this.basisMemberShipNo,
     this.yearOfEstablishment,
     this.address,
     this.postCode,
@@ -94,7 +92,6 @@ class Company extends Equatable {
     companyNameBdjobs = json['company_name_bdjobs']?.toString();
     companyNameFacebook = json['company_name_facebook']?.toString();
     companyNameGoogle = json['company_name_google']?.toString();
-    basisMemberShipNo = json['basis_membership_no']?.toString();
     if (json['year_of_eastablishment'] != null) {
       yearOfEstablishment = DateTime.parse(json['year_of_eastablishment']);
     }
@@ -199,7 +196,6 @@ class Company extends Equatable {
         companyNameBdjobs,
         companyNameFacebook,
         companyNameGoogle,
-        basisMemberShipNo,
         yearOfEstablishment,
         address,
         postCode,

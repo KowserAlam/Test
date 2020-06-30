@@ -4,6 +4,7 @@ import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 
 class CompanyProfileViewModel with ChangeNotifier {
   Company _company;
@@ -48,6 +49,7 @@ class CompanyProfileViewModel with ChangeNotifier {
       refresh();
     }
   else{
+  BotToast.showText(text: StringResources.unableToSave);
   BotToast.closeAllLoading();
   }
   return

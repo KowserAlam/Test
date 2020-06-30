@@ -68,7 +68,6 @@ class CompanyRepository {
 
       print(res.body);
       if (res.statusCode == 200) {
-
         // after update response returning broken data
         // so need to force reload data
         return true;
