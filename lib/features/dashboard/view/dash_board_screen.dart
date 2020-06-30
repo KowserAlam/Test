@@ -70,7 +70,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
 
         case AppError.networkError:
           return FailureFullScreenWidget(
-            errorMessage: StringResources.unableToReachServerMessage,
+            errorMessage: StringResources.couldNotReachServer,
             onTap: () {
               return _refreshData();
             },

@@ -99,7 +99,7 @@ class _JobDetailsState extends State<JobDetails> {
 
       case AppError.networkError:
         return FailureFullScreenWidget(
-          errorMessage: StringResources.unableToReachServerMessage,
+          errorMessage: StringResources.couldNotReachServer,
           onTap: () {},
         );
 

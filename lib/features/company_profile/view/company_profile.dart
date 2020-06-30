@@ -91,7 +91,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
 
       case AppError.networkError:
         return FailureFullScreenWidget(
-          errorMessage: StringResources.unableToReachServerMessage,
+          errorMessage: StringResources.couldNotReachServer,
           onTap: () {
             return vm.refresh();
           },

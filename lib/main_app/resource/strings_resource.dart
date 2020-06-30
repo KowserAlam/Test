@@ -15,7 +15,7 @@ class StringResources {
   static String logInButtonText = "LOG IN";
   static String loginSuccessMessage = "Login Successful";
   static String loginUnsuccessfulMessage = "Login unsuccessful";
-  static String unableToReachServerMessage = "Unable To Reach Server";
+  static String couldNotReachServer = "Couldn't reach server";
   static String forgotPassword = "Forgot Password ?";
   static String welcomeBack = "Welcome back!";
   static String loginToYourExistingAccount = "Login to your existing account";
@@ -450,6 +450,7 @@ static const String applyText = "Apply";
 static const String applyFilterText = "Apply Filter";
 static const String appliedText = "Applied";
 static const String applicationsText = "Application(s)";
+static const String viewApplicationsText = "View Application(s)";
 static const String shortListedText = "Shortlisted";
 static const String postText = "Post";
 

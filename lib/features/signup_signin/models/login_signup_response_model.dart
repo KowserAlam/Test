@@ -44,7 +44,7 @@ class LoginSignUpResponseModel {
     return LoginSignUpResponseModel(
         status: JsonKeys.failed,
         code: 402,
-        message: StringResources.unableToReachServerMessage,
+        message: StringResources.couldNotReachServer,
         result: Result(
             user: ResponseUser(email: "none")
         )

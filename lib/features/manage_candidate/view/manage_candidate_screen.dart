@@ -2,9 +2,13 @@ import 'package:after_layout/after_layout.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
-import 'package:jobxprss_company/features/manage_candidate/view_models.dart';
+import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
+import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
+import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
+import 'package:jobxprss_company/main_app/views/widgets/page_state_builder.dart';
 import 'package:provider/provider.dart';
 
 class ManageCandidateScreen extends StatefulWidget {
@@ -31,6 +35,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>
     _vm.getData(widget.jobId);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -43,16 +48,24 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>
         body: Consumer<ManageCandidateVewModel>(
           builder: (BuildContext context, manageCandidateVm, Widget child) {
             var candidates = manageCandidateVm.candidates;
-            return ListView.builder(
-                itemCount: candidates.length,
-                itemBuilder: (BuildContext context,int index){
-                  Candidate candidate = candidates[index];
-                 return CandidateListTile(candidate);
 
-            });
+            return PageStateBuilder(
+              onRefresh: manageCandidateVm.refresh,
+              showError: manageCandidateVm.showError,
+              appError: manageCandidateVm.appError,
+              showLoader: manageCandidateVm.showLoader,
+              child: ListView.builder(
+                  itemCount: candidates.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Candidate candidate = candidates[index];
+                    return CandidateListTile(candidate);
+                  }),
+            );
           },
         ),
       ),
     );
   }
 }
+
+

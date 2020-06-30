@@ -44,7 +44,7 @@ var companyName = await AuthService.getInstance().then((value) => value.getUser(
       }
     } on SocketException catch (e) {
       print(e);
-      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
       print(e);
@@ -83,7 +83,7 @@ var companyName = await AuthService.getInstance().then((value) => value.getUser(
       }
     } on SocketException catch (e) {
       print(e);
-      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
       print(e);

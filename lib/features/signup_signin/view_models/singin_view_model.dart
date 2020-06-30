@@ -126,8 +126,8 @@ class SigninViewModel with ChangeNotifier {
       }
     } on SocketException catch (e) {
       isBusyLogin = false;
-      BotToast.showText(text: StringResources.unableToReachServerMessage);
-      _errorMessage = StringResources.unableToReachServerMessage;
+      BotToast.showText(text: StringResources.couldNotReachServer);
+      _errorMessage = StringResources.couldNotReachServer;
       notifyListeners();
       print(e);
       return false;

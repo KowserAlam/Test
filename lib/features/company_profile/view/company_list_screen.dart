@@ -54,7 +54,7 @@ class _CompanyListScreenState extends State<CompanyListScreen>
 
       case AppError.networkError:
         return FailureFullScreenWidget(
-          errorMessage: StringResources.unableToReachServerMessage,
+          errorMessage: StringResources.couldNotReachServer,
           onTap: () {
             return vm.refresh();
           },

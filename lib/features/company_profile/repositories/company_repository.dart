@@ -34,7 +34,7 @@ class CompanyRepository {
       }
     } on SocketException catch (e) {
       print(e);
-      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
       print(e);

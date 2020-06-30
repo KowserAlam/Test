@@ -88,9 +88,9 @@ class ManageJobViewModel with ChangeNotifier {
     return getJobList();
   }
 
-  bool get shouldShowAppError => _appError != null && _jobList.length == 0;
+  bool get showError => _appError != null && _jobList.length == 0;
 
-  bool get shouldShowPageLoader => _jobList.length == 0 && _isFetchingData;
+  bool get showLoader => _jobList.length == 0 && _isFetchingData;
 
   DateTime get lastFetchTime => _lastFetchTime;
 
