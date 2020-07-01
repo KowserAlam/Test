@@ -202,7 +202,7 @@ class StringResources {
 
   static var basicInfoText = "BASIC INFO";
   static var companyBasisMembershipNoText = "Basis Membership No";
-  static var companyProfileText = "Company Facebook Profile";
+  static var companyProfileText = "Company Profile";
   static var companyIndustryText = "Industry";
   static var companyYearsOfEstablishmentText = "Year of Establishment";
   static var legalStructureText = "Legal Structure";

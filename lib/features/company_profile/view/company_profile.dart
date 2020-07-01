@@ -29,53 +29,14 @@ class CompanyProfile extends StatefulWidget {
 }
 
 class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
-  static double _cameraZoom = 10.4746;
-  Completer<GoogleMapController> _controller = Completer();
-  final CameraPosition initialCameraPosition = CameraPosition(
-    target: LatLng(23.7104, 90.40744),
-    zoom: _cameraZoom,
-  );
   final Widget sectionDivider = SizedBox(
     height: 1.5,
   );
-  var mapLoadDelay = Duration(milliseconds: 600);
-
-  List<Marker> markers = [];
-
-  Future<void> _goToPosition(Company company) async {
-    var markId = MarkerId(company.name);
-    Marker _marker = Marker(
-      onTap: () {
-        print("tapped");
-      },
-      position: LatLng(company.latitude, company.longitude),
-      infoWindow: InfoWindow(title: company.name ?? ""),
-      markerId: markId,
-    );
-    markers.add(_marker);
-    final GoogleMapController _googleMapController = await _controller.future;
-    var position = CameraPosition(
-      target: LatLng(company.latitude, company.longitude),
-      zoom: _cameraZoom,
-    );
-
-    _googleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(position));
-  }
 
   @override
   void afterFirstLayout(BuildContext context) {
     var vm = Provider.of<CompanyProfileViewModel>(context, listen: false);
-    vm.getCompanyDetails().then((c) {
-      _loadMap(vm.company);
-    });
-  }
-
-  _loadMap(Company company) {
-    Future.delayed(mapLoadDelay).then((value) {
-      if (company?.latitude != null && company?.longitude != null)
-        _goToPosition(company);
-    });
+    vm.getCompanyDetails();
   }
 
   errorWidget() {
@@ -290,8 +251,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),
 
-          richText(
-              StringResources.companyCityText, companyDetails.city),
+          richText(StringResources.companyCityText, companyDetails.city),
           SizedBox(height: 5),
 
           richText(
@@ -640,35 +600,13 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
     var googleMap = ProfileSectionBase(
       sectionLabel: StringResources.companyLocationOnMapText,
       sectionIcon: FeatherIcons.mapPin,
-      sectionBody: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.width,
-            width: MediaQuery.of(context).size.width,
-            child: FutureBuilder<bool>(
-                future: Future.delayed(mapLoadDelay).then((value) => true),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return SizedBox();
-                  return GoogleMap(
-                    markers: markers.toSet(),
-                    gestureRecognizers: Set()
-                      ..add(Factory<PanGestureRecognizer>(
-                          () => PanGestureRecognizer()))
-                      ..add(Factory<ScaleGestureRecognizer>(
-                          () => ScaleGestureRecognizer()))
-                      ..add(Factory<TapGestureRecognizer>(
-                          () => TapGestureRecognizer()))
-                      ..add(Factory<VerticalDragGestureRecognizer>(
-                          () => VerticalDragGestureRecognizer())),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                    initialCameraPosition: initialCameraPosition,
-                  );
-                }),
-          ),
-        ],
-      ),
+      sectionBody: (companyDetails?.latitude != null &&
+              companyDetails?.longitude != null)
+          ? ShowLocationOnMapWidget(
+              latLng: LatLng(companyDetails.latitude, companyDetails.longitude),
+              markerLabel: companyDetails.name,
+            )
+          : SizedBox(),
     );
 
     return Scaffold(
@@ -708,6 +646,90 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ShowLocationOnMapWidget extends StatefulWidget {
+  final String markerLabel;
+  final LatLng latLng;
+
+  ShowLocationOnMapWidget({
+    @required this.markerLabel,
+    @required this.latLng,
+  });
+
+  @override
+  _ShowLocationOnMapWidgetState createState() =>
+      _ShowLocationOnMapWidgetState();
+}
+
+class _ShowLocationOnMapWidgetState extends State<ShowLocationOnMapWidget> {
+  var mapLoadDelay = Duration(milliseconds: 600);
+
+  @override
+  void initState() {
+    Future.delayed(mapLoadDelay).then((value) {
+      _goToPosition(widget.latLng, widget.markerLabel);
+    });
+    super.initState();
+  }
+
+  List<Marker> markers = [];
+  final double _cameraZoom = 10.4746;
+  Completer<GoogleMapController> _controller = Completer();
+
+  Future<void> _goToPosition(LatLng latLng, String label) async {
+    var markId = MarkerId(widget.markerLabel);
+    Marker _marker = Marker(
+      onTap: () {
+        print("tapped");
+      },
+      position: latLng,
+      infoWindow: InfoWindow(title: label ?? ""),
+      markerId: markId,
+    );
+    markers.add(_marker);
+    final GoogleMapController _googleMapController = await _controller.future;
+    var position = CameraPosition(
+      target: latLng,
+      zoom: _cameraZoom,
+    );
+
+    _googleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(position));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    CameraPosition initialCameraPosition = CameraPosition(
+      target: widget.latLng,
+      zoom: _cameraZoom,
+    );
+    return Container(
+      height: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width,
+      child: FutureBuilder<bool>(
+          future: Future.delayed(mapLoadDelay).then((value) => true),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return SizedBox();
+            return GoogleMap(
+              markers: markers.toSet(),
+              gestureRecognizers: Set()
+                ..add(
+                    Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
+                ..add(Factory<ScaleGestureRecognizer>(
+                    () => ScaleGestureRecognizer()))
+                ..add(
+                    Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
+                ..add(Factory<VerticalDragGestureRecognizer>(
+                    () => VerticalDragGestureRecognizer())),
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+              initialCameraPosition: initialCameraPosition,
+            );
+          }),
     );
   }
 }
