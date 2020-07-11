@@ -66,6 +66,7 @@ dependencies:
   dropdown_search: ^0.4.3
 #  html_editor: ^1.0.1
   http_extensions_cache: ^0.1.3
+  flutter_cache: ^0.0.6
 
 
 dev_dependencies:

@@ -61,6 +61,18 @@ class Validator {
       return null;
   }
 
+  String validateNullablePhoneNumber(String value) {
+    Pattern pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    if(value.isEmpty){
+      return null;
+    }
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return StringResources.enterValidPhoneNumber;
+    else
+      return null;
+  }
+
   String verificationCodeValidator(String value) {
     Pattern pattern = r'^(\d{6})?$';
     RegExp regex = new RegExp(pattern);
@@ -70,7 +82,7 @@ class Validator {
       return null;
   }
 
-   String numberFieldValidateOptional(String value){
+   String decimalNumberFieldValidateOptional(String value){
     Pattern pattern = r'^[1-9]\d*(\.\d+)?$';
     RegExp regex = new RegExp(pattern);
     if(value.isEmpty){
@@ -79,6 +91,18 @@ class Validator {
 
     if (!regex.hasMatch(value))
       return StringResources.pleaseEnterDecimalValue;
+    else
+      return null;
+  }
+   String integerNumberValidator(String value){
+    Pattern pattern = r'^[1-9][0-9]*$';
+    RegExp regex = new RegExp(pattern);
+    if(value.isEmpty){
+      return null;
+    }
+
+    if (!regex.hasMatch(value))
+      return StringResources.pleaseEnterValidNumber;
     else
       return null;
   }

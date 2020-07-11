@@ -24,6 +24,7 @@ class StringResources {
 
   static String invalidEmail = "Invalid Email";
   static String pleaseEnterDecimalValue = "Please enter numeric value";
+  static String pleaseEnterValidNumber = "Please enter valid number";
   static String pleaseEnterEmailText = "Please enter email";
   static String pleaseEnterAValidEmailText = "Please enter a valid email";
   static String invalidCode = "Invalid Code";
@@ -206,17 +207,22 @@ class StringResources {
   static var companyIndustryText = "Industry";
   static var companyYearsOfEstablishmentText = "Year of Establishment";
   static var legalStructureText = "Legal Structure";
+  static var contactNoOneText = "Contact No One";
+  static var contactNoTwoText = "Contact Two One";
+  static var contactNoThreeText = "Contact Three One";
   static var basisMembershipText = "BASIS Membership No";
   static var companyAddressSectionText = "ADDRESS";
   static var companyAddressText = "Address";
   static var companyAreaText = "Area";
   static var companyCityText = "City";
+  static var companyCityEg = "eg. Dhaka";
   static var companyDistrictText = "District";
   static var companyCountryText = "Country";
   static var companyPostCodeText = "Post Code";
   static var companyContactSectionText = "CONTACT";
   static var companyEmailText = "Email";
   static var companyWebAddressText = "Web Address";
+  static var webAddressHintText = "eg.  example.com";
   static var companySocialNetworksSectionText = "SOCIAL NETWORKS";
   static var companyContactPersonSectionText = "CONTACT PERSON";
   static var companyContactPersonNameText = "Name";
@@ -361,6 +367,7 @@ class StringResources {
   static var phoneText = "Phone";
   static var mobileText = "Mobile";
   static var phoneHintText = "+8801XXXXXXXX";
+  static var emailHintText = "eg. something@email.com";
   static var addressText = "Address";
   static var addressHintText =
       "";
@@ -400,6 +407,9 @@ class StringResources {
   static var cropImageText  = "Crop Image";
   static var cancelText  = "Cancel";
   static var facebookTrlText  = "Facebook";
+  static var facebookLinkText  = "Facebook Link";
+  static var bdJobsLinkText  = "BdJobs Link";
+  static var googleLinkText  = "Google Link";
   static var facebookBaseUrl  = "fb.com/";
   static var twitterUrlText  = "Twitter";
   static var twitterBaeUrl  = "twitter.com/";

@@ -97,7 +97,7 @@ class CompanyRepository {
       return Left(l);
     }, (CompanyScreenDataModel data) {
       var companyList = data.companies;
-      print(companyList);
+//      print(companyList);
       if (companyList.length > 0) {
         if (companyList.first.name == name) {
           saveCompanyLocalStorage(companyList.first.toJson());

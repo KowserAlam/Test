@@ -1,16 +1,51 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_cache/flutter_cache.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
-
+import 'package:logger/logger.dart';
 class CountryRepository {
+  Future<String> getCountryNameFromCode(String code) async {
+    try {
+      var list = await getList();
+      return list.firstWhere((element) => element.code == code).name;
+    } catch (e) {
+      print(e);
+      return code;
+    }
+  }
+  Future<Country> getCountryObjFromCode(String code) async {
+    try {
+      var list = await getList();
+      return list.firstWhere((element) => element.code == code);
+    } catch (e) {
+      print(e);
+      return Country(code: code,name: code);
+    }
+  }
+
   Future<List<Country>> getList() async {
     try {
       List<Country> _list = [];
-      var res = await ApiClient().getRequest(Urls.countryListUrl);
-      var decodedJson = json.decode(res.body);
-      print(res.statusCode);
+      Map<String, dynamic> decodedJson =
+      await Cache.load(Urls.countryListUrl).then((value) async {
+        if (value != null) {
+          debugPrint("Country list from cache");
+          return value;
+        } else {
+          var res = await ApiClient().getRequest(Urls.countryListUrl);
+          print(res.statusCode);
+
+          var data = json.decode(res.body);
+          Cache.remember(Urls.countryListUrl, data, 43800 * 60);
+          debugPrint("Country list from server");
+          return data;
+        }
+      });
+//      Logger().i(decodedJson);
       decodedJson.forEach((key, value) {
         _list.add(Country(code: key, name: value));
       });
@@ -23,7 +58,7 @@ class CountryRepository {
   }
 }
 
-class Country extends Equatable{
+class Country extends Equatable {
   String name;
   String code;
 
@@ -43,5 +78,5 @@ class Country extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object> get props => [name,code];
+  List<Object> get props => [name, code];
 }

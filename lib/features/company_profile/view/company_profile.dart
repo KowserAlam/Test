@@ -14,12 +14,15 @@ import 'package:jobxprss_company/features/company_profile/view/widgets/profile_s
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
+import 'package:jobxprss_company/main_app/views/widgets/show_location_on_map_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class CompanyProfile extends StatefulWidget {
   CompanyProfile();
@@ -124,7 +127,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       );
     }
 
-    Text richText(String title, String description) {
+    Text CompanyProfileForamtedText(String title, String description) {
       return Text.rich(
         TextSpan(children: <TextSpan>[
           TextSpan(text: title, style: descriptionFontStyleBold),
@@ -205,23 +208,21 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (companyDetails?.companyProfile != null)
-            Text.rich(TextSpan(children: [
-              TextSpan(
-                  text: StringResources.companyProfileText + ': ',
-                  style: descriptionFontStyleBold),
-              WidgetSpan(
-                  child: GestureDetector(
-                      onTap: () {
-                        UrlLauncherHelper.launchUrl(
-                            companyDetails.companyProfile.trim());
-                      },
-                      child: Text(
-                        companyDetails.companyProfile,
-                        style: TextStyle(color: Colors.lightBlue),
-                      )))
-            ])),
+            CompanyProfileForamtedText(
+                StringResources.companyProfileText,
+                companyDetails.companyProfile),
+//          Text.rich(TextSpan(children: [
+//            TextSpan(
+//                text: StringResources.companyProfileText + ': ',
+//                style: descriptionFontStyleBold),
+//            WidgetSpan(
+//                child: Text(
+//              companyDetails.companyProfile,
+//              style: TextStyle(color: Colors.lightBlue),
+//            ))
+//          ])),
           SizedBox(height: 5),
-          richText(
+          CompanyProfileForamtedText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
                   ? DateFormatUtil.formatDate(
@@ -230,7 +231,8 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
           SizedBox(
             height: 5,
           ),
-          richText(StringResources.companyBasisMembershipNoText,
+          CompanyProfileForamtedText(
+              StringResources.companyBasisMembershipNoText,
               companyDetails.basisMembershipNo),
           SizedBox(
             height: 5,
@@ -245,17 +247,26 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          richText(StringResources.companyAddressText, companyDetails.address),
+          CompanyProfileForamtedText(
+              StringResources.companyAddressText, companyDetails.address),
           SizedBox(height: 5),
 //
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),
 
-          richText(StringResources.companyCityText, companyDetails.city),
+          CompanyProfileForamtedText(
+              StringResources.companyCityText, companyDetails.city),
           SizedBox(height: 5),
-
-          richText(
-              StringResources.companyPostCodeText, companyDetails.postCode),
+          if (companyDetails.country.isNotEmptyOrNotNull)
+            FutureBuilder<String>(
+              future: CountryRepository()
+                  .getCountryNameFromCode(companyDetails.country),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                return CompanyProfileForamtedText(
+                    StringResources.companyCountryText,
+                    snapshot.data ?? companyDetails.country);
+              },
+            ),
           SizedBox(height: 5),
         ],
       ),
@@ -517,17 +528,20 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          richText(StringResources.companyOrganizationHeadNameText,
+          CompanyProfileForamtedText(
+              StringResources.companyOrganizationHeadNameText,
               companyDetails.organizationHead),
           SizedBox(
             height: 5,
           ),
-          richText(StringResources.companyOrganizationHeadDesignationText,
+          CompanyProfileForamtedText(
+              StringResources.companyOrganizationHeadDesignationText,
               companyDetails.organizationHeadDesignation),
           SizedBox(
             height: 5,
           ),
-          richText(StringResources.companyOrganizationHeadMobileNoText,
+          CompanyProfileForamtedText(
+              StringResources.companyOrganizationHeadMobileNoText,
               companyDetails.organizationHeadNumber),
           SizedBox(
             height: 5,
@@ -542,25 +556,29 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          richText(StringResources.companyContactPersonNameText,
+          CompanyProfileForamtedText(
+              StringResources.companyContactPersonNameText,
               companyDetails.contactPerson),
           SizedBox(
             height: 5,
           ),
 
-          richText(StringResources.companyContactPersonDesignationText,
+          CompanyProfileForamtedText(
+              StringResources.companyContactPersonDesignationText,
               companyDetails.contactPersonDesignation),
           SizedBox(
             height: 5,
           ),
 
-          richText(StringResources.companyContactPersonMobileNoText,
+          CompanyProfileForamtedText(
+              StringResources.companyContactPersonMobileNoText,
               companyDetails.contactPersonMobileNo),
           SizedBox(
             height: 5,
           ),
 
-          richText(StringResources.companyContactPersonEmailText,
+          CompanyProfileForamtedText(
+              StringResources.companyContactPersonEmailText,
               companyDetails.contactPersonEmail),
           SizedBox(
             height: 5,
@@ -578,17 +596,18 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          richText(StringResources.companyLegalStructureText,
+          CompanyProfileForamtedText(StringResources.companyLegalStructureText,
               companyDetails.legalStructure),
           SizedBox(
             height: 5,
           ),
-          richText(StringResources.companyNoOFHumanResourcesText,
+          CompanyProfileForamtedText(
+              StringResources.companyNoOFHumanResourcesText,
               companyDetails.noOfHumanResources),
           SizedBox(
             height: 5,
           ),
-          richText(StringResources.companyNoOFItResourcesText,
+          CompanyProfileForamtedText(StringResources.companyNoOFItResourcesText,
               companyDetails.noOfResources),
           SizedBox(
             height: 5,
@@ -649,4 +668,3 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
     );
   }
 }
-
