@@ -8,13 +8,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
-import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/image_compress_util.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
 class ChangeProfileImage extends StatefulWidget {
-  final Function (String base64Image) onImageSelect;
+  final Function (File image) onImageSelect;
 
   ChangeProfileImage({@required this.onImageSelect});
 
@@ -60,7 +58,7 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
             minimumAspectRatio: 1.0,
           )).then((value) {
             fileProfileImage = value;
-            widget.onImageSelect( getBase64Image());
+            widget.onImageSelect( fileProfileImage);
             if(this.mounted)
             setState(() {
 

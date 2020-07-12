@@ -1,8 +1,9 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
-import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 
@@ -15,22 +16,23 @@ class CompanyProfileViewModel with ChangeNotifier {
     _appError = null;
     _isLoading = true;
     notifyListeners();
-   var res = await CompanyRepository().getCompanyFromServer();
+    var res = await CompanyRepository().getCompanyFromServer();
 
-   return res.fold((l) {
-     _appError = l;
-     _isLoading = false;
-     notifyListeners();
-     return true;
-   }, (r) {
-     _company = r;
-     _isLoading = false;
-     notifyListeners();
-     return false;
-   });
+    return res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    }, (r) {
+      _company = r;
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    });
   }
 
   Company get company => _company;
+
   set company(Company value) {
     _company = value;
     notifyListeners();
@@ -40,29 +42,24 @@ class CompanyProfileViewModel with ChangeNotifier {
     return getCompanyDetails();
   }
 
-  Future<bool> updateCompany(Map<String, dynamic> data) async {
+  Future<bool> updateCompany(Map<String, dynamic> data,
+      {File imageFile}) async {
     BotToast.showLoading();
-    var res = await CompanyRepository().updateCompany(data);
-    if (res) {
+    Future<bool> res = CompanyRepository().updateCompany(data, imageFile);
+    if (await res) {
       BotToast.closeAllLoading();
       // this for temporary .. will be replaced latter
       refresh();
+    } else {
+      BotToast.showText(text: StringResources.unableToSave);
+      BotToast.closeAllLoading();
     }
-  else{
-  BotToast.showText(text: StringResources.unableToSave);
-  BotToast.closeAllLoading();
+    return res;
   }
-  return
-
-  res
-
-  ;
-}
 
   bool get showApError => _company == null && _appError != null;
+
   bool get showLoading => _company == null && _isLoading;
 
   AppError get appError => _appError;
 }
-
-

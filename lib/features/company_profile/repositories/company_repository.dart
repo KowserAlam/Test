@@ -13,6 +13,7 @@ import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
 import 'package:logger/logger.dart';
+import 'package:http/http.dart' as http;
 
 class CompanyRepository {
   Future<Either<AppError, CompanyScreenDataModel>> getList(
@@ -60,7 +61,28 @@ class CompanyRepository {
     return list;
   }
 
-  Future<bool> updateCompany(Map<String, dynamic> data) async {
+  Future<bool> uploadProfileImage(File imageFile) async {
+    var name =
+        await AuthService.getInstance().then((value) => value.getUser().cId);
+    String url = "${Urls.companyProfileUpdateUrl}/$name/";
+    return ApiClient().uploadFileAsFormData(url, imageFile, "profile_picture");
+  }
+
+  Future<bool> updateCompany(Map<String, dynamic> data,
+      [File imageFile]) async {
+    if (imageFile != null) {
+      var res = await uploadProfileImage(imageFile);
+
+      if (res) {
+        return _updateInfo(data);
+      }
+      return false;
+    } else {
+      return _updateInfo(data);
+    }
+  }
+
+  Future<bool> _updateInfo(Map<String, dynamic> data) async {
     try {
       var name =
           await AuthService.getInstance().then((value) => value.getUser().cId);
@@ -88,9 +110,9 @@ class CompanyRepository {
     return storage.saveString(JsonKeys.company, json.encode(data));
   }
 
-  Future<Either<AppError,Company>> getCompanyFromServer() async {
+  Future<Either<AppError, Company>> getCompanyFromServer() async {
     var name =
-    await AuthService.getInstance().then((value) => value.getUser().cId);
+        await AuthService.getInstance().then((value) => value.getUser().cId);
     var result = await getList(query: name);
     return result.fold((l) {
       print(l);

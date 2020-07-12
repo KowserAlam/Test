@@ -407,9 +407,9 @@ class StringResources {
   static var cropImageText  = "Crop Image";
   static var cancelText  = "Cancel";
   static var facebookTrlText  = "Facebook";
-  static var facebookLinkText  = "Facebook Link";
-  static var bdJobsLinkText  = "BdJobs Link";
-  static var googleLinkText  = "Google Link";
+  static var nameInFacebook  = "Name in Facebook";
+  static var nameInBdJobs  = "Name in BdJobs";
+  static var nameInGoogle  = "Name in Google";
   static var facebookBaseUrl  = "fb.com/";
   static var twitterUrlText  = "Twitter";
   static var twitterBaeUrl  = "twitter.com/";

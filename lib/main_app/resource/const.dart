@@ -15,7 +15,7 @@ const String  slideImageTwo =   "assets/images/slide2.png";
 const String  slideImageThree =   "assets/images/slide3.png";
 
 const String  kIshraakIcon = "assets/images/ishraak.png";
-const String  kIshraakLogo = "assets/images/logo.png";
+const String  kIshraakLogo = "assets/images/ish-logo.png";
 const String  kImagePlaceHolderAsset = "assets/images/image_placeholder.png";
 const String  kDefaultLogoText = "assets/images/job_search_logo_text.png";
 const String  kUserProfileCoverImageAsset = "assets/images/user_profile_cover.jpg";

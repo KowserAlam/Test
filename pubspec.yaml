@@ -60,6 +60,7 @@ dependencies:
   dropdown_search: ^0.4.4
 #  html_editor: ^1.0.1
   flutter_cache: ^0.0.6
+  google_maps_place_picker: ^0.9.4
 
 
 dev_dependencies:

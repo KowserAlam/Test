@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/view/widgets/change_image_profile_widget.dart';
+import 'package:jobxprss_company/features/company_profile/view/widgets/pick_company_location.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
@@ -12,6 +15,7 @@ import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
+import 'package:jobxprss_company/main_app/views/widgets/pick_location_on_map_widget.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +34,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   Company company;
   CompanyEditProfileViewModel _vm = CompanyEditProfileViewModel();
   var _formKey = GlobalKey<FormState>();
-  String profileImageBase64;
+  File profileImage;
   Country selectedCountry;
 
   var _companyNameTextController = TextEditingController();
@@ -52,6 +56,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _orgHeadNameTextController = TextEditingController();
   var _orgHeadDesignationTextController = TextEditingController();
   var _orgHeadPhoneTextController = TextEditingController();
+  var _contactPersonNameTextController = TextEditingController();
+  var _contactPersonEmailTextController = TextEditingController();
+  var _contactPersonPhoneTextController = TextEditingController();
+  var _contactPersonDesignationTextController = TextEditingController();
   DateTime yearOfEstablishment;
 
   var spaceBetween = SizedBox(
@@ -85,19 +93,22 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _companyBdJobsTextController.text = company.companyNameBdjobs;
     _companyGoogleTextController.text = company.companyNameGoogle;
     _orgHeadNameTextController.text = company.organizationHead;
-    _orgHeadDesignationTextController.text = company.organizationHeadDesignation;
+    _orgHeadDesignationTextController.text =
+        company.organizationHeadDesignation;
     _orgHeadPhoneTextController.text = company.organizationHeadNumber;
+    _contactPersonNameTextController.text = company.contactPerson;
+    _contactPersonDesignationTextController.text =
+        company.contactPersonDesignation;
+    _contactPersonEmailTextController.text = company.contactPersonEmail;
+    _contactPersonPhoneTextController.text = company.contactPersonMobileNo;
 
-    if(company.country.isNotEmptyOrNotNull){
-    CountryRepository().getCountryObjFromCode(company.country).then((value) {
-      selectedCountry = value;
-      print(value);
-      setState(() {
-
-      });
+    if (company.country.isNotEmptyOrNotNull) {
+      CountryRepository().getCountryObjFromCode(company.country).then((value) {
+        selectedCountry = value;
+        print(value);
+        setState(() {});
       });
     }
-
 
     super.initState();
   }
@@ -108,14 +119,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     if (isValid) {
       var companyVm =
           Provider.of<CompanyProfileViewModel>(context, listen: false);
-      var data = {
+      Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text,
         "company_profile": _companyProfileTextController.text,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
         "city": _cityTextController.text,
-        "country": selectedCountry?.code??"",
+        "country": selectedCountry?.code ?? "",
         "company_contact_no_one": _contactNo1TextController.text,
         "company_contact_no_two": _contactNo2TextController.text,
         "company_contact_no_three": _contactNo3TextController.text,
@@ -127,16 +138,21 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         "organization_head": _orgHeadNameTextController.text,
         "organization_head_designation": _orgHeadDesignationTextController.text,
         "organization_head_number": _orgHeadPhoneTextController.text,
-        "total_number_of_human_resources": _noOfHumanResourceTextController.text,
+        "total_number_of_human_resources":
+            _noOfHumanResourceTextController.text,
         "no_of_it_resources": _noOfITResourceTextController.text,
-
+        "contact_person": _contactPersonNameTextController.text,
+        "contact_person_designation":
+            _contactPersonDesignationTextController.text,
+        "contact_person_mobile_no": _contactPersonPhoneTextController.text,
+        "contact_person_email": _contactPersonEmailTextController.text,
       };
       Logger().i(data);
-
-      if (profileImageBase64 != null) {
-        data.addAll({"profile_picture": profileImageBase64});
-      }
-      var res = await companyVm.updateCompany(data);
+//
+//      if (profileImage != null) {
+//        data.addAll({"profile_picture": profileImage.readAsBytesSync()});
+//      }
+      var res = await companyVm.updateCompany(data, imageFile: profileImage);
       if (res) {
         Navigator.pop(context);
       }
@@ -156,7 +172,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             ChangeProfileImage(
               onImageSelect: (v) {
-                profileImageBase64 = v;
+                profileImage = v;
               },
             ),
             spaceBetween,
@@ -256,7 +272,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               autoFocusSearchBox: true,
               showSelectedItem: true,
               selectedItem: selectedCountry,
-              onChanged: (v){
+              onChanged: (v) {
                 selectedCountry = v;
               },
             ),
@@ -295,7 +311,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               labelText: StringResources.contactNoThreeText,
             ),
             spaceBetween,
-
             CustomTextFormField(
               validator: Validator().validateEmail,
               hintText: StringResources.emailHintText,
@@ -303,7 +318,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               labelText: StringResources.emailText,
             ),
             spaceBetween,
-
             CustomTextFormField(
               hintText: StringResources.webAddressHintText,
               controller: _webAddressTextController,
@@ -322,17 +336,17 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               controller: _companyBdJobsTextController,
-              labelText: StringResources.bdJobsLinkText,
+              labelText: StringResources.nameInBdJobs,
             ),
             spaceBetween,
             CustomTextFormField(
               controller: _companyFacebookTextController,
-              labelText: StringResources.facebookLinkText,
+              labelText: StringResources.nameInFacebook,
             ),
             spaceBetween,
             CustomTextFormField(
               controller: _companyGoogleTextController,
-              labelText: StringResources.googleLinkText,
+              labelText: StringResources.nameInGoogle,
             ),
             spaceBetween,
           ],
@@ -396,6 +410,50 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
           ],
         );
+        var contactPerson = Column(
+          children: [
+            spaceBetween,
+            Text(
+              StringResources.companyContactPersonSectionText,
+              style: labelStyle,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              keyboardType: TextInputType.text,
+              controller: _contactPersonNameTextController,
+              hintText: StringResources.fullNameHintText,
+              labelText: StringResources.companyContactPersonNameText,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              keyboardType: TextInputType.text,
+              controller: _contactPersonDesignationTextController,
+              hintText: StringResources.designationHintText,
+              labelText: StringResources.companyContactPersonDesignationText,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              validator: Validator().validateNullablePhoneNumber,
+              keyboardType: TextInputType.phone,
+              controller: _contactPersonPhoneTextController,
+              hintText: StringResources.phoneHintText,
+              labelText: StringResources.companyContactPersonMobileNoText,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              validator: Validator().validateEmail,
+              keyboardType: TextInputType.emailAddress,
+              controller: _contactPersonEmailTextController,
+              hintText: StringResources.emailHintText,
+              labelText: StringResources.companyContactPersonEmailText,
+            ),
+            spaceBetween,
+          ],
+        );
+
+        var setLocation = PickCompanyLocation(
+          LatLng(widget.company.latitude, widget.company.latitude),
+        );
 
         return Scaffold(
           appBar: AppBar(
@@ -421,7 +479,9 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
                       contact,
                       socialNetwork,
                       orgHead,
+                      contactPerson,
                       otherInfo,
+//                      setLocation,
                     ],
                   ),
                 ),
