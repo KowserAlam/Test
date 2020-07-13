@@ -369,8 +369,7 @@ class StringResources {
   static var phoneHintText = "+8801XXXXXXXX";
   static var emailHintText = "eg. something@email.com";
   static var addressText = "Address";
-  static var addressHintText =
-      "";
+  static var addressHintText = "";
 
   static var locationText = "Location";
   static var currentCompany = "Current Company";
@@ -453,6 +452,10 @@ class StringResources {
   static const String notificationsText = "Notifications";
   static const String messagesText = "Messages";
 
+
+
+  static const String pickLocationText = "Pick Location";
+
   ///
 /// Jobs
 static const String unspecifiedText = "Unspecified";
@@ -510,6 +513,7 @@ static const String emailJobButtonText = 'Email Job';
 static const String jobSummeryTitle = 'Summary';
 static const String publishedOn = 'Published on';
 static const String vacancy = 'Vacancy';
+static const String vacancyHintText = 'eg. 2';
 static const String category = 'Category';
 static const String jobNature = 'Nature';
 static const String experience = 'Experience';
@@ -553,4 +557,9 @@ static const String jobSiteText  = "Job Site";
   static const String writeYourMessageText  = "Write your message";
   static const String monthlyJobsText  = "Monthly Jobs";
   static const String similarJobsText  = "Similar Jobs";
+
+  /// job post
+  static const String jobTitleText  = "Job Title";
+  static const String titleHintText  = "Your job title here";
+
 }

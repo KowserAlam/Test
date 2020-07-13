@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/view/widgets/change_image_profile_widget.dart';
-import 'package:jobxprss_company/features/company_profile/view/widgets/pick_company_location.dart';
+import 'package:jobxprss_company/features/company_profile/view/widgets/location_picker.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
@@ -36,6 +37,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _formKey = GlobalKey<FormState>();
   File profileImage;
   Country selectedCountry;
+  double latitude;
+  double longitude;
 
   var _companyNameTextController = TextEditingController();
   var _companyProfileTextController = TextEditingController();
@@ -101,6 +104,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         company.contactPersonDesignation;
     _contactPersonEmailTextController.text = company.contactPersonEmail;
     _contactPersonPhoneTextController.text = company.contactPersonMobileNo;
+    latitude = company.latitude;
+    longitude = company.longitude;
 
     if (company.country.isNotEmptyOrNotNull) {
       CountryRepository().getCountryObjFromCode(company.country).then((value) {
@@ -146,6 +151,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             _contactPersonDesignationTextController.text,
         "contact_person_mobile_no": _contactPersonPhoneTextController.text,
         "contact_person_email": _contactPersonEmailTextController.text,
+        "latitude": latitude.toStringAsFixed(8) ?? "",
+        "longitude": longitude.toStringAsFixed(8) ?? "",
       };
       Logger().i(data);
 //
@@ -451,8 +458,30 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
           ],
         );
 
-        var setLocation = PickCompanyLocation(
-          LatLng(widget.company.latitude, widget.company.latitude),
+        var setLocation = InkWell(
+          onTap: () {
+            LatLng po = (latitude != null && longitude != null)
+                ? LatLng(latitude, longitude)
+                : null;
+
+            Navigator.of(context).push(CupertinoPageRoute(
+                builder: (BuildContext context) => LocationPicker(
+                      latLng: po,
+                      onSaveLocation: (LatLng latLng) {
+                        latitude = latLng.latitude;
+                        longitude = latLng.longitude;
+                        setState(() {});
+                      },
+                    )));
+          },
+          child: CustomTextFormField(
+            enabled: false,
+            readOnly: true,
+            labelText: StringResources.locationText,
+            hintText: StringResources.tapToSelectText,
+            controller: TextEditingController()
+              ..text = "${latitude ?? ""} , ${longitude ?? ""}",
+          ),
         );
 
         return Scaffold(
@@ -481,7 +510,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
                       orgHead,
                       contactPerson,
                       otherInfo,
-//                      setLocation,
+                      setLocation,
                     ],
                   ),
                 ),
