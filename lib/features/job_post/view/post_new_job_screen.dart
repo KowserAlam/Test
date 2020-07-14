@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:html_editor/html_editor.dart';
 import 'package:jobxprss_company/features/job_post/view_model/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -23,7 +22,7 @@ class PostNewJobScreen extends StatefulWidget {
 
 class _PostNewJobScreenState extends State<PostNewJobScreen> {
   bool isEditMode;
-
+FocusNode _focusNode =  FocusNode();
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
   var _jobTitleTextEditingController = TextEditingController();
@@ -37,6 +36,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _experienceTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
 
+
   String selectedGender;
   String selectedJobCategory;
 
@@ -45,8 +45,10 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     widget.jobPostViewModel.getData();
     isEditMode = widget.jobModel != null;
     if (isEditMode) _initTextFieldsValue();
+
     super.initState();
   }
+
 
   _initTextFieldsValue() {
     var job = widget.jobModel;
@@ -135,6 +137,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     hintText: StringResources.jobTitleText,
                   ),
                   spaceBetweenFields,
+
 
                   //address
                   CustomTextFormField(
