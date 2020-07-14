@@ -6,6 +6,7 @@ import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,12 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _experienceTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
 
+  String selectedGender;
+  String selectedJobCategory;
+
   @override
   void initState() {
+    widget.jobPostViewModel.getData();
     isEditMode = widget.jobModel != null;
     if (isEditMode) _initTextFieldsValue();
     super.initState();
@@ -56,6 +61,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _jobAreaTextEditingController.text = job?.jobArea;
     _jobCityTextEditingController.text = job?.jobCity;
     _experienceTextEditingController.text = job?.experience;
+    selectedGender = job?.gender;
+    selectedJobCategory = job?.jobCategory;
   }
 
   var spaceBetweenFields = SizedBox(
@@ -99,7 +106,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => widget.jobPostViewModel,
-      child: Consumer<JobPostViewModel>(builder: (context, snapshot, _) {
+      child: Consumer<JobPostViewModel>(builder: (context, _vm, _) {
         var appBarText = isEditMode
             ? widget?.jobModel?.title ?? ""
             : StringResources.postNewJobText;
@@ -207,6 +214,27 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     date: applicationDeadline,
                     label: StringResources.applicationDeadline,
                   ),
+// gender
+                  spaceBetweenFields,
+                  CustomDropdownSearchFormField(
+                    labelText: StringResources.genderText,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    items: _vm.genderList,
+                    selectedItem: selectedGender,
+                  ),
+                  // job category
+                  spaceBetweenFields,
+                  CustomDropdownSearchFormField(
+                    selectedItem: selectedJobCategory,
+                    labelText: StringResources.category,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    onChanged: (v){
+
+                    },
+                    items: _vm.jobCategoryList,
+                  ),
 
                   spaceBetweenFields,
 //profile
@@ -218,6 +246,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     hintText: StringResources.companyProfileText,
                   ),
                   spaceBetweenFields,
+                  SizedBox(height: 100,)
                 ],
               ),
             ),
