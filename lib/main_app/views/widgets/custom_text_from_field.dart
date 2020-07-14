@@ -15,15 +15,16 @@ class CustomTextFormField extends StatelessWidget {
   final bool enabled;
   final bool autovalidate;
   final bool readOnly;
+  final bool required;
   final TextInputAction textInputAction;
   final ValueChanged<String> onFieldSubmitted;
   final Widget prefix;
   final Function onChanged;
-  final   int maxLength;
+  final int maxLength;
   final GestureTapCallback onTap;
 
   const CustomTextFormField({
-    this.readOnly= false,
+    this.readOnly = false,
     this.enabled = true,
     this.maxLength,
     this.validator,
@@ -34,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.onFieldSubmitted,
     this.focusNode,
+    this.required = false,
     this.autofocus = false,
     this.labelText,
     this.hintText,
@@ -43,21 +45,29 @@ class CustomTextFormField extends StatelessWidget {
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     this.maxLines = 1,
-
   });
 
   @override
   Widget build(BuildContext context) {
-
     FocusScopeNode currentFocus = FocusScope.of(context);
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if(labelText != null)
-        Text("  ${labelText ?? ""}",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        if (labelText != null)
+          Row(
+            children: [
+              Flexible(
+                child: Text("  ${labelText ?? ""}",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              if (required)
+                Text(
+                  " *",
+                  style: TextStyle(color: Colors.red),
+                )
+            ],
+          ),
         SizedBox(
           height: 5,
         ),
@@ -85,7 +95,8 @@ class CustomTextFormField extends StatelessWidget {
             maxLines: maxLines,
             autovalidate: autovalidate,
             keyboardType: keyboardType,
-            validator: validator,
+            validator:
+                validator ?? (required ? Validator().nullFieldValidate : null),
             controller: controller,
             textInputAction: textInputAction,
             decoration: InputDecoration(

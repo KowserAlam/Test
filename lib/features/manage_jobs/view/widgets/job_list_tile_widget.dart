@@ -1,9 +1,12 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -108,10 +111,23 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       color: primaryColor,
       icon: Icon(FeatherIcons.edit),
       onPressed: () {
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => PostNewJobScreen()));
+        BotToast.showLoading();
+        JobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
+          value.fold((l) {
+            BotToast.closeAllLoading();
+          }, (r) {
+            BotToast.closeAllLoading();
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => PostNewJobScreen(
+                          jobModel: r,
+                        )));
+          });
+        });
       },
     );
+
     var jobType = Row(
       children: <Widget>[
         Icon(

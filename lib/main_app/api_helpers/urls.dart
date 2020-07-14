@@ -14,7 +14,7 @@ class Urls {
   static String passwordResetUrl = "api/company/forgot-password/";
   static String dashboardUrl = "/api/app-dashboard";
   static String passwordChangeUrl = "/api/pro/change-password/";
-  static String postJobUrl = "/api/company/post-job/"; //<str:name>/
+  static String postNewJobUrl = "/api/job/create/";
   static String openJobsCompany = "/api/job/search/?company="; //cname
   static String manageCandidateList = "/api/application/list"; //cname
   static String infoBoxUrl = "/api/company/dashboard/infobox/"; //cname

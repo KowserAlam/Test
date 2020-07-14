@@ -402,14 +402,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
-              validator: Validator().integerNumberValidator,
+              validator: Validator().integerNumberNullableValidator,
               keyboardType: TextInputType.number,
               controller: _noOfHumanResourceTextController,
               labelText: StringResources.companyNoOFHumanResourcesText,
             ),
             spaceBetween,
             CustomTextFormField(
-              validator: Validator().integerNumberValidator,
+              validator: Validator().integerNumberNullableValidator,
               keyboardType: TextInputType.number,
               controller: _noOfITResourceTextController,
               labelText: StringResources.companyNoOFItResourcesText,

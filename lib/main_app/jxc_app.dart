@@ -13,11 +13,11 @@ import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class JobExpressCompanyApp extends StatelessWidget {
+class JXCApp extends StatelessWidget {
   final isEnabledDevicePreview;
   final CommonServiceRule commonServiceRule = CommonServiceRule();
 
-  JobExpressCompanyApp(Key key, {this.isEnabledDevicePreview = false});
+  JXCApp(Key key, {this.isEnabledDevicePreview = false});
 
   @override
   Widget build(BuildContext context) {

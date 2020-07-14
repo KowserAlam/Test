@@ -25,6 +25,7 @@ class StringResources {
   static String invalidEmail = "Invalid Email";
   static String pleaseEnterDecimalValue = "Please enter numeric value";
   static String pleaseEnterValidNumber = "Please enter valid number";
+  static String pleaseEnterValidAmount = "Please enter valid amount";
   static String pleaseEnterEmailText = "Please enter email";
   static String pleaseEnterAValidEmailText = "Please enter a valid email";
   static String invalidCode = "Invalid Code";
@@ -519,6 +520,8 @@ static const String jobNature = 'Nature';
 static const String experience = 'Experience';
 static const String jobLocation = 'Job Location';
 static const String salary = 'Salary';
+static const String salaryMax = 'Salary Max';
+static const String salaryMin = 'Salary Min';
 static const String changePassword = 'Change Password';
 static const String licenses = 'Licenses';
 static const String seeMoreText = "See More";

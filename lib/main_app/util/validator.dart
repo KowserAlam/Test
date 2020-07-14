@@ -94,7 +94,7 @@ class Validator {
     else
       return null;
   }
-   String integerNumberValidator(String value){
+   String integerNumberNullableValidator(String value){
     Pattern pattern = r'^[1-9][0-9]*$';
     RegExp regex = new RegExp(pattern);
     if(value.isEmpty){
@@ -103,6 +103,26 @@ class Validator {
 
     if (!regex.hasMatch(value))
       return StringResources.pleaseEnterValidNumber;
+    else
+      return null;
+  }
+   String integerNumberValidator(String value){
+    Pattern pattern = r'^[1-9][0-9]*$';
+    RegExp regex = new RegExp(pattern);
+
+    if (!regex.hasMatch(value))
+      return StringResources.pleaseEnterValidNumber;
+    else
+      return null;
+  }
+   String moneyAmountNullableValidate(String value){
+    Pattern pattern = r'^(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$';
+    RegExp regex = new RegExp(pattern);
+    if(value.isEmpty){
+      return null;
+    }
+    if (!regex.hasMatch(value))
+      return StringResources.pleaseEnterValidAmount;
     else
       return null;
   }

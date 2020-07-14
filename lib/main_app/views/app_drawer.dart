@@ -8,7 +8,7 @@ import 'package:jobxprss_company/features/company_profile/view/company_profile.d
 import 'package:jobxprss_company/features/settings/settings_screen.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
-import 'package:jobxprss_company/main_app/job_express_company_app.dart';
+import 'package:jobxprss_company/main_app/jxc_app.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/root.dart';
