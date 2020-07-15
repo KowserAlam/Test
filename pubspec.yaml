@@ -59,8 +59,7 @@ dependencies:
   flutter_cache: ^0.0.6
   permission_handler: ^5.0.1+1
   geolocator: ^5.3.2+2
-  zefyr: ^0.11.0
-  quill_delta: ^1.0.2
+  flutter_summernote: ^0.1.0
 
 
 

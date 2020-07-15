@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:jobxprss_company/features/job_post/view_model/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
@@ -28,6 +29,12 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   FocusNode _focusNode = FocusNode();
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
+
+
+  GlobalKey<FlutterSummernoteState> _keyEditor = GlobalKey();
+  final _scaffoldState = GlobalKey<ScaffoldState>();
+  String result = "";
+
   var _jobTitleTextEditingController = TextEditingController();
   var _jobVacancyTextEditingController = TextEditingController();
   var _jobAddressTextEditingController = TextEditingController();
@@ -37,6 +44,11 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
+  var _jobDescriptionTextEditingController = TextEditingController();
+  var _jobResponsibilitiesTextEditingController = TextEditingController();
+  var _jobEducationTextEditingController = TextEditingController();
+  var _jobAdditionalRequirementEditingController = TextEditingController();
+  var _jobOtherBenefitsEditingController = TextEditingController();
 
   String selectedGender;
   String selectedJobCategory;
@@ -168,8 +180,19 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   ),
                   spaceBetweenFields,
                   // job description
-
-//                  spaceBetweenFields,
+                  FlutterSummernote(
+                    height: 250,
+                    hint: "Your text here...",
+                    key: _keyEditor,
+                     customToolbar: """
+                       [
+                         ['style', ['bold', 'italic', 'underline', 'clear']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['height', ['height']],
+                       ]
+                     """,
+                  ),
+                  spaceBetweenFields,
 
                   //address
                   CustomTextFormField(
@@ -242,6 +265,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   spaceBetweenFields,
 
                   // application deadline
+
 
                   CommonDatePickerFormField(
                     onDateTimeChanged: (DateTime d) {
