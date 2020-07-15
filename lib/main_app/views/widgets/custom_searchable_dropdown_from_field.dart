@@ -103,6 +103,9 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
             compareFn: compareFn,
             items: items,
             onFind: onFind,
+            popupShape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            dropdownBuilderSupportsNullItem: true,
             autoFocusSearchBox: autoFocusSearchBox,
             popupItemDisabled: popupItemDisabled,
             selectedItem: selectedItem,

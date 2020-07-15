@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/job_post/view_model/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
+import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
+import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
+import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
@@ -22,7 +25,7 @@ class PostNewJobScreen extends StatefulWidget {
 
 class _PostNewJobScreenState extends State<PostNewJobScreen> {
   bool isEditMode;
-FocusNode _focusNode =  FocusNode();
+  FocusNode _focusNode = FocusNode();
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
   var _jobTitleTextEditingController = TextEditingController();
@@ -33,12 +36,15 @@ FocusNode _focusNode =  FocusNode();
   var _salaryTextEditingController = TextEditingController();
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
-  var _experienceTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
-
 
   String selectedGender;
   String selectedJobCategory;
+  String selectedJobQualification;
+  String selectedJobExperience;
+  JobSite selectedJobSite;
+  JobType selectedJobType;
+  JobNature selectedJobNature;
 
   @override
   void initState() {
@@ -48,7 +54,6 @@ FocusNode _focusNode =  FocusNode();
 
     super.initState();
   }
-
 
   _initTextFieldsValue() {
     var job = widget.jobModel;
@@ -62,9 +67,28 @@ FocusNode _focusNode =  FocusNode();
     _salaryMaxTextEditingController.text = job?.salaryMax;
     _jobAreaTextEditingController.text = job?.jobArea;
     _jobCityTextEditingController.text = job?.jobCity;
-    _experienceTextEditingController.text = job?.experience;
     selectedGender = job?.gender;
     selectedJobCategory = job?.jobCategory;
+    selectedJobExperience = job?.experience;
+    selectedJobQualification = job?.qualification;
+
+    JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
+      setState(() {
+        selectedJobSite = value;
+      });
+    });
+
+    JobNatureListRepository().getIdToObj(job?.jobNature).then((value) {
+      setState(() {
+        selectedJobNature = value;
+      });
+    });
+
+    JobTypeListRepository().getIdToObj(job?.jobType).then((value) {
+      setState(() {
+        selectedJobType = value;
+      });
+    });
   }
 
   var spaceBetweenFields = SizedBox(
@@ -84,7 +108,13 @@ FocusNode _focusNode =  FocusNode();
         "salary_min": _salaryMinTextEditingController.text,
         "salary_max": _salaryMaxTextEditingController.text,
         "job_area": _jobAreaTextEditingController.text,
-        "experience": _experienceTextEditingController.text,
+        "experience": selectedJobExperience ?? "",
+        "qualification": selectedJobQualification ?? "",
+        "job_category": selectedJobCategory ?? "",
+        "job_gender_id": selectedGender ?? "",
+        "job_nature": selectedJobNature?.id ?? "",
+        "job_type": selectedJobType?.id ?? "",
+        "job_site": selectedJobType?.id ?? "",
         "job_city": _jobCityTextEditingController.text,
       };
 
@@ -118,7 +148,7 @@ FocusNode _focusNode =  FocusNode();
             actions: [
               EditScreenSaveButton(
                 onPressed: _handlePost,
-                text: isEditMode?"Update": "Post",
+                text: isEditMode ? "Update" : "Post",
               ),
             ],
           ),
@@ -137,7 +167,9 @@ FocusNode _focusNode =  FocusNode();
                     hintText: StringResources.jobTitleText,
                   ),
                   spaceBetweenFields,
+                  // job description
 
+//                  spaceBetweenFields,
 
                   //address
                   CustomTextFormField(
@@ -194,7 +226,9 @@ FocusNode _focusNode =  FocusNode();
                           hintText: StringResources.salaryMin,
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         child: CustomTextFormField(
                           validator: Validator().moneyAmountNullableValidate,
@@ -219,12 +253,37 @@ FocusNode _focusNode =  FocusNode();
                   ),
 // gender
                   spaceBetweenFields,
-                  CustomDropdownSearchFormField(
-                    labelText: StringResources.genderText,
-                    hintText: StringResources.tapToSelectText,
-                    showSelectedItem: true,
-                    items: _vm.genderList,
-                    selectedItem: selectedGender,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomDropdownSearchFormField(
+                          labelText: StringResources.genderText,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          items: _vm.genderList,
+                          selectedItem: selectedGender,
+                          onChanged: (v) {
+                            selectedGender = v;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      // experience
+                      Expanded(
+                        child: CustomDropdownSearchFormField(
+                          selectedItem: selectedJobExperience,
+                          labelText: StringResources.experience,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          onChanged: (v) {
+                            selectedJobExperience = v;
+                          },
+                          items: _vm.experienceList,
+                        ),
+                      ),
+                    ],
                   ),
                   // job category
                   spaceBetweenFields,
@@ -233,13 +292,67 @@ FocusNode _focusNode =  FocusNode();
                     labelText: StringResources.category,
                     hintText: StringResources.tapToSelectText,
                     showSelectedItem: true,
-                    onChanged: (v){
-
+                    onChanged: (v) {
+                      selectedJobCategory = v;
                     },
                     items: _vm.jobCategoryList,
                   ),
-
                   spaceBetweenFields,
+
+                  // qualification
+                  CustomDropdownSearchFormField(
+                    selectedItem: selectedJobQualification,
+                    labelText: StringResources.qualificationText,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    onChanged: (v) {
+                      selectedJobQualification = v;
+                    },
+                    items: _vm.qualifications,
+                  ),
+                  spaceBetweenFields,
+                  // job site
+                  CustomDropdownSearchFormField<JobSite>(
+                    selectedItem: selectedJobSite,
+                    labelText: StringResources.jobSiteText,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    itemAsString: (v) => v.text,
+                    onChanged: (v) {
+                      selectedJobSite = v;
+                    },
+                    items: _vm.jobSiteList,
+                  ),
+                  spaceBetweenFields,
+
+                  //job type
+                  CustomDropdownSearchFormField<JobNature>(
+                    selectedItem: selectedJobNature,
+                    labelText: StringResources.jobNature,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    itemAsString: (v) => v.text,
+                    onChanged: (v) {
+                      selectedJobNature = v;
+                    },
+                    items: _vm.jobNature,
+                  ),
+                  spaceBetweenFields,
+
+                  //job nature
+                  CustomDropdownSearchFormField<JobType>(
+                    selectedItem: selectedJobType,
+                    labelText: StringResources.jobSiteText,
+                    hintText: StringResources.tapToSelectText,
+                    showSelectedItem: true,
+                    itemAsString: (v) => v.text,
+                    onChanged: (v) {
+                      selectedJobType = v;
+                    },
+                    items: _vm.jobType,
+                  ),
+                  spaceBetweenFields,
+
 //profile
                   CustomTextFormField(
                     minLines: 3,
@@ -249,7 +362,9 @@ FocusNode _focusNode =  FocusNode();
                     hintText: StringResources.companyProfileText,
                   ),
                   spaceBetweenFields,
-                  SizedBox(height: 100,)
+                  SizedBox(
+                    height: 100,
+                  )
                 ],
               ),
             ),

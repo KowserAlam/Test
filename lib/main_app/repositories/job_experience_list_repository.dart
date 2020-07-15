@@ -6,24 +6,24 @@ import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 
-class JobGenderListRepository {
+class JobExperienceListRepository {
   Future<Either<AppError, List<String>>> getList() async {
     try {
 
-      var cache = await Cache.load(Urls.jobGenderList);
+      var cache = await Cache.load(Urls.jobExperienceList);
       if (cache != null) {
         var decodedJson = json.decode(cache);
         List<String> list = fromJson(decodedJson);
 //        print(decodedJson);
         return Right(list);
       }
-      var res = await ApiClient().getRequest(Urls.jobGenderList);
+      var res = await ApiClient().getRequest(Urls.jobExperienceList);
       print(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
         print(decodedJson);
 
-        Cache.remember(Urls.jobGenderList, res.body,604800);
+        Cache.remember(Urls.jobExperienceList, res.body,604800);
         List<String> list = fromJson(decodedJson);
         return Right(list);
       } else {

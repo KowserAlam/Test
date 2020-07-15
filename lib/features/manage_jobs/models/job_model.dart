@@ -2,7 +2,6 @@ import 'package:dartz/dartz_unsafe.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 
-
 class JobModel {
   String jobId;
   String slug;
@@ -13,7 +12,7 @@ class JobModel {
   String jobArea;
   String salaryMin;
   String salaryMax;
-  int vacancy;
+  String vacancy;
   DateTime applicationDeadline;
   String descriptions;
   String responsibilities;
@@ -96,10 +95,10 @@ class JobModel {
     jobId = json['job_id']?.toString();
     slug = json['slug'];
     title = json['title']?.toString();
-    jobCity = json['job_city'];
-    salaryMin = json['salary_min'];
-    salaryMax = json['salary_max'];
-    vacancy = json['vacancy'];
+    jobCity = json['job_city']?.toString();
+    salaryMin = json['salary_min']?.toString();
+    salaryMax = json['salary_max']?.toString();
+    vacancy = json['vacancy']?.toString();
     if (json['application_deadline'] != null) {
       applicationDeadline = DateTime.parse(json['application_deadline']);
     }
@@ -121,8 +120,8 @@ class JobModel {
     otherBenefits = json['other_benefits'];
     rawContent = json['raw_content'];
     termsAndCondition = json['terms_and_condition'];
-    industry = json['industry'];
-    employmentStatus = json['employment_status'];
+    industry = json['industry']?.toString();
+    employmentStatus = json['employment_status']?.toString();
     experience = json['experience']?.toString();
     qualification = json['qualification']?.toString();
     gender = json['job_gender']?.toString();

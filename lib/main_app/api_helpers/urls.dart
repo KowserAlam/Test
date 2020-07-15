@@ -43,6 +43,7 @@ class Urls {
   static String jobSourceList = "/api/job-source/list/";
   static String jobGenderList = "/api/job-gender/list/";
   static String jobSiteList = "/api/job-site/list";
+  static String jobExperienceList = "/api/experience/list";
   static String jobNatureList = "/api/job-nature/list";
   static String jobDetailsUrl = "/api/job/get/";
   static String favouriteJobAddUrl = "/api/job/favourite/toggle";
