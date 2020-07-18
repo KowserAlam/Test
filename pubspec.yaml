@@ -62,6 +62,7 @@ dependencies:
   flutter_summernote:
     git:
       url: git://github.com/shofizone/flutter_summernote.git
+  flutter_widget_from_html_core: ^0.4.2
 
 
 

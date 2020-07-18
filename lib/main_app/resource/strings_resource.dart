@@ -192,6 +192,7 @@ class StringResources {
 
 
   static String saveText = "Save";
+  static String doneText = "Done";
   static String ongoingText = "Ongoing";
   static String readMoreText = 'Read More';
 

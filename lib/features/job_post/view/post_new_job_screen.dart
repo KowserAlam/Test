@@ -12,6 +12,7 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdo
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_field_rich_html.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class PostNewJobScreen extends StatefulWidget {
@@ -30,10 +31,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
 
-
-  GlobalKey<FlutterSummernoteState> descriptionEditingKey = GlobalKey();
-
-  final _scaffoldState = GlobalKey<ScaffoldState>();
   String result = "";
 
   var _jobTitleTextEditingController = TextEditingController();
@@ -46,6 +43,10 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _salaryMaxTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
   var _jobDescriptionTextValue = "";
+  var _jobResponsibilitiesTextValue = "";
+  var _jobEducationsTextValue = "";
+  var _jobAdditionalRequirementsTextValue = "";
+  var _jobOtherBenefitsTextValue = "";
 
   String selectedGender;
   String selectedJobCategory;
@@ -81,7 +82,11 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     selectedJobExperience = job?.experience;
     selectedJobQualification = job?.qualification;
 
-    _jobDescriptionTextValue = job?.descriptions??"";
+    _jobDescriptionTextValue = job?.descriptions ?? "";
+    _jobResponsibilitiesTextValue = job?.responsibilities ?? "";
+    _jobAdditionalRequirementsTextValue = job?.additionalRequirements ?? "";
+    _jobOtherBenefitsTextValue = job?.otherBenefits ?? "";
+    _jobEducationsTextValue = job?.education ?? "";
 
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
@@ -106,7 +111,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     height: 10,
   );
 
-  _handlePost() async{
+  _handlePost() async {
     bool isValid = _formKey.currentState.validate();
 
     if (isValid) {
@@ -127,9 +132,14 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_type": selectedJobType?.id ?? "",
         "job_site": selectedJobType?.id ?? "",
         "job_city": _jobCityTextEditingController.text,
-        "description":  await descriptionEditingKey.currentState.getText(),
+        "description": _jobDescriptionTextValue,
+        "other_benefits": _jobOtherBenefitsTextValue,
+        "additional_requirements": _jobAdditionalRequirementsTextValue,
+        "education": _jobEducationsTextValue,
+        "responsibilities": _jobResponsibilitiesTextValue,
       };
-      print(data);
+      Logger().i(data);
+//      print(data);
 
       var _vm = widget.jobPostViewModel;
 
@@ -181,30 +191,20 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   ),
                   spaceBetweenFields,
                   // job description
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      borderRadius: BorderRadius.circular(7),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
-                        BoxShadow(
-                            color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
-                      ],
-                    ),
-
-                    child: CustomTextFieldRichHtml(
-                      height: 200,
-                      value: _jobDescriptionTextValue,
-                      editingKey: descriptionEditingKey,
-                       customToolbar: """
-                         [
-                           ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['height', ['height']],
-                         ]
-                       """,
-                    ),
+                  CustomTextFieldRichHtml(
+                    labelText: StringResources.jobDescriptionTitle,
+                    height: 400,
+                    value: _jobDescriptionTextValue,
+                    onDone: (v) {
+                      _jobDescriptionTextValue = v;
+                    },
+                    customToolbar: """
+                       [
+                         ['style', ['bold', 'italic', 'underline', 'clear']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['height', ['height']],
+                       ]
+                     """,
                   ),
                   spaceBetweenFields,
 
@@ -245,6 +245,46 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     hintText: StringResources.vacancyHintText,
                   ),
                   spaceBetweenFields,
+
+                  // Responsibilities
+                  CustomTextFieldRichHtml(
+                    labelText: StringResources.responsibilitiesTitle,
+                    value: _jobResponsibilitiesTextValue,
+                    onDone: (v) {
+                      _jobResponsibilitiesTextValue = v;
+                    },
+                  ),
+                  spaceBetweenFields,
+
+                  // Education
+                  CustomTextFieldRichHtml(
+                    labelText: StringResources.educationsText,
+                    value: _jobEducationsTextValue,
+                    onDone: (v) {
+                      _jobEducationsTextValue = v;
+                    },
+                  ),
+                  spaceBetweenFields,
+
+                  // Additional Requirements
+                  CustomTextFieldRichHtml(
+                    labelText: StringResources.jobAdditionalRequirementsText,
+                    value: _jobAdditionalRequirementsTextValue,
+                    onDone: (v) {
+                      _jobAdditionalRequirementsTextValue = v;
+                    },
+                  ),
+                  spaceBetweenFields,
+                  // otherBenefitsTitle
+                  CustomTextFieldRichHtml(
+                    labelText: StringResources.otherBenefitsTitle,
+                    value: _jobOtherBenefitsTextValue,
+                    onDone: (v) {
+                      _jobOtherBenefitsTextValue = v;
+                    },
+                  ),
+                  spaceBetweenFields,
+
                   //salary
                   CustomTextFormField(
                     controller: _salaryTextEditingController,
@@ -252,7 +292,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   ),
                   spaceBetweenFields,
 
-                  //vacancy
+                  //salary range
                   Row(
                     children: [
                       Expanded(
@@ -279,7 +319,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   spaceBetweenFields,
 
                   // application deadline
-
 
                   CommonDatePickerFormField(
                     onDateTimeChanged: (DateTime d) {
