@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:jobxprss_company/features/job_post/view_model/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
@@ -10,6 +9,7 @@ import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_text_field_rich_html.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _formKey = GlobalKey<FormState>();
 
 
-  GlobalKey<FlutterSummernoteState> _keyEditor = GlobalKey();
+  GlobalKey<FlutterSummernoteState> descriptionEditingKey = GlobalKey();
+
   final _scaffoldState = GlobalKey<ScaffoldState>();
   String result = "";
 
@@ -44,11 +45,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
-  var _jobDescriptionTextEditingController = TextEditingController();
-  var _jobResponsibilitiesTextEditingController = TextEditingController();
-  var _jobEducationTextEditingController = TextEditingController();
-  var _jobAdditionalRequirementEditingController = TextEditingController();
-  var _jobOtherBenefitsEditingController = TextEditingController();
+  var _jobDescriptionTextValue = "";
 
   String selectedGender;
   String selectedJobCategory;
@@ -84,6 +81,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     selectedJobExperience = job?.experience;
     selectedJobQualification = job?.qualification;
 
+    _jobDescriptionTextValue = job?.descriptions??"";
+
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
         selectedJobSite = value;
@@ -107,7 +106,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     height: 10,
   );
 
-  _handlePost() {
+  _handlePost() async{
     bool isValid = _formKey.currentState.validate();
 
     if (isValid) {
@@ -128,7 +127,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_type": selectedJobType?.id ?? "",
         "job_site": selectedJobType?.id ?? "",
         "job_city": _jobCityTextEditingController.text,
+        "description":  await descriptionEditingKey.currentState.getText(),
       };
+      print(data);
 
       var _vm = widget.jobPostViewModel;
 
@@ -180,17 +181,30 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   ),
                   spaceBetweenFields,
                   // job description
-                  FlutterSummernote(
-                    height: 250,
-                    hint: "Your text here...",
-                    key: _keyEditor,
-                     customToolbar: """
-                       [
-                         ['style', ['bold', 'italic', 'underline', 'clear']],
-                          ['para', ['ul', 'ol', 'paragraph']],
-                          ['height', ['height']],
-                       ]
-                     """,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
+                        BoxShadow(
+                            color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
+                      ],
+                    ),
+
+                    child: CustomTextFieldRichHtml(
+                      height: 200,
+                      value: _jobDescriptionTextValue,
+                      editingKey: descriptionEditingKey,
+                       customToolbar: """
+                         [
+                           ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['height', ['height']],
+                         ]
+                       """,
+                    ),
                   ),
                   spaceBetweenFields,
 

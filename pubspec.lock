@@ -233,10 +233,12 @@ packages:
   flutter_summernote:
     dependency: "direct main"
     description:
-      name: flutter_summernote
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "5cd499691d25bb693baf87d08d128cb2d6e43c0f"
+      url: "git://github.com/shofizone/flutter_summernote.git"
+    source: git
+    version: "0.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -309,7 +311,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.1"
+    version: "0.12.2"
   http_parser:
     dependency: transitive
     description:
