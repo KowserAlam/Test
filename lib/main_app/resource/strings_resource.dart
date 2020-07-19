@@ -96,6 +96,7 @@ class StringResources {
   static String recentExamsText = "Recent Exams";
 
   static String viewMoreText = "View More";
+  static String viewText = "View";
 
   /// ***************** Feature Assessment ***********************
   static String questionTextUpperCase = "QUESTIONS";
@@ -466,7 +467,7 @@ static const String applyText = "Apply";
 static const String applyFilterText = "Apply Filter";
 static const String appliedText = "Applied";
 static const String applicationsText = "Application(s)";
-static const String viewApplicationsText = "View Application(s)";
+static const String viewApplicationsText = "Application(s)";
 static const String shortListedText = "Shortlisted";
 static const String postText = "Post";
 
@@ -521,6 +522,7 @@ static const String jobNature = 'Nature';
 static const String experience = 'Experience';
 static const String jobLocation = 'Job Location';
 static const String salary = 'Salary';
+static const String copyAsNewText = "Copy as new";
 static const String salaryMax = 'Salary Max';
 static const String salaryMin = 'Salary Min';
 static const String changePassword = 'Change Password';

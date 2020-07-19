@@ -18,8 +18,9 @@ import 'package:provider/provider.dart';
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
   final JobPostViewModel jobPostViewModel = JobPostViewModel();
+  final bool copyAsNew;
 
-  PostNewJobScreen({this.jobModel});
+  PostNewJobScreen({this.jobModel,this.copyAsNew = false});
 
   @override
   _PostNewJobScreenState createState() => _PostNewJobScreenState();
@@ -143,7 +144,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
       var _vm = widget.jobPostViewModel;
 
-      if (isEditMode) {
+      if (isEditMode && !widget.copyAsNew) {
         // TODO: update existing post
 
       } else {
@@ -162,7 +163,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     return ChangeNotifierProvider(
       create: (context) => widget.jobPostViewModel,
       child: Consumer<JobPostViewModel>(builder: (context, _vm, _) {
-        var appBarText = isEditMode
+        var appBarText = isEditMode && !widget.copyAsNew
             ? widget?.jobModel?.title ?? ""
             : StringResources.postNewJobText;
         return Scaffold(
@@ -171,7 +172,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
             actions: [
               EditScreenSaveButton(
                 onPressed: _handlePost,
-                text: isEditMode ? "Update" : "Post",
+                text: isEditMode && !widget.copyAsNew ? "Update" : "Post",
               ),
             ],
           ),

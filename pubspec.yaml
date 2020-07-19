@@ -36,7 +36,6 @@ dependencies:
   uuid: ^2.2.0
   image_cropper: ^1.2.3
   image_picker: ^0.6.7+4
-  #  flutter_html: ^1.0.0
   package_info: ^0.4.1
   dartz: ^0.9.1
   google_fonts: ^1.1.0

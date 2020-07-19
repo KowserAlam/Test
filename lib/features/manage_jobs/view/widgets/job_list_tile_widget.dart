@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
@@ -48,12 +49,16 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     var titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
     var subTitleStyle = TextStyle(fontSize: 12, color: subtitleColor);
     double iconSize = 12;
-    var jobTitle = Text(
-      widget.jobModel.title ?? "",
-      style: titleStyle,
-      maxLines: 3,
-      overflow: TextOverflow.ellipsis,
-    );
+    var jobTitle = InkWell(
+        onTap: () {
+          _navigateToJobDetailsScreen();
+        },
+        child: Text(
+          widget.jobModel.title ?? "",
+          style: titleStyle,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ));
     var companyLocation = Row(
       children: <Widget>[
         Icon(
@@ -83,15 +88,12 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
             color: isDateExpired ? Colors.red : Colors.green),
       ),
     );
+
     var viewApplications = Tooltip(
       message: "View Applications",
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (BuildContext context) =>
-                      ManageCandidateScreen(widget.jobModel.jobId)));
+          _navigateToApplicationsScreen();
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -111,20 +113,18 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       color: primaryColor,
       icon: Icon(FeatherIcons.edit),
       onPressed: () {
-        BotToast.showLoading();
-        JobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
-          value.fold((l) {
-            BotToast.closeAllLoading();
-          }, (r) {
-            BotToast.closeAllLoading();
-            Navigator.push(
-                context,
-                CupertinoPageRoute(
-                    builder: (context) => PostNewJobScreen(
-                          jobModel: r,
-                        )));
-          });
-        });
+        _navigateToEditNNewJobScreen();
+      },
+    );
+    var menu = IconButton(
+      constraints: BoxConstraints(maxHeight: 40, maxWidth: 40),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      iconSize: 18,
+      tooltip: "Edit Job",
+      color: primaryColor,
+      icon: Icon(FontAwesomeIcons.ellipsisV),
+      onPressed: () {
+        _showBottomSheet();
       },
     );
 
@@ -177,9 +177,11 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       child: Material(
         color: backgroundColor,
         child: InkWell(
+          onLongPress: () {
+            _showBottomSheet();
+          },
           onTap: () {
-            Navigator.of(context).push(CupertinoPageRoute(
-                builder: (context) => JobDetails(widget.jobModel.slug)));
+            _showBottomSheet();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +199,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                         if (widget.jobModel.jobCity != null) companyLocation,
                         jobType,
                         jobStatus,
-                        editButton,
+                        menu,
                       ],
                     ),
                   ],
@@ -221,5 +223,115 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
       ),
     );
+  }
+
+  _showBottomSheet() {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        )),
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 12,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              // view
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  _navigateToJobDetailsScreen();
+
+                },
+                leading: Icon(
+                  FeatherIcons.eye,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(StringResources.viewText),
+              ),
+//edit
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  _navigateToEditNNewJobScreen();
+
+                },
+                leading: Icon(
+                  FeatherIcons.edit,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(StringResources.editText),
+              ),
+//copy
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  _navigateToEditNNewJobScreen(true);
+
+                },
+                leading: Icon(
+                  FeatherIcons.copy,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(StringResources.copyAsNewText),
+              ),
+              // view applications
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  _navigateToApplicationsScreen();
+
+                },
+                leading: Icon(
+                  FontAwesomeIcons.fileWord,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(StringResources.viewApplicationsText),
+              ),
+            ],
+          );
+        });
+  }
+
+  _navigateToJobDetailsScreen() {
+    Navigator.of(context).push(CupertinoPageRoute(
+        builder: (context) => JobDetails(widget.jobModel.slug)));
+  }
+
+  _navigateToEditNNewJobScreen([bool copyAsNew = false]) {
+    BotToast.showLoading();
+    JobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
+      value.fold((l) {
+        BotToast.closeAllLoading();
+      }, (r) {
+        BotToast.closeAllLoading();
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => PostNewJobScreen(
+                      jobModel: r,
+                      copyAsNew: copyAsNew,
+                    )));
+      });
+    });
+  }
+
+  _navigateToApplicationsScreen() {
+    Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (BuildContext context) =>
+                ManageCandidateScreen(widget.jobModel.jobId)));
   }
 }
