@@ -3,7 +3,7 @@ import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 
 const String kBaseUrDev = "http://dev.ishraak.com";
 const String kBaseUrlQA = "http://dev.ishraak.com";
-const String kBaseUrlProd = "http://100.25.85.115";
+const String kBaseUrlProd = "https://jobxprss.com";
 
 class Urls {
   /// new

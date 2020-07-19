@@ -70,6 +70,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.7.5
+  flutter_flavorizr: ^1.0.3
 
 flutter_icons:
   android: true
@@ -82,3 +83,29 @@ flutter:
     - assets/
     - assets/images/
     - assets/certification/
+
+#flavorizr:
+#  app:
+#    android:
+#      flavorDimensions: "flavor-type"
+#    ios:
+#
+#  flavors:
+#    prod:
+#      app:
+#        name: "Job Xprss Company"
+#
+#      android:
+#        applicationId: "com.ishraak.jobxprss_company"
+#
+#      ios:
+#        bundleId: "com.ishraak.jobxprss_company"
+#
+#    dev:
+#      app:
+#        name: "Job Xprss Company Dev"
+#
+#      android:
+#        applicationId: "com.ishraak.jobxprss_company_dev"
+#      ios:
+#        bundleId: "com.ishraak.jobxprss_company_dev"
