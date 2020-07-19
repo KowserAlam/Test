@@ -9,6 +9,7 @@ import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_status_widget.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
@@ -81,13 +82,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ? (widget.jobModel.applicationDeadline.isBefore(DateTime.now()) &&
             !widget.jobModel.applicationDeadline.isToday())
         : true;
-    var jobStatus = Container(
-      child: Text(
-        isDateExpired ? "Expired" : "Active",
-        style: subTitleStyle.apply(
-            color: isDateExpired ? Colors.red : Colors.green),
-      ),
-    );
+
 
     var viewApplications = Tooltip(
       message: "View Applications",
@@ -120,7 +115,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       constraints: BoxConstraints(maxHeight: 40, maxWidth: 40),
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       iconSize: 18,
-      tooltip: "Edit Job",
+      tooltip: "Menu",
       color: primaryColor,
       icon: Icon(FontAwesomeIcons.ellipsisV),
       onPressed: () {
@@ -148,7 +143,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         SizedBox(width: 5),
         Text(
           deadLineText,
-          style: subTitleStyle,
+          style: subTitleStyle.apply(color: isDateExpired?Colors.red: subtitleColor),
         ),
       ],
     );
@@ -196,9 +191,9 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (widget.jobModel.jobCity != null) companyLocation,
+//                        if (widget.jobModel.jobCity != null) companyLocation,
                         jobType,
-                        jobStatus,
+                        JobStatusWidget(widget.jobModel.jobStatus,isDateExpired),
                         menu,
                       ],
                     ),
@@ -252,7 +247,6 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                 onTap: () {
                   Navigator.pop(context);
                   _navigateToJobDetailsScreen();
-
                 },
                 leading: Icon(
                   FeatherIcons.eye,
@@ -265,7 +259,6 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                 onTap: () {
                   Navigator.pop(context);
                   _navigateToEditNNewJobScreen();
-
                 },
                 leading: Icon(
                   FeatherIcons.edit,
@@ -278,7 +271,6 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                 onTap: () {
                   Navigator.pop(context);
                   _navigateToEditNNewJobScreen(true);
-
                 },
                 leading: Icon(
                   FeatherIcons.copy,
@@ -291,7 +283,6 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                 onTap: () {
                   Navigator.pop(context);
                   _navigateToApplicationsScreen();
-
                 },
                 leading: Icon(
                   FontAwesomeIcons.fileWord,

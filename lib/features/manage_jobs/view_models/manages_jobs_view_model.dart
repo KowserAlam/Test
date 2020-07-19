@@ -25,12 +25,12 @@ class ManageJobViewModel with ChangeNotifier {
           .shouldNotFetchData(_lastFetchTime, _appError);
       if (shouldNotFetchData) return null;
     }
-
+    _pageCount = 1;
     _isFetchingData = true;
     notifyListeners();
 
     Either<AppError, JobListScreenDataModel> result =
-        await JobRepository().fetchJobList();
+        await JobRepository().getJobList();
     return result.fold((l) {
       _hasMoreData = false;
       _isFetchingData = false;
@@ -63,7 +63,7 @@ class ManageJobViewModel with ChangeNotifier {
       hasMoreData = true;
       incrementPageCount();
       Either<AppError, JobListScreenDataModel> result =
-          await JobRepository().fetchJobList();
+          await JobRepository().getJobList(page: _pageCount);
       result.fold((l) {
         _isFetchingMoreData = false;
         _hasMoreData = false;

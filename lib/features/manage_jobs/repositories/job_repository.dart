@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,17 +6,21 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/models/job_status.dart';
+export 'package:jobxprss_company/features/manage_jobs/models/job_status.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:logger/logger.dart';
 
 class JobRepository {
-  Future<Either<AppError, JobListScreenDataModel>> fetchJobList() async {
+  Future<Either<AppError, JobListScreenDataModel>> getJobList(
+      {JobStatus jobStatus,int page = 1}) async {
 
-var companyName = await AuthService.getInstance().then((value) => value.getUser().cId);
-    var url = "${Urls.openJobsCompany}$companyName";
+    var url = "${Urls.openJobsCompany}?page=$page&status=${jobStatus??""}";
+
     print(url);
 
     try {
@@ -27,13 +29,15 @@ var companyName = await AuthService.getInstance().then((value) => value.getUser(
       print(response.statusCode);
 //      print(response.body);
       if (response.statusCode == 200) {
-        var mapData = json.decode(utf8.decode(response.bodyBytes));
-
-        var jobList = fromJson(mapData);
+        var decodedJson = json.decode(utf8.decode(response.bodyBytes));
+        Logger().i(decodedJson);
+        var jobList = fromJson(decodedJson);
         var dataModel = JobListScreenDataModel(
             jobList: jobList,
-            count: mapData['count'],
-            nextPage: mapData['next_pages'] ?? false);
+            count: decodedJson['count'],
+            nextPage: decodedJson['pages'] != null
+                ? decodedJson['pages']['next_url'] != null
+                : false);
         return Right(dataModel);
       } else if (response.statusCode == 401) {
         BotToast.showText(text: StringResources.unauthorizedText);
@@ -91,7 +95,6 @@ var companyName = await AuthService.getInstance().then((value) => value.getUser(
       return Left(AppError.serverError);
     }
   }
-
 }
 
 class JobListScreenDataModel {

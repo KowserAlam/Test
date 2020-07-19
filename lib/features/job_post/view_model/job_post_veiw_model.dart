@@ -38,6 +38,7 @@ class JobPostViewModel with ChangeNotifier {
   Future<bool> postNewJob(Map<String, dynamic> data) async {
     try {
       BotToast.showLoading();
+
       Map<String, dynamic> body = await AuthService.getInstance().then((value) {
         data.addAll({"company_id": value.getUser().name});
         return data;

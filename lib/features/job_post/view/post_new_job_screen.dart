@@ -139,18 +139,21 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "education": _jobEducationsTextValue,
         "responsibilities": _jobResponsibilitiesTextValue,
       };
-      Logger().i(data);
+
 //      print(data);
 
       var _vm = widget.jobPostViewModel;
 
       if (isEditMode && !widget.copyAsNew) {
         // TODO: update existing post
+        Logger().i(data);
+        debugPrint("Update Job");
 
       } else {
         // add new post
         _vm.postNewJob(data).then((value) {
           if (value) {
+            debugPrint("Post a new job");
             Navigator.pop(context);
           }
         });
