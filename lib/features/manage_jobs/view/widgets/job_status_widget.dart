@@ -21,7 +21,7 @@ class JobStatusWidget extends StatelessWidget {
 
         break;
       case JobStatus.DRAFT:
-
+         text = "Draft";
 
         break;
       case JobStatus.REVIEWED:

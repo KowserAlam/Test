@@ -31,7 +31,7 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var experience = Text(
-      "Experience: ${candidate.experience ?? ""} Year",
+      "Experience: ${candidate.experience ?? "0"} year",
       style: subTitleStyle,
     );
     var profileImage = Container(
@@ -81,14 +81,14 @@ class CandidateListTile extends StatelessWidget {
                 ),
               ),
               //Job Title
-              Divider(height: 1),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[],
-                ),
-              ),
+//              Divider(height: 1),
+//              Padding(
+//                padding: EdgeInsets.all(8),
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[],
+//                ),
+//              ),
             ],
           ),
         ),

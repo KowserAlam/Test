@@ -30,7 +30,7 @@ class JobRepository {
 //      print(response.body);
       if (response.statusCode == 200) {
         var decodedJson = json.decode(utf8.decode(response.bodyBytes));
-        Logger().i(decodedJson);
+//        Logger().i(decodedJson);
         var jobList = fromJson(decodedJson);
         var dataModel = JobListScreenDataModel(
             jobList: jobList,

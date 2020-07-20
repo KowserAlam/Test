@@ -150,7 +150,7 @@ class _CompanyListTileState extends State<CompanyListTile> {
                           widget.company
                               .yearOfEstablishment)
                           : StringResources
-                          .unspecifiedText,
+                          .noneText,
                       style: TextStyle(
                           color: subtitleColor,
                           fontWeight:

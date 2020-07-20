@@ -30,11 +30,11 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
   @override
   Widget build(BuildContext context) {
     String publishDateText = widget.jobModel.postDate == null
-        ? StringResources.unspecifiedText
+        ? StringResources.noneText
         : DateFormatUtil().dateFormat1(widget.jobModel.postDate);
 
     String deadLineText = widget.jobModel.applicationDeadline == null
-        ? StringResources.unspecifiedText
+        ? StringResources.noneText
         : DateFormatUtil().dateFormat1(widget.jobModel.applicationDeadline);
 //    bool isDateExpired = widget.jobModel.applicationDeadline != null
 //        ? DateTime.now().isAfter(widget.jobModel.applicationDeadline)

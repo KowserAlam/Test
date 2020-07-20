@@ -2,6 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/widget/no_application_widget.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
@@ -54,7 +55,9 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>
               showError: manageCandidateVm.showError,
               appError: manageCandidateVm.appError,
               showLoader: manageCandidateVm.showLoader,
-              child: ListView.builder(
+              child:
+              candidates.length == 0? NoApplicationWidget():
+              ListView.builder(
                   itemCount: candidates.length,
                   itemBuilder: (BuildContext context, int index) {
                     Candidate candidate = candidates[index];

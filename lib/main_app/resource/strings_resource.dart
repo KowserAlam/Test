@@ -382,6 +382,7 @@ class StringResources {
   static var currentDesignationHint =  "eg. Software Engineer";
   static var locationHintText = "eg. Dhaka, Bangladesh";
   static var editText = "Edit";
+  static var noApplicationsText = "NO Applications";
   static var portfolioText = "Portfolio";
 
 
@@ -461,7 +462,7 @@ class StringResources {
 
   ///
 /// Jobs
-static const String unspecifiedText = "Unspecified";
+static const String noneText = "None";
 static const String deadlineText = "Deadline";
 static const String applyText = "Apply";
 static const String applyFilterText = "Apply Filter";

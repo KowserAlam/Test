@@ -6,6 +6,7 @@ import 'package:jobxprss_company/features/manage_candidate/models/manag_candidat
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:logger/logger.dart';
 
 class ManageCandidateRepository{
 
@@ -16,6 +17,7 @@ class ManageCandidateRepository{
       print(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
+        Logger().i(decodedJson);
         var model = ManageCandidateListDataModel.fromJson(decodedJson);
         return Right(model);
       } else if (res.statusCode == 401) {
