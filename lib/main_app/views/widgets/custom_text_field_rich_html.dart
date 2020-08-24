@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/views/widgets/common_button.dart';
 export 'package:flutter_summernote/flutter_summernote.dart';
-import 'package:jobxprss_company/method_extension.dart';
 class CustomTextFieldRichHtml extends StatefulWidget {
   final String labelText;
   final String hint;

@@ -186,12 +186,9 @@ class _JobDetailsState extends State<JobDetails> {
     if (jobDetails == null) {
       return Scaffold(
         appBar: AppBar(
-          elevation: 2,
           title: Text(
             StringResources.jobDetailsAppBarTitle,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          centerTitle: true,
         ),
         body: Center(
           child: _isBusy
@@ -592,9 +589,11 @@ class _JobDetailsState extends State<JobDetails> {
               TextSpan(
                   text: StringResources.companyWebAddressText + ': ',
                   style: descriptionFontStyleBold),
-              WidgetSpan(child: InkWell(
+              WidgetSpan(
+                  child: InkWell(
                 onTap: () {
-                    UrlLauncherHelper.launchUrl(jobDetails.company.webAddress?.trim());
+                  UrlLauncherHelper.launchUrl(
+                      jobDetails.company.webAddress?.trim());
                 },
                 child: Text(
                   jobDetails.company.webAddress ?? "",
@@ -895,12 +894,9 @@ class _JobDetailsState extends State<JobDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
         title: Text(
           StringResources.jobDetailsAppBarTitle,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[

@@ -152,9 +152,9 @@ class _PasswordResetEmailWidgetState extends State<PasswordResetEmailWidget> {
                     children: <Widget>[
                       Container(
                         decoration: BoxDecoration(
-                            boxShadow: CommonStyleTextField.boxShadow,
+                            boxShadow: CommonStyle.boxShadow,
                             borderRadius:
-                                CommonStyleTextField.borderRadiusRound,
+                                CommonStyle.borderRadiusRound,
                             color: Theme.of(context).backgroundColor),
                         child: TextField(
                           keyboardType: keyboardType,
@@ -170,7 +170,7 @@ class _PasswordResetEmailWidgetState extends State<PasswordResetEmailWidget> {
                                   horizontal: 16, vertical: 16),
                               hintText: hintText,
                               focusedBorder:
-                                  CommonStyleTextField.focusedBorderRound(
+                                  CommonStyle.focusedBorderRound(
                                       context),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25),

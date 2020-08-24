@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jobxprss_company/features/job_post/view_model/job_post_veiw_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
@@ -33,7 +33,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _formKey = GlobalKey<FormState>();
 
   String result = "";
-
   var _jobTitleTextEditingController = TextEditingController();
   var _jobVacancyTextEditingController = TextEditingController();
   var _jobAddressTextEditingController = TextEditingController();
@@ -187,7 +186,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                 children: [
                   //title
                   CustomTextFormField(
-                    required: true,
+                    isRequired: true,
                     validator: Validator().nullFieldValidate,
                     controller: _jobTitleTextEditingController,
                     labelText: StringResources.jobTitleText,
@@ -214,7 +213,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                   //address
                   CustomTextFormField(
-                    required: true,
+                    isRequired: true,
                     validator: Validator().nullFieldValidate,
                     controller: _jobAddressTextEditingController,
                     labelText: StringResources.jobLocation,
@@ -242,7 +241,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                   //vacancy
                   CustomTextFormField(
-                    required: true,
+                    isRequired: true,
                     validator: Validator().integerNumberValidator,
                     controller: _jobVacancyTextEditingController,
                     labelText: StringResources.vacancy,

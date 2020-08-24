@@ -18,6 +18,7 @@ class StringResources {
   static String couldNotReachServer = "Couldn't reach server";
   static String forgotPassword = "Forgot Password ?";
   static String welcomeBack = "Welcome back!";
+  static String searchHere = "Search here";
   static String loginToYourExistingAccount = "Login to your existing account";
 
   /// Validator

@@ -1,5 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 export 'package:dropdown_search/dropdown_search.dart';
 
 class CustomDropdownSearchFormField<T> extends StatelessWidget {
@@ -10,6 +11,7 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
   final EdgeInsetsGeometry contentPadding;
   final Widget prefix;
   final ValueChanged<T> onChanged;
+  final Key dropdownKey;
 
   ///customize the fields the be shown
   final DropdownSearchItemAsString<T> itemAsString;
@@ -26,6 +28,7 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
   final bool showSelectedItem;
   final bool showSearchBox;
   final bool autoFocusSearchBox;
+  final bool autoValidate;
 
   ///custom layout for empty results
   final WidgetBuilder emptyBuilder;
@@ -39,34 +42,41 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
 
   ///function that compares two object with the same type to detected if it's the selected item or not
   final DropdownSearchCompareFn<T> compareFn;
+  ///to customize selected item
+  final DropdownSearchPopupItemBuilder<T> popupItemBuilder;
 
   ///function that returns item from API
   final DropdownSearchOnFind<T> onFind;
+  final bool isRequired;
 
   const CustomDropdownSearchFormField({
     this.showSelectedItem = false,
-    this.autoFocusSearchBox = false,
+    this.autoFocusSearchBox = true,
     this.selectedItem,
     this.onFind,
     this.items,
+    this.autoValidate=false,
     this.maxLength,
     this.itemAsString,
     this.validator,
+    this.isRequired=false,
     this.prefix,
     this.onChanged,
     this.compareFn,
     this.labelText,
     this.showSearchBox = false,
-    this.hintText,
+    this.hintText = StringResources.tapToSelectText,
     this.dialogMaxWidth,
     this.maxHeight,
     this.emptyBuilder,
+    this.popupItemBuilder,
     this.popupItemDisabled,
     this.mode = Mode.MENU,
     this.loadingBuilder,
     this.contentPadding = const EdgeInsets.symmetric(
       horizontal: 10,
     ),
+    this.dropdownKey
   });
 
   @override
@@ -74,9 +84,17 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if (labelText != null)
-          Text("  ${labelText ?? ""}",
-              style: TextStyle(fontWeight: FontWeight.bold)),
+        Row(
+          children: [
+            Text("  ${labelText ?? ""}",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            if (isRequired)
+              Text(
+                " *",
+                style: TextStyle(color: Colors.red),
+              )
+          ],
+        ),
         SizedBox(
           height: 5,
         ),
@@ -93,16 +111,23 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
             ],
           ),
           child: DropdownSearch<T>(
+            key: dropdownKey,
+            searchBoxDecoration: InputDecoration(
+              hintText: StringResources.searchHere
+            ),
+            loadingBuilder:loadingBuilder ,
             hint: hintText,
             itemAsString: itemAsString,
             onChanged: onChanged,
             validator: validator,
+            autoValidate: autoValidate,
             showSearchBox: showSearchBox,
             mode: mode,
             showSelectedItem: false,
             compareFn: compareFn,
             items: items,
             onFind: onFind,
+            popupItemBuilder: popupItemBuilder,
             popupShape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             dropdownBuilderSupportsNullItem: true,

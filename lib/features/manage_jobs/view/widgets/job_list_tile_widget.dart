@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
-import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
@@ -94,8 +94,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             "${StringResources.viewApplicationsText} ${widget.jobModel.appliedCount}",
-            style: TextStyle(
-                color: primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       ),
@@ -116,7 +115,6 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       iconSize: 18,
       tooltip: "Menu",
-      color: primaryColor,
       icon: Icon(FontAwesomeIcons.ellipsisV),
       onPressed: () {
         _showBottomSheet();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
-import 'package:jobxprss_company/features/job_post/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
@@ -48,18 +48,18 @@ class _HomeState extends State<Home> {
   }
 
   _modeToPage(int index) async {
-    int quickJumpTarget;
+    if (currentIndex != index) {
+      var offset = 0;
 
-    if (index > currentIndex) {
-      quickJumpTarget = currentIndex + 1;
-    } else if (index < currentIndex) {
-      quickJumpTarget = currentIndex - 1;
+      if (index > currentIndex) {
+        offset = 300;
+      } else if (index < currentIndex) {
+        offset = -300;
+      }
+      await _paeViewController.animateTo(_paeViewController.offset + offset,
+          duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
+      _paeViewController.jumpToPage(index);
     }
-
-    await _paeViewController.animateToPage(quickJumpTarget,
-        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
-// quickJumpTarget.compareTo(index).modInverse(modulus);
-    _paeViewController.jumpToPage(index);
   }
 
   @override

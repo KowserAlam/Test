@@ -1,59 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:jobxprss_company/main_app/util/validator.dart';
+import 'package:zefyr/zefyr.dart';
+export 'package:zefyr/zefyr.dart';
+import 'package:jobxprss_company/main_app/util/zefyr_helper.dart';
+export 'package:jobxprss_company/main_app/util/zefyr_helper.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  final FormFieldValidator<String> validator;
-  final TextEditingController controller;
+class CustomZefyrRichTextFormField extends StatelessWidget {
+  final ZefyrController controller;
   final String labelText;
   final String hintText;
-  final String errorText;
-  final TextInputType keyboardType;
-  final int maxLines;
-  final int minLines;
   final EdgeInsetsGeometry contentPadding;
   final FocusNode focusNode;
   final bool autofocus;
-  final bool enabled;
-  final bool autovalidate;
-  final bool readOnly;
   final bool isRequired;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
   final Widget prefix;
-  final Function onChanged;
-  final int maxLength;
-  final GestureTapCallback onTap;
-  final Key textFieldKey;
+  final double height;
+  final Key zefyrKey;
 
-  const CustomTextFormField(
-      {this.readOnly = false,
-      this.enabled = true,
-      this.maxLength,
-      this.validator,
-      this.prefix,
-      this.errorText,
-      this.onChanged,
-      this.textInputAction,
-      this.autovalidate = false,
-      this.controller,
-      this.onFieldSubmitted,
-      this.focusNode,
+  const CustomZefyrRichTextFormField(
+      {this.prefix,
+      @required this.controller,
+      @required this.focusNode,
       this.isRequired = false,
       this.autofocus = false,
       this.labelText,
       this.hintText,
-      this.minLines,
-      this.onTap,
-      this.keyboardType,
+      this.height = 120.0,
       this.contentPadding =
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      this.maxLines = 1,
-      this.textFieldKey});
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      this.zefyrKey});
 
   @override
   Widget build(BuildContext context) {
-    FocusScopeNode currentFocus = FocusScope.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -71,9 +48,7 @@ class CustomTextFormField extends StatelessWidget {
                 )
             ],
           ),
-        SizedBox(
-          height: 5,
-        ),
+        SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
@@ -85,28 +60,15 @@ class CustomTextFormField extends StatelessWidget {
                   color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
             ],
           ),
-          child: TextFormField(
-            key: textFieldKey,
-            onTap: onTap,
-            readOnly: readOnly,
-            enabled: enabled,
-            maxLength: maxLength,
-            minLines: minLines,
-            onChanged: onChanged,
-            onFieldSubmitted: onFieldSubmitted,
+          child: ZefyrField(
+            key: zefyrKey,
+            controller: controller,
             autofocus: autofocus,
             focusNode: focusNode,
-            maxLines: maxLines,
-            autovalidate: autovalidate,
-            keyboardType: keyboardType,
-            validator: validator ??
-                (isRequired ? Validator().nullFieldValidate : null),
-            controller: controller,
-            textInputAction: textInputAction,
+            height: height,
             decoration: InputDecoration(
               prefix: prefix,
               border: InputBorder.none,
-              errorText: errorText,
               hintText: hintText,
               contentPadding: contentPadding,
               focusedBorder: OutlineInputBorder(

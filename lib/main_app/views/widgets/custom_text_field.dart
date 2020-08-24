@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobxprss_company/main_app/util/validator.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -16,8 +16,10 @@ class CustomTextField extends StatelessWidget {
   final Widget prefix;
   final Widget suffixIcon;
   final Function onChanged;
+  final Key textFieldKey;
 
   const CustomTextField({
+    this.textFieldKey,
     this.suffixIcon,
     this.prefix,
     this.onChanged,
@@ -51,14 +53,16 @@ class CustomTextField extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                  color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
-              BoxShadow(
-                  color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
-            ],
+boxShadow: CommonStyle.boxShadow,
+//            boxShadow: [
+//              BoxShadow(
+//                  color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
+//              BoxShadow(
+//                  color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
+//            ],
           ),
           child: TextField(
+            key: textFieldKey,
             minLines: minLines,
             onChanged: onChanged,
             onSubmitted: onSubmitted,
