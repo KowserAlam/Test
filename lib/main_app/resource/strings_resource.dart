@@ -20,6 +20,7 @@ class StringResources {
   static String welcomeBack = "Welcome back!";
   static String searchHere = "Search here";
   static String loginToYourExistingAccount = "Login to your existing account";
+  static String unableToReachServerMessage = "Unable To Reach Server";
 
   /// Validator
 

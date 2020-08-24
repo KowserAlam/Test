@@ -20,7 +20,7 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final RoundedLoadingButtonController _btnController =
+  final RoundedLoadingButtonController _signinBtnController =
       new RoundedLoadingButtonController();
 
   final _emailTextController = TextEditingController();
@@ -71,7 +71,7 @@ class _SigninScreenState extends State<SigninScreen> {
       var res = await loginProvider.loginWithEmailAndPassword();
 
       if (res) {
-        _btnController.success();
+        _signinBtnController.success();
         loginProvider.resetState();
         Future.delayed(Duration(milliseconds: 800)).then((value) {
           Navigator.of(context).pushAndRemoveUntil(
@@ -82,10 +82,10 @@ class _SigninScreenState extends State<SigninScreen> {
               (_) => false);
         });
       }else{
-        _btnController.reset();
+        _signinBtnController.reset();
       }
     } else {
-      _btnController.reset();
+      _signinBtnController.reset();
       _showSnackBar(StringResources.checkRequiredField, Colors.red[800]);
     }
   }
@@ -233,6 +233,7 @@ class _SigninScreenState extends State<SigninScreen> {
           controller: _passwordTextController,
           hintText: StringResources.passwordText,
           onSubmitted: (s) {
+            _signinBtnController.start();
             _handleLogin(_scaffoldKey.currentState.context);
           },
         );
@@ -267,7 +268,7 @@ class _SigninScreenState extends State<SigninScreen> {
               StringResources.logInButtonText,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            controller: _btnController,
+            controller: _signinBtnController,
             onPressed: () {
               _handleLogin(context);
             },

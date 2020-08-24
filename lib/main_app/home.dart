@@ -6,6 +6,7 @@ import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart'
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
+import 'package:jobxprss_company/features/messaging/view/message_list_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/token_refresh_scheduler.dart';
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
         appbarTitle = StringResources.manageJobsText;
         break;
       case 2:
-        appbarTitle = StringResources.shortedListedCandidatesText;
+        appbarTitle = StringResources.messagesText;
         break;
       case 3:
         appbarTitle = StringResources.companyProfileText;
@@ -84,11 +85,11 @@ class _HomeState extends State<Home> {
             iconData: FontAwesomeIcons.briefcase,
             label: StringResources.manageJobsText),
 
-        //manage candidate
+        //message
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.heart,
-            label: StringResources.shortedListedText),
-        // shortedListedCandidatesText
+            iconData: FontAwesomeIcons.solidComments,
+            label: StringResources.messagesText),
+        // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
             label: StringResources.profileText),
@@ -197,9 +198,7 @@ class _HomeState extends State<Home> {
               DashBoardScreen(),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
-              Center(
-                child: Text(StringResources.shortedListedText),
-              ),
+              MessageListScreen(),
               CompanyProfile(),
             ],
           ),

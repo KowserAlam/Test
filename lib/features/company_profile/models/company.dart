@@ -33,7 +33,7 @@ class Company extends Equatable {
   String createdDate;
   String division;
   String district;
-  String user;
+  int user;
   String slug;
   String noOfItResources;
   String totalNumberOfHumanResources;
@@ -132,7 +132,7 @@ class Company extends Equatable {
     createdDate = json['created_date']?.toString();
     division = json['division']?.toString();
     district = json['district']?.toString();
-    user = json['user']?.toString();
+    user = json['user'];
     slug = json['slug']?.toString();
     noOfItResources = json['no_of_it_resources']?.toString();
     noOfItResources = json['no_of_it_resources']?.toString();

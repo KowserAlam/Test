@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
+import 'package:jobxprss_company/main_app/resource/const.dart';
 
 class CandidateListTile extends StatelessWidget {
   final Candidate candidate;
@@ -40,6 +41,7 @@ class CandidateListTile extends StatelessWidget {
       child: CachedNetworkImage(
         fit: BoxFit.cover,
         imageUrl: candidate.image ?? "",
+        placeholder:(c,u) =>Image.asset(kDefaultUserImageAsset,     fit: BoxFit.cover, ),
       ),
     );
 

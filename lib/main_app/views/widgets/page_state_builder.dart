@@ -10,7 +10,7 @@ class PageStateBuilder extends StatelessWidget {
   final Widget child;
   final bool showLoader;
   final bool showError;
-  final Future<bool> Function() onRefresh;
+  final Future<dynamic> Function() onRefresh;
 
   PageStateBuilder({
     this.showError = false,
