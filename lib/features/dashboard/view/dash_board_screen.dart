@@ -2,6 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/info_box_widget.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/job_chart_widget.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/profile_complete_parcent_indicatior_widget.dart';
@@ -40,6 +41,11 @@ class _DashBoardScreenState extends State<DashBoardScreen>
         return;
       }
     });
+
+    var cvm = Provider.of<CompanyProfileViewModel>(context, listen: false);
+    if (cvm.company == null) {
+      cvm.getCompanyDetails();
+    }
   }
 
   Future<void> _refreshData() async {

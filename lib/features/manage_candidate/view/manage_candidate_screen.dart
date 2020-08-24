@@ -1,14 +1,11 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/no_application_widget.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
-import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
-import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:jobxprss_company/main_app/views/widgets/page_state_builder.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +31,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>
   @override
   void afterFirstLayout(BuildContext context) {
     _vm.getData(widget.jobId);
+
   }
 
 
