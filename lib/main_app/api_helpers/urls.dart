@@ -22,6 +22,7 @@ class Urls {
   static String dashboardRecentActivityUrl = "/api/company/dashboard/recent_activity/"; //cname
   static String professionalPublicProfileUrl = "/api/pro/public-profile/"; //pro_id
   static String companyProfileUpdateUrl = "/api/company/update"; //id
+  static String profileCompleteness = "/api/pro/profile-completeness/";
 
 
   static String countryListUrl = "/api/country/list/";

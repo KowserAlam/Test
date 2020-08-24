@@ -2,6 +2,7 @@
 import 'package:jobxprss_company/features/signup_signin/view_models/password_reset_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_button.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:jobxprss_company/main_app/views/verification_code_input.dart';
@@ -68,7 +69,7 @@ class _PasswordResetVerifyCodeWidgetState
         autofocus: true,
         onCompleted: (String value) {
           _handleVerify();
-          print(value);
+          logger.i(value);
         },
       );
 

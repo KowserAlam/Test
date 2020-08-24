@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
 // ignore: must_be_immutable
@@ -126,7 +127,7 @@ class Company extends Equatable {
       if (json['longitude'] != null)
         longitude = double.parse(json['longitude'].toString());
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
 
     createdDate = json['created_date']?.toString();

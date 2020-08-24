@@ -5,6 +5,7 @@ import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/models/company_screen_data_model.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
 class CompanyListViewModel with ChangeNotifier {
@@ -44,13 +45,13 @@ class CompanyListViewModel with ChangeNotifier {
         await _companyListRepository.getList(query: _query);
     return result.fold((l) {
       _isFetchingData = false;
-      print(l);
+      logger.i(l);
       _appError = l;
       notifyListeners();
       return false;
     }, (CompanyScreenDataModel dataModel) {
       var list = dataModel.companies;
-      print(list.length);
+      logger.i(list.length);
       _companiesCount = dataModel.count;
       companyList = list;
       _isFetchingData = false;
@@ -63,7 +64,7 @@ class CompanyListViewModel with ChangeNotifier {
   getMoreData() async {
     if (_hasMoreData && !_isFetchingMoreData && !_isFetchingData) {
       _appError = null;
-      debugPrint("Getting more data");
+      logger.i("Getting more data");
       _page++;
       _isFetchingMoreData = true;
       notifyListeners();
@@ -74,7 +75,7 @@ class CompanyListViewModel with ChangeNotifier {
         _isFetchingMoreData = false;
         _appError = l;
         notifyListeners();
-        print(l);
+        logger.i(l);
         return false;
       }, (CompanyScreenDataModel dataModel) {
         _companiesCount = dataModel.count;

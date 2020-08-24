@@ -4,6 +4,7 @@ import 'package:flutter_cache/flutter_cache.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class JobCategoriesLisRepository {
   Future<Either<AppError, List<String>>> getList() async {
@@ -12,15 +13,15 @@ class JobCategoriesLisRepository {
       if (cache != null) {
         var decodedJson = json.decode(cache);
         List<String> list = fromJson(decodedJson);
-//        print(decodedJson);
+//        logger.i(decodedJson);
         return Right(list);
       }
 
       var res = await ApiClient().getRequest(Urls.jobCategoriesListUrl);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
-        print(decodedJson);
+        logger.i(decodedJson);
         Cache.remember(Urls.jobCategoriesListUrl, res.body, 604800);
         List<String> list = fromJson(decodedJson);
         return Right(list);
@@ -28,7 +29,7 @@ class JobCategoriesLisRepository {
         return Left(AppError.unknownError);
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.serverError);
     }
   }

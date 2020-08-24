@@ -139,7 +139,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "responsibilities": _jobResponsibilitiesTextValue,
       };
 
-//      print(data);
+//      logger.i(data);
 
       var _vm = widget.jobPostViewModel;
 

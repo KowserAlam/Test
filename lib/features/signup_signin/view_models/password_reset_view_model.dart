@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
@@ -112,8 +113,8 @@ class PasswordResetViewModel with ChangeNotifier {
 
       try {
         http.Response res = await client.postRequest(url, body);
-        print(res.statusCode);
-        print(res.body);
+        logger.i(res.statusCode);
+        logger.i(res.body);
         if (res.statusCode == 200) {
           isBusyEmail = false;
           return true;
@@ -128,7 +129,7 @@ class PasswordResetViewModel with ChangeNotifier {
       } catch (e) {
         _isBusyEmail = false;
         _emailErrorText = StringResources.somethingIsWrongSingleLine;
-        print(e);
+        logger.e(e);
         notifyListeners();
 
 //      BotToast.showText(text: null);

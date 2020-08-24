@@ -6,6 +6,7 @@ import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/models/settings_model.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class SettingsRepository {
   Future<Either<AppError, SettingsModel>> getSettingInfo(
@@ -14,7 +15,7 @@ class SettingsRepository {
 
     try{
       var res = await client.getRequest(Urls.settingsUrl);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
         var data = SettingsModel.fromJson(decodedJson[0]);
@@ -24,11 +25,11 @@ class SettingsRepository {
       }
     }
    on SocketException catch (e){
-     print(e);
+     logger.e(e);
       return Left(AppError.networkError);
     }
     catch (e){
-      print(e);
+      logger.e(e);
       return Left(AppError.unknownError);
     }
 

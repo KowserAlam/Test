@@ -18,8 +18,8 @@ class MessageRepository {
   Future<Either<AppError, List<MessageSenderModel>>> getSenderList() async {
     try {
       var response = await ApiClient().getRequest(Urls.messageSenderListUrl);
-//      print(response.statusCode);
-//      print(response.body);
+//      logger.i(response.statusCode);
+//      logger.i(response.body);
       if (response.statusCode == 200) {
         var list = <MessageSenderModel>[];
         var decodesJson = json.decode(utf8.decode(response.bodyBytes));
@@ -36,11 +36,11 @@ class MessageRepository {
         return Left(AppError.unknownError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
@@ -51,7 +51,7 @@ class MessageRepository {
     try {
       var url = "${Urls.senderMessageListUrl}$senderId&page=${page??1}";
       var response = await ApiClient().getRequest(url);
-//      print(response.statusCode);
+//      logger.i(response.statusCode);
 //      Logger().i(response.body);
       if (response.statusCode == 200) {
         var decodesJson = json.decode(utf8.decode(response.bodyBytes));
@@ -63,11 +63,11 @@ class MessageRepository {
         return Left(AppError.unknownError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
@@ -76,7 +76,7 @@ class MessageRepository {
   Future<Message> createMessage(String message, String receiverId) async {
     var url = "${Urls.createMessageListUrl}";
 
-//    print(url);
+//    logger.i(url);
     try {
       var res = await ApiClient().postRequest(
         url,
@@ -85,8 +85,8 @@ class MessageRepository {
           'message': message,
         },
       );
-//      print(res.statusCode);
-//      print(res.body);
+//      logger.i(res.statusCode);
+//      logger.i(res.body);
       if (res.statusCode == 201) {
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
 //        Logger().i(decodedJson);
@@ -94,7 +94,7 @@ class MessageRepository {
       }
       return null;
     } catch (e) {
-      print(e);
+      logger.e(e);
       return null;
     }
   }
@@ -102,20 +102,20 @@ class MessageRepository {
 //  Future<bool> markAsRead(int id) async {
 //    var url = "${Urls.messageMarkedReadUrl}/${id}/";
 //
-////    print(url);
+////    logger.i(url);
 //    try {
 //      var res = await ApiClient().putRequest(
 //        url,
 //        {'is_read': 1},
 //      );
-//      print(res.statusCode);
-//      print(res.body);
+//      logger.i(res.statusCode);
+//      logger.i(res.body);
 //      if (res.statusCode == 200) {
 //        return true;
 //      } else {}
 //      return false;
 //    } catch (e) {
-//      print(e);
+//      logger.e(e);
 //      return false;
 //    }
 //  }

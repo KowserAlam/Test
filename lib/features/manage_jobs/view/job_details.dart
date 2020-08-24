@@ -14,6 +14,7 @@ import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _JobDetailsState extends State<JobDetails> {
   void initState() {
     // TODO: implement initState
 //    getDetails();
-    print(widget.slug);
+    logger.i(widget.slug);
     getJobDetails();
     super.initState();
   }
@@ -120,9 +121,9 @@ class _JobDetailsState extends State<JobDetails> {
       _isBusy = false;
       _appError = l;
       setState(() {});
-      print(l);
+      logger.i(l);
     }, (JobModel dataModel) {
-      print(dataModel.title);
+      logger.i(dataModel.title);
       jobDetails = dataModel;
       _isBusy = false;
       setState(() {});
@@ -139,9 +140,9 @@ class _JobDetailsState extends State<JobDetails> {
 ////    dartZ.Either<AppError, List<Company>> result =
 ////    await CompanyListRepository().getList(query: jobModel.companyName);
 ////    return result.fold((l) {
-////      print(l);
+////      logger.i(l);
 ////    }, (List<Company> dataModel) {
-////      print(dataModel[0].name);
+////      logger.i(dataModel[0].name);
 ////      jobCompany = dataModel[0];
 ////      setState(() {});
 ////    });
@@ -199,7 +200,7 @@ class _JobDetailsState extends State<JobDetails> {
         ),
       );
     }
-//print(jobDetails?.company?.profilePicture);
+//logger.i(jobDetails?.company?.profilePicture);
     double iconSize = 14;
     double sectionIconSize = 20;
     Color clockIconColor = Colors.orange;

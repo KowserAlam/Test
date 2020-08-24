@@ -10,6 +10,7 @@ import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/models/contact_us_model.dart';
 import 'package:jobxprss_company/main_app/models/settings_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class ContactUsSubmitRepository {
 //  Future<Either<AppError, ContactUsModel>> getSettingInfo(
@@ -18,7 +19,7 @@ class ContactUsSubmitRepository {
 //
 //    try{
 //      var res = await client.getRequest(Urls.contactUsSubmitUrl);
-//      print(res.statusCode);
+//      logger.i(res.statusCode);
 //      if (res.statusCode == 200) {
 //        var decodedJson = json.decode(res.body);
 //        var data = ContactUsModel.fromJson(decodedJson[0]);
@@ -28,11 +29,11 @@ class ContactUsSubmitRepository {
 //      }
 //    }
 //    on SocketException catch (e){
-//      print(e);
+//      logger.e(e);
 //      return Left(AppError.networkError);
 //    }
 //    catch (e){
-//      print(e);
+//      logger.e(e);
 //      return Left(AppError.unknownError);
 //    }
 //
@@ -45,7 +46,7 @@ class ContactUsSubmitRepository {
     var data = contactUsModel.toJson();
     try {
       var response = await ApiClient().postRequest(url, data);
-      print(response.statusCode);
+      logger.i(response.statusCode);
       if (response.statusCode == 200) {
         BotToast.closeAllLoading();
         return Right(true);
@@ -57,12 +58,12 @@ class ContactUsSubmitRepository {
     } on SocketException catch (e) {
       BotToast.closeAllLoading();
       BotToast.showText(text: StringResources.unableToSaveData);
-      print(e);
+      logger.e(e);
       return left(AppError.networkError);
     } catch (e) {
       BotToast.closeAllLoading();
       BotToast.showText(text: StringResources.unableToSaveData);
-      print(e);
+      logger.e(e);
       return left(AppError.serverError);
     }
   }

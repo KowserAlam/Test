@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_cache/flutter_cache.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
 class CountryRepository {
   Future<String> getCountryNameFromCode(String code) async {
@@ -13,7 +14,7 @@ class CountryRepository {
       var list = await getList();
       return list.firstWhere((element) => element.code == code).name;
     } catch (e) {
-      print(e);
+      logger.e(e);
       return code;
     }
   }
@@ -22,7 +23,7 @@ class CountryRepository {
       var list = await getList();
       return list.firstWhere((element) => element.code == code);
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Country(code: code,name: code);
     }
   }
@@ -37,7 +38,7 @@ class CountryRepository {
           return value;
         } else {
           var res = await ApiClient().getRequest(Urls.countryListUrl);
-          print(res.statusCode);
+          logger.i(res.statusCode);
 
           var data = json.decode(res.body);
           Cache.remember(Urls.countryListUrl, data, 43800 * 60);
@@ -52,7 +53,7 @@ class CountryRepository {
 
       return _list;
     } catch (e) {
-      print(e);
+      logger.e(e);
       return [];
     }
   }

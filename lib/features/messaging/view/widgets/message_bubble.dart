@@ -26,7 +26,7 @@ class MessageBubble extends StatelessWidget {
     var userId = userProfileVm?.company?.user;
     bool isMe = userId == message.sender;
     var appUser = userProfileVm?.company;
-//    print("userID: $userId senderID: ${message.sender}");
+//    logger.i("userID: $userId senderID: ${message.sender}");
 
     Color bubbleColor = !isMe ? Colors.white : primaryColor;
     return Padding(

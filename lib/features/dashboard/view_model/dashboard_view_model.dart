@@ -30,7 +30,7 @@ class DashboardViewModel with ChangeNotifier {
     return Future.wait([
       _getInfoBoxData(),
       _getISkillJobChartData(),
-      _getProfileCompleteness(),
+//      _getProfileCompleteness(),
     ]).then((value) {
 
       _lastFetchTime = DateTime.now();
@@ -70,12 +70,12 @@ class DashboardViewModel with ChangeNotifier {
     });
   }
 
-  Future<double> _getProfileCompleteness() async {
-    return DashBoardRepository().getProfileCompletenessPercent().then((value) {
-      notifyListeners();
-      return profileCompletePercent = value;
-    });
-  }
+//  Future<double> _getProfileCompleteness() async {
+//    return DashBoardRepository().getProfileCompletenessPercent().then((value) {
+//      notifyListeners();
+//      return profileCompletePercent = value;
+//    });
+//  }
 
   bool get shouldShowInfoBoxLoader =>
       _isLoadingInfoBoxData && (_infoBoxData == null);

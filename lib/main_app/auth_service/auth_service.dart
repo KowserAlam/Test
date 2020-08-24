@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
@@ -97,9 +98,9 @@ class AuthService {
       if (payload['exp'] != null) {
         expTime = DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000);
         var isValid = DateTime.now().isBefore(expTime);
-        print(expTime.difference(DateTime.now()).inMinutes);
-        print(expTime);
-        print(isValid);
+        logger.i(expTime.difference(DateTime.now()).inMinutes);
+        logger.i(expTime);
+        logger.i(isValid);
         return isValid;
       }
 
@@ -118,9 +119,9 @@ class AuthService {
       if (payload['exp'] != null) {
         expTime = DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000);
         var isValid = DateTime.now().isBefore(expTime);
-        print(expTime.difference(DateTime.now()).inMinutes);
-        print(expTime);
-        print(isValid);
+        logger.i(expTime.difference(DateTime.now()).inMinutes);
+        logger.i(expTime);
+        logger.i(isValid);
         return isValid;
       }
 
@@ -136,10 +137,10 @@ class AuthService {
         var baseUrl = FlavorConfig.instance.values.baseUrl;
         String rfToken = _instance._getRefreshToken();
         var body = {"refresh": rfToken};
-        print(body);
+        logger.i(body);
         var res = await http.post("${baseUrl}${Urls.jwtRefreshUrl}",body: body);
-        print(res.statusCode);
-        print(res.body);
+        logger.i(res.statusCode);
+        logger.i(res.body);
         if (res.statusCode == 200) {
           var data = json.decode(res.body);
           debugPrint("Token refreshed: {${res.body}");
@@ -151,7 +152,7 @@ class AuthService {
           return false;
         }
       } catch (e) {
-        print(e);
+        logger.e(e);
         return false;
       }
     } else {

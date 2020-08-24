@@ -7,14 +7,16 @@ import 'package:jobxprss_company/features/dashboard/models/skill_job_chart_data_
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class DashBoardRepository {
   Future<Either<AppError, InfoBoxDataModel>> getInfoBoxData() async {
     try {
       var res = await ApiClient().getRequest(Urls.infoBoxUrl);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
+        logger.i(decodedJson);
         var model = InfoBoxDataModel.fromJson(decodedJson);
         return Right(model);
       } else if (res.statusCode == 401) {
@@ -23,10 +25,10 @@ class DashBoardRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.unknownError);
     }
   }
@@ -35,7 +37,7 @@ class DashBoardRepository {
       getSkillJobChart() async {
     try {
       var res = await ApiClient().getRequest(Urls.dashboardChartUrl);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
         List<SkillJobChartDataModel> data = [];
@@ -48,26 +50,26 @@ class DashBoardRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.unknownError);
     }
   }
 
-  Future<double> getProfileCompletenessPercent() async {
-    try {
-      var res = await ApiClient().getRequest('');
-      if (res.statusCode == 200) {
-        var data = json.decode(res.body);
-        return data['percent_of_profile_completeness']?.toDouble();
-      } else {
-        return 0;
-      }
-    } catch (e) {
-      print(e);
-      return 0;
-    }
-  }
+//  Future<double> getProfileCompletenessPercent() async {
+//    try {
+//      var res = await ApiClient().getRequest(Urls.profileCompleteness);
+//      if (res.statusCode == 200) {
+//        var data = json.decode(res.body);
+//        return data['percent_of_profile_completeness']?.toDouble();
+//      } else {
+//        return 0;
+//      }
+//    } catch (e) {
+//      logger.e(e);
+//      return 0;
+//    }
+//  }
 }

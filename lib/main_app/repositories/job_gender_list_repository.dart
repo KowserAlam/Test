@@ -5,6 +5,7 @@ import 'package:flutter_cache/flutter_cache.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class JobGenderListRepository {
   Future<Either<AppError, List<String>>> getList() async {
@@ -14,14 +15,14 @@ class JobGenderListRepository {
       if (cache != null) {
         var decodedJson = json.decode(cache);
         List<String> list = fromJson(decodedJson);
-//        print(decodedJson);
+//        logger.i(decodedJson);
         return Right(list);
       }
       var res = await ApiClient().getRequest(Urls.jobGenderList);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
-        print(decodedJson);
+        logger.i(decodedJson);
 
         Cache.remember(Urls.jobGenderList, res.body,604800);
         List<String> list = fromJson(decodedJson);
@@ -30,7 +31,7 @@ class JobGenderListRepository {
         return Left(AppError.unknownError);
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
 
       return Left(AppError.serverError);
     }

@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class SkillJobChartDataModel {
   String month;
@@ -51,7 +52,7 @@ class SkillJobChartDataModel {
       dateTimeValue = DateTime.parse(
           '${json[0]}-${json[1]?.toString()?.padLeft(2, '0')}-01');
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
 
     ;

@@ -6,6 +6,7 @@ import 'package:flutter_cache/flutter_cache.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class JobTypeListRepository {
   Future<Either<AppError, List<JobType>>> getList() async {
@@ -14,24 +15,24 @@ class JobTypeListRepository {
       if (cache != null) {
         var decodedJson = json.decode(cache);
         List<JobType> list = fromJson(decodedJson);
-//        print(decodedJson);
+//        logger.i(decodedJson);
         return Right(list);
       }
       var res = await ApiClient().getRequest(Urls.jobTypeListUrl);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
-//        print(decodedJson);
+//        logger.i(decodedJson);
 
         Cache.remember(Urls.jobTypeListUrl, res.body, 604800);
         List<JobType> list = fromJson(decodedJson);
-        print(decodedJson);
+        logger.i(decodedJson);
         return Right(list);
       } else {
         return Left(AppError.unknownError);
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
 
       return Left(AppError.serverError);
     }
@@ -49,7 +50,7 @@ class JobTypeListRepository {
 
   Future<JobType> getIdToObj(String jobSiteId) {
     return getList().then((value) => value.fold((l) => null,
-        (r) => r.firstWhere((element) => element.id == jobSiteId))).catchError((err){print(err);});
+        (r) => r.firstWhere((element) => element.id == jobSiteId))).catchError((err){logger.i(err);});
   }
 }
 

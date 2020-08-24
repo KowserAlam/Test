@@ -79,7 +79,7 @@ class _CompanyListScreenState extends State<CompanyListScreen>
     void search() {
       companyViewModel.query = _searchTextEditingController.text;
       companyViewModel.getCompanyList();
-//      print(companyViewModel.companyList.length);
+//      logger.i(companyViewModel.companyList.length);
     }
 
     var backgroundColor = Theme.of(context).backgroundColor;

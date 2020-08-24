@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationPicker extends StatefulWidget {
@@ -69,10 +70,10 @@ class _LocationPickerState extends State<LocationPicker> {
 
   Future<bool> _requestPermission() async {
     var status = await Permission.location.status;
-    print(status);
+    logger.i(status);
     if (!status.isGranted) {
       var req = await Permission.location.request();
-      print(req);
+      logger.i(req);
       return req.isGranted;
     }
     {
@@ -83,10 +84,10 @@ class _LocationPickerState extends State<LocationPicker> {
   void _goToCurrentDeviceLocation() async {
     bool hasPermission = await _requestPermission();
     if (hasPermission) {
-      print("getting current location");
+      logger.i("getting current location");
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(position);
+      logger.i(position);
       Marker marker = new Marker(
           markerId: MarkerId('You'),
           position: LatLng(position.latitude, position.longitude),
@@ -141,7 +142,7 @@ class _LocationPickerState extends State<LocationPicker> {
               if (userMarker != null) {
                 if(widget.onSaveLocation != null)
                 widget?.onSaveLocation(userMarker.position);
-                print(userMarker.position);
+                logger.i(userMarker.position);
                 Navigator.of(context).pop();
               } else {
                 BotToast.showText(text: 'Please select a position on map');

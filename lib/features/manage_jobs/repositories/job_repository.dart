@@ -13,6 +13,7 @@ import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
 
 class JobRepository {
@@ -21,13 +22,13 @@ class JobRepository {
 
     var url = "${Urls.openJobsCompany}?page=$page&status=${jobStatus??""}";
 
-    print(url);
+    logger.i(url);
 
     try {
       var response = await ApiClient().getRequest(url);
       debugPrint(url);
-      print(response.statusCode);
-//      print(response.body);
+      logger.i(response.statusCode);
+//      logger.i(response.body);
       if (response.statusCode == 200) {
         var decodedJson = json.decode(utf8.decode(response.bodyBytes));
 //        Logger().i(decodedJson);
@@ -47,11 +48,11 @@ class JobRepository {
         return Left(AppError.unknownError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
@@ -74,8 +75,8 @@ class JobRepository {
     try {
       var response = await ApiClient().getRequest(url);
       debugPrint(url);
-      print(response.statusCode);
-//      print(response.body);
+      logger.i(response.statusCode);
+//      logger.i(response.body);
       if (response.statusCode == 200) {
         var mapData = json.decode(utf8.decode(response.bodyBytes));
 
@@ -86,11 +87,11 @@ class JobRepository {
         return Left(AppError.unknownError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }

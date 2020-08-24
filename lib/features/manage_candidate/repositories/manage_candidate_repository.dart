@@ -6,6 +6,7 @@ import 'package:jobxprss_company/features/manage_candidate/models/manag_candidat
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
 
 class ManageCandidateRepository{
@@ -14,7 +15,7 @@ class ManageCandidateRepository{
     try {
       var url = "${Urls.manageCandidateList}/$jobId/";
       var res = await ApiClient().getRequest(url);
-      print(res.statusCode);
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
         Logger().i(decodedJson);
@@ -26,10 +27,10 @@ class ManageCandidateRepository{
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.unknownError);
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
@@ -135,7 +136,7 @@ class PasswordChangeViewModel with ChangeNotifier {
 
   Future<bool> changePassword() async {
     bool isValid = validate();
-    print(isValid);
+    logger.i(isValid);
 
     if (isValid) {
       isBusy = true;
@@ -152,11 +153,11 @@ class PasswordChangeViewModel with ChangeNotifier {
       try {
         var res = await ApiClient().postRequest(Urls.passwordChangeUrl, body);
 
-        print(res.statusCode);
-        print(res.body);
+        logger.i(res.statusCode);
+        logger.i(res.body);
         isBusy = false;
         var data = json.decode(res.body);
-        print(data['status']);
+        logger.i(data['status']);
         if (data['status'] == "success") {
           BotToast.showText(text: StringResources.passwordChangeSuccessful);
           resetState();
@@ -166,7 +167,7 @@ class PasswordChangeViewModel with ChangeNotifier {
           var message = data['message'];
           _errorTextOldPassword = message;
           notifyListeners();
-          print("Unable to change password");
+          logger.i("Unable to change password");
           return false;
         }
 //        if (res.statusCode == 200) {
@@ -180,17 +181,17 @@ class PasswordChangeViewModel with ChangeNotifier {
 //        }
       } on SocketException catch (e) {
         isBusy = false;
-        print(e);
+        logger.e(e);
         BotToast.showText(text: StringResources.couldNotReachServer);
         return false;
       } catch (e) {
         isBusy = false;
-        print(e);
+        logger.e(e);
         BotToast.showText(text: StringResources.somethingIsWrong);
         return false;
       }
     } else {
-      print('invalid');
+      logger.i('invalid');
       return false;
     }
   }

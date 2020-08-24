@@ -12,6 +12,7 @@ import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 
 class SigninViewModel with ChangeNotifier {
@@ -107,8 +108,8 @@ class SigninViewModel with ChangeNotifier {
       var url = "$baseUrl${Urls.signInUrl}";
       http.Response response = await http.post(url, body: body);
 
-      print(response.body);
-      print(response.statusCode);
+      logger.i(response.body);
+      logger.i(response.statusCode);
 
       isBusyLogin = false;
       if (response.statusCode == 200) {
@@ -129,10 +130,10 @@ class SigninViewModel with ChangeNotifier {
       BotToast.showText(text: StringResources.couldNotReachServer);
       _errorMessage = StringResources.couldNotReachServer;
       notifyListeners();
-      print(e);
+      logger.e(e);
       return false;
     } catch (e) {
-      print(e);
+      logger.e(e);
       isBusyLogin = false;
       BotToast.showText(text: StringResources.somethingIsWrong);
       return false;

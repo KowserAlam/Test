@@ -5,7 +5,7 @@ class AppInfoRepository{
   Future<String> getAppVersion()async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   String version = packageInfo.version;
-//  print(StringsEn.versionText+": " +version);
+//  logger.i(StringsEn.versionText+": " +version);
   return  version;
 }
 

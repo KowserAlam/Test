@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:uuid/uuid.dart';
 
 enum ApiUrlType {
@@ -36,7 +37,7 @@ class ApiClient {
     var completeUrl = _buildUrl(url);
     var headers = await _getHeaders();
     var encodedBody = json.encode(body);
-//    print(headers);
+//    logger.i(headers);
     return _checkTokenValidity().then((value) =>
         httClient.post(completeUrl, headers: headers, body: encodedBody));
   }
@@ -75,7 +76,7 @@ class ApiClient {
         return false;
       }
     } catch (err) {
-      print('uploading error: $err');
+      logger.i('uploading error: $err');
       return false;
     }
   }

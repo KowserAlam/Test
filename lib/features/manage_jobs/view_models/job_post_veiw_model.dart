@@ -13,6 +13,7 @@ import 'package:jobxprss_company/main_app/repositories/job_qualification_list_re
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class JobPostViewModel with ChangeNotifier {
   List<String> _genderList = [];
@@ -45,7 +46,7 @@ class JobPostViewModel with ChangeNotifier {
       });
 
       var res = await ApiClient().postRequest(Urls.postNewJobUrl, body);
-      print(res.statusCode);
+      logger.i(res.statusCode);
 
       if (res.statusCode == 200) {
         BotToast.closeAllLoading();
@@ -56,11 +57,11 @@ class JobPostViewModel with ChangeNotifier {
       }
     } on SocketException catch (e) {
       BotToast.showText(text: StringResources.couldNotReachServer);
-      print(e);
+      logger.e(e);
       BotToast.closeAllLoading();
       return false;
     } catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.closeAllLoading();
       BotToast.showText(text: StringResources.somethingIsWrong);
       return false;

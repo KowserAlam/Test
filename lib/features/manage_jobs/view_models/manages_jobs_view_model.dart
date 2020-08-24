@@ -4,6 +4,7 @@ import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart
 import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class ManageJobViewModel with ChangeNotifier {
   List<JobListModel> _jobList = [];
@@ -37,7 +38,7 @@ class ManageJobViewModel with ChangeNotifier {
       _totalJobCount = 0;
       _appError = l;
       notifyListeners();
-      print(l);
+      logger.i(l);
       return false;
     }, (JobListScreenDataModel dataModel) {
       _lastFetchTime = DateTime.now();
@@ -70,7 +71,7 @@ class ManageJobViewModel with ChangeNotifier {
         _totalJobCount = 0;
         notifyListeners();
 
-        print(l);
+        logger.i(l);
       }, (JobListScreenDataModel dataModel) {
         // right
         var list = dataModel.jobList;

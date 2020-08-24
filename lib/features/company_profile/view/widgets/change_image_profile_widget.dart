@@ -26,10 +26,10 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
 
   String getBase64Image() {
     List<int> imageBytes = fileProfileImage.readAsBytesSync();
-//    print(imageBytes);
+//    logger.i(imageBytes);
     var img = "data:image/jpeg;base64," + base64Encode(imageBytes);
 
-//    print(img);
+//    logger.i(img);
     return img;
   }
 

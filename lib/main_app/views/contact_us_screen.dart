@@ -16,6 +16,7 @@ import 'package:jobxprss_company/main_app/models/settings_model.dart';
 import 'package:jobxprss_company/main_app/repositories/contact_us_submit_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/setting_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/pge_view_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_button.dart';
@@ -52,9 +53,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     dartZ.Either<AppError, SettingsModel> result =
     await SettingsRepository().getSettingInfo();
     return result.fold((l) {
-      print(l);
+      logger.i(l);
     }, (SettingsModel settingsModel) {
-      print(settingsModel.id);
+      logger.i(settingsModel.id);
       _settingsModel = settingsModel;
       double lat = double.parse(settingsModel.latitude);
       double long = double.parse(settingsModel.longitude);
@@ -70,7 +71,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Future<bool> addContactUsData(ContactUsModel contactUsModel){
     return ContactUsSubmitRepository().addContactUsData(contactUsModel).then((res){
       return res.fold((l){
-        print(l);
+        logger.i(l);
         return false;
       }, (r){
         BotToast.showText(text: StringResources.contactUsSubmittedText);
@@ -101,7 +102,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     var markId = MarkerId("Ishraak Solutions");
     Marker _marker = Marker(
       onTap: () {
-        print("tapped");
+        logger.i("tapped");
       },
       position: LatLng(lat, long),
       infoWindow: InfoWindow(title: "Ishraak Solutions"),

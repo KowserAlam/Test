@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class ShowLocationOnMapWidget extends StatefulWidget {
   final String markerLabel;
@@ -39,7 +40,7 @@ class _ShowLocationOnMapWidgetState extends State<ShowLocationOnMapWidget> {
     var markId = MarkerId(widget.markerLabel);
     Marker _marker = Marker(
       onTap: () {
-        print("tapped");
+        logger.i("tapped");
       },
       position: latLng,
       infoWindow: InfoWindow(title: label ?? ""),

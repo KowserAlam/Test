@@ -12,6 +12,7 @@ import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,14 +22,14 @@ class CompanyRepository {
     try {
       var url =
           "${Urls.companySearchUrl}/?page_size=$pageSize&name=${query ?? ""}&page=${page}";
-      debugPrint(url);
+      logger.i(url);
       var res = await ApiClient().getRequest(url);
-      debugPrint(res.statusCode.toString());
-      debugPrint(res.body.toString());
+      logger.i(res.statusCode.toString());
+      logger.i(res.body.toString());
 
       if (res.statusCode == 200) {
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
-//        debugPrint(decodedJson.toString());
+//        debuglogger.i(decodedJson.toString());
         Logger().i(decodedJson);
         CompanyScreenDataModel list =
             CompanyScreenDataModel.fromJson(decodedJson);
@@ -37,11 +38,11 @@ class CompanyRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      print(e);
+      logger.e(e);
       BotToast.showText(text: StringResources.couldNotReachServer);
       return Left(AppError.networkError);
     } catch (e) {
-      print(e);
+      logger.e(e);
       return Left(AppError.unknownError);
     }
   }
@@ -88,10 +89,10 @@ class CompanyRepository {
           await AuthService.getInstance().then((value) => value.getUser().cId);
       String url = "${Urls.companyProfileUpdateUrl}/$name/";
       var res = await ApiClient().putRequest(url, data);
-      print(url);
-      print(res.statusCode);
+      logger.i(url);
+      logger.i(res.statusCode);
 
-      print(res.body);
+      logger.i(res.body);
       if (res.statusCode == 200) {
         // after update response returning broken data
         // so need to force reload data
@@ -100,7 +101,7 @@ class CompanyRepository {
         return false;
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
       return false;
     }
   }
@@ -115,11 +116,11 @@ class CompanyRepository {
         await AuthService.getInstance().then((value) => value.getUser().cId);
     var result = await getList(query: name);
     return result.fold((l) {
-      print(l);
+      logger.i(l);
       return Left(l);
     }, (CompanyScreenDataModel data) {
       var companyList = data.companies;
-//      print(companyList);
+//      logger.i(companyList);
       if (companyList.length > 0) {
         if (companyList.first.name == name) {
           saveCompanyLocalStorage(companyList.first.toJson());
@@ -137,7 +138,7 @@ class CompanyRepository {
     var data = storage.getString(JsonKeys.company);
 
     var decodedData = json.decode(data);
-//    print(decodedData);
+//    logger.i(decodedData);
     return Company.fromJson(decodedData);
   }
 }
