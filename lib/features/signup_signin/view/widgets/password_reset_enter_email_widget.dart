@@ -29,9 +29,9 @@ class _PasswordResetEmailWidgetState extends State<PasswordResetEmailWidget> {
   Widget _logoSection() {
     return Center(
       child: Hero(
-        tag: kDefaultLogo,
+        tag: kDefaultLogoFull,
         child: Image.asset(
-          kDefaultLogo,
+          kDefaultLogoFull,
           width: 100,
           fit: BoxFit.contain,
         ),

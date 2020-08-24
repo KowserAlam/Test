@@ -98,27 +98,20 @@ class _RootState extends State<Root> {
     return user;
   }
 
-  var appLogoText = Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      Container(
-        width: 170,
-        child: Hero(
-            tag: kDefaultLogo,
-            child: Image.asset(
-              kDefaultLogo,
-              fit: BoxFit.cover,
-            )),
-      ),
-      Container(
-        width: 250,
-        child: Image.asset(
-          kDefaultLogoText,
-          fit: BoxFit.cover,
-        ),
-      ),
-    ],
-  );
+//  var appLogoText = Column(
+//    mainAxisSize: MainAxisSize.min,
+//    children: <Widget>[
+//      Container(
+//        width: 170,
+//        child: Hero(
+//            tag: kDefaultLogoFull,
+//            child: Image.asset(
+//              kDefaultLogoFull,
+//              fit: BoxFit.cover,
+//            )),
+//      ),
+//    ],
+//  );
 
   var ishraakLogo = Image.asset(
     kIshraakLogo,
@@ -133,20 +126,13 @@ class _RootState extends State<Root> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          width: width * 0.3,
+          width: 200,
           child: Hero(
-              tag: kDefaultLogo,
+              tag: kDefaultLogoFull,
               child: Image.asset(
-                kDefaultLogo,
+                kDefaultLogoFull,
                 fit: BoxFit.cover,
               )),
-        ),
-        Container(
-          width: width * 0.5,
-          child: Image.asset(
-            kDefaultLogoText,
-            fit: BoxFit.cover,
-          ),
         ),
       ],
     );

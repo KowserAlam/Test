@@ -94,7 +94,7 @@ class _SigninScreenState extends State<SigninScreen> {
     double topPadding = MediaQuery.of(context).size.height / 30;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    double logoWidth = width > kMidDeviceScreenSize ? 160 : height * 0.085;
+    double logoWidth = width > kMidDeviceScreenSize ? 160 : height * 0.2;
 
     var errorMessage =
         Consumer<SigninViewModel>(builder: (context, signViewModel, _) {
@@ -131,10 +131,10 @@ class _SigninScreenState extends State<SigninScreen> {
       ],
     );
     var logo = Hero(
-      tag: kDefaultLogo,
+      tag: kDefaultLogoFull,
       child: Image.asset(
-        kDefaultLogo,
-        width: logoWidth,
+        kDefaultLogoFull,
+        width: 200,
         fit: BoxFit.contain,
       ),
     );
