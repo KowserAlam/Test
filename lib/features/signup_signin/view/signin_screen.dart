@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/signup_signin/view/password_reset_screens.dart';
@@ -11,6 +10,7 @@ import 'package:jobxprss_company/main_app/root.dart';
 import 'package:jobxprss_company/main_app/views/widgets/app_version_widget_small.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_button.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
+import 'package:jobxprss_company/main_app/views/widgets/rounded_loading_button.dart';
 import 'package:provider/provider.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -20,6 +20,8 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final RoundedLoadingButtonController _btnController =
+      new RoundedLoadingButtonController();
 
   final _emailTextController = TextEditingController();
 
@@ -44,7 +46,10 @@ class _SigninScreenState extends State<SigninScreen> {
           child: Text(
             StringResources.signSuccessfulText,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1.apply(color: Colors.green),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .apply(color: Colors.green),
           ),
         );
       }
@@ -66,12 +71,21 @@ class _SigninScreenState extends State<SigninScreen> {
       var res = await loginProvider.loginWithEmailAndPassword();
 
       if (res) {
+        _btnController.success();
         loginProvider.resetState();
-        Navigator.of(context).pushAndRemoveUntil(
-            CupertinoPageRoute(builder: (BuildContext context) => Root(showDummyLoadingTime: true,)),
-            (_) => false);
+        Future.delayed(Duration(milliseconds: 800)).then((value) {
+          Navigator.of(context).pushAndRemoveUntil(
+              CupertinoPageRoute(
+                  builder: (BuildContext context) => Root(
+                        showDummyLoadingTime: true,
+                      )),
+              (_) => false);
+        });
+      }else{
+        _btnController.reset();
       }
     } else {
+      _btnController.reset();
       _showSnackBar(StringResources.checkRequiredField, Colors.red[800]);
     }
   }
@@ -155,11 +169,11 @@ class _SigninScreenState extends State<SigninScreen> {
                 loginProvider.isFromSuccessfulSignUp = false;
               }
 
-             // loginProvider.clearMessage();
+              // loginProvider.clearMessage();
 
-         //  clearMessage   /// navigate to signup screen
-            //  Navigator.push(context,
-             //     MaterialPageRoute(builder: (context) => SignUpScreen()));
+              //  clearMessage   /// navigate to signup screen
+              //  Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => SignUpScreen()));
             },
             child: Text(
               '  ${StringResources.signupText}',
@@ -201,9 +215,7 @@ class _SigninScreenState extends State<SigninScreen> {
           errorText: signViewModel.errorTextPassword,
           focusNode: _passwordFocus,
           textInputAction: TextInputAction.done,
-          prefixIcon: Icon(
-            Icons.lock
-          ),
+          prefixIcon: Icon(Icons.lock),
           suffixIcon: IconButton(
             icon: !isObscure
                 ? Icon(
@@ -232,8 +244,8 @@ class _SigninScreenState extends State<SigninScreen> {
         InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => PasswordResetScreens()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PasswordResetScreens()));
           },
           child: Container(
             padding: EdgeInsets.all(8),
@@ -245,21 +257,24 @@ class _SigninScreenState extends State<SigninScreen> {
       ],
     );
     var signInButton = Consumer<SigninViewModel>(
-        builder: (BuildContext context, loginProvider, Widget child) {
-      if (loginProvider.isBusyLogin) {
-        return Loader();
-      }
-      return Container(
-        height: 50,
-        width: 200,
-        child: CommonButton(
-          onTap: () {
-            _handleLogin(context);
-          },
-          label: StringResources.logInButtonText,
-        ),
-      );
-    });
+      builder: (BuildContext context, value, Widget child) {
+        return Center(
+          child: RoundedLoadingButton(
+            valueColor: Colors.black,
+            height: 55,
+            width: 200,
+            child: Text(
+              StringResources.logInButtonText,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            controller: _btnController,
+            onPressed: () {
+              _handleLogin(context);
+            },
+          ),
+        );
+      },
+    );
     var socialLogin = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -360,6 +375,7 @@ class _SigninScreenState extends State<SigninScreen> {
           forgotPasswordWidget,
           SizedBox(height: 5),
           signInButton,
+
 //          SizedBox(height: 20),
 //          socialLogin,
 //          SizedBox(height: 20),
