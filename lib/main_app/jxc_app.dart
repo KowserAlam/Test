@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
@@ -22,6 +23,13 @@ class JXCApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.config(
+        enableLog: true,
+        defaultPopGesture: true,
+        defaultTransition: Transition.cupertino,
+        defaultOpaqueRoute: true,
+        defaultDurationTransition: Duration(milliseconds: 200));
+
     var providers = [
       ChangeNotifierProvider(create: (context) => SigninViewModel()),
       ChangeNotifierProvider(create: (context) => PasswordResetViewModel()),
@@ -37,7 +45,7 @@ class JXCApp extends StatelessWidget {
     return MultiProvider(
       key: key,
       providers: providers,
-      child: MaterialApp(
+      child: GetMaterialApp(
         navigatorObservers: [BotToastNavigatorObserver()],
         builder: BotToastInit(),
         debugShowCheckedModeBanner: false,

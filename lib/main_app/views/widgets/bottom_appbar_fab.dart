@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 
 class FABBottomAppBarItem {
   FABBottomAppBarItem({this.iconData, this.label});
+
   IconData iconData;
   String label;
-
 }
 
 class FABBottomAppBar extends StatefulWidget {
@@ -24,6 +22,7 @@ class FABBottomAppBar extends StatefulWidget {
   }) {
     assert(this.items.length == 2 || this.items.length == 4);
   }
+
   final List<FABBottomAppBarItem> items;
   final String centerItemText;
   final double height;
@@ -79,10 +78,13 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: widget.iconSize+5),
+            SizedBox(height: widget.iconSize + 5),
             Text(
               widget.centerItemText ?? '',
-              style: TextStyle(color: widget.color,fontSize: 10,fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: widget.color,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -95,26 +97,33 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = widget.selectedIndex == index ? widget.selectedColor : widget.color;
+    Color color =
+        widget.selectedIndex == index ? widget.selectedColor : widget.color;
+    Color textColor =
+        widget.selectedIndex == index ? Colors.black : widget.color;
     return Expanded(
       child: SizedBox(
         height: widget.height,
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: ()  {
-              if(widget.selectedIndex != index)
-              onPressed(index);
+            onTap: () {
+              if (widget.selectedIndex != index) onPressed(index);
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(item.iconData, color: color, size: widget.iconSize),
-                SizedBox(height: 4,),
+                SizedBox(
+                  height: 4,
+                ),
                 Text(
                   item.label,
-                  style: TextStyle(color: color,fontSize: 10,fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: textColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600),
                 )
               ],
             ),

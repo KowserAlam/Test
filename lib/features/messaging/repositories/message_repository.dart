@@ -51,11 +51,12 @@ class MessageRepository {
     try {
       var url = "${Urls.senderMessageListUrl}$senderId&page=${page??1}";
       var response = await ApiClient().getRequest(url);
-//      logger.i(response.statusCode);
-//      Logger().i(response.body);
+      logger.i(response.statusCode);
+      logger.i(url);
+//      logger.i(response.body);
       if (response.statusCode == 200) {
         var decodesJson = json.decode(utf8.decode(response.bodyBytes));
-//        Logger().i(decodesJson);
+        logger.i(decodesJson);
         return Right(ConversationScreenDataModel.fromJson(decodesJson));
       } else if (response.statusCode == 401) {
         return Left(AppError.unauthorized);

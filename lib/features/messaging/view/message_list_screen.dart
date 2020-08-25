@@ -41,7 +41,9 @@ class _MessageListScreenState extends State<MessageListScreen>
   Widget build(BuildContext context) {
     var vm = Provider.of<MessageSenderListScreenViewModel>(context);
     return Scaffold(
-//      drawer: AppDrawer(),
+appBar: AppBar(
+  title: Text(StringResources.messagesText),
+),
       body: PageStateBuilder(
         onRefresh: () => vm.refresh(),
         appError: vm.appError,

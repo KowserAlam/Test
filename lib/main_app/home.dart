@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
         appbarTitle = StringResources.manageJobsText;
         break;
       case 2:
-        appbarTitle = StringResources.messagesText;
+        appbarTitle = StringResources.manageCandidatesText;
         break;
       case 3:
         appbarTitle = StringResources.companyProfileText;
@@ -85,10 +86,10 @@ class _HomeState extends State<Home> {
             iconData: FontAwesomeIcons.briefcase,
             label: StringResources.manageJobsText),
 
-        //message
+        //manageCandidatesText
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.solidComments,
-            label: StringResources.messagesText),
+            iconData: FontAwesomeIcons.users,
+            label: StringResources.manageCandidatesText),
         // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
@@ -171,7 +172,15 @@ class _HomeState extends State<Home> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(appbarTitle),
-            actions: [],
+            actions: [
+              IconButton(
+                icon: Icon(FontAwesomeIcons.solidComments),
+                iconSize: 18,
+                onPressed: () {
+                  Get.to(MessageListScreen());
+                },
+              ),
+            ],
           ),
           drawer: AppDrawer(),
           bottomNavigationBar: bottomAppbar,
@@ -198,7 +207,7 @@ class _HomeState extends State<Home> {
               DashBoardScreen(),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
-              MessageListScreen(),
+              Center(child: Text(StringResources.manageCandidatesText),),
               CompanyProfile(),
             ],
           ),

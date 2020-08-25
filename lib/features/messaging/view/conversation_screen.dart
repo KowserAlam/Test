@@ -11,8 +11,9 @@ import 'package:provider/provider.dart';
 class ConversationScreen extends StatefulWidget {
   final vm = ConversationViewModel();
   final MessageSenderModel senderModel;
+//  final String senderListId;
 
-  ConversationScreen(this.senderModel);
+  ConversationScreen(this.senderModel,);
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
