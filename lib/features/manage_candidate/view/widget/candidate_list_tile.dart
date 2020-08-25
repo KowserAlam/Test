@@ -10,9 +10,6 @@ import 'package:jobxprss_company/features/messaging/view/conversation_screen.dar
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
-import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/validator.dart';
-import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:provider/provider.dart';
 
 class CandidateListTile extends StatelessWidget {
