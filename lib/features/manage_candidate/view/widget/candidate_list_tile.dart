@@ -36,16 +36,16 @@ class CandidateListTile extends StatelessWidget {
 
     var name = Text(candidate.fullName ?? "");
 
-    var dateOfBirth = Text(
-      "${candidate.dateOfBirth ?? ""}",
-      style: subTitleStyle,
-    );
-    var qualification = Text(
-      "${candidate.qualification ?? ""}",
-      style: subTitleStyle,
-    );
     var experience = Text(
       "Experience: ${candidate.experience ?? "0"} year",
+      style: subTitleStyle,
+    );
+    var skills = Text(
+      " Skills: ${candidate.skills.join(", ")}",
+      style: subTitleStyle,
+    );
+    var designation = Text(
+      "${candidate.currentDesignation ?? ""} @${candidate.currentCompany ?? ""}",
       style: subTitleStyle,
     );
     var profileImage = Container(
@@ -92,8 +92,9 @@ class CandidateListTile extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               name,
-                              qualification,
+                              designation,
                               experience,
+                              skills,
                             ],
                           ),
                         ),
@@ -133,69 +134,69 @@ class CandidateListTile extends StatelessWidget {
     );
   }
 
-  _showSendMessageDialog(context) {
-    showGeneralDialog(
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      transitionDuration: const Duration(milliseconds: 400),
-      barrierColor: const Color(0x80000000),
-      context: context,
-      pageBuilder: (context, animation, secondaryAnimation) {
-
-        return StatefulBuilder(
-          builder: (BuildContext context, setState) {
-            var textController = TextEditingController();
-            var formKey = GlobalKey<FormState>();
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Material(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          candidate.fullName,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Form(
-                          key: formKey,
-                          child: CustomTextFormField(
-                            validator: Validator().nullFieldValidate,
-                            controller: textController,
-                            maxLines: 15,
-                            minLines: 8,
-                            keyboardType: TextInputType.multiline,
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () async {
-
-                          var v = formKey.currentState.validate();
-                          if(v){
-                            MessageRepository()
-                                .createMessage(textController.text, candidate.id);
-                            Navigator.pop(context);
-                          }
-
-                        },
-                        child: Text(StringResources.sendText),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+//  _showSendMessageDialog(context) {
+//    showGeneralDialog(
+//      barrierDismissible: true,
+//      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+//      transitionDuration: const Duration(milliseconds: 400),
+//      barrierColor: const Color(0x80000000),
+//      context: context,
+//      pageBuilder: (context, animation, secondaryAnimation) {
+//
+//        return StatefulBuilder(
+//          builder: (BuildContext context, setState) {
+//            var textController = TextEditingController();
+//            var formKey = GlobalKey<FormState>();
+//            return Center(
+//              child: Padding(
+//                padding: const EdgeInsets.all(8.0),
+//                child: Material(
+//                  shape: RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.circular(7)),
+//                  child: Column(
+//                    mainAxisSize: MainAxisSize.min,
+//                    children: [
+//                      Padding(
+//                        padding: const EdgeInsets.all(8.0),
+//                        child: Text(
+//                          candidate.fullName,
+//                          style: Theme.of(context).textTheme.headline6,
+//                        ),
+//                      ),
+//                      Padding(
+//                        padding: const EdgeInsets.all(8.0),
+//                        child: Form(
+//                          key: formKey,
+//                          child: CustomTextFormField(
+//                            validator: Validator().nullFieldValidate,
+//                            controller: textController,
+//                            maxLines: 15,
+//                            minLines: 8,
+//                            keyboardType: TextInputType.multiline,
+//                          ),
+//                        ),
+//                      ),
+//                      RaisedButton(
+//                        onPressed: () async {
+//
+//                          var v = formKey.currentState.validate();
+//                          if(v){
+//                            MessageRepository()
+//                                .createMessage(textController.text, candidate.user);
+//                            Navigator.pop(context);
+//                          }
+//
+//                        },
+//                        child: Text(StringResources.sendText),
+//                      )
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            );
+//          },
+//        );
+//      },
+//    );
+//  }
 }

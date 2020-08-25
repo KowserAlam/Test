@@ -24,11 +24,12 @@ class JXCApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.config(
-        enableLog: true,
-        defaultPopGesture: true,
-        defaultTransition: Transition.cupertino,
-        defaultOpaqueRoute: true,
-        defaultDurationTransition: Duration(milliseconds: 200));
+      enableLog: true,
+      defaultPopGesture: true,
+      defaultTransition: Transition.cupertino,
+      defaultOpaqueRoute: true,
+      defaultDurationTransition: Duration(milliseconds: 180),
+    );
 
     var providers = [
       ChangeNotifierProvider(create: (context) => SigninViewModel()),
