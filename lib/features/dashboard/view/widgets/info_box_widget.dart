@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
@@ -84,10 +83,12 @@ class InfoBoxWidget extends StatelessWidget {
                     /// shortlited
                     Expanded(
                       child: _boxItem(
-                          linearGradient: LinearGradient(colors: [
-                            Color(0xff91bcf9),
-                            Color(0xff99d7f2),
-                          ]),
+                          linearGradient: LinearGradient(
+                            colors: [
+                              Color(0xff91bcf9),
+                              Color(0xff99d7f2),
+                            ],
+                          ),
                           iconData: FeatherIcons.heart,
                           label: StringResources.shortListedText,
                           count: infoBoxData?.shortListed,
@@ -113,7 +114,7 @@ class InfoBoxWidget extends StatelessWidget {
       double iconSize = deviceWidth * .075;
       double numberFontSize = iconSize / 1.6;
       double textFontSize = iconSize / 2.7;
-      double boxHeight = iconSize * (1.2+(screenHeight* .002));
+      double boxHeight = iconSize * (1.2 + (screenHeight * .002));
       return Container(
         margin: EdgeInsets.all(4),
         height: boxHeight,

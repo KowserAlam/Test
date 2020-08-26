@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
         //manageCandidatesText
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.users,
-            label: StringResources.manageCandidatesText),
+            label: StringResources.candidatesText),
         // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
