@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tags/flutter_tags.dart';
-import 'package:jobxprss_company/features/dashboard/models/skill_job_chart_data_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
+import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
-import 'package:jobxprss_company/main_app/views/widgets/custom_text_field_rich_html.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
@@ -35,7 +32,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   FocusNode _focusNode = FocusNode();
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
-
+  List<Skill> _selectedSkillList = [];
 
   String result = "";
   var _jobTitleTextEditingController = TextEditingController();
@@ -63,8 +60,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   ZefyrController _jobOtherBenefitsZefyrController =
       ZefyrController(NotusDocument());
   FocusNode _jobOtherBenefitsFocusNode = FocusNode();
-  var _aboutCompanyZefyrController =
-  ZefyrController(NotusDocument());
+  var _aboutCompanyZefyrController = ZefyrController(NotusDocument());
   FocusNode _aboutCompanyFocusNode = FocusNode();
 
   String selectedGender;
@@ -111,7 +107,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         ZefyrController(job.otherBenefits.htmlToNotusDocument);
     _jobEducationZefyrController =
         ZefyrController(job.education.htmlToNotusDocument);
-    _aboutCompanyZefyrController =        ZefyrController(job.companyProfile.htmlToNotusDocument);
+    _aboutCompanyZefyrController =
+        ZefyrController(job.companyProfile.htmlToNotusDocument);
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
         selectedJobSite = value;
@@ -456,61 +453,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
-                    //required skill
-//                    FutureBuilder<List<Skill>>(
-//                  builder: (context, snapshot) {
-//                    return Tags(
-////                  key:_tagStateKey,
-//                      textField: TagsTextField(
-//                        constraintSuggestion: true, suggestions: [],
-//                        onSubmitted: (String str) {
-//                          // Add item to the data source.
-//                          setState(() {
-//                            // required
-//                            _skillList.add(str);
-//                          });
-//                        },
-//                      ),
-//                      itemCount: _skillList.length, // required
-//                      itemBuilder: (int index){
-//                        final item = _skillList[index];
-//
-//                        return ItemTags(
-//                          // Each ItemTags must contain a Key. Keys allow Flutter to
-//                          // uniquely identify widgets.
-//                          key: Key(index.toString()),
-//                          index: index, // required
-//                          title: item.title,
-//                          active: item.active,
-//                          customData: item.customData,
-//                          combine: ItemTagsCombine.withTextBefore,
-//                          image: ItemTagsImage(
-//                              image: AssetImage("img.jpg") // OR NetworkImage("https://...image.png")
-//                          ), // OR null,
-//                          icon: ItemTagsIcon(
-//                            icon: Icons.add,
-//                          ), // OR null,
-//                          removeButton: ItemTagsRemoveButton(
-//                            onRemoved: (){
-//                              // Remove the item from the data source.
-//                              setState(() {
-//                                // required
-//                                _skillList.removeAt(index);
-//                              });
-//                              //required
-//                              return true;
-//                            },
-//                          ), // OR null,
-//                          onPressed: (item) => print(item),
-//                          onLongPressed: (item) => print(item),
-//                        );
-//
-//                      },
-//                    );
-//                  }
-//                ),
 
-                //profile
+
+                    //    profile
                     CustomZefyrRichTextFormField(
                       labelText: StringResources.jobAboutCompanyText,
                       focusNode: _aboutCompanyFocusNode,
