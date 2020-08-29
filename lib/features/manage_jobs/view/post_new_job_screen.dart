@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+import 'package:jobxprss_company/features/dashboard/models/skill_job_chart_data_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
@@ -33,29 +36,36 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
 
+
   String result = "";
   var _jobTitleTextEditingController = TextEditingController();
   var _jobVacancyTextEditingController = TextEditingController();
   var _jobAddressTextEditingController = TextEditingController();
-  var _companyProfileTextEditingController = TextEditingController();
+
   var _jobAreaTextEditingController = TextEditingController();
   var _salaryTextEditingController = TextEditingController();
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
   var _jobCityTextEditingController = TextEditingController();
 
-//  var _jobDescriptionTextValue = "";
-//  var _jobResponsibilitiesTextValue = "";
-  var _jobEducationsTextValue = "";
-  var _jobAdditionalRequirementsTextValue = "";
-  var _jobOtherBenefitsTextValue = "";
-
   ZefyrController _descriptionZefyrController =
       ZefyrController(NotusDocument());
   FocusNode _descriptionFocusNode = FocusNode();
   ZefyrController _jobResponsibilitiesZefyrController =
-  ZefyrController(NotusDocument());
+      ZefyrController(NotusDocument());
   FocusNode _jobResponsibilitiesFocusNode = FocusNode();
+  ZefyrController _jobEducationZefyrController =
+      ZefyrController(NotusDocument());
+  FocusNode _jobEducationFocusNode = FocusNode();
+  ZefyrController _jobAdditionalReqZefyrController =
+      ZefyrController(NotusDocument());
+  FocusNode _jobAdditionalFocusNode = FocusNode();
+  ZefyrController _jobOtherBenefitsZefyrController =
+      ZefyrController(NotusDocument());
+  FocusNode _jobOtherBenefitsFocusNode = FocusNode();
+  var _aboutCompanyZefyrController =
+  ZefyrController(NotusDocument());
+  FocusNode _aboutCompanyFocusNode = FocusNode();
 
   String selectedGender;
   String selectedJobCategory;
@@ -80,7 +90,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _jobTitleTextEditingController.text = job?.title;
     _jobVacancyTextEditingController.text = job?.vacancy?.toString();
     _jobAddressTextEditingController.text = job?.jobAddress;
-    _companyProfileTextEditingController.text = job?.companyProfile;
+
     _salaryTextEditingController.text = job?.salary;
     _salaryMinTextEditingController.text = job?.salaryMin;
     _salaryMaxTextEditingController.text = job?.salaryMax;
@@ -92,12 +102,16 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     selectedJobQualification = job?.qualification;
     _descriptionZefyrController =
         ZefyrController(job.descriptions.htmlToNotusDocument);
-    _jobResponsibilitiesZefyrController = ZefyrController(job.responsibilities.htmlToNotusDocument);
+    _jobResponsibilitiesZefyrController =
+        ZefyrController(job.responsibilities.htmlToNotusDocument);
 
-    _jobAdditionalRequirementsTextValue = job?.additionalRequirements ?? "";
-    _jobOtherBenefitsTextValue = job?.otherBenefits ?? "";
-    _jobEducationsTextValue = job?.education ?? "";
-
+    _jobAdditionalReqZefyrController =
+        ZefyrController(job.additionalRequirements.htmlToNotusDocument);
+    _jobOtherBenefitsZefyrController =
+        ZefyrController(job.otherBenefits.htmlToNotusDocument);
+    _jobEducationZefyrController =
+        ZefyrController(job.education.htmlToNotusDocument);
+    _aboutCompanyZefyrController =        ZefyrController(job.companyProfile.htmlToNotusDocument);
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
         selectedJobSite = value;
@@ -129,7 +143,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "title": _jobTitleTextEditingController.text,
         "vacancy": _jobVacancyTextEditingController.text,
         "address": _jobAddressTextEditingController.text,
-        "company_profile": _companyProfileTextEditingController.text,
+        "company_profile": _aboutCompanyZefyrController.document.toHTML,
         "salary": _salaryTextEditingController.text,
         "salary_min": _salaryMinTextEditingController.text,
         "salary_max": _salaryMaxTextEditingController.text,
@@ -143,9 +157,10 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_site": selectedJobType?.id ?? "",
         "job_city": _jobCityTextEditingController.text,
         "description": _descriptionZefyrController.document.toHTML,
-        "other_benefits": _jobOtherBenefitsTextValue,
-        "additional_requirements": _jobAdditionalRequirementsTextValue,
-        "education": _jobEducationsTextValue,
+        "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML,
+        "additional_requirements":
+            _jobAdditionalReqZefyrController.document.toHTML,
+        "education": _jobEducationZefyrController.document.toHTML,
         "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML,
       };
 
@@ -267,46 +282,32 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                     // Responsibilities
                     CustomZefyrRichTextFormField(
-                      zefyrKey: Key('jobDescriptionField'),
                       labelText: StringResources.responsibilitiesTitle,
                       focusNode: _jobResponsibilitiesFocusNode,
                       controller: _jobResponsibilitiesZefyrController,
                     ),
-//                    CustomTextFieldRichHtml(
-//                      labelText: StringResources.responsibilitiesTitle,
-//                      value: _jobResponsibilitiesTextValue,
-//                      onDone: (v) {
-//                        _jobResponsibilitiesTextValue = v;
-//                      },
-//                    ),
                     spaceBetweenFields,
 
                     // Education
-                    CustomTextFieldRichHtml(
+                    CustomZefyrRichTextFormField(
                       labelText: StringResources.educationsText,
-                      value: _jobEducationsTextValue,
-                      onDone: (v) {
-                        _jobEducationsTextValue = v;
-                      },
+                      focusNode: _jobEducationFocusNode,
+                      controller: _jobEducationZefyrController,
                     ),
                     spaceBetweenFields,
 
                     // Additional Requirements
-                    CustomTextFieldRichHtml(
+                    CustomZefyrRichTextFormField(
                       labelText: StringResources.jobAdditionalRequirementsText,
-                      value: _jobAdditionalRequirementsTextValue,
-                      onDone: (v) {
-                        _jobAdditionalRequirementsTextValue = v;
-                      },
+                      focusNode: _jobAdditionalFocusNode,
+                      controller: _jobAdditionalReqZefyrController,
                     ),
                     spaceBetweenFields,
                     // otherBenefitsTitle
-                    CustomTextFieldRichHtml(
+                    CustomZefyrRichTextFormField(
                       labelText: StringResources.otherBenefitsTitle,
-                      value: _jobOtherBenefitsTextValue,
-                      onDone: (v) {
-                        _jobOtherBenefitsTextValue = v;
-                      },
+                      focusNode: _jobOtherBenefitsFocusNode,
+                      controller: _jobOtherBenefitsZefyrController,
                     ),
                     spaceBetweenFields,
 
@@ -455,14 +456,74 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
-//profile
-                    CustomTextFormField(
-                      minLines: 3,
-                      maxLines: 8,
-                      controller: _companyProfileTextEditingController,
+                    //required skill
+//                    FutureBuilder<List<Skill>>(
+//                  builder: (context, snapshot) {
+//                    return Tags(
+////                  key:_tagStateKey,
+//                      textField: TagsTextField(
+//                        constraintSuggestion: true, suggestions: [],
+//                        onSubmitted: (String str) {
+//                          // Add item to the data source.
+//                          setState(() {
+//                            // required
+//                            _skillList.add(str);
+//                          });
+//                        },
+//                      ),
+//                      itemCount: _skillList.length, // required
+//                      itemBuilder: (int index){
+//                        final item = _skillList[index];
+//
+//                        return ItemTags(
+//                          // Each ItemTags must contain a Key. Keys allow Flutter to
+//                          // uniquely identify widgets.
+//                          key: Key(index.toString()),
+//                          index: index, // required
+//                          title: item.title,
+//                          active: item.active,
+//                          customData: item.customData,
+//                          combine: ItemTagsCombine.withTextBefore,
+//                          image: ItemTagsImage(
+//                              image: AssetImage("img.jpg") // OR NetworkImage("https://...image.png")
+//                          ), // OR null,
+//                          icon: ItemTagsIcon(
+//                            icon: Icons.add,
+//                          ), // OR null,
+//                          removeButton: ItemTagsRemoveButton(
+//                            onRemoved: (){
+//                              // Remove the item from the data source.
+//                              setState(() {
+//                                // required
+//                                _skillList.removeAt(index);
+//                              });
+//                              //required
+//                              return true;
+//                            },
+//                          ), // OR null,
+//                          onPressed: (item) => print(item),
+//                          onLongPressed: (item) => print(item),
+//                        );
+//
+//                      },
+//                    );
+//                  }
+//                ),
+
+                //profile
+                    CustomZefyrRichTextFormField(
                       labelText: StringResources.jobAboutCompanyText,
-                      hintText: StringResources.companyProfileText,
+                      focusNode: _aboutCompanyFocusNode,
+                      controller: _aboutCompanyZefyrController,
+//                      hintText:StringResources.companyProfileText ,
                     ),
+//                    CustomTextFormField(
+//                      minLines: 3,
+//                      maxLines: 8,
+//                      controller: _aboutCompanyTextEditingController,
+//                      labelText: StringResources.jobAboutCompanyText,
+//                      hintText: StringResources.companyProfileText,
+//                    ),
                     spaceBetweenFields,
                     SizedBox(
                       height: 100,

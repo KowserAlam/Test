@@ -26,7 +26,7 @@ class JobRepository {
 
     try {
       var response = await ApiClient().getRequest(url);
-      debugPrint(url);
+//      debugPrint(url);
       logger.i(response.statusCode);
 //      logger.i(response.body);
       if (response.statusCode == 200) {
