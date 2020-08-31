@@ -154,7 +154,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_gender_id": selectedGender ?? "",
         "job_nature": selectedJobNature?.id ?? "",
         "job_type": selectedJobType?.id ?? "",
-        "job_site": selectedJobType?.id ?? "",
+        "job_site": selectedJobSite?.id ?? "",
         "job_city": _jobCityTextEditingController.text,
         "description": _descriptionZefyrController.document.toHTML,
         "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML,
@@ -171,6 +171,12 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
       if (isEditMode && !widget.copyAsNew) {
         // TODO: update existing post
         Logger().i(data);
+        _vm.updateJob(data,widget.jobModel.jobId).then((value) {
+          if (value) {
+            debugPrint("Update existing post");
+            Navigator.pop(context);
+          }
+        });
         debugPrint("Update Job");
       } else {
         // add new post

@@ -67,6 +67,42 @@ class JobPostViewModel with ChangeNotifier {
       return false;
     }
   }
+  Future<bool> updateJob(Map<String, dynamic> data,String jid) async {
+    try {
+      BotToast.showLoading();
+
+      Map<String, dynamic> body = await AuthService.getInstance().then((value) {
+        data.addAll({"company_id": value.getUser().name});
+        return data;
+      });
+
+      // var cid = await AuthService.getInstance().then((value)=>value.getUser().name);
+
+      var url = "${Urls.updateJobUrl}$jid/";
+
+      var res = await ApiClient().putRequest(url, body);
+      logger.i(res.statusCode);
+      logger.i(res.body);
+
+      if (res.statusCode == 200) {
+        BotToast.closeAllLoading();
+        return true;
+      } else {
+        BotToast.closeAllLoading();
+        return false;
+      }
+    } on SocketException catch (e) {
+      BotToast.showText(text: StringResources.couldNotReachServer);
+      logger.e(e);
+      BotToast.closeAllLoading();
+      return false;
+    } catch (e) {
+      logger.e(e);
+      BotToast.closeAllLoading();
+      BotToast.showText(text: StringResources.somethingIsWrong);
+      return false;
+    }
+  }
 
   _getJobGenders() async {
     var res = await JobGenderListRepository().getList();
