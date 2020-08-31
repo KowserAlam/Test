@@ -13,6 +13,8 @@ import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/root.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 import 'package:flutter/material.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class JXCApp extends StatelessWidget {
@@ -30,6 +32,8 @@ class JXCApp extends StatelessWidget {
       defaultOpaqueRoute: true,
       defaultDurationTransition: Duration(milliseconds: 180),
     );
+
+
 
     var providers = [
       ChangeNotifierProvider(create: (context) => SigninViewModel()),
@@ -51,6 +55,7 @@ class JXCApp extends StatelessWidget {
         builder: BotToastInit(),
         debugShowCheckedModeBanner: false,
         title: appName,
+        logWriterCallback: loggerGetX,
         theme: AppTheme.lightTheme,
 //      darkTheme: AppTheme.darkTheme,
         home: Root(),

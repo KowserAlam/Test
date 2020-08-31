@@ -7,6 +7,7 @@ import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
+import 'package:jobxprss_company/main_app/repositories/skill_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
@@ -71,6 +72,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   JobSite selectedJobSite;
   JobType selectedJobType;
   JobNature selectedJobNature;
+
 
   @override
   void initState() {
@@ -460,9 +462,12 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
-                  //skills
+                    //skills
 
                     SelectRequiredSkillWidget(
+                      onRemove: (i) {
+                        _selectedSkillList.removeAt(i);
+                      },
                       onSuggestionSelected: (skill) {
                         _selectedSkillList.add(skill);
                       },

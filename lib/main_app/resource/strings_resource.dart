@@ -539,6 +539,7 @@ static const String addSkillText = 'Add Skill';
 static const String tapToSelectText = 'Tap to select';
 static const String applicationDeadline = 'Deadline: ';
 static const String requiredSkills = 'Skill Requirement';
+static const String requiredSkillsText = 'Required Skills';
 static const String benefitSectionTitle = 'Benefits';
 static const String jobSource = 'Job Source';
 static const String jobsOnMapText = 'Job On Map';

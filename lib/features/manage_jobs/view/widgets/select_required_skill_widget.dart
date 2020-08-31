@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartZ;
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/skill_list_repository.dart';
@@ -8,11 +9,15 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_wrap.dart';
 
 class SelectRequiredSkillWidget extends StatefulWidget {
   final Function(Skill skill) onSuggestionSelected;
+  final Function(int index) onRemove;
   final List<Skill> items;
+
 
   SelectRequiredSkillWidget({
     @required this.onSuggestionSelected,
     @required this.items,
+    this.onRemove,
+
   });
 
   @override
@@ -21,25 +26,64 @@ class SelectRequiredSkillWidget extends StatefulWidget {
 }
 
 class _SelectRequiredSkillWidgetState extends State<SelectRequiredSkillWidget> {
-  List<Skill> skillList = [];
+  List<Skill>skillList=[];
+  final controller = TextEditingController();
 
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((value) {
-      SkillListRepository().getSkillList().then((value) {
-        value.fold((l) => [], (r) {
-          skillList = r;
-          setState(() {});
-        });
+    SkillListRepository()
+        .getSkillList()
+        .then((v) => v.fold((l) => [], (r) {
+      setState(() {
+
       });
-    });
+      skillList = r;
+    }));
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    var primaryColor = Theme.of(context).primaryColor;
     return Column(
       children: [
+        CustomAutoCompleteTextField<Skill>(
+          controller: controller,
+          labelText: StringResources.requiredSkillsText,
+          hintText: StringResources.requiredSkillsText,
+          suggestionsCallback: (String pattern)async {
+            var list = skillList
+                .where((element) => element?.name
+                ?.toLowerCase()
+                ?.contains(pattern.toLowerCase()))
+                .toList();
+            // print(list);
+            return list;
+          },
+          onSuggestionSelected: (v) {
+            if (widget.onSuggestionSelected != null) {
+              if (!widget.items.contains(v))
+                widget.onSuggestionSelected(v);
+              controller.clear();
+              setState(() {});
+            }
+          },
+          itemBuilder: (BuildContext context, itemData) {
+            return Material(
+              color: widget?.items?.contains(itemData) ?? false
+                  ? primaryColor
+                  : Colors.transparent,
+              child: ListTile(
+                title: Text(itemData.name),
+              ),
+            );
+          },
+        ),
+        SizedBox(
+          height: 10,
+        ),
         CustomWrap(
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,
@@ -60,43 +104,31 @@ class _SelectRequiredSkillWidgetState extends State<SelectRequiredSkillWidget> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 8,top: 4,bottom: 4),
-              child: Text(item.name),
-
-            ),
+                      padding:
+                          const EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                      child: Text(item.name),
+                    ),
                     InkWell(
                       borderRadius: BorderRadius.circular(20),
-                      onTap: (){},
+                      onTap: () {
+                        if (widget.onRemove != null) {
+                          widget.onRemove(index);
+                          setState(() {});
+                        }
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 8,left: 8,top: 4,bottom: 4),
-                        child: Icon(Icons.clear,size: 20,color: Colors.red,),
+                        padding: const EdgeInsets.only(
+                            right: 8, left: 8, top: 4, bottom: 4),
+                        child: Icon(
+                          Icons.clear,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     )
                   ],
                 ));
           }),
-        ),
-        CustomAutoCompleteTextField<Skill>(
-          labelText: StringResources.requiredSkills,
-          suggestionsCallback: (String pattern) async {
-
-            return skillList
-                .where((element) =>
-                    element.name.toLowerCase().contains(pattern.toLowerCase()))
-                .toList();
-          },
-          onSuggestionSelected: (v){
-            if(widget.onSuggestionSelected != null)
-            widget.onSuggestionSelected(v);
-            setState(() {
-
-            });
-          },
-          itemBuilder: (BuildContext context, itemData) {
-            return ListTile(
-              title: Text(itemData.name),
-            );
-          },
         ),
       ],
     );
