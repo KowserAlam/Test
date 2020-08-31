@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/widgets/select_required_skill_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
@@ -416,7 +417,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                       selectedItem: selectedJobSite,
                       labelText: StringResources.jobSiteText,
                       hintText: StringResources.tapToSelectText,
+                      validator: (v) => Validator().nullFieldValidate(v?.text),
                       showSelectedItem: true,
+                      isRequired: true,
                       itemAsString: (v) => v.text,
                       onChanged: (v) {
                         selectedJobSite = v;
@@ -425,12 +428,14 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
-                    //job type
+                    //job nature
                     CustomDropdownSearchFormField<JobNature>(
                       selectedItem: selectedJobNature,
                       labelText: StringResources.jobNature,
                       hintText: StringResources.tapToSelectText,
+                      isRequired: true,
                       showSelectedItem: true,
+                      validator: (v) => Validator().nullFieldValidate(v?.text),
                       itemAsString: (v) => v.text,
                       onChanged: (v) {
                         selectedJobNature = v;
@@ -439,13 +444,15 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
-                    //job nature
+                    //job type
                     CustomDropdownSearchFormField<JobType>(
+                      isRequired: true,
                       selectedItem: selectedJobType,
-                      labelText: StringResources.jobSiteText,
+                      labelText: StringResources.jobTypeText,
                       hintText: StringResources.tapToSelectText,
                       showSelectedItem: true,
                       itemAsString: (v) => v.text,
+                      validator: (v) => Validator().nullFieldValidate(v?.text),
                       onChanged: (v) {
                         selectedJobType = v;
                       },
@@ -453,9 +460,16 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                     ),
                     spaceBetweenFields,
 
+                  //skills
 
-
-                    //    profile
+                    SelectRequiredSkillWidget(
+                      onSuggestionSelected: (skill) {
+                        _selectedSkillList.add(skill);
+                      },
+                      items: _selectedSkillList,
+                    ),
+                    spaceBetweenFields,
+                    //profile
                     CustomZefyrRichTextFormField(
                       labelText: StringResources.jobAboutCompanyText,
                       focusNode: _aboutCompanyFocusNode,

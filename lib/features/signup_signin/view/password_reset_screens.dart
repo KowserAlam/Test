@@ -24,39 +24,44 @@ class _PasswordResetScreensState extends State<PasswordResetScreens> {
       appBar: AppBar(
         title: Text(StringResources.passwordResetText),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: PageView(
-              onPageChanged: (i) {
-                _valueNotifier.value = i;
-                index = i;
-              },
-              physics: NeverScrollableScrollPhysics(),
-              controller: _pageController,
-              children: <Widget>[
-                PasswordResetEmailWidget(
-                  onSuccessCallBack: () {
-                    _pageController.nextPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut);
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: PageView(
+                  onPageChanged: (i) {
+                    _valueNotifier.value = i;
+                    index = i;
                   },
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: <Widget>[
+                    PasswordResetEmailWidget(
+                      onSuccessCallBack: () {
+                        _pageController.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut);
+                      },
+                    ),
+                    PasswordRestLinkSuccessWidget(),
+                  ],
                 ),
-                PasswordRestLinkSuccessWidget(),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CirclePageIndicator(
+                  dotColor: Theme.of(context).primaryColor.withOpacity(0.25),
+                  selectedDotColor: Theme.of(context).primaryColor,
+                  selectedSize: 10,
+                  itemCount: length,
+                  currentPageNotifier: _valueNotifier,
+                ),
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CirclePageIndicator(
-              dotColor: Theme.of(context).primaryColor.withOpacity(0.25),
-              selectedDotColor: Theme.of(context).primaryColor,
-              selectedSize: 10,
-              itemCount: length,
-              currentPageNotifier: _valueNotifier,
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

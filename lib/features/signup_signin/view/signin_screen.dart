@@ -392,8 +392,9 @@ class _SigninScreenState extends State<SigninScreen> {
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child: Padding(
+              child: Container(
                 padding: EdgeInsets.fromLTRB(16, 15, 16, 8),
+                constraints: BoxConstraints(maxWidth: 400),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
