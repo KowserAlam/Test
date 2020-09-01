@@ -26,7 +26,7 @@ class JobSiteListRepository {
 
         Cache.remember(Urls.jobSiteList, res.body, 604800);
         List<JobSite> list = fromJson(decodedJson);
-        logger.i(decodedJson);
+        // logger.i(decodedJson);
         return Right(list);
       } else {
         return Left(AppError.unknownError);

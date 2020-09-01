@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/select_required_skill_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
@@ -112,6 +113,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         ZefyrController(job.education.htmlToNotusDocument);
     _aboutCompanyZefyrController =
         ZefyrController(job.companyProfile.htmlToNotusDocument);
+
+    _selectedSkillList = job.jobSkills ??[];
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
         selectedJobSite = value;
@@ -162,9 +165,11 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
             _jobAdditionalReqZefyrController.document.toHTML,
         "education": _jobEducationZefyrController.document.toHTML,
         "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML,
+        'skills':_selectedSkillList.map((e) => e.name).join(","),
       };
 
 //      logger.i(data);
+      var manageJobVM = Provider.of<ManageJobViewModel>(context, listen: false);
 
       var _vm = widget.jobPostViewModel;
 
@@ -174,7 +179,10 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         _vm.updateJob(data,widget.jobModel.jobId).then((value) {
           if (value) {
             debugPrint("Update existing post");
+            manageJobVM.refresh();
+
             Navigator.pop(context);
+
           }
         });
         debugPrint("Update Job");
@@ -183,6 +191,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         _vm.postNewJob(data).then((value) {
           if (value) {
             debugPrint("Post a new job");
+            manageJobVM.refresh();
             Navigator.pop(context);
           }
         });

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/main_app/repositories/skill_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_auto_complete_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_wrap.dart';
@@ -26,18 +27,19 @@ class SelectRequiredSkillWidget extends StatefulWidget {
 }
 
 class _SelectRequiredSkillWidgetState extends State<SelectRequiredSkillWidget> {
-  List<Skill>skillList=[];
+  Future<List<Skill>> skillList;
   final controller = TextEditingController();
 
   @override
   void initState() {
-    SkillListRepository()
+   skillList =  SkillListRepository()
         .getSkillList()
         .then((v) => v.fold((l) => [], (r) {
-      setState(() {
 
-      });
-      skillList = r;
+     return r;
+      // setState(() {
+      //
+      // });
     }));
     super.initState();
   }
@@ -50,17 +52,21 @@ class _SelectRequiredSkillWidgetState extends State<SelectRequiredSkillWidget> {
     return Column(
       children: [
         CustomAutoCompleteTextField<Skill>(
+          textFieldKey: Key("requiredSkillsKey"),
           controller: controller,
           labelText: StringResources.requiredSkillsText,
           hintText: StringResources.requiredSkillsText,
           suggestionsCallback: (String pattern)async {
-            var list = skillList
-                .where((element) => element?.name
-                ?.toLowerCase()
-                ?.contains(pattern.toLowerCase()))
-                .toList();
-            // print(list);
-            return list;
+            return skillList.then((v) {
+              var list = v
+                  .where((element) => element?.name
+                  ?.toLowerCase()
+                  ?.contains(pattern.toLowerCase()))
+                  .toList();
+              // logger.i(list);
+              return list;
+            });
+
           },
           onSuggestionSelected: (v) {
             if (widget.onSuggestionSelected != null) {

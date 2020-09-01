@@ -70,19 +70,6 @@ class _JobDetailsState extends State<JobDetails> {
         });
   }
 
-  String skillListToString() {
-    String listOfSkills = "";
-    if (jobDetails.jobSkills != null)
-      for (int i = 0; i < jobDetails.jobSkills.length; i++) {
-        if (i + 1 == jobDetails.jobSkills.length) {
-          listOfSkills += jobDetails.jobSkills[i];
-        } else {
-          listOfSkills += jobDetails.jobSkills[i] + ", ";
-        }
-      }
-    return listOfSkills;
-  }
-
   String refactorAboutJobStrings(String value) {
     if (value == 'ONSITE') return 'On-site';
     if (value == 'FULLTIME') return 'Full-time';
@@ -800,7 +787,7 @@ class _JobDetailsState extends State<JobDetails> {
             height: 5,
           ),
           Text(
-            skillListToString(),
+            jobDetails.jobSkills.join(", "),
             style: descriptionFontStyle,
           )
         ],

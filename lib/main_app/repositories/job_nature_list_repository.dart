@@ -26,7 +26,7 @@ class JobNatureListRepository {
 
         Cache.remember(Urls.jobNatureList, res.body, 604800);
         List<JobNature> list = fromJson(decodedJson);
-        logger.i(decodedJson);
+        // logger.i(decodedJson);
         return Right(list);
       } else {
         return Left(AppError.unknownError);

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz_unsafe.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
+import 'package:jobxprss_company/main_app/models/skill.dart';
 
 class JobModel {
   String jobId;
@@ -32,7 +33,7 @@ class JobModel {
   Company company;
   String division;
   String district;
-  List<String> jobSkills;
+  List<Skill> jobSkills;
   bool isApplied;
   bool isFavourite;
 
@@ -148,7 +149,7 @@ class JobModel {
     if (json['job_skills'] != null) {
       jobSkills = [];
       json['job_skills'].forEach((element) {
-        jobSkills.add(element['name']);
+        jobSkills.add(Skill.fromJson(element));
       });
     }
 
