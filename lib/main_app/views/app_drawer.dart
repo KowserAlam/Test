@@ -6,12 +6,14 @@ import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/settings/settings_screen.dart';
+import 'package:jobxprss_company/features/settings/settings_view_model.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
 import 'package:jobxprss_company/main_app/jxc_app.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/root.dart';
+import 'package:jobxprss_company/main_app/util/locator.dart';
 import 'package:jobxprss_company/main_app/views/about_us_screen.dart';
 import 'package:jobxprss_company/main_app/views/contact_us_screen.dart';
 import 'package:jobxprss_company/main_app/views/faq_screen.dart';
@@ -226,9 +228,11 @@ _handleSignOut(context) {
 //      .resetState();
 //  Provider.of<UserProfileViewModel>(context, listen: false).resetState();
 
-  AuthService.getInstance().then((value) => value.removeUser()).then((value) {
-    RestartWidget.restartApp(context);
-  });
+  // AuthService.getInstance().then((value) => value.removeUser()).then((value) {
+  //   RestartWidget.restartApp(context);
+  // });
+
+  locator<SettingsViewModel>().signOut();
 }
 
 /// App Drawer item widget

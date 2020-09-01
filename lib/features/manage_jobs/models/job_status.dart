@@ -5,4 +5,5 @@ enum JobStatus {
   REVIEWED,
   APPROVED,
   PUBLISHED,
+  POSTED,
 }

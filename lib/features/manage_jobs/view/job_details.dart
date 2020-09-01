@@ -7,7 +7,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
+import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
@@ -103,7 +103,7 @@ class _JobDetailsState extends State<JobDetails> {
     _isBusy = true;
     setState(() {});
     dartZ.Either<AppError, JobModel> result =
-        await JobRepository().fetchJobDetails(widget.slug);
+        await ManageJobRepository().fetchJobDetails(widget.slug);
     return result.fold((l) {
       _isBusy = false;
       _appError = l;

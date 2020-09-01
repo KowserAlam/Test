@@ -15,28 +15,30 @@ class JobStatusWidget extends StatelessWidget {
 
     switch (status) {
       case JobStatus.NOT_READY:
-
         break;
       case JobStatus.RAW:
-
+        break;
+      case JobStatus.POSTED:
+        text = "POSTED";
+        color = Colors.teal;
         break;
       case JobStatus.DRAFT:
-         text = "Draft";
+        text = "Draft";
+        color = Colors.purple;
 
         break;
       case JobStatus.REVIEWED:
-
-
         break;
       case JobStatus.APPROVED:
+        text = "Approved";
+        color = Colors.blue;
         break;
       case JobStatus.PUBLISHED:
-
-        if(isExpired){
+        if (isExpired) {
           text = "Expired";
           color = Colors.red;
-        }else{
-          text = "Active";
+        } else {
+          text = "Published";
           color = Colors.green;
         }
 

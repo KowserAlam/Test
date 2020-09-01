@@ -46,7 +46,8 @@ class JobPostViewModel with ChangeNotifier {
       });
 
       var res = await ApiClient().postRequest(Urls.postNewJobUrl, body);
-      logger.i(res.statusCode);
+      // logger.i(res.statusCode);
+      logger.i(res.body);
 
       if (res.statusCode == 200) {
         BotToast.closeAllLoading();

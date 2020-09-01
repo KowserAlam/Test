@@ -16,8 +16,8 @@ import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
 
-class JobRepository {
-  Future<Either<AppError, JobListScreenDataModel>> getJobList(
+class ManageJobRepository {
+  Future<Either<AppError, ManageJobListScreenDataModel>> getJobList(
       {JobStatus jobStatus,int page = 1}) async {
 
     var url = "${Urls.openJobsCompany}?page=$page&status=${jobStatus??""}";
@@ -33,7 +33,7 @@ class JobRepository {
         var decodedJson = json.decode(utf8.decode(response.bodyBytes));
 //        Logger().i(decodedJson);
         var jobList = fromJson(decodedJson);
-        var dataModel = JobListScreenDataModel(
+        var dataModel = ManageJobListScreenDataModel(
             jobList: jobList,
             count: decodedJson['count'],
             nextPage: decodedJson['pages'] != null
@@ -96,14 +96,15 @@ class JobRepository {
       return Left(AppError.serverError);
     }
   }
+  
 }
 
-class JobListScreenDataModel {
+class ManageJobListScreenDataModel {
   int count;
   bool nextPage;
   List<JobListModel> jobList;
 
-  JobListScreenDataModel({
+  ManageJobListScreenDataModel({
     @required this.count,
     @required this.nextPage,
     @required this.jobList,

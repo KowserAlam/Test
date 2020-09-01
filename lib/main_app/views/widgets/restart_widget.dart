@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jobxprss_company/main_app/util/locator.dart';
+import 'package:provider/provider.dart';
+
 class RestartWidget extends StatefulWidget {
   RestartWidget({this.child});
 
@@ -13,19 +16,33 @@ class RestartWidget extends StatefulWidget {
 }
 
 class _RestartWidgetState extends State<RestartWidget> {
-  Key key = UniqueKey();
+  var _notifier = locator<RestartNotifier>();
 
   void restartApp() {
-    setState(() {
-      key = UniqueKey();
-    });
+    _notifier.restartApp();
   }
 
   @override
   Widget build(BuildContext context) {
-    return KeyedSubtree(
-      key: key,
-      child: widget.child,
+    return ChangeNotifierProvider(
+      create: (context) => _notifier,
+      child: Consumer<RestartNotifier>(builder: (context, restartNotifier, _) {
+        return KeyedSubtree(
+          key: restartNotifier.key,
+          child: widget.child,
+        );
+      }),
     );
+  }
+}
+
+class RestartNotifier with ChangeNotifier {
+  Key _key = UniqueKey();
+
+  Key get key => _key;
+
+  void restartApp() {
+    _key = UniqueKey();
+    notifyListeners();
   }
 }

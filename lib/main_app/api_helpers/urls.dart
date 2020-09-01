@@ -16,6 +16,8 @@ class Urls {
   static String passwordChangeUrl = "/api/pro/change-password/";
   static String postNewJobUrl = "/api/job/create/";
   static String updateJobUrl = "/api/job/update/"; // job id
+  static String jobMakeUnpublishUrl = "/api/job/update/unpublish/"; // job id
+  static String jobMakeUnPublishUrl = "/api/job/update/publish/"; // job id
 
   static String openJobsCompany = "/api/company/job/search/"; //cname
   static String manageCandidateList = "/api/application/list"; //cname

@@ -7,7 +7,7 @@ import 'package:jobxprss_company/features/company_profile/repositories/company_r
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
+import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_status_widget.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
@@ -300,7 +300,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
 
   _navigateToEditNNewJobScreen([bool copyAsNew = false]) {
     BotToast.showLoading();
-    JobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
+    ManageJobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
       value.fold((l) {
         BotToast.closeAllLoading();
       }, (r) {

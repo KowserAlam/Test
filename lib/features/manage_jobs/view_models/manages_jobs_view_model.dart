@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
-import 'package:jobxprss_company/features/manage_jobs/repositories/job_repository.dart';
+import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
@@ -30,8 +30,8 @@ class ManageJobViewModel with ChangeNotifier {
     _isFetchingData = true;
     notifyListeners();
 
-    Either<AppError, JobListScreenDataModel> result =
-        await JobRepository().getJobList();
+    Either<AppError, ManageJobListScreenDataModel> result =
+        await ManageJobRepository().getJobList();
     return result.fold((l) {
       _hasMoreData = false;
       _isFetchingData = false;
@@ -40,7 +40,7 @@ class ManageJobViewModel with ChangeNotifier {
       notifyListeners();
       logger.i(l);
       return false;
-    }, (JobListScreenDataModel dataModel) {
+    }, (ManageJobListScreenDataModel dataModel) {
       _lastFetchTime = DateTime.now();
       var list = dataModel.jobList;
       _isFetchingData = false;
@@ -63,8 +63,8 @@ class ManageJobViewModel with ChangeNotifier {
       debugPrint('Getting more jobs');
       hasMoreData = true;
       incrementPageCount();
-      Either<AppError, JobListScreenDataModel> result =
-          await JobRepository().getJobList(page: _pageCount);
+      Either<AppError, ManageJobListScreenDataModel> result =
+          await ManageJobRepository().getJobList(page: _pageCount);
       result.fold((l) {
         _isFetchingMoreData = false;
         _hasMoreData = false;
@@ -72,7 +72,7 @@ class ManageJobViewModel with ChangeNotifier {
         notifyListeners();
 
         logger.i(l);
-      }, (JobListScreenDataModel dataModel) {
+      }, (ManageJobListScreenDataModel dataModel) {
         // right
         var list = dataModel.jobList;
         _totalJobCount = dataModel.count;
@@ -88,6 +88,8 @@ class ManageJobViewModel with ChangeNotifier {
     _pageCount = 0;
     return getJobList();
   }
+  
+  
 
   bool get showError => _appError != null && _jobList.length == 0;
 
