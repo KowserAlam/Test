@@ -18,6 +18,7 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_f
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
@@ -143,29 +144,29 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
     if (isValid) {
       Map<String, dynamic> data = {
-        "title": _jobTitleTextEditingController.text,
-        "vacancy": _jobVacancyTextEditingController.text,
-        "address": _jobAddressTextEditingController.text,
-        "company_profile": _aboutCompanyZefyrController.document.toHTML,
-        "salary": _salaryTextEditingController.text,
-        "salary_min": _salaryMinTextEditingController.text,
-        "salary_max": _salaryMaxTextEditingController.text,
-        "job_area": _jobAreaTextEditingController.text,
-        "experience": selectedJobExperience ?? "",
-        "qualification": selectedJobQualification ?? "",
-        "job_category": selectedJobCategory ?? "",
-        "job_gender_id": selectedGender ?? "",
-        "job_nature": selectedJobNature?.id ?? "",
-        "job_type": selectedJobType?.id ?? "",
-        "job_site": selectedJobSite?.id ?? "",
-        "job_city": _jobCityTextEditingController.text,
-        "description": _descriptionZefyrController.document.toHTML,
-        "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML,
+        "title": _jobTitleTextEditingController.text.getStringInNotNull,
+        "vacancy": _jobVacancyTextEditingController.text.getStringInNotNull,
+        "address": _jobAddressTextEditingController.text.getStringInNotNull,
+        "company_profile": _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
+        "salary": _salaryTextEditingController.text.getStringInNotNull,
+        "salary_min": _salaryMinTextEditingController.text.getStringInNotNull,
+        "salary_max": _salaryMaxTextEditingController.text.getStringInNotNull,
+        "job_area": _jobAreaTextEditingController.text.getStringInNotNull,
+        "experience": selectedJobExperience.getStringInNotNull,
+        "qualification": selectedJobQualification.getStringInNotNull,
+        "job_category": selectedJobCategory.getStringInNotNull,
+        "job_gender_id": selectedGender.getStringInNotNull,
+        "job_nature": selectedJobNature?.id,
+        "job_type": selectedJobType?.id,
+        "job_site": selectedJobSite?.id,
+        "job_city": _jobCityTextEditingController.text.getStringInNotNull,
+        "description": _descriptionZefyrController.document.toHTML.getStringInNotNull,
+        "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
         "additional_requirements":
-            _jobAdditionalReqZefyrController.document.toHTML,
-        "education": _jobEducationZefyrController.document.toHTML,
-        "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML,
-        'skills':_selectedSkillList.map((e) => e.name).join(","),
+            _jobAdditionalReqZefyrController.document.toHTML.getStringInNotNull,
+        "education": _jobEducationZefyrController.document.toHTML.getStringInNotNull,
+        "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML.getStringInNotNull,
+        'skills':_selectedSkillList.map((e) => e.name).join(",").getStringInNotNull,
       };
 
 //      logger.i(data);

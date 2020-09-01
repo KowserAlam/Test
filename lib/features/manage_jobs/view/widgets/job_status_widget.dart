@@ -11,7 +11,7 @@ class JobStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = Colors.orange;
     var status = jobStatus;
-    String text = "Pending";
+    String text = "POSTED";
 
     switch (status) {
       case JobStatus.NOT_READY:
@@ -23,22 +23,22 @@ class JobStatusWidget extends StatelessWidget {
         color = Colors.teal;
         break;
       case JobStatus.DRAFT:
-        text = "Draft";
+        text = "DRAFT";
         color = Colors.purple;
 
         break;
       case JobStatus.REVIEWED:
         break;
       case JobStatus.APPROVED:
-        text = "Approved";
+        text = "APPROVED";
         color = Colors.blue;
         break;
       case JobStatus.PUBLISHED:
         if (isExpired) {
-          text = "Expired";
+          text = "EXPIRED";
           color = Colors.red;
         } else {
-          text = "Published";
+          text = "PUBLISHED";
           color = Colors.green;
         }
 

@@ -9,7 +9,7 @@ extension DateTimeExtension on DateTime {
       return null;
   }
 
-  bool  isToday() {
+  bool isToday() {
     if (this != null) {
       var day = DateTime.now().day;
       var month = DateTime.now().month;
@@ -29,6 +29,13 @@ extension StringExtension on String {
       return true;
   }
 
+  String get getStringInNotNull {
+    if (this.isNotEmptyOrNotNull) {
+      return this;
+    } else
+      return null;
+  }
+
   bool get isNotEmptyOrNotNull {
     if (this != null) {
       return this.isNotEmpty;
@@ -44,23 +51,20 @@ extension StringExtension on String {
   }
 
   String get toSentenceCase {
-    if(this != null){
+    if (this != null) {
       String x = '';
-      for(int i=1; i<this.length; i++){
+      for (int i = 1; i < this.length; i++) {
         x += this[i].toLowerCase();
       }
-      return this[0].toUpperCase()+x;
-    }else
+      return this[0].toUpperCase() + x;
+    } else
       return null;
   }
 }
 
-extension ListExtension<T> on List<T>{
-
+extension ListExtension<T> on List<T> {
   T get firstOrNull {
-    if(this.isEmpty)
-      return null;
+    if (this.isEmpty) return null;
     return this.first;
   }
-
 }

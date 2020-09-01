@@ -101,7 +101,11 @@ class SigninViewModel with ChangeNotifier {
 
   Future<bool> loginWithEmailAndPassword() async {
     isBusyLogin = true;
-    var body = {JsonKeys.email: email?.trim(), JsonKeys.password: password?.trim()};
+    var body = {
+      JsonKeys.email: email?.trim(),
+      JsonKeys.password: password?.trim(),
+      "device_id":"123321"
+    };
 
     try {
       var baseUrl = FlavorConfig.instance.values.baseUrl;
@@ -113,7 +117,8 @@ class SigninViewModel with ChangeNotifier {
 
       isBusyLogin = false;
       if (response.statusCode == 200) {
-        Map<String, dynamic> decodedJson = jsonDecode(utf8.decode(response.bodyBytes));
+        Map<String, dynamic> decodedJson =
+            jsonDecode(utf8.decode(response.bodyBytes));
         _saveAuthData(decodedJson);
         clearMessage();
         return true;

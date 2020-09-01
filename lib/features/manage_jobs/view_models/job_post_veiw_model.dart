@@ -24,8 +24,6 @@ class JobPostViewModel with ChangeNotifier {
   List<JobType> _jobTypeList = [];
   List<JobNature> _jobNatureList = [];
 
-
-
   getData() {
     _getJobGenders();
     _getCategoryList();
@@ -40,12 +38,9 @@ class JobPostViewModel with ChangeNotifier {
     try {
       BotToast.showLoading();
 
-      Map<String, dynamic> body = await AuthService.getInstance().then((value) {
-        data.addAll({"company_id": value.getUser().name});
-        return data;
-      });
-
-      var res = await ApiClient().postRequest(Urls.postNewJobUrl, body);
+      data.removeWhere((key, value) => value == null);
+      logger.i(data);
+      var res = await ApiClient().postRequest(Urls.postNewJobUrl, data);
       // logger.i(res.statusCode);
       logger.i(res.body);
 
@@ -68,7 +63,8 @@ class JobPostViewModel with ChangeNotifier {
       return false;
     }
   }
-  Future<bool> updateJob(Map<String, dynamic> data,String jid) async {
+
+  Future<bool> updateJob(Map<String, dynamic> data, String jid) async {
     try {
       BotToast.showLoading();
 
@@ -119,7 +115,6 @@ class JobPostViewModel with ChangeNotifier {
       _experienceList = r;
       notifyListeners();
     });
-
   }
 
   _getJobQualifications() async {
@@ -129,6 +124,7 @@ class JobPostViewModel with ChangeNotifier {
       notifyListeners();
     });
   }
+
   _getCategoryList() async {
     var res = await JobCategoriesLisRepository().getList();
     res.fold((l) {}, (r) {
@@ -144,6 +140,7 @@ class JobPostViewModel with ChangeNotifier {
       notifyListeners();
     });
   }
+
   _getJobTypeList() async {
     var res = await JobTypeListRepository().getList();
     res.fold((l) {}, (r) {
@@ -160,15 +157,17 @@ class JobPostViewModel with ChangeNotifier {
     });
   }
 
-
-
-
-
   List<String> get genderList => _genderList;
+
   List<String> get experienceList => _experienceList;
+
   List<String> get jobCategoryList => _jobCategoryList;
+
   List<String> get qualifications => _qualifications;
+
   List<JobSite> get jobSiteList => _jobSiteList;
+
   List<JobNature> get jobNature => _jobNatureList;
+
   List<JobType> get jobType => _jobTypeList;
 }
