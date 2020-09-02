@@ -30,7 +30,7 @@ class JobListTileWidget extends StatefulWidget {
 class _JobListTileWidgetState extends State<JobListTileWidget> {
   @override
   Widget build(BuildContext context) {
-    bool isTablet = context.isTablet;
+
 
     String publishDateText = widget.jobModel.postDate == null
         ? StringResources.noneText
@@ -189,90 +189,95 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           onTap: () {
             _showBottomSheet();
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Expanded(child: jobTitle),
-                        if (isTablet)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: jobStatus,
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: 3),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+          child: LayoutBuilder(
+            builder: (context, constrain) {
+              bool isTablet = context.isTablet;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Expanded(child: jobTitle),
+                            if (isTablet)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: jobStatus,
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: 3),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
 //                        if (widget.jobModel.jobCity != null) companyLocation,
 
-                        if (isTablet) publishDate,
-                        if (isTablet) applicationDeadlineWidget,
-                        jobType,
-                        if (isTablet) viewApplications,
+                            if (isTablet) publishDate,
+                            if (isTablet) applicationDeadlineWidget,
+                            jobType,
+                            if (isTablet) viewApplications,
 
-                        if (!isTablet) jobStatus,
-                        isTablet
-                            ? Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceAround,
-                          children: [
-                            IconButton(
-                              iconSize: 20,
-                              tooltip: "View job",
-                              icon: Icon(FeatherIcons.eye),
-                              onPressed: () {
-                                _navigateToJobDetailsScreen();
-                              },
-                              color: Colors.orange,
-                            ),
-                            IconButton(
-                                iconSize: 20,
-                                tooltip: "Edit job",
-                                icon: Icon(FeatherIcons.edit),
-                                onPressed: () {
-                                  _navigateToEditNNewJobScreen();
-                                }),
-                            IconButton(
-                                iconSize: 20,
-                                tooltip: "Copy job as new",
-                                icon: Icon(FeatherIcons.copy),
-                                onPressed: () {
-                                  _navigateToEditNNewJobScreen(true);
-                                }),
+                            if (!isTablet) jobStatus,
+                            isTablet
+                                ? Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(
+                                  iconSize: 20,
+                                  tooltip: "View job",
+                                  icon: Icon(FeatherIcons.eye),
+                                  onPressed: () {
+                                    _navigateToJobDetailsScreen();
+                                  },
+                                  color: Colors.orange,
+                                ),
+                                IconButton(
+                                    iconSize: 20,
+                                    tooltip: "Edit job",
+                                    icon: Icon(FeatherIcons.edit),
+                                    onPressed: () {
+                                      _navigateToEditNNewJobScreen();
+                                    }),
+                                IconButton(
+                                    iconSize: 20,
+                                    tooltip: "Copy job as new",
+                                    icon: Icon(FeatherIcons.copy),
+                                    onPressed: () {
+                                      _navigateToEditNNewJobScreen(true);
+                                    }),
+                              ],
+                            )
+                                : menu,
                           ],
-                        )
-                            : menu,
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              if (!isTablet)
-                Column(
-                  children: [
-                    Divider(height: 1),
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          publishDate,
-                          applicationDeadlineWidget,
-                          viewApplications,
-                        ],
-                      ),
+                  ),
+                  if (!isTablet)
+                    Column(
+                      children: [
+                        Divider(height: 1),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              publishDate,
+                              applicationDeadlineWidget,
+                              viewApplications,
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-            ],
+                ],
+              );
+            }
           ),
         ),
       ),
