@@ -292,13 +292,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                       FutureBuilder<List<String>>(
                         future: CountryRepository().getCityCountryList(),
                         builder: (context, AsyncSnapshot<List<String>> snapshot) {
-                          var list = [];
-                          if(snapshot.hasData){
-                            list = snapshot.data;
-                          }
                           return CustomDropdownSearchFormField<String>(
                             selectedItem: _selectedCityCountry.swapValueByComa,
-                            items: list,
+                            items: snapshot.data??<String>[],
                             popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
                             labelText: StringResources.jobCityText,
                             onChanged: (v){

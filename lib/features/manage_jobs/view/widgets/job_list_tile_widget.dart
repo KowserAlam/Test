@@ -28,12 +28,9 @@ class JobListTileWidget extends StatefulWidget {
 }
 
 class _JobListTileWidgetState extends State<JobListTileWidget> {
-
-
   @override
   Widget build(BuildContext context) {
-
-    bool isTablet =context.isTablet;
+    bool isTablet = context.isTablet;
 
     String publishDateText = widget.jobModel.postDate == null
         ? StringResources.noneText
@@ -47,11 +44,19 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
 //        : true;
 
 //    debugPrint("Deadline: ${widget.jobModel.applicationDeadline}\n Today: ${DateTime.now()} \n $isDateExpired");
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    bool isDarkMode = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
-    var backgroundColor = Theme.of(context).backgroundColor;
-    var primaryColor = Theme.of(context).primaryColor;
-    var scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    var backgroundColor = Theme
+        .of(context)
+        .backgroundColor;
+    var primaryColor = Theme
+        .of(context)
+        .primaryColor;
+    var scaffoldBackgroundColor = Theme
+        .of(context)
+        .scaffoldBackgroundColor;
 
     var titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
     var subTitleStyle = TextStyle(fontSize: 12, color: subtitleColor);
@@ -86,7 +91,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     );
     bool isDateExpired = widget.jobModel.applicationDeadline != null
         ? (widget.jobModel.applicationDeadline.isBefore(DateTime.now()) &&
-            !widget.jobModel.applicationDeadline.isToday())
+        !widget.jobModel.applicationDeadline.isToday())
         : true;
 
     var viewApplications = Tooltip(
@@ -98,7 +103,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "${StringResources.viewApplicationsText} ${widget.jobModel.appliedCount}",
+            "${StringResources.viewApplicationsText} ${widget.jobModel
+                .appliedCount}",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
@@ -166,8 +172,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
       ],
     );
-    var jobStatus =  JobStatusWidget(
-        widget.jobModel.jobStatus, isDateExpired);
+    var jobStatus = JobStatusWidget(widget.jobModel.jobStatus, isDateExpired);
 
     return Container(
       decoration: BoxDecoration(color: scaffoldBackgroundColor, boxShadow: [
@@ -195,11 +200,11 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                     Row(
                       children: [
                         Expanded(child: jobTitle),
-                        if(isTablet)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: jobStatus,
-                        ),
+                        if (isTablet)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: jobStatus,
+                          ),
                       ],
                     ),
                     SizedBox(height: 3),
@@ -208,68 +213,62 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                       children: [
 //                        if (widget.jobModel.jobCity != null) companyLocation,
 
-                      if(isTablet)
-                        publishDate,
-                        if(isTablet)
-                        applicationDeadlineWidget,
+                        if (isTablet) publishDate,
+                        if (isTablet) applicationDeadlineWidget,
                         jobType,
-                        if(isTablet)
-                        viewApplications,
+                        if (isTablet) viewApplications,
 
-
-
-                        if(!isTablet)
-                          jobStatus,
+                        if (!isTablet) jobStatus,
                         isTablet
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  IconButton(
-                                    tooltip: "View job",
-                                    icon: Icon(FeatherIcons.eye),
-                                    onPressed: () {
-                                      _navigateToJobDetailsScreen();
-                                    },
-                                    color: Colors.orange,
-                                  ),
-                                  IconButton(
-                                      tooltip: "Edit job",
-                                      icon: Icon(FeatherIcons.edit),
-                                      onPressed: () {
-                                        _navigateToEditNNewJobScreen();
-                                      }),
-                                  IconButton(
-                                      tooltip: "Copy job as new",
-                                      icon: Icon(FeatherIcons.copy),
-                                      onPressed: () {
-                                        _navigateToEditNNewJobScreen(true);
-                                      }),
-                                ],
-                              )
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceAround,
+                          children: [
+                            IconButton(
+                              tooltip: "View job",
+                              icon: Icon(FeatherIcons.eye),
+                              onPressed: () {
+                                _navigateToJobDetailsScreen();
+                              },
+                              color: Colors.orange,
+                            ),
+                            IconButton(
+                                tooltip: "Edit job",
+                                icon: Icon(FeatherIcons.edit),
+                                onPressed: () {
+                                  _navigateToEditNNewJobScreen();
+                                }),
+                            IconButton(
+                                tooltip: "Copy job as new",
+                                icon: Icon(FeatherIcons.copy),
+                                onPressed: () {
+                                  _navigateToEditNNewJobScreen(true);
+                                }),
+                          ],
+                        )
                             : menu,
                       ],
                     ),
                   ],
                 ),
               ),
-
-
-              if( !isTablet)
-              Column(children: [
-                Divider(height: 1),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      publishDate,
-                      applicationDeadlineWidget,
-                      viewApplications,
-                    ],
-                  ),
+              if (!isTablet)
+                Column(
+                  children: [
+                    Divider(height: 1),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          publishDate,
+                          applicationDeadlineWidget,
+                          viewApplications,
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],),
-
             ],
           ),
         ),
@@ -278,78 +277,99 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
   }
 
   _showBottomSheet() {
-    showModalBottomSheet(
+    var items = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 12,
+            width: 50,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+        // view
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+            _navigateToJobDetailsScreen();
+          },
+          leading: Icon(
+            FeatherIcons.eye,
+            color: Theme
+                .of(context)
+                .primaryColor,
+          ),
+          title: Text(StringResources.viewText),
+        ),
+//edit
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+            _navigateToEditNNewJobScreen();
+          },
+          leading: Icon(
+            FeatherIcons.edit,
+            color: Theme
+                .of(context)
+                .primaryColor,
+          ),
+          title: Text(StringResources.editText),
+        ),
+//copy
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+            _navigateToEditNNewJobScreen(true);
+          },
+          leading: Icon(
+            FeatherIcons.copy,
+            color: Theme
+                .of(context)
+                .primaryColor,
+          ),
+          title: Text(StringResources.copyAsNewText),
+        ),
+        // view applications
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+            _navigateToApplicationsScreen();
+          },
+          leading: Icon(
+            FontAwesomeIcons.fileWord,
+            color: Theme
+                .of(context)
+                .primaryColor,
+          ),
+          title: Text(StringResources.viewApplicationsText),
+        ),
+      ],
+    );
+    context.isTablet
+        ? showGeneralDialog(
+        barrierDismissible: true,
+        barrierLabel: MaterialLocalizations
+            .of(context)
+            .modalBarrierDismissLabel,
+        transitionDuration: const Duration(milliseconds: 400),
+        barrierColor: const Color(0x80000000),
+        context: context,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AlertDialog(content: items, actions: [
+              RaisedButton(onPressed: () {
+                Get.back();
+              },child: Text(StringResources.closeText),)
+            ],))
+        : showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        )),
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            )),
         context: context,
-        builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 12,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-              ),
-              // view
-              ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToJobDetailsScreen();
-                },
-                leading: Icon(
-                  FeatherIcons.eye,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(StringResources.viewText),
-              ),
-//edit
-              ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToEditNNewJobScreen();
-                },
-                leading: Icon(
-                  FeatherIcons.edit,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(StringResources.editText),
-              ),
-//copy
-              ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToEditNNewJobScreen(true);
-                },
-                leading: Icon(
-                  FeatherIcons.copy,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(StringResources.copyAsNewText),
-              ),
-              // view applications
-              ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToApplicationsScreen();
-                },
-                leading: Icon(
-                  FontAwesomeIcons.fileWord,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(StringResources.viewApplicationsText),
-              ),
-            ],
-          );
-        });
+        builder: (context) => items);
   }
 
   _navigateToJobDetailsScreen() {
@@ -367,7 +387,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         Navigator.push(
             context,
             CupertinoPageRoute(
-                builder: (context) => PostNewJobScreen(
+                builder: (context) =>
+                    PostNewJobScreen(
                       jobModel: r,
                       copyAsNew: copyAsNew,
                     )));
