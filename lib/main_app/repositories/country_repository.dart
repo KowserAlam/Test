@@ -32,23 +32,51 @@ class CountryRepository {
     try {
       List<Country> _list = [];
       Map<String, dynamic> decodedJson =
-      await Cache.load(Urls.countryListUrl).then((value) async {
+      await Cache.load(Urls.cityListUrl).then((value) async {
         if (value != null) {
-          debugPrint("Country list from cache");
+          debugPrint("Country,city list from cache");
           return value;
         } else {
-          var res = await ApiClient().getRequest(Urls.countryListUrl);
+          var res = await ApiClient().getRequest(Urls.cityListUrl);
           logger.i(res.statusCode);
 
           var data = json.decode(res.body);
-          Cache.remember(Urls.countryListUrl, data, 43800 * 60);
-          debugPrint("Country list from server");
+          Cache.remember(Urls.cityListUrl, data, 30 * 60);
+          debugPrint("Country,city list from server");
           return data;
         }
       });
 //      Logger().i(decodedJson);
       decodedJson.forEach((key, value) {
         _list.add(Country(code: key, name: value));
+      });
+
+      return _list;
+    } catch (e) {
+      logger.e(e);
+      return [];
+    }
+  }
+  Future<List<String>> getCityCountryList() async {
+    try {
+      List<String> _list = [];
+      var decodedJson = await Cache.load(Urls.cityListUrl).then((value) async {
+        if (value != null) {
+          debugPrint("Country,city list from cache");
+          var data = json.decode(value);
+          return data;
+        } else {
+          var res = await ApiClient().getRequest(Urls.cityListUrl);
+          logger.i(res.statusCode);
+          Cache.remember(Urls.cityListUrl, res.body, 30 * 60);
+          var data = json.decode(res.body);
+          debugPrint("Country,city list from server");
+          return data;
+        }
+      });
+//      Logger().i(decodedJson);
+      decodedJson.forEach(( value) {
+        _list.add(value["name"]);
       });
 
       return _list;
@@ -68,7 +96,6 @@ class Country extends Equatable {
   factory Country.fromJson(Map<String, dynamic> json) {
     return Country(
       name: json["name"],
-      code: json["code"],
     );
   }
 

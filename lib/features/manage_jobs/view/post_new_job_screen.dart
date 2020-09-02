@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/select_required_skill_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
+import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
@@ -37,6 +39,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   DateTime applicationDeadline;
   var _formKey = GlobalKey<FormState>();
   List<Skill> _selectedSkillList = [];
+  String _selectedCityCountry;
 
   String result = "";
   var _jobTitleTextEditingController = TextEditingController();
@@ -47,7 +50,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _salaryTextEditingController = TextEditingController();
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
-  var _jobCityTextEditingController = TextEditingController();
+
 
   ZefyrController _descriptionZefyrController =
       ZefyrController(NotusDocument());
@@ -96,7 +99,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _salaryMinTextEditingController.text = job?.salaryMin;
     _salaryMaxTextEditingController.text = job?.salaryMax;
     _jobAreaTextEditingController.text = job?.jobArea;
-    _jobCityTextEditingController.text = job?.jobCity;
+    _selectedCityCountry = job?.jobCity;
     selectedGender = job?.gender;
     selectedJobCategory = job?.jobCategory;
     selectedJobExperience = job?.experience;
@@ -135,9 +138,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     });
   }
 
-  var spaceBetweenFields = SizedBox(
-    height: 10,
-  );
+
 
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
@@ -159,13 +160,14 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_nature": selectedJobNature?.id,
         "job_type": selectedJobType?.id,
         "job_site": selectedJobSite?.id,
-        "job_city": _jobCityTextEditingController.text.getStringInNotNull,
+        "job_city": _selectedCityCountry.getStringInNotNull,
         "description": _descriptionZefyrController.document.toHTML.getStringInNotNull,
         "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
         "additional_requirements":
             _jobAdditionalReqZefyrController.document.toHTML.getStringInNotNull,
         "education": _jobEducationZefyrController.document.toHTML.getStringInNotNull,
         "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML.getStringInNotNull,
+        "application_deadline": applicationDeadline.toYYYMMDDString,
         'skills':_selectedSkillList.map((e) => e.name).join(",").getStringInNotNull,
       };
 
@@ -202,6 +204,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var spaceBetweenFields = SizedBox(
+      height: context.isTablet? 20: 10,
+    );
     return ChangeNotifierProvider(
       create: (context) => widget.jobPostViewModel,
       child: Consumer<JobPostViewModel>(builder: (context, _vm, _) {
@@ -223,24 +228,27 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
               padding: EdgeInsets.all(8),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    //title
-                    CustomTextFormField(
-                      isRequired: true,
-                      validator: Validator().nullFieldValidate,
-                      controller: _jobTitleTextEditingController,
-                      labelText: StringResources.jobTitleText,
-                      hintText: StringResources.jobTitleText,
-                    ),
-                    spaceBetweenFields,
-                    // job description
-                    CustomZefyrRichTextFormField(
-                      zefyrKey: Key('jobDescriptionField'),
-                      labelText: StringResources.jobDescriptionTitle,
-                      focusNode: _descriptionFocusNode,
-                      controller: _descriptionZefyrController,
-                    ),
+                child: Center(
+                  child: Container(
+                    constraints: BoxConstraints(maxWidth: 720),
+                    child: Column(
+                      children: [
+                        //title
+                        CustomTextFormField(
+                          isRequired: true,
+                          validator: Validator().nullFieldValidate,
+                          controller: _jobTitleTextEditingController,
+                          labelText: StringResources.jobTitleText,
+                          hintText: StringResources.jobTitleText,
+                        ),
+                        spaceBetweenFields,
+                        // job description
+                        CustomZefyrRichTextFormField(
+                          zefyrKey: Key('jobDescriptionField'),
+                          labelText: StringResources.jobDescriptionTitle,
+                          focusNode: _descriptionFocusNode,
+                          controller: _descriptionZefyrController,
+                        ),
 //                  CustomTextFieldRichHtml(
 //                    labelText: StringResources.jobDescriptionTitle,
 //                    height: 400,
@@ -256,247 +264,263 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 //                       ]
 //                     """,
 //                  ),
-                    spaceBetweenFields,
+                        spaceBetweenFields,
 
-                    //address
-                    CustomTextFormField(
-                      isRequired: true,
-                      validator: Validator().nullFieldValidate,
-                      controller: _jobAddressTextEditingController,
-                      labelText: StringResources.jobLocation,
-                      hintText: StringResources.addressText,
-                      maxLines: 6,
-                      minLines: 3,
-                    ),
-                    spaceBetweenFields,
+                        //address
+                        CustomTextFormField(
+                          isRequired: true,
+                          validator: Validator().nullFieldValidate,
+                          controller: _jobAddressTextEditingController,
+                          labelText: StringResources.jobLocation,
+                          hintText: StringResources.addressText,
+                          maxLines: 6,
+                          minLines: 3,
+                          maxLength: 50,
+                        ),
+
+                        spaceBetweenFields,
 
 // area
-                    CustomTextFormField(
-                      controller: _jobAreaTextEditingController,
-                      labelText: StringResources.jobAreaText,
-                      hintText: StringResources.jobAreaText,
-                    ),
-                    spaceBetweenFields,
+                        CustomTextFormField(
+                          controller: _jobAreaTextEditingController,
+                          labelText: StringResources.jobAreaText,
+                          hintText: StringResources.jobAreaText,
+                        ),
+                        spaceBetweenFields,
 
 // city
-                    CustomTextFormField(
-                      controller: _jobCityTextEditingController,
-                      labelText: StringResources.jobCityText,
-                      hintText: StringResources.jobCityHintText,
-                    ),
-                    spaceBetweenFields,
+                      FutureBuilder<List<String>>(
+                        future: CountryRepository().getCityCountryList(),
+                        builder: (context, AsyncSnapshot<List<String>> snapshot) {
+                          var list = [];
+                          if(snapshot.hasData){
+                            list = snapshot.data;
+                          }
+                          return CustomDropdownSearchFormField<String>(
+                            selectedItem: _selectedCityCountry.swapValueByComa,
+                            items: list,
+                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
+                            labelText: StringResources.jobCityText,
+                            onChanged: (v){
+                              _selectedCityCountry = v;
+                            },
 
-                    //vacancy
-                    CustomTextFormField(
-                      isRequired: true,
-                      validator: Validator().integerNumberValidator,
-                      controller: _jobVacancyTextEditingController,
-                      labelText: StringResources.vacancy,
-                      hintText: StringResources.vacancyHintText,
-                    ),
-                    spaceBetweenFields,
+                          );
+                        }
+                      ),
+                        spaceBetweenFields,
 
-                    // Responsibilities
-                    CustomZefyrRichTextFormField(
-                      labelText: StringResources.responsibilitiesTitle,
-                      focusNode: _jobResponsibilitiesFocusNode,
-                      controller: _jobResponsibilitiesZefyrController,
-                    ),
-                    spaceBetweenFields,
-
-                    // Education
-                    CustomZefyrRichTextFormField(
-                      labelText: StringResources.educationsText,
-                      focusNode: _jobEducationFocusNode,
-                      controller: _jobEducationZefyrController,
-                    ),
-                    spaceBetweenFields,
-
-                    // Additional Requirements
-                    CustomZefyrRichTextFormField(
-                      labelText: StringResources.jobAdditionalRequirementsText,
-                      focusNode: _jobAdditionalFocusNode,
-                      controller: _jobAdditionalReqZefyrController,
-                    ),
-                    spaceBetweenFields,
-                    // otherBenefitsTitle
-                    CustomZefyrRichTextFormField(
-                      labelText: StringResources.otherBenefitsTitle,
-                      focusNode: _jobOtherBenefitsFocusNode,
-                      controller: _jobOtherBenefitsZefyrController,
-                    ),
-                    spaceBetweenFields,
-
-                    //salary
-                    CustomTextFormField(
-                      controller: _salaryTextEditingController,
-                      labelText: StringResources.salary,
-                    ),
-                    spaceBetweenFields,
-
-                    //salary range
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextFormField(
-                            validator: Validator().moneyAmountNullableValidate,
-                            controller: _salaryMinTextEditingController,
-                            labelText: StringResources.salaryRangeText,
-                            hintText: StringResources.salaryMin,
-                          ),
+                        //vacancy
+                        CustomTextFormField(
+                          isRequired: true,
+                          validator: Validator().integerNumberValidator,
+                          controller: _jobVacancyTextEditingController,
+                          labelText: StringResources.vacancy,
+                          hintText: StringResources.vacancyHintText,
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: CustomTextFormField(
-                            validator: Validator().moneyAmountNullableValidate,
-                            controller: _salaryMaxTextEditingController,
-                            hintText: StringResources.salaryMax,
-                            labelText: "",
-                          ),
-                        ),
-                      ],
-                    ),
-                    spaceBetweenFields,
+                        spaceBetweenFields,
 
-                    // application deadline
+                        // Responsibilities
+                        CustomZefyrRichTextFormField(
+                          labelText: StringResources.responsibilitiesTitle,
+                          focusNode: _jobResponsibilitiesFocusNode,
+                          controller: _jobResponsibilitiesZefyrController,
+                        ),
+                        spaceBetweenFields,
 
-                    CommonDatePickerFormField(
-                      onDateTimeChanged: (DateTime d) {
-                        applicationDeadline = d;
-                        setState(() {});
-                      },
-                      date: applicationDeadline,
-                      label: StringResources.applicationDeadline,
-                    ),
+                        // Education
+                        CustomZefyrRichTextFormField(
+                          labelText: StringResources.educationsText,
+                          focusNode: _jobEducationFocusNode,
+                          controller: _jobEducationZefyrController,
+                        ),
+                        spaceBetweenFields,
+
+                        // Additional Requirements
+                        CustomZefyrRichTextFormField(
+                          labelText: StringResources.jobAdditionalRequirementsText,
+                          focusNode: _jobAdditionalFocusNode,
+                          controller: _jobAdditionalReqZefyrController,
+                        ),
+                        spaceBetweenFields,
+                        // otherBenefitsTitle
+                        CustomZefyrRichTextFormField(
+                          labelText: StringResources.otherBenefitsTitle,
+                          focusNode: _jobOtherBenefitsFocusNode,
+                          controller: _jobOtherBenefitsZefyrController,
+                        ),
+                        spaceBetweenFields,
+
+                        //salary
+                        CustomTextFormField(
+                          controller: _salaryTextEditingController,
+                          labelText: StringResources.salary,
+                        ),
+                        spaceBetweenFields,
+
+                        //salary range
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextFormField(
+                                validator: Validator().moneyAmountNullableValidate,
+                                controller: _salaryMinTextEditingController,
+                                labelText: StringResources.salaryRangeText,
+                                hintText: StringResources.salaryMin,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: CustomTextFormField(
+                                validator: Validator().moneyAmountNullableValidate,
+                                controller: _salaryMaxTextEditingController,
+                                hintText: StringResources.salaryMax,
+                                labelText: "",
+                              ),
+                            ),
+                          ],
+                        ),
+                        spaceBetweenFields,
+
+                        // application deadline
+
+                        CommonDatePickerFormField(
+                          onDateTimeChanged: (DateTime d) {
+                            applicationDeadline = d;
+                            setState(() {});
+                          },
+                          date: applicationDeadline,
+                          label: StringResources.applicationDeadline,
+                        ),
 // gender
-                    spaceBetweenFields,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomDropdownSearchFormField(
-                            labelText: StringResources.genderText,
-                            hintText: StringResources.tapToSelectText,
-                            showSelectedItem: true,
-                            items: _vm.genderList,
-                            selectedItem: selectedGender,
-                            onChanged: (v) {
-                              selectedGender = v;
-                            },
-                          ),
+                        spaceBetweenFields,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomDropdownSearchFormField(
+                                labelText: StringResources.genderText,
+                                hintText: StringResources.tapToSelectText,
+                                showSelectedItem: true,
+                                items: _vm.genderList,
+                                selectedItem: selectedGender,
+                                onChanged: (v) {
+                                  selectedGender = v;
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            // experience
+                            Expanded(
+                              child: CustomDropdownSearchFormField(
+                                selectedItem: selectedJobExperience,
+                                labelText: StringResources.experience,
+                                hintText: StringResources.tapToSelectText,
+                                showSelectedItem: true,
+                                onChanged: (v) {
+                                  selectedJobExperience = v;
+                                },
+                                items: _vm.experienceList,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 10,
+                        // job category
+                        spaceBetweenFields,
+                        CustomDropdownSearchFormField(
+                          selectedItem: selectedJobCategory,
+                          labelText: StringResources.category,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          onChanged: (v) {
+                            selectedJobCategory = v;
+                          },
+                          items: _vm.jobCategoryList,
                         ),
-                        // experience
-                        Expanded(
-                          child: CustomDropdownSearchFormField(
-                            selectedItem: selectedJobExperience,
-                            labelText: StringResources.experience,
-                            hintText: StringResources.tapToSelectText,
-                            showSelectedItem: true,
-                            onChanged: (v) {
-                              selectedJobExperience = v;
-                            },
-                            items: _vm.experienceList,
-                          ),
+                        spaceBetweenFields,
+
+                        // qualification
+                        CustomDropdownSearchFormField(
+                          selectedItem: selectedJobQualification,
+                          labelText: StringResources.qualificationText,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          onChanged: (v) {
+                            selectedJobQualification = v;
+                          },
+                          items: _vm.qualifications,
                         ),
-                      ],
-                    ),
-                    // job category
-                    spaceBetweenFields,
-                    CustomDropdownSearchFormField(
-                      selectedItem: selectedJobCategory,
-                      labelText: StringResources.category,
-                      hintText: StringResources.tapToSelectText,
-                      showSelectedItem: true,
-                      onChanged: (v) {
-                        selectedJobCategory = v;
-                      },
-                      items: _vm.jobCategoryList,
-                    ),
-                    spaceBetweenFields,
+                        spaceBetweenFields,
+                        // job site
+                        CustomDropdownSearchFormField<JobSite>(
+                          selectedItem: selectedJobSite,
+                          labelText: StringResources.jobSiteText,
+                          hintText: StringResources.tapToSelectText,
+                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          showSelectedItem: true,
+                          isRequired: true,
+                          itemAsString: (v) => v.text,
+                          onChanged: (v) {
+                            selectedJobSite = v;
+                          },
+                          items: _vm.jobSiteList,
+                        ),
+                        spaceBetweenFields,
 
-                    // qualification
-                    CustomDropdownSearchFormField(
-                      selectedItem: selectedJobQualification,
-                      labelText: StringResources.qualificationText,
-                      hintText: StringResources.tapToSelectText,
-                      showSelectedItem: true,
-                      onChanged: (v) {
-                        selectedJobQualification = v;
-                      },
-                      items: _vm.qualifications,
-                    ),
-                    spaceBetweenFields,
-                    // job site
-                    CustomDropdownSearchFormField<JobSite>(
-                      selectedItem: selectedJobSite,
-                      labelText: StringResources.jobSiteText,
-                      hintText: StringResources.tapToSelectText,
-                      validator: (v) => Validator().nullFieldValidate(v?.text),
-                      showSelectedItem: true,
-                      isRequired: true,
-                      itemAsString: (v) => v.text,
-                      onChanged: (v) {
-                        selectedJobSite = v;
-                      },
-                      items: _vm.jobSiteList,
-                    ),
-                    spaceBetweenFields,
+                        //job nature
+                        CustomDropdownSearchFormField<JobNature>(
+                          selectedItem: selectedJobNature,
+                          labelText: StringResources.jobNature,
+                          hintText: StringResources.tapToSelectText,
+                          isRequired: true,
+                          showSelectedItem: true,
+                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          itemAsString: (v) => v.text,
+                          onChanged: (v) {
+                            selectedJobNature = v;
+                          },
+                          items: _vm.jobNature,
+                        ),
+                        spaceBetweenFields,
 
-                    //job nature
-                    CustomDropdownSearchFormField<JobNature>(
-                      selectedItem: selectedJobNature,
-                      labelText: StringResources.jobNature,
-                      hintText: StringResources.tapToSelectText,
-                      isRequired: true,
-                      showSelectedItem: true,
-                      validator: (v) => Validator().nullFieldValidate(v?.text),
-                      itemAsString: (v) => v.text,
-                      onChanged: (v) {
-                        selectedJobNature = v;
-                      },
-                      items: _vm.jobNature,
-                    ),
-                    spaceBetweenFields,
+                        //job type
+                        CustomDropdownSearchFormField<JobType>(
+                          isRequired: true,
+                          selectedItem: selectedJobType,
+                          labelText: StringResources.jobTypeText,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          itemAsString: (v) => v.text,
+                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          onChanged: (v) {
+                            selectedJobType = v;
+                          },
+                          items: _vm.jobType,
+                        ),
+                        spaceBetweenFields,
 
-                    //job type
-                    CustomDropdownSearchFormField<JobType>(
-                      isRequired: true,
-                      selectedItem: selectedJobType,
-                      labelText: StringResources.jobTypeText,
-                      hintText: StringResources.tapToSelectText,
-                      showSelectedItem: true,
-                      itemAsString: (v) => v.text,
-                      validator: (v) => Validator().nullFieldValidate(v?.text),
-                      onChanged: (v) {
-                        selectedJobType = v;
-                      },
-                      items: _vm.jobType,
-                    ),
-                    spaceBetweenFields,
+                        //skills
 
-                    //skills
-
-                    SelectRequiredSkillWidget(
-                      onRemove: (i) {
-                        _selectedSkillList.removeAt(i);
-                      },
-                      onSuggestionSelected: (skill) {
-                        _selectedSkillList.add(skill);
-                      },
-                      items: _selectedSkillList,
-                    ),
-                    spaceBetweenFields,
-                    //profile
-                    CustomZefyrRichTextFormField(
-                      labelText: StringResources.jobAboutCompanyText,
-                      focusNode: _aboutCompanyFocusNode,
-                      controller: _aboutCompanyZefyrController,
+                        SelectRequiredSkillWidget(
+                          onRemove: (i) {
+                            _selectedSkillList.removeAt(i);
+                          },
+                          onSuggestionSelected: (skill) {
+                            _selectedSkillList.add(skill);
+                          },
+                          items: _selectedSkillList,
+                        ),
+                        spaceBetweenFields,
+                        //profile
+                        CustomZefyrRichTextFormField(
+                          labelText: StringResources.jobAboutCompanyText,
+                          focusNode: _aboutCompanyFocusNode,
+                          controller: _aboutCompanyZefyrController,
 //                      hintText:StringResources.companyProfileText ,
-                    ),
+                        ),
 //                    CustomTextFormField(
 //                      minLines: 3,
 //                      maxLines: 8,
@@ -504,11 +528,13 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 //                      labelText: StringResources.jobAboutCompanyText,
 //                      hintText: StringResources.companyProfileText,
 //                    ),
-                    spaceBetweenFields,
-                    SizedBox(
-                      height: 100,
-                    )
-                  ],
+                        spaceBetweenFields,
+                        SizedBox(
+                          height: 100,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

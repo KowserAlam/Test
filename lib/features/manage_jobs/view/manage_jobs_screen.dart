@@ -82,7 +82,11 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
                         child: Text(StringResources.noJobsFound),
                       ),
                     )
-                  : jobListWidget,
+                  : Center(
+                    child: Container(
+                        constraints: BoxConstraints(maxWidth: 720),
+                        child: jobListWidget),
+                  ),
             ],
           ),
         ),

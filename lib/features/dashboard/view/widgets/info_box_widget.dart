@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/route_manager.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:get/get.dart';
 
 class InfoBoxWidget extends StatelessWidget {
   final Function onTapShortListed;
@@ -24,6 +26,7 @@ class InfoBoxWidget extends StatelessWidget {
                     highlightColor: Colors.grey[100],
                     enabled: true,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
                             child: _boxItem(
@@ -108,13 +111,13 @@ class InfoBoxWidget extends StatelessWidget {
     LinearGradient linearGradient,
     Function onTap,
   }) {
+
     return LayoutBuilder(builder: (context, constrain) {
-      var screenHeight = MediaQuery.of(context).size.height;
-      var deviceWidth = MediaQuery.of(context).size.width;
-      double iconSize = deviceWidth * .075;
+      bool isSmallTablet = Get.context.isTablet;
+      double iconSize = 35;
       double numberFontSize = iconSize / 1.6;
       double textFontSize = iconSize / 2.7;
-      double boxHeight = iconSize * (1.2 + (screenHeight * .002));
+      double boxHeight = 120;
       return Container(
         margin: EdgeInsets.all(4),
         height: boxHeight,

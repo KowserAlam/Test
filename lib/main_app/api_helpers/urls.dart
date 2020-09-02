@@ -29,7 +29,7 @@ class Urls {
   static String profileCompleteness = "/api/pro/profile-completeness/";
 
 
-  static String countryListUrl = "/api/country/list/";
+  static String cityListUrl = "/api/city/list/";
   static String industryListUrl = "/api/industry/";
   static String companyListUrl = "/api/company/";
   static String genderListUrl = "/api/gender/list";
@@ -50,7 +50,7 @@ class Urls {
   static String jobSiteList = "/api/job-site/list";
   static String jobExperienceList = "/api/experience/list";
   static String jobNatureList = "/api/job-nature/list";
-  static String jobDetailsUrl = "/api/job/get/";
+  static String jobDetailsUrl = "/api/company/job/get/";
   static String favouriteJobAddUrl = "/api/job/favourite/toggle";
   static String companySearchUrl = "/api/company/search";
   static String jwtRefreshUrl = "/api/token/refresh/";

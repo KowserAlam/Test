@@ -60,6 +60,18 @@ extension StringExtension on String {
     } else
       return null;
   }
+
+  String get swapValueByComa {
+    if(this == null)
+      return null;
+    try {
+      List<String> list = this.split(",");
+      return "${list[1]}, ${list[0]}";
+    } catch (e) {
+      print(e);
+      return this;
+    }
+  }
 }
 
 extension ListExtension<T> on List<T> {

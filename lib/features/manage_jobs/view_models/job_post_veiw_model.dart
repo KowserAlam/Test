@@ -39,7 +39,7 @@ class JobPostViewModel with ChangeNotifier {
       BotToast.showLoading();
 
       data.removeWhere((key, value) => value == null);
-      logger.i(data);
+      // logger.i(data);
       var res = await ApiClient().postRequest(Urls.postNewJobUrl, data);
       // logger.i(res.statusCode);
       logger.i(res.body);
@@ -68,16 +68,17 @@ class JobPostViewModel with ChangeNotifier {
     try {
       BotToast.showLoading();
 
-      Map<String, dynamic> body = await AuthService.getInstance().then((value) {
-        data.addAll({"company_id": value.getUser().name});
-        return data;
-      });
+      // Map<String, dynamic> body = await AuthService.getInstance().then((value) {
+      //   data.addAll({"company_id": value.getUser().name});
+      //   return data;
+      // });
 
+      data.removeWhere((key, value) => value == null);
       // var cid = await AuthService.getInstance().then((value)=>value.getUser().name);
 
       var url = "${Urls.updateJobUrl}$jid/";
 
-      var res = await ApiClient().putRequest(url, body);
+      var res = await ApiClient().putRequest(url, data);
       logger.i(res.statusCode);
       logger.i(res.body);
 
