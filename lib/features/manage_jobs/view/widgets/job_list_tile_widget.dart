@@ -225,6 +225,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                           MainAxisAlignment.spaceAround,
                           children: [
                             IconButton(
+                              iconSize: 20,
                               tooltip: "View job",
                               icon: Icon(FeatherIcons.eye),
                               onPressed: () {
@@ -233,12 +234,14 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                               color: Colors.orange,
                             ),
                             IconButton(
+                                iconSize: 20,
                                 tooltip: "Edit job",
                                 icon: Icon(FeatherIcons.edit),
                                 onPressed: () {
                                   _navigateToEditNNewJobScreen();
                                 }),
                             IconButton(
+                                iconSize: 20,
                                 tooltip: "Copy job as new",
                                 icon: Icon(FeatherIcons.copy),
                                 onPressed: () {
