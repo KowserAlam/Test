@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
@@ -142,6 +143,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       );
     }
 
+
     var header = ProfileSectionBase(
       sectionBody: Container(
         padding: EdgeInsets.only(bottom: 20),
@@ -208,9 +210,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (companyDetails?.companyProfile != null)
-            CompanyProfileForamtedText(
-                StringResources.companyProfileText,
-                companyDetails.companyProfile),
+            _htmlItem(context: context, label: StringResources.companyProfileText, value: companyDetails.companyProfile, valueKey: null),
 //          Text.rich(TextSpan(children: [
 //            TextSpan(
 //                text: StringResources.companyProfileText + ': ',
@@ -221,7 +221,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
 //              style: TextStyle(color: Colors.lightBlue),
 //            ))
 //          ])),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           CompanyProfileForamtedText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
@@ -667,4 +667,20 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       ),
     );
   }
+
+  Widget _htmlItem(
+      {@required BuildContext context,
+        @required String label,
+        @required String value,
+        @required Key valueKey}) {
+//    double width = MediaQuery.of(context).size.width > 720 ? 160 : 130;
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Row(
+        crossAxisAlignment:CrossAxisAlignment.start,
+        children: [
+          Text("$label: ",style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          Expanded(child: HtmlWidget("${value ?? ""}", key: valueKey,)),
+        ],),
+    );}
 }

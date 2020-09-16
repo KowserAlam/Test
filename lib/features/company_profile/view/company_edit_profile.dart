@@ -16,6 +16,7 @@ import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:jobxprss_company/main_app/views/widgets/pick_location_on_map_widget.dart';
 import 'package:jobxprss_company/method_extension.dart';
@@ -42,7 +43,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   double longitude;
 
   var _companyNameTextController = TextEditingController();
-  var _companyProfileTextController = TextEditingController();
+  ZefyrController _companyProfileTextController = ZefyrController(NotusDocument());
   var _legalStructureTextController = TextEditingController();
   var _noOfHumanResourceTextController = TextEditingController();
   var _noOfITResourceTextController = TextEditingController();
@@ -66,6 +67,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _contactPersonDesignationTextController = TextEditingController();
   DateTime yearOfEstablishment;
 
+  FocusNode _companyProfileFocusNode = FocusNode();
+
   var spaceBetween = SizedBox(
     height: 10,
   );
@@ -80,7 +83,9 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     company = widget.company;
 
     _companyNameTextController.text = company.name;
-    _companyProfileTextController.text = company.companyProfile;
+    if(company.companyProfile != null){
+      _companyProfileTextController = ZefyrController(company.companyProfile.htmlToNotusDocument);
+    }
     yearOfEstablishment = company.yearOfEstablishment;
     _legalStructureTextController.text = company.legalStructure;
     _noOfHumanResourceTextController.text = company.noOfHumanResources;
@@ -128,7 +133,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text,
-        "company_profile": _companyProfileTextController.text,
+        "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
         "city": _cityTextController.text,
@@ -211,15 +216,12 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             //company_profile
-            CustomTextFormField(
-              //focusNode: _fatherNameFocusNode,
-//                    textInputAction: TextInputAction.next,
-              onFieldSubmitted: (a) {
-//                      FocusScope.of(context)
-//                          .requestFocus(_motherNameFocusNode);
-              },
-              controller: _companyProfileTextController,
+            CustomZefyrRichTextFormField(
               labelText: StringResources.companyProfileText,
+              hintText: StringResources.companyProfileText,
+              focusNode: _companyProfileFocusNode,
+              controller: _companyProfileTextController,
+              height: 80,
             ),
             spaceBetween,
             //Year of Establishment
@@ -485,38 +487,40 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
           ),
         );
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(StringResources.updateInfoText),
-            actions: [
-              EditScreenSaveButton(
-                text: StringResources.saveText,
-                onPressed: _handleSave,
-              )
-            ],
-          ),
-          body: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      header,
-                      basicInfo,
-                      address,
-                      contact,
-                      socialNetwork,
-                      orgHead,
-                      contactPerson,
-                      otherInfo,
-                      setLocation,
-                    ],
+        return ZefyrScaffold(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(StringResources.updateInfoText),
+              actions: [
+                EditScreenSaveButton(
+                  text: StringResources.saveText,
+                  onPressed: _handleSave,
+                )
+              ],
+            ),
+            body: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        header,
+                        basicInfo,
+                        address,
+                        contact,
+                        socialNetwork,
+                        orgHead,
+                        contactPerson,
+                        otherInfo,
+                        setLocation,
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       }),
