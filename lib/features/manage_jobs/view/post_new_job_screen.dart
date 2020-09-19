@@ -152,6 +152,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         print('Please fill salary field');
       }else{
         salary = _salaryTextEditingController.text;
+        salaryMin = salaryMax = null;
       }
     }else if(salaryRadioValue == 2){
       if(_salaryMinTextEditingController == null || _salaryMaxTextEditingController.text == null){
@@ -159,6 +160,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
       }else{
         salaryMin = _salaryMinTextEditingController.text;
         salaryMax = _salaryMaxTextEditingController.text;
+        salary = null;
       }
       salaryOption = 'RANGE';
     }else if(salaryRadioValue == 3){
