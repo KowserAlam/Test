@@ -174,7 +174,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "vacancy": _jobVacancyTextEditingController.text.getStringInNotNull,
         "address": _jobAddressTextEditingController.text.getStringInNotNull,
         "company_profile": _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
-
+        "salary_option": salaryOption,
         "salary": _salaryTextEditingController.text.getStringInNotNull,
         "salary_min": _salaryMinTextEditingController.text.getStringInNotNull,
         "salary_max": _salaryMaxTextEditingController.text.getStringInNotNull,
