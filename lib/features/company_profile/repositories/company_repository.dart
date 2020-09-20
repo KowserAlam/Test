@@ -87,7 +87,7 @@ class CompanyRepository {
     try {
       var name =
           await AuthService.getInstance().then((value) => value.getUser().cId);
-      String url = "${Urls.companyProfileUpdateUrl}/$name/";
+      String url = "${Urls.companyProfileUpdateUrl}/";
       var res = await ApiClient().putRequest(url, data);
       logger.i(url);
       logger.i(res.statusCode);

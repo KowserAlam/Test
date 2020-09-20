@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,16 +10,13 @@ import 'package:jobxprss_company/features/company_profile/view/widgets/change_im
 import 'package:jobxprss_company/features/company_profile/view/widgets/location_picker.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
-import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
-import 'package:jobxprss_company/main_app/views/widgets/pick_location_on_map_widget.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -287,7 +285,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
           ],
         );
-
         var contact = Column(
           children: [
             spaceBetween,
