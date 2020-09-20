@@ -10,7 +10,7 @@ class CompanyEditProfileViewModel with ChangeNotifier{
 //  }
 
   getCountryList()async{
-  CountryRepository().getList().then((value) {
+  CountryRepository().getCityCountryList().then((value) {
     _countryList = value;
     notifyListeners();
   });

@@ -47,7 +47,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _noOfITResourceTextController = TextEditingController();
   var _basisMembershipNoTextController = TextEditingController();
   var _addressTextController = TextEditingController();
-  var _cityTextController = TextEditingController();
+  // var _cityTextController = TextEditingController();
   var _contactNo1TextController = TextEditingController();
   var _contactNo2TextController = TextEditingController();
   var _contactNo3TextController = TextEditingController();
@@ -90,7 +90,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _noOfITResourceTextController.text = company.noOfItResources;
     _basisMembershipNoTextController.text = company.basisMembershipNo;
     _addressTextController.text = company.address;
-    _cityTextController.text = company.district;
+    // _cityTextController.text = company.district;
     _contactNo1TextController.text = company.companyContactNoOne;
     _contactNo2TextController.text = company.companyContactNoTwo;
     _contactNo3TextController.text = company.companyContactNoThree;
@@ -110,7 +110,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _contactPersonPhoneTextController.text = company.contactPersonMobileNo;
     latitude = company.latitude;
     longitude = company.longitude;
-    selectedCountry = company.country;
+    selectedCountry = company.city;
     // if (company.country.isNotEmptyOrNotNull) {
     //   CountryRepository().getCountryObjFromCode(company.country).then((value) {
     //     selectedCountry = value;
@@ -134,8 +134,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
-        "city": _cityTextController.text,
-        "country": selectedCountry ?? "",
+        // "city": _cityTextController.text,
+        "city": selectedCountry.swapValueByComa ?? "",
         "company_contact_no_one": _contactNo1TextController.text,
         "company_contact_no_two": _contactNo2TextController.text,
         "company_contact_no_three": _contactNo3TextController.text,
@@ -263,15 +263,15 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               hintText: StringResources.addressHintText,
             ),
             spaceBetween,
-            CustomTextFormField(
-              keyboardType: TextInputType.text,
-              controller: _cityTextController,
-              labelText: StringResources.companyCityText,
-              hintText: StringResources.companyCityEg,
-            ),
-            spaceBetween,
+            // CustomTextFormField(
+            //   keyboardType: TextInputType.text,
+            //   controller: _cityTextController,
+            //   labelText: StringResources.companyCityText,
+            //   hintText: StringResources.companyCityEg,
+            // ),
+            // spaceBetween,
             CustomDropdownSearchFormField<String>(
-              labelText: StringResources.companyCountryText,
+              labelText: StringResources.companyCityText,
               hintText: StringResources.tapToSelectText,
               items: editProfileVm.countryList,
               mode: Mode.BOTTOM_SHEET,

@@ -8,55 +8,45 @@ import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:logger/logger.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class CountryRepository {
-  // Future<String> getCountryNameFromCode(String code) async {
-  //   try {
-  //     var list = await getList();
-  //     return list.firstWhere((element) => element.code == code).name;
-  //   } catch (e) {
-  //     logger.e(e);
-  //     return code;
-  //   }
-  // }
-  // Future<Country> getCountryObjFromCode(String code) async {
-  //   try {
-  //     var list = await getList();
-  //     return list.firstWhere((element) => element.code == code);
-  //   } catch (e) {
-  //     logger.e(e);
-  //     return Country(code: code,name: code);
-  //   }
-  // }
 
-  Future<List<String>> getList() async {
-    try {
-      List<String> _list = [];
-      var decodedJson = await Cache.load(Urls.cityListUrl).then((value) async {
-        if (value != null) {
-          debugPrint("Country,city list from cache");
-          return json.decode(value);
-        } else {
-          var res = await ApiClient().getRequest(Urls.cityListUrl);
-          logger.i(res.statusCode);
-          var data = json.decode(res.body);
-          if(res.statusCode==200)
-          Cache.remember(Urls.cityListUrl, res.body, 30 * 60);
-          debugPrint("Country,city list from server");
-          return data;
-        }
-      });
-//      Logger().i(decodedJson);
-      decodedJson.forEach((e) {
-        _list.add(e['name']);
-      });
-
-      return _list;
-    } catch (e) {
-      logger.e(e);
-      return [];
-    }
-  }
+//   Future<List<String>> getList() async {
+//     try {
+//       List<String> _list = [];
+//       var decodedJson = await Cache.load(Urls.cityListUrl).then((value) async {
+//         if (value != null) {
+//           debugPrint("Country,city list from cache");
+//           return json.decode(value);
+//         } else {
+//           var res = await ApiClient().getRequest(Urls.cityListUrl);
+//           logger.i(res.statusCode);
+//
+//           if(res.statusCode==200){
+//             var data = json.decode(res.body);
+//             Cache.remember(Urls.cityListUrl, res.body, 30 * 60);
+//             debugPrint("Country,city list from server");
+//             return data;
+//           }else{
+//             return <String>[];
+//           }
+//
+//
+//         }
+//       });
+// //      Logger().i(decodedJson);
+//       decodedJson.forEach((e) {
+//         _list.add(e['name']);
+//       });
+//
+//
+//       return _list.map((e) => e.swapValueByComa);
+//     } catch (e) {
+//       logger.e(e);
+//       return [];
+//     }
+//   }
 
   Future<List<String>> getCityCountryList() async {
     try {
@@ -81,7 +71,7 @@ class CountryRepository {
         _list.add(value["name"]);
       });
 
-      return _list;
+      return _list.map((e) => e.swapValueByComa).toList();
     } catch (e) {
       logger.e(e);
       return [];
@@ -89,24 +79,3 @@ class CountryRepository {
   }
 }
 
-// class Country extends Equatable {
-//   String name;
-//   String code;
-//
-//   Country({this.name, this.code});
-//
-//   factory Country.fromJson(Map<String, dynamic> json) {
-//     return Country(
-//       name: json["name"],
-//     );
-//   }
-//
-//   @override
-//   String toString() {
-//     return name;
-//   }
-//
-//   @override
-//   // TODO: implement props
-//   List<Object> get props => [name, code];
-// }
