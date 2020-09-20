@@ -24,13 +24,13 @@ class CompanyRepository {
           "${Urls.companySearchUrl}/?page_size=$pageSize&name=${query ?? ""}&page=${page}";
       logger.i(url);
       var res = await ApiClient().getRequest(url);
-      logger.i(res.statusCode.toString());
-      logger.i(res.body.toString());
+      logger.i(res.statusCode);
+      // logger.i(res.body);
 
       if (res.statusCode == 200) {
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
-//        debuglogger.i(decodedJson.toString());
-        Logger().i(decodedJson);
+//        logger.i(decodedJson.toString());
+//         Logger().i(decodedJson);
         CompanyScreenDataModel list =
             CompanyScreenDataModel.fromJson(decodedJson);
         return Right(list);

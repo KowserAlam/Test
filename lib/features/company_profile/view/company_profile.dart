@@ -258,22 +258,14 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
               StringResources.companyCityText, companyDetails.city),
           SizedBox(height: 5),
           if (companyDetails.country.isNotEmptyOrNotNull)
-            FutureBuilder<String>(
-              future: CountryRepository()
-                  .getCountryNameFromCode(companyDetails.country),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                return CompanyProfileForamtedText(
-                    StringResources.companyCountryText,
-                    snapshot.data ?? companyDetails.country);
-              },
-            ),
+            CompanyProfileForamtedText(StringResources.companyCountryText,companyDetails.country),
           SizedBox(height: 5),
         ],
       ),
     );
 
     var contact = ProfileSectionBase(
-      sectionLabel: StringResources.companyContactSectionText,
+        sectionLabel: StringResources.companyContactSectionText,
       sectionIcon: FeatherIcons.userCheck,
       sectionBody: Container(
         child: Column(

@@ -132,13 +132,13 @@ class AuthService {
   }
 
   Future<bool> refreshToken() async {
-    if (await _isRefreshTokenValid()) {
+    if ( _isRefreshTokenValid()) {
       try {
         var baseUrl = FlavorConfig.instance.values.baseUrl;
         String rfToken = _instance._getRefreshToken();
         var body = {"refresh": rfToken};
         logger.i(body);
-        var res = await http.post("${baseUrl}${Urls.jwtRefreshUrl}",body: body);
+        var res = await http.post("$baseUrl${Urls.jwtRefreshUrl}",body: body);
         logger.i(res.statusCode);
         logger.i(res.body);
         if (res.statusCode == 200) {

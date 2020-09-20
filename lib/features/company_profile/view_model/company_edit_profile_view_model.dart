@@ -3,7 +3,7 @@ import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 
 class CompanyEditProfileViewModel with ChangeNotifier{
 
-  List<Country> _countryList = [];
+  List<String> _countryList = [];
 
 //  getAllList(){
 //    getCountryList();
@@ -16,5 +16,5 @@ class CompanyEditProfileViewModel with ChangeNotifier{
   });
   }
 
-  List<Country> get countryList => _countryList;
+  List<String> get countryList => _countryList;
 }

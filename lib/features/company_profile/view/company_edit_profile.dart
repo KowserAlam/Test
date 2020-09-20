@@ -38,7 +38,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   CompanyEditProfileViewModel _vm = CompanyEditProfileViewModel();
   var _formKey = GlobalKey<FormState>();
   File profileImage;
-  Country selectedCountry;
+  String selectedCountry;
   double latitude;
   double longitude;
 
@@ -112,14 +112,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _contactPersonPhoneTextController.text = company.contactPersonMobileNo;
     latitude = company.latitude;
     longitude = company.longitude;
-
-    if (company.country.isNotEmptyOrNotNull) {
-      CountryRepository().getCountryObjFromCode(company.country).then((value) {
-        selectedCountry = value;
-        logger.i(value);
-        setState(() {});
-      });
-    }
+    selectedCountry = company.country;
+    // if (company.country.isNotEmptyOrNotNull) {
+    //   CountryRepository().getCountryObjFromCode(company.country).then((value) {
+    //     selectedCountry = value;
+    //     logger.i(value);
+    //     setState(() {});
+    //   });
+    // }
 
     super.initState();
   }
@@ -137,7 +137,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
         "city": _cityTextController.text,
-        "country": selectedCountry?.code ?? "",
+        "country": selectedCountry ?? "",
         "company_contact_no_one": _contactNo1TextController.text,
         "company_contact_no_two": _contactNo2TextController.text,
         "company_contact_no_three": _contactNo3TextController.text,
@@ -273,7 +273,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               hintText: StringResources.companyCityEg,
             ),
             spaceBetween,
-            CustomDropdownSearchFormField<Country>(
+            CustomDropdownSearchFormField<String>(
               labelText: StringResources.companyCountryText,
               hintText: StringResources.tapToSelectText,
               items: editProfileVm.countryList,
@@ -307,7 +307,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.phone,
-              validator: Validator().validatePhoneNumber,
+              validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
               controller: _contactNo2TextController,
               labelText: StringResources.contactNoTwoText,
@@ -315,7 +315,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.phone,
-              validator: Validator().validatePhoneNumber,
+              validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
               controller: _contactNo3TextController,
               labelText: StringResources.contactNoThreeText,
