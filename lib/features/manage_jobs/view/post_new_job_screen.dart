@@ -40,6 +40,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _formKey = GlobalKey<FormState>();
   List<Skill> _selectedSkillList = [];
   String _selectedCityCountry;
+  int salaryRadioValue = 1;
+  String salary, salaryMin, salaryMax;
 
   String result = "";
   var _jobTitleTextEditingController = TextEditingController();
@@ -70,6 +72,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _aboutCompanyZefyrController = ZefyrController(NotusDocument());
   FocusNode _aboutCompanyFocusNode = FocusNode();
 
+  String salaryOption;
   String selectedGender;
   String selectedJobCategory;
   String selectedJobQualification;
@@ -143,12 +146,35 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
 
+    if(salaryRadioValue == 1){
+      salaryOption = 'AMOUNT';
+      if(_salaryTextEditingController.text == null){
+        print('Please fill salary field');
+      }else{
+        salary = _salaryTextEditingController.text;
+        salaryMin = salaryMax = null;
+      }
+    }else if(salaryRadioValue == 2){
+      if(_salaryMinTextEditingController == null || _salaryMaxTextEditingController.text == null){
+        print('Please fill all fields');
+      }else{
+        salaryMin = _salaryMinTextEditingController.text;
+        salaryMax = _salaryMaxTextEditingController.text;
+        salary = null;
+      }
+      salaryOption = 'RANGE';
+    }else if(salaryRadioValue == 3){
+      salaryMax = salaryMin = salary = null;
+      salaryOption = 'NEGOTIABLE';
+    }
+
     if (isValid) {
       Map<String, dynamic> data = {
         "title": _jobTitleTextEditingController.text.getStringInNotNull,
         "vacancy": _jobVacancyTextEditingController.text.getStringInNotNull,
         "address": _jobAddressTextEditingController.text.getStringInNotNull,
         "company_profile": _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
+        "salary_option": salaryOption,
         "salary": _salaryTextEditingController.text.getStringInNotNull,
         "salary_min": _salaryMinTextEditingController.text.getStringInNotNull,
         "salary_max": _salaryMaxTextEditingController.text.getStringInNotNull,
@@ -249,6 +275,19 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           focusNode: _descriptionFocusNode,
                           controller: _descriptionZefyrController,
                         ),
+
+                        spaceBetweenFields,
+                        //job category
+                        CustomDropdownSearchFormField(
+                          selectedItem: selectedJobCategory,
+                          labelText: StringResources.category,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          onChanged: (v) {
+                            selectedJobCategory = v;
+                          },
+                          items: _vm.jobCategoryList,
+                        ),
 //                  CustomTextFieldRichHtml(
 //                    labelText: StringResources.jobDescriptionTitle,
 //                    height: 400,
@@ -264,46 +303,55 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 //                       ]
 //                     """,
 //                  ),
-                        spaceBetweenFields,
 
-                        //address
-                        CustomTextFormField(
-                          isRequired: true,
-                          validator: Validator().nullFieldValidate,
-                          controller: _jobAddressTextEditingController,
-                          labelText: StringResources.jobLocation,
-                          hintText: StringResources.addressText,
-                          maxLines: 6,
-                          minLines: 3,
-                          maxLength: 50,
+                        spaceBetweenFields,
+                        //gender & experience
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomDropdownSearchFormField(
+                                labelText: StringResources.genderText,
+                                hintText: StringResources.tapToSelectText,
+                                showSelectedItem: true,
+                                items: _vm.genderList,
+                                selectedItem: selectedGender,
+                                onChanged: (v) {
+                                  selectedGender = v;
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: CustomDropdownSearchFormField(
+                                selectedItem: selectedJobExperience,
+                                labelText: StringResources.experience,
+                                hintText: StringResources.tapToSelectText,
+                                showSelectedItem: true,
+                                onChanged: (v) {
+                                  selectedJobExperience = v;
+                                },
+                                items: _vm.experienceList,
+                              ),
+                            ),
+                          ],
                         ),
 
                         spaceBetweenFields,
 
-// area
-                        CustomTextFormField(
-                          controller: _jobAreaTextEditingController,
-                          labelText: StringResources.jobAreaText,
-                          hintText: StringResources.jobAreaText,
+                        // qualification
+                        CustomDropdownSearchFormField(
+                          selectedItem: selectedJobQualification,
+                          labelText: StringResources.qualificationText,
+                          hintText: StringResources.tapToSelectText,
+                          showSelectedItem: true,
+                          onChanged: (v) {
+                            selectedJobQualification = v;
+                          },
+                          items: _vm.qualifications,
                         ),
-                        spaceBetweenFields,
 
-// city
-                      FutureBuilder<List<String>>(
-                        future: CountryRepository().getCityCountryList(),
-                        builder: (context, AsyncSnapshot<List<String>> snapshot) {
-                          return CustomDropdownSearchFormField<String>(
-                            selectedItem: _selectedCityCountry.swapValueByComa,
-                            items: snapshot.data??<String>[],
-                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
-                            labelText: StringResources.jobCityText,
-                            onChanged: (v){
-                              _selectedCityCountry = v;
-                            },
-
-                          );
-                        }
-                      ),
                         spaceBetweenFields,
 
                         //vacancy
@@ -314,6 +362,118 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           labelText: StringResources.vacancy,
                           hintText: StringResources.vacancyHintText,
                         ),
+
+                        spaceBetweenFields,
+                        spaceBetweenFields,
+                        Text(StringResources.salary, style: TextStyle(fontWeight: FontWeight.bold)),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                  children: [
+                                    Radio(
+                                        groupValue: salaryRadioValue,
+                                        value: 1,
+                                        onChanged: (value){
+                                          setState((){
+                                            salaryRadioValue = value;
+                                          });
+                                        }
+                                    ),
+                                    Text(StringResources.salaryAmount),
+                                  ]
+                              ),
+
+                              Row(
+                                  children: [
+                                    Radio(
+                                        groupValue: salaryRadioValue,
+                                        value: 2,
+                                        onChanged: (value){
+                                          setState((){
+                                            salaryRadioValue = value;
+                                          });
+                                        }
+                                    ),
+                                    Text(StringResources.salaryRangeText),
+                                  ]
+                              ),
+
+                              Row(
+                                  children: [
+                                    Radio(
+                                        groupValue: salaryRadioValue,
+                                        value: 3,
+                                        onChanged: (value){
+                                          setState((){
+                                            salaryRadioValue = value;
+                                          });
+                                        }
+                                    ),
+                                    Text(StringResources.salaryNegotiable),
+                                    SizedBox(width:5)
+                                  ]
+                              ),
+
+                            ]
+                        ),
+
+                        salaryRadioValue==1?Column(
+                            children: [
+                              spaceBetweenFields,
+
+                              //salary
+                              CustomTextFormField(
+                                controller: _salaryTextEditingController,
+                                hintText: StringResources.salary,
+                              ),
+                            ]
+                        ):SizedBox(),
+
+                        salaryRadioValue==2?Column(
+                            children: [
+                              spaceBetweenFields,
+
+
+                              //salary range
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomTextFormField(
+                                      validator: Validator().moneyAmountNullableValidate,
+                                      controller: _salaryMinTextEditingController,
+                                      hintText: StringResources.salaryMin,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: CustomTextFormField(
+                                      validator: Validator().moneyAmountNullableValidate,
+                                      controller: _salaryMaxTextEditingController,
+                                      hintText: StringResources.salaryMax,
+                                      labelText: "",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]
+                        ):SizedBox(),
+
+                        spaceBetweenFields,
+
+                        // application deadline
+
+                        CommonDatePickerFormField(
+                          onDateTimeChanged: (DateTime d) {
+                            applicationDeadline = d;
+                            setState(() {});
+                          },
+                          date: applicationDeadline,
+                          label: StringResources.applicationDeadline,
+                        ),
+
                         spaceBetweenFields,
 
                         // Responsibilities
@@ -322,6 +482,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           focusNode: _jobResponsibilitiesFocusNode,
                           controller: _jobResponsibilitiesZefyrController,
                         ),
+
                         spaceBetweenFields,
 
                         // Education
@@ -345,110 +506,50 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           focusNode: _jobOtherBenefitsFocusNode,
                           controller: _jobOtherBenefitsZefyrController,
                         ),
+
                         spaceBetweenFields,
 
-                        //salary
+                        //address
                         CustomTextFormField(
-                          controller: _salaryTextEditingController,
-                          labelText: StringResources.salary,
+                          isRequired: true,
+                          validator: Validator().nullFieldValidate,
+                          controller: _jobAddressTextEditingController,
+                          labelText: StringResources.jobLocation,
+                          hintText: StringResources.addressText,
+                          maxLines: 6,
+                          minLines: 3,
+                          maxLength: 50,
+                        ),
+
+                        spaceBetweenFields,
+
+                        // area
+                        CustomTextFormField(
+                          controller: _jobAreaTextEditingController,
+                          labelText: StringResources.jobAreaText,
+                          hintText: StringResources.jobAreaText,
                         ),
                         spaceBetweenFields,
 
-                        //salary range
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextFormField(
-                                validator: Validator().moneyAmountNullableValidate,
-                                controller: _salaryMinTextEditingController,
-                                labelText: StringResources.salaryRangeText,
-                                hintText: StringResources.salaryMin,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: CustomTextFormField(
-                                validator: Validator().moneyAmountNullableValidate,
-                                controller: _salaryMaxTextEditingController,
-                                hintText: StringResources.salaryMax,
-                                labelText: "",
-                              ),
-                            ),
-                          ],
-                        ),
-                        spaceBetweenFields,
+                      // city
+                      FutureBuilder<List<String>>(
+                        future: CountryRepository().getCityCountryList(),
+                        builder: (context, AsyncSnapshot<List<String>> snapshot) {
+                          return CustomDropdownSearchFormField<String>(
+                            selectedItem: _selectedCityCountry.swapValueByComa,
+                            items: snapshot.data??<String>[],
+                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
+                            labelText: StringResources.jobCityText,
+                            onChanged: (v){
+                              _selectedCityCountry = v;
+                            },
 
-                        // application deadline
+                          );
+                        }
+                      ),
 
-                        CommonDatePickerFormField(
-                          onDateTimeChanged: (DateTime d) {
-                            applicationDeadline = d;
-                            setState(() {});
-                          },
-                          date: applicationDeadline,
-                          label: StringResources.applicationDeadline,
-                        ),
-// gender
-                        spaceBetweenFields,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomDropdownSearchFormField(
-                                labelText: StringResources.genderText,
-                                hintText: StringResources.tapToSelectText,
-                                showSelectedItem: true,
-                                items: _vm.genderList,
-                                selectedItem: selectedGender,
-                                onChanged: (v) {
-                                  selectedGender = v;
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            // experience
-                            Expanded(
-                              child: CustomDropdownSearchFormField(
-                                selectedItem: selectedJobExperience,
-                                labelText: StringResources.experience,
-                                hintText: StringResources.tapToSelectText,
-                                showSelectedItem: true,
-                                onChanged: (v) {
-                                  selectedJobExperience = v;
-                                },
-                                items: _vm.experienceList,
-                              ),
-                            ),
-                          ],
-                        ),
-                        // job category
-                        spaceBetweenFields,
-                        CustomDropdownSearchFormField(
-                          selectedItem: selectedJobCategory,
-                          labelText: StringResources.category,
-                          hintText: StringResources.tapToSelectText,
-                          showSelectedItem: true,
-                          onChanged: (v) {
-                            selectedJobCategory = v;
-                          },
-                          items: _vm.jobCategoryList,
-                        ),
-                        spaceBetweenFields,
 
-                        // qualification
-                        CustomDropdownSearchFormField(
-                          selectedItem: selectedJobQualification,
-                          labelText: StringResources.qualificationText,
-                          hintText: StringResources.tapToSelectText,
-                          showSelectedItem: true,
-                          onChanged: (v) {
-                            selectedJobQualification = v;
-                          },
-                          items: _vm.qualifications,
-                        ),
+
                         spaceBetweenFields,
                         // job site
                         CustomDropdownSearchFormField<JobSite>(

@@ -13,6 +13,7 @@ class JobModel {
   String jobArea;
   String salaryMin;
   String salaryMax;
+  String salaryOption;
   String vacancy;
   DateTime applicationDeadline;
   String descriptions;
@@ -62,6 +63,7 @@ class JobModel {
       this.education,
       this.isApplied,
       this.salary,
+      this.salaryOption,
       this.otherBenefits,
       this.rawContent,
       this.termsAndCondition,
@@ -97,6 +99,7 @@ class JobModel {
     slug = json['slug'];
     title = json['title']?.toString();
     jobCity = json['job_city']?.toString();
+    salaryOption = json['salary_option'].toString();
     salaryMin = json['salary_min']?.toString();
     salaryMax = json['salary_max']?.toString();
     vacancy = json['vacancy']?.toString();
