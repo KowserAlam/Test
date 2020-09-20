@@ -22,7 +22,7 @@ class _PasswordResetScreensState extends State<PasswordResetScreens> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(StringResources.passwordResetText),
+        title: Text(StringResources.passwordResetText, key: Key('passwordResetScreenAppBarTitleKey'),),
       ),
       body: Center(
         child: Container(
