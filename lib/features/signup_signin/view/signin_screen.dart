@@ -133,6 +133,7 @@ class _SigninScreenState extends State<SigninScreen> {
       children: <Widget>[
         Text(
           StringResources.welcomeBack,
+          key: Key ('welcomeBackKey'),
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         ),
         SizedBox(
@@ -140,6 +141,7 @@ class _SigninScreenState extends State<SigninScreen> {
         ),
         Text(
           StringResources.loginToYourExistingAccount,
+          key: Key('loginToYourExistingAccountKey'),
           style: TextStyle(fontSize: 15, color: Colors.grey[400]),
         )
       ],
@@ -189,6 +191,7 @@ class _SigninScreenState extends State<SigninScreen> {
     var email = Consumer<SigninViewModel>(
       builder: (context, signViewModel, _) {
         return CustomTextFieldRounded(
+          textFieldKey: Key('emailAddressTextfieldKey'),
           errorText: signViewModel.errorTextEmail,
           keyboardType: TextInputType.emailAddress,
           focusNode: _emailFocus,
@@ -211,6 +214,7 @@ class _SigninScreenState extends State<SigninScreen> {
       builder: (context, signViewModel, _) {
         bool isObscure = signViewModel.isObscurePassword;
         return CustomTextFieldRounded(
+          textFieldKey: Key('passwordTextfieldKey'),
           onChanged: signViewModel.validatePasswordLocal,
           errorText: signViewModel.errorTextPassword,
           focusNode: _passwordFocus,
@@ -220,9 +224,11 @@ class _SigninScreenState extends State<SigninScreen> {
             icon: !isObscure
                 ? Icon(
                     Icons.visibility,
+              key: Key('paswwordVisibilityOn'),
                   )
                 : Icon(
                     Icons.visibility_off,
+              key: Key('paswwordVisibilityOff'),
                     color: Theme.of(context).textTheme.subtitle1.color,
                   ),
             onPressed: () {
@@ -252,6 +258,7 @@ class _SigninScreenState extends State<SigninScreen> {
             padding: EdgeInsets.all(8),
             child: Text(
               StringResources.forgotPassword,
+              key: Key('forgotPasswordTextKey'),
             ),
           ),
         ),
@@ -266,6 +273,7 @@ class _SigninScreenState extends State<SigninScreen> {
             width: 200,
             child: Text(
               StringResources.logInButtonText,
+              key: Key('signInButtonKey'),
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             controller: _signinBtnController,
