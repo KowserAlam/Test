@@ -218,7 +218,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             //company_profile
             CustomZefyrRichTextFormField(
               labelText: StringResources.companyProfileText,
-              hintText: StringResources.companyProfileText,
               focusNode: _companyProfileFocusNode,
               controller: _companyProfileTextController,
               height: 80,
