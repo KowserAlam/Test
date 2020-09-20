@@ -39,7 +39,7 @@ class CustomTextFieldRounded extends StatelessWidget {
     this.keyboardType,
     this.contentPadding,
     this.obscureText = false,
-    this.maxLines = 1, this.textFieldKey,
+    this.maxLines = 1, this.textFieldKey, Key key,
   });
 
   @override
