@@ -97,7 +97,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _jobTitleTextEditingController.text = job?.title;
     _jobVacancyTextEditingController.text = job?.vacancy?.toString();
     _jobAddressTextEditingController.text = job?.jobAddress;
-
     _salaryTextEditingController.text = job?.salary;
     _salaryMinTextEditingController.text = job?.salaryMin;
     _salaryMaxTextEditingController.text = job?.salaryMax;
@@ -186,7 +185,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_nature": selectedJobNature?.id,
         "job_type": selectedJobType?.id,
         "job_site": selectedJobSite?.id,
-        "job_city": _selectedCityCountry.getStringInNotNull,
+        "job_city": _selectedCityCountry.swapValueByComa.getStringInNotNull,
         "description": _descriptionZefyrController.document.toHTML.getStringInNotNull,
         "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
         "additional_requirements":
@@ -536,9 +535,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         future: CountryRepository().getCityCountryList(),
                         builder: (context, AsyncSnapshot<List<String>> snapshot) {
                           return CustomDropdownSearchFormField<String>(
-                            selectedItem: _selectedCityCountry.swapValueByComa,
+                            selectedItem: _selectedCityCountry,
                             items: snapshot.data??<String>[],
-                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
+                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s??""),),
                             labelText: StringResources.jobCityText,
                             onChanged: (v){
                               _selectedCityCountry = v;
