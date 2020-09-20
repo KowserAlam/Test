@@ -12,8 +12,8 @@ class JobModel {
   String jobAddress;
   String jobCountry;
   String jobArea;
-  String salaryMin;
-  String salaryMax;
+  int salaryMin;
+  int salaryMax;
   String salaryOption;
   String vacancy;
   DateTime applicationDeadline;
@@ -101,8 +101,15 @@ class JobModel {
     title = json['title']?.toString();
     jobCity = json['job_city']?.toString()?.swapValueByComa;
     salaryOption = json['salary_option'].toString();
-    salaryMin = json['salary_min']?.toString();
-    salaryMax = json['salary_max']?.toString();
+    if(json['salary_min'] != null){
+
+    salaryMin = num.parse(json['salary_min']?.toString()).toInt();
+    }
+
+    if(json['salary_max'] != null){
+      salaryMax = num.parse(json['salary_max']?.toString()).toInt();
+    }
+
     vacancy = json['vacancy']?.toString();
     if (json['application_deadline'] != null) {
       applicationDeadline = DateTime.parse(json['application_deadline']);

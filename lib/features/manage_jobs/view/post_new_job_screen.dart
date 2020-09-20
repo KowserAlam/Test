@@ -98,8 +98,8 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _jobVacancyTextEditingController.text = job?.vacancy?.toString();
     _jobAddressTextEditingController.text = job?.jobAddress;
     _salaryTextEditingController.text = job?.salary;
-    _salaryMinTextEditingController.text = job?.salaryMin;
-    _salaryMaxTextEditingController.text = job?.salaryMax;
+    _salaryMinTextEditingController.text = job?.salaryMin?.toString();
+    _salaryMaxTextEditingController.text = job?.salaryMax?.toString();
     _jobAreaTextEditingController.text = job?.jobArea;
     _selectedCityCountry = job?.jobCity;
     selectedGender = job?.gender;
@@ -145,28 +145,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
 
-    if(salaryRadioValue == 1){
-      salaryOption = 'AMOUNT';
-      if(_salaryTextEditingController.text == null){
-        print('Please fill salary field');
-      }else{
-        salary = _salaryTextEditingController.text;
-        salaryMin = salaryMax = null;
-      }
-    }else if(salaryRadioValue == 2){
-      if(_salaryMinTextEditingController == null || _salaryMaxTextEditingController.text == null){
-        print('Please fill all fields');
-      }else{
-        salaryMin = _salaryMinTextEditingController.text;
-        salaryMax = _salaryMaxTextEditingController.text;
-        salary = null;
-      }
-      salaryOption = 'RANGE';
-    }else if(salaryRadioValue == 3){
-      salaryMax = salaryMin = salary = null;
-      salaryOption = 'NEGOTIABLE';
-    }
-
     if (isValid) {
       Map<String, dynamic> data = {
         "title": _jobTitleTextEditingController.text.getStringInNotNull,
@@ -208,9 +186,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           if (value) {
             debugPrint("Update existing post");
             manageJobVM.refresh();
-
-            Navigator.pop(context);
-
           }
         });
         debugPrint("Update Job");
@@ -220,7 +195,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           if (value) {
             debugPrint("Post a new job");
             manageJobVM.refresh();
-            Navigator.pop(context);
           }
         });
       }
