@@ -22,6 +22,12 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
+enum SalaryType{
+  negotiable,
+  range,
+  fixed
+
+}
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
   final JobPostViewModel jobPostViewModel = JobPostViewModel();
