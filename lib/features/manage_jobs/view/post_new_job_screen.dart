@@ -22,6 +22,12 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
+enum SalaryOption{
+  NEGOTIABLE,
+  RANGE,
+  AMOUNT
+
+}
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
   final JobPostViewModel jobPostViewModel = JobPostViewModel();
@@ -72,7 +78,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _aboutCompanyZefyrController = ZefyrController(NotusDocument());
   FocusNode _aboutCompanyFocusNode = FocusNode();
 
-  String salaryOption;
+  SalaryOption salaryOption;
   String selectedGender;
   String selectedJobCategory;
   String selectedJobQualification;
@@ -97,10 +103,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _jobTitleTextEditingController.text = job?.title;
     _jobVacancyTextEditingController.text = job?.vacancy?.toString();
     _jobAddressTextEditingController.text = job?.jobAddress;
-
     _salaryTextEditingController.text = job?.salary;
-    _salaryMinTextEditingController.text = job?.salaryMin;
-    _salaryMaxTextEditingController.text = job?.salaryMax;
+    _salaryMinTextEditingController.text = job?.salaryMin?.toString();
+    _salaryMaxTextEditingController.text = job?.salaryMax?.toString();
     _jobAreaTextEditingController.text = job?.jobArea;
     _selectedCityCountry = job?.jobCity;
     selectedGender = job?.gender;
@@ -146,28 +151,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
 
-    if(salaryRadioValue == 1){
-      salaryOption = 'AMOUNT';
-      if(_salaryTextEditingController.text == null){
-        print('Please fill salary field');
-      }else{
-        salary = _salaryTextEditingController.text;
-        salaryMin = salaryMax = null;
-      }
-    }else if(salaryRadioValue == 2){
-      if(_salaryMinTextEditingController == null || _salaryMaxTextEditingController.text == null){
-        print('Please fill all fields');
-      }else{
-        salaryMin = _salaryMinTextEditingController.text;
-        salaryMax = _salaryMaxTextEditingController.text;
-        salary = null;
-      }
-      salaryOption = 'RANGE';
-    }else if(salaryRadioValue == 3){
-      salaryMax = salaryMin = salary = null;
-      salaryOption = 'NEGOTIABLE';
-    }
-
     if (isValid) {
       Map<String, dynamic> data = {
         "title": _jobTitleTextEditingController.text.getStringInNotNull,
@@ -186,7 +169,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "job_nature": selectedJobNature?.id,
         "job_type": selectedJobType?.id,
         "job_site": selectedJobSite?.id,
-        "job_city": _selectedCityCountry.getStringInNotNull,
+        "job_city": _selectedCityCountry.swapValueByComa.getStringInNotNull,
         "description": _descriptionZefyrController.document.toHTML.getStringInNotNull,
         "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
         "additional_requirements":
@@ -209,9 +192,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           if (value) {
             debugPrint("Update existing post");
             manageJobVM.refresh();
-
-            Navigator.pop(context);
-
           }
         });
         debugPrint("Update Job");
@@ -221,7 +201,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           if (value) {
             debugPrint("Post a new job");
             manageJobVM.refresh();
-            Navigator.pop(context);
           }
         });
       }
@@ -538,9 +517,9 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         future: CountryRepository().getCityCountryList(),
                         builder: (context, AsyncSnapshot<List<String>> snapshot) {
                           return CustomDropdownSearchFormField<String>(
-                            selectedItem: _selectedCityCountry.swapValueByComa,
+                            selectedItem: _selectedCityCountry,
                             items: snapshot.data??<String>[],
-                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s.swapValueByComa??""),),
+                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s??""),),
                             labelText: StringResources.jobCityText,
                             onChanged: (v){
                               _selectedCityCountry = v;

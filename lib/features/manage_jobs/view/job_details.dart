@@ -249,23 +249,12 @@ class _JobDetailsState extends State<JobDetails> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GestureDetector(
-                      child: Text(
-                        jobDetails.company != null
-                            ? jobDetails.company.name
-                            : StringResources.noneText,
-                        style: jobDetails.company == null
-                            ? topSideDescriptionFontStyle
-                            : hasCompanyFontStyle,
-                      ),
-                      onTap: () {
-                        jobDetails.company != null
-                            ? Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => CompanyProfile()))
-                            : null;
-                      },
+                    Text(
+                      jobDetails.company != null
+                          ? jobDetails.company.name
+                          : StringResources.noneText,
+                      style: topSideDescriptionFontStyle
+
                     ),
                     SizedBox(
                       height: 5,

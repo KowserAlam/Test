@@ -28,7 +28,7 @@ class Urls {
   static String companyProfileUpdateUrl = "/api/company/update"; //id
   static String profileCompleteness = "/api/pro/profile-completeness/";
 
-
+  static String countryListUrl = "/api/country/list/";
   static String cityListUrl = "/api/city/list/";
   static String industryListUrl = "/api/industry/";
   static String companyListUrl = "/api/company/";

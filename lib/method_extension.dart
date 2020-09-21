@@ -72,6 +72,7 @@ extension StringExtension on String {
       return this;
     }
   }
+
 }
 
 extension ListExtension<T> on List<T> {

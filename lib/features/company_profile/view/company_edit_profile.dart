@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,16 +10,13 @@ import 'package:jobxprss_company/features/company_profile/view/widgets/change_im
 import 'package:jobxprss_company/features/company_profile/view/widgets/location_picker.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
-import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
-import 'package:jobxprss_company/main_app/views/widgets/pick_location_on_map_widget.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +36,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   CompanyEditProfileViewModel _vm = CompanyEditProfileViewModel();
   var _formKey = GlobalKey<FormState>();
   File profileImage;
-  Country selectedCountry;
+  String selectedCountry;
   double latitude;
   double longitude;
 
@@ -49,7 +47,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _noOfITResourceTextController = TextEditingController();
   var _basisMembershipNoTextController = TextEditingController();
   var _addressTextController = TextEditingController();
-  var _cityTextController = TextEditingController();
+  // var _cityTextController = TextEditingController();
   var _contactNo1TextController = TextEditingController();
   var _contactNo2TextController = TextEditingController();
   var _contactNo3TextController = TextEditingController();
@@ -92,7 +90,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _noOfITResourceTextController.text = company.noOfItResources;
     _basisMembershipNoTextController.text = company.basisMembershipNo;
     _addressTextController.text = company.address;
-    _cityTextController.text = company.district;
+    // _cityTextController.text = company.district;
     _contactNo1TextController.text = company.companyContactNoOne;
     _contactNo2TextController.text = company.companyContactNoTwo;
     _contactNo3TextController.text = company.companyContactNoThree;
@@ -112,14 +110,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _contactPersonPhoneTextController.text = company.contactPersonMobileNo;
     latitude = company.latitude;
     longitude = company.longitude;
-
-    if (company.country.isNotEmptyOrNotNull) {
-      CountryRepository().getCountryObjFromCode(company.country).then((value) {
-        selectedCountry = value;
-        logger.i(value);
-        setState(() {});
-      });
-    }
+    selectedCountry = company.city;
+    // if (company.country.isNotEmptyOrNotNull) {
+    //   CountryRepository().getCountryObjFromCode(company.country).then((value) {
+    //     selectedCountry = value;
+    //     logger.i(value);
+    //     setState(() {});
+    //   });
+    // }
 
     super.initState();
   }
@@ -136,8 +134,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
-        "city": _cityTextController.text,
-        "country": selectedCountry?.code ?? "",
+        // "city": _cityTextController.text,
+        "city": selectedCountry.swapValueByComa ?? "",
         "company_contact_no_one": _contactNo1TextController.text,
         "company_contact_no_two": _contactNo2TextController.text,
         "company_contact_no_three": _contactNo3TextController.text,
@@ -218,7 +216,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             //company_profile
             CustomZefyrRichTextFormField(
               labelText: StringResources.companyProfileText,
-              hintText: StringResources.companyProfileText,
               focusNode: _companyProfileFocusNode,
               controller: _companyProfileTextController,
               height: 80,
@@ -266,15 +263,15 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               hintText: StringResources.addressHintText,
             ),
             spaceBetween,
-            CustomTextFormField(
-              keyboardType: TextInputType.text,
-              controller: _cityTextController,
+            // CustomTextFormField(
+            //   keyboardType: TextInputType.text,
+            //   controller: _cityTextController,
+            //   labelText: StringResources.companyCityText,
+            //   hintText: StringResources.companyCityEg,
+            // ),
+            // spaceBetween,
+            CustomDropdownSearchFormField<String>(
               labelText: StringResources.companyCityText,
-              hintText: StringResources.companyCityEg,
-            ),
-            spaceBetween,
-            CustomDropdownSearchFormField<Country>(
-              labelText: StringResources.companyCountryText,
               hintText: StringResources.tapToSelectText,
               items: editProfileVm.countryList,
               mode: Mode.BOTTOM_SHEET,
@@ -288,7 +285,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
           ],
         );
-
         var contact = Column(
           children: [
             spaceBetween,
@@ -307,7 +303,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.phone,
-              validator: Validator().validatePhoneNumber,
+              validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
               controller: _contactNo2TextController,
               labelText: StringResources.contactNoTwoText,
@@ -315,7 +311,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.phone,
-              validator: Validator().validatePhoneNumber,
+              validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
               controller: _contactNo3TextController,
               labelText: StringResources.contactNoThreeText,

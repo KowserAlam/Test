@@ -21,7 +21,7 @@ class JobCategoriesLisRepository {
       logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
-        logger.i(decodedJson);
+        // logger.i(decodedJson);
         Cache.remember(Urls.jobCategoriesListUrl, res.body, 604800);
         List<String> list = fromJson(decodedJson);
         return Right(list);

@@ -20,19 +20,19 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 1200), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
-    });
+    // Timer.periodic(Duration(seconds: 1200), (Timer timer) {
+    //   if (_currentPage < 2) {
+    //     _currentPage++;
+    //   } else {
+    //     _currentPage = 0;
+    //   }
+    //
+    //   _pageController.animateToPage(
+    //     _currentPage,
+    //     duration: Duration(milliseconds: 300),
+    //     curve: Curves.easeIn,
+    //   );
+    // });
   }
 
   @override

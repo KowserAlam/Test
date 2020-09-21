@@ -3,18 +3,18 @@ import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 
 class CompanyEditProfileViewModel with ChangeNotifier{
 
-  List<Country> _countryList = [];
+  List<String> _countryList = [];
 
 //  getAllList(){
 //    getCountryList();
 //  }
 
   getCountryList()async{
-  CountryRepository().getList().then((value) {
+  CountryRepository().getCityCountryList().then((value) {
     _countryList = value;
     notifyListeners();
   });
   }
 
-  List<Country> get countryList => _countryList;
+  List<String> get countryList => _countryList;
 }

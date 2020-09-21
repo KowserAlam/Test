@@ -95,7 +95,7 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
                             )
                           : CachedNetworkImage(
                               placeholder: (context, _) => Image.asset(
-                                kDefaultUserImageAsset,
+                                kCompanyImagePlaceholder,
                                 fit: BoxFit.cover,
                               ),
                               fit: BoxFit.cover,

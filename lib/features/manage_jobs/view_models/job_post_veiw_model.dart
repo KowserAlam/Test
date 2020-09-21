@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
 import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
@@ -49,6 +50,7 @@ class JobPostViewModel with ChangeNotifier {
         return true;
       } else {
         BotToast.closeAllLoading();
+Get.back();
         return false;
       }
     } on SocketException catch (e) {
@@ -84,6 +86,7 @@ class JobPostViewModel with ChangeNotifier {
 
       if (res.statusCode == 200) {
         BotToast.closeAllLoading();
+        Get.back();
         return true;
       } else {
         BotToast.closeAllLoading();

@@ -143,7 +143,7 @@ class Company extends Equatable {
         json['legal_structure_of_this_company']?.toString();
     basisMembershipNo = json['basis_membership_no']?.toString();
     area = json['area']?.toString();
-    city = json['city']?.toString();
+    city = json['city']?.toString()?.swapValueByComa;
     country = json['country']?.toString();
   }
 

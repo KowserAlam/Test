@@ -2,6 +2,7 @@ import 'package:dartz/dartz_unsafe.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class JobModel {
   String jobId;
@@ -11,8 +12,8 @@ class JobModel {
   String jobAddress;
   String jobCountry;
   String jobArea;
-  String salaryMin;
-  String salaryMax;
+  int salaryMin;
+  int salaryMax;
   String salaryOption;
   String vacancy;
   DateTime applicationDeadline;
@@ -98,10 +99,17 @@ class JobModel {
     jobId = json['job_id']?.toString();
     slug = json['slug'];
     title = json['title']?.toString();
-    jobCity = json['job_city']?.toString();
+    jobCity = json['job_city']?.toString()?.swapValueByComa;
     salaryOption = json['salary_option'].toString();
-    salaryMin = json['salary_min']?.toString();
-    salaryMax = json['salary_max']?.toString();
+    if(json['salary_min'] != null){
+
+    salaryMin = num.parse(json['salary_min']?.toString()).toInt();
+    }
+
+    if(json['salary_max'] != null){
+      salaryMax = num.parse(json['salary_max']?.toString()).toInt();
+    }
+
     vacancy = json['vacancy']?.toString();
     if (json['application_deadline'] != null) {
       applicationDeadline = DateTime.parse(json['application_deadline']);
