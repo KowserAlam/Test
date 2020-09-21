@@ -68,6 +68,7 @@ class CustomTextFieldRounded extends StatelessWidget {
               ],
             ),
             child: TextField(
+              key: textFieldKey,
               minLines: minLines,
               onChanged: onChanged,
               onSubmitted: onSubmitted,
