@@ -19,6 +19,7 @@ class CustomTextFieldRounded extends StatelessWidget {
   final Widget suffixIcon;
   final Function onChanged;
   final String errorText;
+  final Key textFieldKey;
 
   const CustomTextFieldRounded({
     this.errorText,
@@ -38,7 +39,7 @@ class CustomTextFieldRounded extends StatelessWidget {
     this.keyboardType,
     this.contentPadding,
     this.obscureText = false,
-    this.maxLines = 1,
+    this.maxLines = 1, this.textFieldKey, Key key,
   });
 
   @override
