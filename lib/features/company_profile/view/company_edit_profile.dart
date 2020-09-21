@@ -201,6 +201,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               controller: _companyNameTextController,
               labelText: StringResources.nameText,
               hintText: StringResources.companyNameHint,
+              textFieldKey: Key('companyNameTextfieldKey'),
             ),
             spaceBetween,
           ],
@@ -216,6 +217,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             //company_profile
             CustomZefyrRichTextFormField(
               labelText: StringResources.companyProfileText,
+              textFieldKey: Key('companyProfileTextfieldKey'),
               focusNode: _companyProfileFocusNode,
               controller: _companyProfileTextController,
               height: 80,
@@ -229,10 +231,12 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
                 setState(() {});
               },
               label: StringResources.companyYearsOfEstablishmentText,
+              dateFieldKey: Key('companyYearsOfEstablishmentDateFieldKey'),
             ),
             //Legal Structure
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('basisMembershipTextfieldKey'),
               keyboardType: TextInputType.number,
               //focusNode: _fatherNameFocusNode,
 //                    textInputAction: TextInputAction.next,
@@ -255,6 +259,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyAddressTextfieldKey'),
               keyboardType: TextInputType.multiline,
               minLines: 3,
               maxLines: 8,
@@ -486,10 +491,11 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(
-              title: Text(StringResources.updateInfoText),
+              title: Text(StringResources.updateInfoText, key: Key('companyEditProfileAppBarKey'),),
               actions: [
                 EditScreenSaveButton(
                   text: StringResources.saveText,
+                  key: Key('editProfileSaveButton'),
                   onPressed: _handleSave,
                 )
               ],
