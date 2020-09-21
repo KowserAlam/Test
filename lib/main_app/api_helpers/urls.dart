@@ -59,6 +59,10 @@ class Urls {
   static String messageSenderListUrl = "/api/sender-list/";
   static String senderMessageListUrl = "/api/sender-message-list/?sender="; //  id 75
 
+
+  // candidate
+  static String applicantProfileUrl = "/api/applicant/profile";
+
 //contact us
   static String settingsUrl = "/api/settings/";
   static String contactUsSubmitUrl = "/api/send_email_to_admin_contact_us/";
