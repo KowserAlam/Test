@@ -527,6 +527,7 @@ static const String experience = 'Experience';
 static const String jobLocation = 'Job Location';
 static const String salary = 'Salary';
 static const String salaryAmount = 'Amount';
+static const String salaryAmountText = 'Salary Amount';
 static const String salaryRange = 'Range';
 static const String salaryNegotiable = 'Negotiable';
 static const String copyAsNewText = "Copy as new";

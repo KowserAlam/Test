@@ -4,6 +4,7 @@ import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
+
 class JobModel {
   String jobId;
   String slug;
@@ -14,7 +15,6 @@ class JobModel {
   String jobArea;
   int salaryMin;
   int salaryMax;
-  String salaryOption;
   String vacancy;
   DateTime applicationDeadline;
   String descriptions;
@@ -38,8 +38,7 @@ class JobModel {
   List<Skill> jobSkills;
   bool isApplied;
   bool isFavourite;
-
-//  String profilePicture;
+  SalaryOption salaryOption;
   DateTime publishDate;
   DateTime postDate;
   String jobCategory;
@@ -100,13 +99,11 @@ class JobModel {
     slug = json['slug'];
     title = json['title']?.toString();
     jobCity = json['job_city']?.toString()?.swapValueByComa;
-    salaryOption = json['salary_option'].toString();
-    if(json['salary_min'] != null){
-
-    salaryMin = num.parse(json['salary_min']?.toString()).toInt();
+    if (json['salary_min'] != null) {
+      salaryMin = num.parse(json['salary_min']?.toString()).toInt();
     }
 
-    if(json['salary_max'] != null){
+    if (json['salary_max'] != null) {
       salaryMax = num.parse(json['salary_max']?.toString()).toInt();
     }
 
@@ -164,6 +161,7 @@ class JobModel {
       });
     }
 
+    salaryOption = _salaryOptionToEnum(json['salary_option']);
     isApplied = json['is_applied'] == null
         ? false
         : (json['is_applied'] == "True" ? true : false);
@@ -175,4 +173,23 @@ class JobModel {
 //      profilePicture = "$baseUrl${json['profile_picture']}";
 //    }
   }
+
+  SalaryOption _salaryOptionToEnum(String option) {
+    switch (option) {
+      case "RANGE":
+        {
+          return SalaryOption.RANGE;
+        }
+      case "AMOUNT":
+        {
+          return SalaryOption.AMOUNT;
+        }
+      default:
+        {
+          return SalaryOption.NEGOTIABLE;
+        }
+    }
+  }
 }
+
+enum SalaryOption { NEGOTIABLE, RANGE, AMOUNT }

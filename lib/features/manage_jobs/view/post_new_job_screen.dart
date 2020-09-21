@@ -22,12 +22,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
-enum SalaryOption{
-  NEGOTIABLE,
-  RANGE,
-  AMOUNT
 
-}
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
   final JobPostViewModel jobPostViewModel = JobPostViewModel();
@@ -46,7 +41,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _formKey = GlobalKey<FormState>();
   List<Skill> _selectedSkillList = [];
   String _selectedCityCountry;
-  int salaryRadioValue = 1;
+  SalaryOption selectedSalaryOption = SalaryOption.NEGOTIABLE;
   String salary, salaryMin, salaryMax;
 
   String result = "";
@@ -112,6 +107,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     selectedJobCategory = job?.jobCategory;
     selectedJobExperience = job?.experience;
     selectedJobQualification = job?.qualification;
+    selectedSalaryOption = job.salaryOption;
     _descriptionZefyrController =
         ZefyrController(job.descriptions.htmlToNotusDocument);
     _jobResponsibilitiesZefyrController =
@@ -344,76 +340,82 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         spaceBetweenFields,
                         spaceBetweenFields,
-                        Text(StringResources.salary, style: TextStyle(fontWeight: FontWeight.bold)),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                  children: [
-                                    Radio(
-                                        groupValue: salaryRadioValue,
-                                        value: 1,
-                                        onChanged: (value){
-                                          setState((){
-                                            salaryRadioValue = value;
-                                          });
-                                        }
-                                    ),
-                                    Text(StringResources.salaryAmount),
-                                  ]
-                              ),
 
-                              Row(
-                                  children: [
-                                    Radio(
-                                        groupValue: salaryRadioValue,
-                                        value: 2,
-                                        onChanged: (value){
-                                          setState((){
-                                            salaryRadioValue = value;
-                                          });
-                                        }
-                                    ),
-                                    Text(StringResources.salaryRangeText),
-                                  ]
-                              ),
+                        Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(StringResources.salary, style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                      children: [
+                                        Radio<SalaryOption>(
+                                            groupValue: selectedSalaryOption,
+                                            value: SalaryOption.AMOUNT,
+                                            onChanged: (value){
+                                              setState((){
+                                                selectedSalaryOption = value;
+                                              });
+                                            }
+                                        ),
+                                        Text(StringResources.salaryAmount),
+                                      ]
+                                  ),
 
-                              Row(
-                                  children: [
-                                    Radio(
-                                        groupValue: salaryRadioValue,
-                                        value: 3,
-                                        onChanged: (value){
-                                          setState((){
-                                            salaryRadioValue = value;
-                                          });
-                                        }
-                                    ),
-                                    Text(StringResources.salaryNegotiable),
-                                    SizedBox(width:5)
-                                  ]
-                              ),
+                                  Row(
+                                      children: [
+                                        Radio<SalaryOption>(
+                                            groupValue: selectedSalaryOption,
+                                            value: SalaryOption.RANGE,
+                                            onChanged: (value){
+                                              setState((){
+                                                selectedSalaryOption = value;
+                                              });
+                                            }
+                                        ),
+                                        Text(StringResources.salaryRangeText),
+                                      ]
+                                  ),
 
-                            ]
+                                  Row(
+                                      children: [
+                                        Radio<SalaryOption>(
+                                            groupValue: selectedSalaryOption,
+                                            value: SalaryOption.NEGOTIABLE,
+                                            onChanged: (value){
+                                              setState((){
+                                                selectedSalaryOption = value;
+                                              });
+                                            }
+                                        ),
+                                        Text(StringResources.salaryNegotiable),
+                                        SizedBox(width:5)
+                                      ]
+                                  ),
+
+                                ]
+                            ),
+                          ],
                         ),
 
-                        salaryRadioValue==1?Column(
+                        if(selectedSalaryOption== SalaryOption.AMOUNT)Column(
                             children: [
-                              spaceBetweenFields,
-
                               //salary
                               CustomTextFormField(
                                 controller: _salaryTextEditingController,
                                 hintText: StringResources.salary,
+                                labelText: StringResources.salaryAmountText,
                               ),
                             ]
-                        ):SizedBox(),
+                        ),
 
-                        salaryRadioValue==2?Column(
+                        if(selectedSalaryOption==SalaryOption.RANGE)Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              spaceBetweenFields,
-
-
                               //salary range
                               Row(
                                 children: [
@@ -422,6 +424,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                       validator: Validator().moneyAmountNullableValidate,
                                       controller: _salaryMinTextEditingController,
                                       hintText: StringResources.salaryMin,
+                                      labelText: StringResources.salaryMin,
                                     ),
                                   ),
                                   SizedBox(
@@ -432,13 +435,13 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                       validator: Validator().moneyAmountNullableValidate,
                                       controller: _salaryMaxTextEditingController,
                                       hintText: StringResources.salaryMax,
-                                      labelText: "",
+                                      labelText: StringResources.salaryMax,
                                     ),
                                   ),
                                 ],
                               ),
                             ]
-                        ):SizedBox(),
+                        ),
 
                         spaceBetweenFields,
 
