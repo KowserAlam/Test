@@ -228,12 +228,12 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                   ? DateFormatUtil.formatDate(
                       companyDetails.yearOfEstablishment)
                   : StringResources.noneText),
-          SizedBox(
+          companyDetails.basisMembershipNo!=null?SizedBox(
             height: 5,
-          ),
-          CompanyProfileForamtedText(
+          ):SizedBox(),
+          companyDetails.basisMembershipNo!=null?CompanyProfileForamtedText(
               StringResources.companyBasisMembershipNoText,
-              companyDetails.basisMembershipNo),
+              companyDetails.basisMembershipNo):SizedBox(),
           SizedBox(
             height: 5,
           ),
@@ -247,16 +247,16 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CompanyProfileForamtedText(
-              StringResources.companyAddressText, companyDetails.address),
-          SizedBox(height: 5),
+          companyDetails.address!=null?CompanyProfileForamtedText(
+              StringResources.companyAddressText, companyDetails.address):SizedBox(),
+          SizedBox(height: companyDetails.address!=null?5:0),
 //
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),
 
-          CompanyProfileForamtedText(
-              StringResources.companyCityText, companyDetails.city),
-          SizedBox(height: 5),
+          companyDetails.city!=null?CompanyProfileForamtedText(
+              StringResources.companyCityText, companyDetails.city):SizedBox(),
+          SizedBox(height: companyDetails.city!=null?5:0),
           if (companyDetails.country.isNotEmptyOrNotNull)
             FutureBuilder<String>(
               future: CountryRepository()
@@ -528,23 +528,23 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CompanyProfileForamtedText(
+          companyDetails.organizationHead!=null?CompanyProfileForamtedText(
               StringResources.companyOrganizationHeadNameText,
-              companyDetails.organizationHead),
+              companyDetails.organizationHead):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.organizationHead!=null?5:0,
           ),
-          CompanyProfileForamtedText(
+          companyDetails.organizationHeadDesignation!=null?CompanyProfileForamtedText(
               StringResources.companyOrganizationHeadDesignationText,
-              companyDetails.organizationHeadDesignation),
+              companyDetails.organizationHeadDesignation):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.organizationHeadDesignation!=null?5:0,
           ),
-          CompanyProfileForamtedText(
+          companyDetails.organizationHeadNumber!=null?CompanyProfileForamtedText(
               StringResources.companyOrganizationHeadMobileNoText,
-              companyDetails.organizationHeadNumber),
+              companyDetails.organizationHeadNumber):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.organizationHeadNumber!=null?5:0,
           ),
         ],
       ),
@@ -556,32 +556,32 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CompanyProfileForamtedText(
+          companyDetails.contactPerson!=null?CompanyProfileForamtedText(
               StringResources.companyContactPersonNameText,
-              companyDetails.contactPerson),
+              companyDetails.contactPerson):SizedBox(),
           SizedBox(
             height: 5,
           ),
 
-          CompanyProfileForamtedText(
+          companyDetails.contactPersonDesignation!=null?CompanyProfileForamtedText(
               StringResources.companyContactPersonDesignationText,
-              companyDetails.contactPersonDesignation),
+              companyDetails.contactPersonDesignation):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.contactPersonDesignation!=null?5:0,
           ),
 
-          CompanyProfileForamtedText(
+          companyDetails.contactPersonMobileNo!=null?CompanyProfileForamtedText(
               StringResources.companyContactPersonMobileNoText,
-              companyDetails.contactPersonMobileNo),
+              companyDetails.contactPersonMobileNo):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.contactPersonMobileNo!=null?5:0,
           ),
 
-          CompanyProfileForamtedText(
+          companyDetails.contactPersonEmail!=null?CompanyProfileForamtedText(
               StringResources.companyContactPersonEmailText,
-              companyDetails.contactPersonEmail),
+              companyDetails.contactPersonEmail):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.contactPersonEmail!=null?5:0,
           ),
 //
 //          richText(StringUtils.companyPostCodeText, companyDetails.postCode),
@@ -596,21 +596,21 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CompanyProfileForamtedText(StringResources.companyLegalStructureText,
-              companyDetails.legalStructure),
+          companyDetails.legalStructure!=null?CompanyProfileForamtedText(StringResources.companyLegalStructureText,
+              companyDetails.legalStructure):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.legalStructure!=null?5:0,
           ),
-          CompanyProfileForamtedText(
+          companyDetails.legalStructure!=null?CompanyProfileForamtedText(
               StringResources.companyNoOFHumanResourcesText,
-              companyDetails.noOfHumanResources),
+              companyDetails.noOfHumanResources):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.legalStructure!=null?5:0,
           ),
-          CompanyProfileForamtedText(StringResources.companyNoOFItResourcesText,
-              companyDetails.noOfResources),
+          companyDetails.legalStructure!=null?CompanyProfileForamtedText(StringResources.companyNoOFItResourcesText,
+              companyDetails.noOfResources):SizedBox(),
           SizedBox(
-            height: 5,
+            height: companyDetails.legalStructure!=null?5:0,
           ),
         ],
       ),

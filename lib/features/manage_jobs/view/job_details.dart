@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart' as dartZ;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
@@ -1022,4 +1023,20 @@ class _JobDetailsState extends State<JobDetails> {
       ),
     );
   }
+
+  Widget _htmlItem(
+      {@required BuildContext context,
+        @required String label,
+        @required String value,
+        @required Key valueKey}) {
+//    double width = MediaQuery.of(context).size.width > 720 ? 160 : 130;
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Row(
+        crossAxisAlignment:CrossAxisAlignment.start,
+        children: [
+          Text("$label: ",style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          Expanded(child: HtmlWidget("${value ?? ""}", key: valueKey,)),
+        ],),
+    );}
 }

@@ -426,6 +426,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                               CustomTextFormField(
                                 controller: _salaryTextEditingController,
                                 hintText: StringResources.salary,
+                                keyboardType: TextInputType.number
                               ),
                             ]
                         ):SizedBox(),
@@ -443,6 +444,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                       validator: Validator().moneyAmountNullableValidate,
                                       controller: _salaryMinTextEditingController,
                                       hintText: StringResources.salaryMin,
+                                      keyboardType: TextInputType.number
                                     ),
                                   ),
                                   SizedBox(
@@ -453,7 +455,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                       validator: Validator().moneyAmountNullableValidate,
                                       controller: _salaryMaxTextEditingController,
                                       hintText: StringResources.salaryMax,
-                                      labelText: "",
+                                      keyboardType: TextInputType.number
                                     ),
                                   ),
                                 ],
