@@ -35,6 +35,7 @@ class _CandidateProfileState extends State<CandidateProfile> {
       body: SingleChildScrollView(
         child: Column(children: [
           profileImageWidget(),
+          displayNameWidget(),
         ],),
       ),
     );
@@ -57,7 +58,7 @@ class _CandidateProfileState extends State<CandidateProfile> {
           height: 80,
           width: 80,
           fit: BoxFit.cover,
-          imageUrl: vm.candidate.value.personalInfo.profileImage ??"",
+          imageUrl: vm.candidate.value?.personalInfo?.profileImage ??"",
           placeholder: (context, _) => Image.asset(
             kDefaultUserImageAsset,
             fit: BoxFit.cover,
@@ -68,4 +69,11 @@ class _CandidateProfileState extends State<CandidateProfile> {
       ),
     ),
   );
+  Widget displayNameWidget ()=> Obx(()=>Text(
+    vm.candidate.value?.personalInfo?.fullName ?? "",
+    key: Key('myProfileHeaderName'),
+    style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,),
+  ));
 }
