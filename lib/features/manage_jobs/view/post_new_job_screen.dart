@@ -22,10 +22,10 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
-enum SalaryType{
-  negotiable,
-  range,
-  fixed
+enum SalaryOption{
+  NEGOTIABLE,
+  RANGE,
+  AMOUNT
 
 }
 class PostNewJobScreen extends StatefulWidget {
@@ -78,7 +78,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _aboutCompanyZefyrController = ZefyrController(NotusDocument());
   FocusNode _aboutCompanyFocusNode = FocusNode();
 
-  String salaryOption;
+  SalaryOption salaryOption;
   String selectedGender;
   String selectedJobCategory;
   String selectedJobQualification;
