@@ -73,7 +73,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _aboutCompanyZefyrController = ZefyrController(NotusDocument());
   FocusNode _aboutCompanyFocusNode = FocusNode();
 
-  SalaryOption salaryOption;
   String selectedGender;
   String selectedJobCategory;
   String selectedJobQualification;
@@ -143,6 +142,22 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   }
 
 
+String salaryOptionToString(){
+    switch(selectedSalaryOption){
+
+      case SalaryOption.NEGOTIABLE:
+        return "NEGOTIABLE";
+        break;
+      case SalaryOption.RANGE:
+        return "RANGE";
+        break;
+      case SalaryOption.AMOUNT:
+        return "AMOUNT";
+        break;
+      default:
+        return "NEGOTIABLE";
+    }
+}
 
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
@@ -153,7 +168,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         "vacancy": _jobVacancyTextEditingController.text.getStringInNotNull,
         "address": _jobAddressTextEditingController.text.getStringInNotNull,
         "company_profile": _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
-        "salary_option": salaryOption,
+        "salary_option": salaryOptionToString(),
         "salary": _salaryTextEditingController.text.getStringInNotNull,
         "salary_min": _salaryMinTextEditingController.text.getStringInNotNull,
         "salary_max": _salaryMaxTextEditingController.text.getStringInNotNull,
