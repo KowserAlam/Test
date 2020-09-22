@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/models/company_screen_data_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
@@ -13,8 +13,6 @@ import 'package:jobxprss_company/main_app/resource/json_keys.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/local_storage.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
-import 'package:logger/logger.dart';
-import 'package:http/http.dart' as http;
 
 class CompanyRepository {
   Future<Either<AppError, CompanyScreenDataModel>> getList(
