@@ -103,8 +103,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "${StringResources.viewApplicationsText} ${widget.jobModel
-                .appliedCount}",
+            "${widget.jobModel
+                .appliedCount} ${StringResources.viewApplicationsText} ",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),

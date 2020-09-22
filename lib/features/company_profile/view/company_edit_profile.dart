@@ -270,6 +270,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               textFieldKey: Key('companyAddressTextfieldKey'),
+              isRequired: true,
               keyboardType: TextInputType.multiline,
               minLines: 3,
               maxLines: 8,
@@ -317,6 +318,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.phone,
+              isRequired: true,
               validator: Validator().validatePhoneNumber,
               hintText: StringResources.phoneHintText,
               controller: _contactNo1TextController,
@@ -364,6 +366,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.text,
+              isRequired: true,
               controller: _orgHeadNameTextController,
               labelText: StringResources.companyOrganizationHeadNameText,
             ),
@@ -431,6 +434,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.text,
+              isRequired: true,
               controller: _contactPersonNameTextController,
               hintText: StringResources.fullNameHintText,
               labelText: StringResources.companyContactPersonNameText,
@@ -438,6 +442,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
             CustomTextFormField(
               keyboardType: TextInputType.text,
+              isRequired: true,
               controller: _contactPersonDesignationTextController,
               hintText: StringResources.designationHintText,
               labelText: StringResources.companyContactPersonDesignationText,
