@@ -22,7 +22,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
-
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;
   final JobPostViewModel jobPostViewModel = JobPostViewModel();
@@ -54,7 +53,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   var _salaryMinTextEditingController = TextEditingController();
   var _salaryMaxTextEditingController = TextEditingController();
 
-
   ZefyrController _descriptionZefyrController =
       ZefyrController(NotusDocument());
   FocusNode _descriptionFocusNode = FocusNode();
@@ -80,7 +78,6 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
   JobSite selectedJobSite;
   JobType selectedJobType;
   JobNature selectedJobNature;
-
 
   @override
   void initState() {
@@ -121,7 +118,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     _aboutCompanyZefyrController =
         ZefyrController(job.companyProfile.htmlToNotusDocument);
 
-    _selectedSkillList = job.jobSkills ??[];
+    _selectedSkillList = job.jobSkills ?? [];
     JobSiteListRepository().getIdToObj(job?.jobSite).then((value) {
       setState(() {
         selectedJobSite = value;
@@ -141,23 +138,23 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
     });
   }
 
-
-String salaryOptionToString(){
-    switch(selectedSalaryOption){
-
-      case SalaryOption.NEGOTIABLE:
-        return "NEGOTIABLE";
-        break;
-      case SalaryOption.RANGE:
-        return "RANGE";
-        break;
-      case SalaryOption.AMOUNT:
-        return "AMOUNT";
-        break;
-      default:
-        return "NEGOTIABLE";
-    }
-}
+//
+// String salaryOptionToString(){
+//     switch(selectedSalaryOption){
+//
+//       case SalaryOption.NEGOTIABLE:
+//         return "NEGOTIABLE";
+//         break;
+//       case SalaryOption.RANGE:
+//         return "RANGE";
+//         break;
+//       case SalaryOption.AMOUNT:
+//         return "AMOUNT";
+//         break;
+//       default:
+//         return "NEGOTIABLE";
+//     }
+// }
 
   _handlePost() async {
     bool isValid = _formKey.currentState.validate();
@@ -167,11 +164,18 @@ String salaryOptionToString(){
         "title": _jobTitleTextEditingController.text.getStringInNotNull,
         "vacancy": _jobVacancyTextEditingController.text.getStringInNotNull,
         "address": _jobAddressTextEditingController.text.getStringInNotNull,
-        "company_profile": _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
-        "salary_option": salaryOptionToString(),
-        "salary": _salaryTextEditingController.text.getStringInNotNull,
-        "salary_min": _salaryMinTextEditingController.text.getStringInNotNull,
-        "salary_max": _salaryMaxTextEditingController.text.getStringInNotNull,
+        "company_profile":
+            _aboutCompanyZefyrController.document.toHTML.getStringInNotNull,
+        "salary_option": selectedSalaryOption.salaryOptionToString,
+        "salary": selectedSalaryOption == SalaryOption.AMOUNT
+            ? _salaryTextEditingController.text.getStringInNotNull
+            : null,
+        "salary_min": selectedSalaryOption == SalaryOption.RANGE
+            ? _salaryMinTextEditingController.text.getStringInNotNull
+            : null,
+        "salary_max": selectedSalaryOption == SalaryOption.RANGE
+            ? _salaryMaxTextEditingController.text.getStringInNotNull
+            : null,
         "job_area": _jobAreaTextEditingController.text.getStringInNotNull,
         "experience": selectedJobExperience.getStringInNotNull,
         "qualification": selectedJobQualification.getStringInNotNull,
@@ -181,14 +185,19 @@ String salaryOptionToString(){
         "job_type": selectedJobType?.id,
         "job_site": selectedJobSite?.id,
         "job_city": _selectedCityCountry.swapValueByComa.getStringInNotNull,
-        "description": _descriptionZefyrController.document.toHTML.getStringInNotNull,
-        "other_benefits": _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
+        "description":
+            _descriptionZefyrController.document.toHTML.getStringInNotNull,
+        "other_benefits":
+            _jobOtherBenefitsZefyrController.document.toHTML.getStringInNotNull,
         "additional_requirements":
             _jobAdditionalReqZefyrController.document.toHTML.getStringInNotNull,
-        "education": _jobEducationZefyrController.document.toHTML.getStringInNotNull,
-        "responsibilities": _jobResponsibilitiesZefyrController.document.toHTML.getStringInNotNull,
+        "education":
+            _jobEducationZefyrController.document.toHTML.getStringInNotNull,
+        "responsibilities": _jobResponsibilitiesZefyrController
+            .document.toHTML.getStringInNotNull,
         "application_deadline": applicationDeadline.toYYYMMDDString,
-        'skills':_selectedSkillList.map((e) => e.name).join(",").getStringInNotNull,
+        'skills':
+            _selectedSkillList.map((e) => e.name).join(",").getStringInNotNull,
       };
 
 //      logger.i(data);
@@ -199,7 +208,7 @@ String salaryOptionToString(){
       if (isEditMode && !widget.copyAsNew) {
         // TODO: update existing post
         Logger().i(data);
-        _vm.updateJob(data,widget.jobModel.jobId).then((value) {
+        _vm.updateJob(data, widget.jobModel.jobId).then((value) {
           if (value) {
             debugPrint("Update existing post");
             manageJobVM.refresh();
@@ -221,7 +230,7 @@ String salaryOptionToString(){
   @override
   Widget build(BuildContext context) {
     var spaceBetweenFields = SizedBox(
-      height: context.isTablet? 20: 10,
+      height: context.isTablet ? 20 : 10,
     );
     return ChangeNotifierProvider(
       create: (context) => widget.jobPostViewModel,
@@ -357,106 +366,99 @@ String salaryOptionToString(){
                         spaceBetweenFields,
 
                         Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
-                              child: Text(StringResources.salary, style: TextStyle(fontWeight: FontWeight.bold)),
+                              child: Text(StringResources.salary,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
                             ),
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                      children: [
-                                        Radio<SalaryOption>(
-                                            groupValue: selectedSalaryOption,
-                                            value: SalaryOption.AMOUNT,
-                                            onChanged: (value){
-                                              setState((){
-                                                selectedSalaryOption = value;
-                                              });
-                                            }
-                                        ),
-                                        Text(StringResources.salaryAmount),
-                                      ]
-                                  ),
-
-                                  Row(
-                                      children: [
-                                        Radio<SalaryOption>(
-                                            groupValue: selectedSalaryOption,
-                                            value: SalaryOption.RANGE,
-                                            onChanged: (value){
-                                              setState((){
-                                                selectedSalaryOption = value;
-                                              });
-                                            }
-                                        ),
-                                        Text(StringResources.salaryRangeText),
-                                      ]
-                                  ),
-
-                                  Row(
-                                      children: [
-                                        Radio<SalaryOption>(
-                                            groupValue: selectedSalaryOption,
-                                            value: SalaryOption.NEGOTIABLE,
-                                            onChanged: (value){
-                                              setState((){
-                                                selectedSalaryOption = value;
-                                              });
-                                            }
-                                        ),
-                                        Text(StringResources.salaryNegotiable),
-                                        SizedBox(width:5)
-                                      ]
-                                  ),
-
-                                ]
-                            ),
+                                  Row(children: [
+                                    Radio<SalaryOption>(
+                                        groupValue: selectedSalaryOption,
+                                        value: SalaryOption.AMOUNT,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedSalaryOption = value;
+                                          });
+                                        }),
+                                    Text(StringResources.salaryAmount),
+                                  ]),
+                                  Row(children: [
+                                    Radio<SalaryOption>(
+                                        groupValue: selectedSalaryOption,
+                                        value: SalaryOption.RANGE,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedSalaryOption = value;
+                                          });
+                                        }),
+                                    Text(StringResources.salaryRangeText),
+                                  ]),
+                                  Row(children: [
+                                    Radio<SalaryOption>(
+                                        groupValue: selectedSalaryOption,
+                                        value: SalaryOption.NEGOTIABLE,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedSalaryOption = value;
+                                          });
+                                        }),
+                                    Text(StringResources.salaryNegotiable),
+                                    SizedBox(width: 5)
+                                  ]),
+                                ]),
                           ],
                         ),
 
-                        if(selectedSalaryOption== SalaryOption.AMOUNT)Column(
-                            children: [
-                              //salary
-                              CustomTextFormField(
-                                controller: _salaryTextEditingController,
-                                hintText: StringResources.salary,
-                                labelText: StringResources.salaryAmountText,
-                              ),
-                            ]
-                        ),
+                        if (selectedSalaryOption == SalaryOption.AMOUNT)
+                          Column(children: [
+                            //salary
+                            CustomTextFormField(
+                              controller: _salaryTextEditingController,
+                              hintText: StringResources.salary,
+                              labelText: StringResources.salaryAmountText,
+                            ),
+                          ]),
 
-                        if(selectedSalaryOption==SalaryOption.RANGE)Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              //salary range
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      validator: Validator().moneyAmountNullableValidate,
-                                      controller: _salaryMinTextEditingController,
-                                      hintText: StringResources.salaryMin,
-                                      labelText: StringResources.salaryMin,
+                        if (selectedSalaryOption == SalaryOption.RANGE)
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                //salary range
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        validator: Validator()
+                                            .moneyAmountNullableValidate,
+                                        controller:
+                                            _salaryMinTextEditingController,
+                                        hintText: StringResources.salaryMin,
+                                        labelText: StringResources.salaryMin,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      validator: Validator().moneyAmountNullableValidate,
-                                      controller: _salaryMaxTextEditingController,
-                                      hintText: StringResources.salaryMax,
-                                      labelText: StringResources.salaryMax,
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ]
-                        ),
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        validator: Validator()
+                                            .moneyAmountNullableValidate,
+                                        controller:
+                                            _salaryMaxTextEditingController,
+                                        hintText: StringResources.salaryMax,
+                                        labelText: StringResources.salaryMax,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ]),
 
                         spaceBetweenFields,
 
@@ -492,7 +494,8 @@ String salaryOptionToString(){
 
                         // Additional Requirements
                         CustomZefyrRichTextFormField(
-                          labelText: StringResources.jobAdditionalRequirementsText,
+                          labelText:
+                              StringResources.jobAdditionalRequirementsText,
                           focusNode: _jobAdditionalFocusNode,
                           controller: _jobAdditionalReqZefyrController,
                         ),
@@ -528,24 +531,23 @@ String salaryOptionToString(){
                         ),
                         spaceBetweenFields,
 
-                      // city
-                      FutureBuilder<List<String>>(
-                        future: CountryRepository().getCityCountryList(),
-                        builder: (context, AsyncSnapshot<List<String>> snapshot) {
-                          return CustomDropdownSearchFormField<String>(
-                            selectedItem: _selectedCityCountry,
-                            items: snapshot.data??<String>[],
-                            popupItemBuilder: (c,s,b)=>ListTile(title: Text(s??""),),
-                            labelText: StringResources.jobCityText,
-                            onChanged: (v){
-                              _selectedCityCountry = v;
-                            },
-
-                          );
-                        }
-                      ),
-
-
+                        // city
+                        FutureBuilder<List<String>>(
+                            future: CountryRepository().getCityCountryList(),
+                            builder: (context,
+                                AsyncSnapshot<List<String>> snapshot) {
+                              return CustomDropdownSearchFormField<String>(
+                                selectedItem: _selectedCityCountry,
+                                items: snapshot.data ?? <String>[],
+                                popupItemBuilder: (c, s, b) => ListTile(
+                                  title: Text(s ?? ""),
+                                ),
+                                labelText: StringResources.jobCityText,
+                                onChanged: (v) {
+                                  _selectedCityCountry = v;
+                                },
+                              );
+                            }),
 
                         spaceBetweenFields,
                         // job site
@@ -553,7 +555,8 @@ String salaryOptionToString(){
                           selectedItem: selectedJobSite,
                           labelText: StringResources.jobSiteText,
                           hintText: StringResources.tapToSelectText,
-                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          validator: (v) =>
+                              Validator().nullFieldValidate(v?.text),
                           showSelectedItem: true,
                           isRequired: true,
                           itemAsString: (v) => v.text,
@@ -571,7 +574,8 @@ String salaryOptionToString(){
                           hintText: StringResources.tapToSelectText,
                           isRequired: true,
                           showSelectedItem: true,
-                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          validator: (v) =>
+                              Validator().nullFieldValidate(v?.text),
                           itemAsString: (v) => v.text,
                           onChanged: (v) {
                             selectedJobNature = v;
@@ -588,7 +592,8 @@ String salaryOptionToString(){
                           hintText: StringResources.tapToSelectText,
                           showSelectedItem: true,
                           itemAsString: (v) => v.text,
-                          validator: (v) => Validator().nullFieldValidate(v?.text),
+                          validator: (v) =>
+                              Validator().nullFieldValidate(v?.text),
                           onChanged: (v) {
                             selectedJobType = v;
                           },

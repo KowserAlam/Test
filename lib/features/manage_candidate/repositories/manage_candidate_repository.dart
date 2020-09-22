@@ -22,7 +22,7 @@ class ManageCandidateRepository{
       logger.i(url);
       var response = await ApiClient().getRequest(url);
 //      logger.i(response.statusCode);
-     logger.i(response.body);
+//      logger.i(response.body);
 
       if (response.statusCode == 200) {
         var mapJson = json.decode(response.body);
@@ -50,7 +50,7 @@ class ManageCandidateRepository{
       logger.i(res.statusCode);
       if (res.statusCode == 200) {
         var decodedJson = json.decode(res.body);
-        Logger().i(decodedJson);
+        // Logger().i(decodedJson);
    print(res.body);
         var model = ManageCandidateListDataModel.fromJson(decodedJson);
         return Right(model);

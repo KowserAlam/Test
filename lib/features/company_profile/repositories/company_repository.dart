@@ -112,25 +112,30 @@ class CompanyRepository {
   }
 
   Future<Either<AppError, Company>> getCompanyFromServer() async {
-    var name =
-        await AuthService.getInstance().then((value) => value.getUser().cId);
-    var result = await getList(query: name);
-    return result.fold((l) {
-      logger.i(l);
-      return Left(l);
-    }, (CompanyScreenDataModel data) {
-      var companyList = data.companies;
-//      logger.i(companyList);
-      if (companyList.length > 0) {
-        if (companyList.first.name == name) {
-          saveCompanyLocalStorage(companyList.first.toJson());
-          return Right(companyList.first);
-        } else {
-          return Left(AppError.unknownError);
-        }
+    // var name =
+    //     await AuthService.getInstance().then((value) => value.getUser().cId);
+
+    try {
+      var res = await ApiClient().getRequest(Urls.companyGetUrl);
+
+      if (res.statusCode == 200) {
+        logger.i(res.body);
+
+        var decodedJson = json.decode(utf8.decode(res.bodyBytes));
+        saveCompanyLocalStorage(decodedJson);
+        var company = Company.fromJson(decodedJson);
+
+        return Right(company);
+      } else {
+        return Left(AppError.httpError);
       }
+    } on SocketException catch (e) {
+      logger.e(e);
+      return Left(AppError.networkError);
+    } catch (e) {
+      logger.e(e);
       return Left(AppError.unknownError);
-    });
+    }
   }
 
   Future<Company> getCompanyFromLocalStorage() async {

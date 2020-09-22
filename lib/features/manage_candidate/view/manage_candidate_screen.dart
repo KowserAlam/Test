@@ -1,5 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/no_application_widget.dart';
@@ -18,53 +19,42 @@ class ManageCandidateScreen extends StatefulWidget {
   _ManageCandidateScreenState createState() => _ManageCandidateScreenState();
 }
 
-class _ManageCandidateScreenState extends State<ManageCandidateScreen>
-    with AfterLayoutMixin {
-  ManageCandidateVewModel _vm;
+class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
+  ManageCandidateVewModel manageCandidateVm;
 
   @override
   void initState() {
-    _vm = ManageCandidateVewModel();
+    Get.put(ManageCandidateVewModel(),tag: widget.jobId,permanent: true);
+    manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:widget.jobId );
+    manageCandidateVm.getData(widget.jobId);
     super.initState();
   }
 
-  @override
-  void afterFirstLayout(BuildContext context) {
-    _vm.getData(widget.jobId);
-
-  }
 
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      key: Key(widget.jobId),
-      create: (context) => _vm,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(StringResources.manageCandidatesText),
-        ),
-        body: Consumer<ManageCandidateVewModel>(
-          builder: (BuildContext context, manageCandidateVm, Widget child) {
-            var candidates = manageCandidateVm.candidates;
-
-            return PageStateBuilder(
-              onRefresh: manageCandidateVm.refresh,
-              showError: manageCandidateVm.showError,
-              appError: manageCandidateVm.appError,
-              showLoader: manageCandidateVm.showLoader,
-              child:
-              candidates.length == 0? NoApplicationWidget():
-              ListView.builder(
-                  itemCount: candidates.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Candidate candidate = candidates[index];
-                    return CandidateListTile(candidate);
-                  }),
-            );
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(StringResources.manageCandidatesText),
       ),
+      body: Obx((){
+        var candidates = manageCandidateVm.candidates;
+        return PageStateBuilder(
+          onRefresh: manageCandidateVm.refresh,
+          showError: manageCandidateVm.showError,
+          appError: manageCandidateVm.appError,
+          showLoader: manageCandidateVm.showLoader,
+          child:
+          candidates.length == 0? NoApplicationWidget():
+          ListView.builder(
+              itemCount: candidates.length,
+              itemBuilder: (BuildContext context, int index) {
+                Candidate candidate = candidates[index];
+                return CandidateListTile(candidate);
+              }),
+        );
+      }),
     );
   }
 }
