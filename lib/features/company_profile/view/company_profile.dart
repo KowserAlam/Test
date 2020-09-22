@@ -250,6 +250,10 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
           companyDetails.address!=null?CompanyProfileForamtedText(
               StringResources.companyAddressText, companyDetails.address):SizedBox(),
           SizedBox(height: companyDetails.address!=null?5:0),
+
+          companyDetails.area!=null?CompanyProfileForamtedText(
+              StringResources.companyAreaText, companyDetails.area):SizedBox(),
+          SizedBox(height: companyDetails.area!=null?5:0),
 //
 //          richText(StringUtils.companyIndustryText, companyDetails.companyProfile),
 //          SizedBox(height: 5,),

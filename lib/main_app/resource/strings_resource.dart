@@ -12,7 +12,7 @@ class StringResources {
   static String appNameBeta = "$appName Beta";
   static String appNameQA = "$appName  QA";
 
-  static String logInButtonText = "LOG IN";
+  static String logInButtonText = "Sign In";
   static String loginSuccessMessage = "Login Successful";
   static String loginUnsuccessfulMessage = "Login unsuccessful";
   static String couldNotReachServer = "Couldn't reach server";
@@ -207,6 +207,7 @@ class StringResources {
   //Company Details Screen
   static var companyDetailsText = "Company Details";
 
+  static var companyNameText = "Company Name";
   static var basicInfoText = "BASIC INFO";
   static var companyBasisMembershipNoText = "Basis Membership No";
   static var companyProfileText = "Company Profile";
@@ -214,8 +215,8 @@ class StringResources {
   static var companyYearsOfEstablishmentText = "Year of Establishment";
   static var legalStructureText = "Legal Structure";
   static var contactNoOneText = "Contact No One";
-  static var contactNoTwoText = "Contact Two One";
-  static var contactNoThreeText = "Contact Three One";
+  static var contactNoTwoText = "Contact No Two";
+  static var contactNoThreeText = "Contact No Three";
   static var basisMembershipText = "BASIS Membership No";
   static var companyAddressSectionText = "ADDRESS";
   static var companyAddressText = "Address";
@@ -376,6 +377,8 @@ class StringResources {
   static var emailHintText = "eg. something@email.com";
   static var addressText = "Address";
   static var addressHintText = "";
+  static var areaText = "Area";
+  static var areaHintText = "";
 
   static var locationText = "Location";
   static var currentCompany = "Current Company";
