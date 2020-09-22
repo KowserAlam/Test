@@ -40,7 +40,7 @@ class JobPostViewModel with ChangeNotifier {
       BotToast.showLoading();
 
       data.removeWhere((key, value) => value == null);
-      // logger.i(data);
+      logger.i(data);
       var res = await ApiClient().postRequest(Urls.postNewJobUrl, data);
       // logger.i(res.statusCode);
       logger.i(res.body);

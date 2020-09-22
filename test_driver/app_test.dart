@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 
 import 'auth/login_test.dart';
 import 'keys.dart';
+import 'profile/profile_test.dart';
 
 
 main() {
@@ -30,6 +31,8 @@ Future<void> companyAllTest() async {
     //test cases are started from here
 
     loginTest();
+
+    editProfileTest();
 
 
   });
