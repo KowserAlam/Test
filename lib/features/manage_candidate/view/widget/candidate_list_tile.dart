@@ -33,6 +33,7 @@ class CandidateListTile extends StatelessWidget {
     var vm = Provider.of<CompanyProfileViewModel>(context);
 
     var name = Text(candidate.fullName ?? "");
+    // candidate.
 
     var experience = Text(
       "Experience: ${candidate.experience ?? "0"} year",
@@ -98,20 +99,37 @@ class CandidateListTile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: () {
 //                            _showSendMessageDialog(context);
 //
-                            var model = MessageSenderModel(
-                                otherPartyImage: candidate.image,
-                                otherPartyName: candidate.fullName,
-                                otherPartyUserId: candidate.user);
-                            Get.to(ConversationScreen(
-                              model,
+                                var model = MessageSenderModel(
+                                    otherPartyImage: candidate.image,
+                                    otherPartyName: candidate.fullName,
+                                    otherPartyUserId: candidate.user);
+                                Get.to(ConversationScreen(
+                                  model,
 //                              senderListId: vm.company?.user?.toString(),
-                            ));
-                          },
-                          icon: Icon(FontAwesomeIcons.comment),
+                                ));
+                              },
+                              icon: Icon(FontAwesomeIcons.comment),
+                            ),
+                            IconButton(
+                              iconSize: 25,
+                              onPressed: () {
+
+                              },
+                              icon:  Stack(
+                                    children: [
+                                      if(candidate.isShortlisted)
+                                      Icon(FontAwesomeIcons.solidHeart,color: Theme.of(context).primaryColor,),
+                                      Icon(FontAwesomeIcons.heart,),
+                                    ],
+                                  ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
