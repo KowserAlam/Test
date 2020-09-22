@@ -401,12 +401,12 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                         softWrap: true,
                       ),
                       SizedBox(
-                        height: 5,
+                        height: companyDetails.webAddress == null?5:0,
                       ),
                     ],
                   ),
             SizedBox(
-              height: 5,
+              height: companyDetails.webAddress == null?5:0,
             ),
           ],
         ),
