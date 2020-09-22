@@ -66,6 +66,20 @@ Future<void> editProfileTest()async{
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 
+    test('Select Company City from dropdown list', () async {
+      await driver.tap(Keys.CompanyCityDropdownListKey);
+      await driver.tap(find.text('Dhaka, Bangladesh'));
+      //await driver.tap(Keys.editProfileSaveButton);
+      await Future.delayed(const Duration(seconds: 2),() {});
+    });
+
+    test('Insert company contact number', () async {
+      await driver.tap(Keys.contactNoTextfieldNo1Key);
+      await driver.enterText('12345678910');
+      //await driver.tap(Keys.editProfileSaveButton);
+      await Future.delayed(const Duration(seconds: 3),() {});
+    });
+
 
   });
 

@@ -28,8 +28,8 @@ class Keys{
   static final companyYearsOfEstablishmentDateFieldKey = find.byValueKey('companyYearsOfEstablishmentDateFieldKey');
   static final basisMembershipTextfieldKey = find.byValueKey('basisMembershipTextfieldKey');
   static final companyAddressTextfieldKey = find.byValueKey('companyAddressTextfieldKey');
-
   static final CompanyCityDropdownListKey = find.byValueKey('CompanyCityDropdownListKey');
+
   static final contactNoTextfieldNo1Key = find.byValueKey('contactNoTextfieldNo1Key');
   static final contactNoTextfieldNo2Key = find.byValueKey('contactNoTextfieldNo2Key');
   static final contactNoTextfieldNo3Key = find.byValueKey('contactNoTextfieldNo3Key');
@@ -47,6 +47,7 @@ class Keys{
   static final companyContactPersonDesignationTextKey = find.byValueKey('companyContactPersonDesignationTextKey');
   static final companyContactPersonMobileNoTextKey = find.byValueKey('companyContactPersonMobileNoTextKey');
   static final companyContactPersonEmailTextKey = find.byValueKey('companyContactPersonEmailTextKey');
+  static final pickLocationTextKey = find.byValueKey('pickLocationTextKey');
 
   static final editProfileSaveButton = find.byValueKey('editProfileSaveButton');
 }

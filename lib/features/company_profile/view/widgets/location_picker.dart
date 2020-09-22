@@ -198,6 +198,7 @@ class _LocationPickerState extends State<LocationPicker> {
                     child: Center(
                       child: Text(
                         StringResources.pickLocationText,
+                        key: Key('pickLocationTextKey'),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
