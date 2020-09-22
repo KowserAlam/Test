@@ -4,7 +4,6 @@ import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
-
 class JobModel {
   String jobId;
   String slug;
@@ -193,3 +192,21 @@ class JobModel {
 }
 
 enum SalaryOption { NEGOTIABLE, RANGE, AMOUNT }
+
+extension SalaryOptionEX on SalaryOption {
+  String get salaryOptionToString {
+    switch (this) {
+      case SalaryOption.NEGOTIABLE:
+        return "NEGOTIABLE";
+        break;
+      case SalaryOption.RANGE:
+        return "RANGE";
+        break;
+      case SalaryOption.AMOUNT:
+        return "AMOUNT";
+        break;
+      default:
+        return "NEGOTIABLE";
+    }
+  }
+}
