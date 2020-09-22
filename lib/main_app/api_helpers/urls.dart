@@ -53,6 +53,7 @@ class Urls {
   static String jobDetailsUrl = "/api/company/job/get/";
   static String favouriteJobAddUrl = "/api/job/favourite/toggle";
   static String companySearchUrl = "/api/company/search";
+  static String companyGetUrl = "/api/company/get";
   static String jwtRefreshUrl = "/api/token/refresh/";
 
   static String createMessageListUrl = "/api/employer-message-create/";

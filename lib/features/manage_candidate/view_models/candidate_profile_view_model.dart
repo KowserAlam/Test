@@ -6,7 +6,6 @@ import 'package:jobxprss_company/features/messaging/repositories/message_reposit
 class CandidateProfileViewModel extends GetxController {
   var isBusyLoading = false.obs;
   var appError = AppError.none.obs;
-
   var candidate = CandidateModel().obs;
 
 
@@ -26,4 +25,7 @@ class CandidateProfileViewModel extends GetxController {
       return true;
     });
   }
+
+  bool get shouldShowPageLoader =>isBusyLoading.value &&  candidate.value.personalInfo.isNullOrBlank ;
+  bool get shouldShowError=> candidate.value?.personalInfo == null && appError.value != AppError.none;
 }

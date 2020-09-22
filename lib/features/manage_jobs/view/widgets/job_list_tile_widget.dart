@@ -405,10 +405,12 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
   }
 
   _navigateToApplicationsScreen() {
-    Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (BuildContext context) =>
-                ManageCandidateScreen(widget.jobModel.jobId)));
+
+    Get.to(ManageCandidateScreen(widget.jobModel.jobId));
+    // Navigator.push(
+    //     context,
+    //     CupertinoPageRoute(
+    //         builder: (BuildContext context) =>
+    //             ManageCandidateScreen(widget.jobModel.jobId)));
   }
 }
