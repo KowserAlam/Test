@@ -47,6 +47,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _noOfITResourceTextController = TextEditingController();
   var _basisMembershipNoTextController = TextEditingController();
   var _addressTextController = TextEditingController();
+  var _areaTextController = TextEditingController();
   // var _cityTextController = TextEditingController();
   var _contactNo1TextController = TextEditingController();
   var _contactNo2TextController = TextEditingController();
@@ -90,6 +91,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     _noOfITResourceTextController.text = company.noOfItResources;
     _basisMembershipNoTextController.text = company.basisMembershipNo;
     _addressTextController.text = company.address;
+    _areaTextController.text = company.area;
     // _cityTextController.text = company.district;
     _contactNo1TextController.text = company.companyContactNoOne;
     _contactNo2TextController.text = company.companyContactNoTwo;
@@ -134,6 +136,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
+        "area": _areaTextController.text,
         // "city": _cityTextController.text,
         "city": selectedCountry.swapValueByComa ?? "",
         "company_contact_no_one": _contactNo1TextController.text,
@@ -199,7 +202,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
 //                          .requestFocus(_motherNameFocusNode);
               },
               controller: _companyNameTextController,
-              labelText: StringResources.nameText,
+              labelText: StringResources.companyNameText,
               hintText: StringResources.companyNameHint,
               textFieldKey: Key('companyNameTextfieldKey'),
             ),
@@ -233,20 +236,27 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               label: StringResources.companyYearsOfEstablishmentText,
               dateFieldKey: Key('companyYearsOfEstablishmentDateFieldKey'),
             ),
-            //Legal Structure
             spaceBetween,
             CustomTextFormField(
-              textFieldKey: Key('basisMembershipTextfieldKey'),
-              keyboardType: TextInputType.number,
-              //focusNode: _fatherNameFocusNode,
-//                    textInputAction: TextInputAction.next,
-              onFieldSubmitted: (a) {
-//                      FocusScope.of(context)
-//                          .requestFocus(_motherNameFocusNode);
-              },
-              controller: _basisMembershipNoTextController,
-              labelText: StringResources.companyBasisMembershipNoText,
+              keyboardType: TextInputType.text,
+              controller: _legalStructureTextController,
+              labelText: StringResources.legalStructureText,
             ),
+            spaceBetween,
+            CustomTextFormField(
+              validator: Validator().integerNumberNullableValidator,
+              keyboardType: TextInputType.number,
+              controller: _noOfHumanResourceTextController,
+              labelText: StringResources.companyNoOFHumanResourcesText,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              validator: Validator().integerNumberNullableValidator,
+              keyboardType: TextInputType.number,
+              controller: _noOfITResourceTextController,
+              labelText: StringResources.companyNoOFItResourcesText,
+            ),
+            //Legal Structure
             spaceBetween,
           ],
         );
@@ -266,6 +276,13 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               controller: _addressTextController,
               labelText: StringResources.addressText,
               hintText: StringResources.addressHintText,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              textFieldKey: Key('companyAreaTextfieldKey'),
+              controller: _areaTextController,
+              labelText: StringResources.areaText,
+              hintText: StringResources.areaHintText,
             ),
             spaceBetween,
             // CustomTextFormField(
@@ -321,43 +338,18 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               controller: _contactNo3TextController,
               labelText: StringResources.contactNoThreeText,
             ),
-            spaceBetween,
-            CustomTextFormField(
-              validator: Validator().validateEmail,
-              hintText: StringResources.emailHintText,
-              controller: _emailTextController,
-              labelText: StringResources.emailText,
-            ),
+//            spaceBetween,
+//            CustomTextFormField(
+//              validator: Validator().validateEmail,
+//              hintText: StringResources.emailHintText,
+//              controller: _emailTextController,
+//              labelText: StringResources.emailText,
+//            ),
             spaceBetween,
             CustomTextFormField(
               hintText: StringResources.webAddressHintText,
               controller: _webAddressTextController,
               labelText: StringResources.companyWebAddressText,
-            ),
-            spaceBetween,
-          ],
-        );
-        var socialNetwork = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.companySocialNetworksSectionText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              controller: _companyBdJobsTextController,
-              labelText: StringResources.nameInBdJobs,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              controller: _companyFacebookTextController,
-              labelText: StringResources.nameInFacebook,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              controller: _companyGoogleTextController,
-              labelText: StringResources.nameInGoogle,
             ),
             spaceBetween,
           ],
@@ -400,23 +392,31 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
-              keyboardType: TextInputType.text,
-              controller: _legalStructureTextController,
-              labelText: StringResources.legalStructureText,
+              textFieldKey: Key('basisMembershipTextfieldKey'),
+              keyboardType: TextInputType.number,
+              //focusNode: _fatherNameFocusNode,
+//                    textInputAction: TextInputAction.next,
+              onFieldSubmitted: (a) {
+//                      FocusScope.of(context)
+//                          .requestFocus(_motherNameFocusNode);
+              },
+              controller: _basisMembershipNoTextController,
+              labelText: StringResources.companyBasisMembershipNoText,
             ),
             spaceBetween,
             CustomTextFormField(
-              validator: Validator().integerNumberNullableValidator,
-              keyboardType: TextInputType.number,
-              controller: _noOfHumanResourceTextController,
-              labelText: StringResources.companyNoOFHumanResourcesText,
+              controller: _companyGoogleTextController,
+              labelText: StringResources.nameInGoogle,
             ),
             spaceBetween,
             CustomTextFormField(
-              validator: Validator().integerNumberNullableValidator,
-              keyboardType: TextInputType.number,
-              controller: _noOfITResourceTextController,
-              labelText: StringResources.companyNoOFItResourcesText,
+              controller: _companyBdJobsTextController,
+              labelText: StringResources.nameInBdJobs,
+            ),
+            spaceBetween,
+            CustomTextFormField(
+              controller: _companyFacebookTextController,
+              labelText: StringResources.nameInFacebook,
             ),
             spaceBetween,
           ],
@@ -512,7 +512,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
                         basicInfo,
                         address,
                         contact,
-                        socialNetwork,
                         orgHead,
                         contactPerson,
                         otherInfo,
