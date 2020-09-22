@@ -41,7 +41,29 @@ Future<void> editProfileTest()async{
       await driver.enterText('Company Profile');
       //await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 4),() {});
+    });
 
+    test('Years of Establishment date picker', () async {
+      await driver.tap(Keys.companyYearsOfEstablishmentDateFieldKey);
+      await driver.scrollUntilVisible(Keys.datePickerKey, find.text('2000'), dyScroll: -10);
+      await driver.tap(Keys.doneButtonKey);
+      //await driver.tap(Keys.editProfileSaveButton);
+      await Future.delayed(const Duration(seconds: 4),() {});
+
+    });
+
+    test('Basis Membership Number', () async {
+      await driver.tap(Keys.basisMembershipTextfieldKey);
+      await driver.enterText('1234');
+      //await driver.tap(Keys.editProfileSaveButton);
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Insert Company address', () async {
+      await driver.tap(Keys.companyAddressTextfieldKey);
+      await driver.enterText('3/3, Dhaka, Bangladesh');
+      //await driver.tap(Keys.editProfileSaveButton);
+      await Future.delayed(const Duration(seconds: 4),() {});
     });
 
 

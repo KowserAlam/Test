@@ -276,6 +276,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             // ),
             // spaceBetween,
             CustomDropdownSearchFormField<String>(
+              dropdownKey: Key('CompanyCityDropdownListKey'),
               labelText: StringResources.companyCityText,
               hintText: StringResources.tapToSelectText,
               items: editProfileVm.countryList,
@@ -299,6 +300,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('contactNoTextfieldNo1Key'),
               keyboardType: TextInputType.phone,
               validator: Validator().validatePhoneNumber,
               hintText: StringResources.phoneHintText,
@@ -307,6 +309,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('contactNoTextfieldNo2Key'),
               keyboardType: TextInputType.phone,
               validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
@@ -315,6 +318,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('contactNoTextfieldNo3Key'),
               keyboardType: TextInputType.phone,
               validator: Validator().validateNullablePhoneNumber,
               hintText: StringResources.phoneHintText,
@@ -330,6 +334,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyWebAddressTextfieldKey'),
               hintText: StringResources.webAddressHintText,
               controller: _webAddressTextController,
               labelText: StringResources.companyWebAddressText,
@@ -346,16 +351,19 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('nameInBdJobsTextfieldKey'),
               controller: _companyBdJobsTextController,
               labelText: StringResources.nameInBdJobs,
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('nameInFacebookTextfieldKey'),
               controller: _companyFacebookTextController,
               labelText: StringResources.nameInFacebook,
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('nameInGoogleTextfieldKey'),
               controller: _companyGoogleTextController,
               labelText: StringResources.nameInGoogle,
             ),
@@ -371,18 +379,21 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyOrganizationHeadNameTextKey'),
               keyboardType: TextInputType.text,
               controller: _orgHeadNameTextController,
               labelText: StringResources.companyOrganizationHeadNameText,
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyOrganizationHeadDesignationTextKey'),
               keyboardType: TextInputType.text,
               controller: _orgHeadDesignationTextController,
               labelText: StringResources.companyOrganizationHeadDesignationText,
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyOrganizationHeadMobileNoTextKey'),
               keyboardType: TextInputType.phone,
               controller: _orgHeadPhoneTextController,
               validator: Validator().validateNullablePhoneNumber,
@@ -400,12 +411,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('legalStructureTextKey'),
               keyboardType: TextInputType.text,
               controller: _legalStructureTextController,
               labelText: StringResources.legalStructureText,
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyNoOFHumanResourcesTextKey'),
               validator: Validator().integerNumberNullableValidator,
               keyboardType: TextInputType.number,
               controller: _noOfHumanResourceTextController,
@@ -413,6 +426,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyNoOFItResourcesTextKey'),
               validator: Validator().integerNumberNullableValidator,
               keyboardType: TextInputType.number,
               controller: _noOfITResourceTextController,
@@ -430,6 +444,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyContactPersonNameTextKey'),
               keyboardType: TextInputType.text,
               controller: _contactPersonNameTextController,
               hintText: StringResources.fullNameHintText,
@@ -437,6 +452,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyContactPersonDesignationTextKey'),
               keyboardType: TextInputType.text,
               controller: _contactPersonDesignationTextController,
               hintText: StringResources.designationHintText,
@@ -444,6 +460,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyContactPersonMobileNoTextKey'),
               validator: Validator().validateNullablePhoneNumber,
               keyboardType: TextInputType.phone,
               controller: _contactPersonPhoneTextController,
@@ -452,6 +469,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             ),
             spaceBetween,
             CustomTextFormField(
+              textFieldKey: Key('companyContactPersonEmailTextKey'),
               validator: Validator().validateEmail,
               keyboardType: TextInputType.emailAddress,
               controller: _contactPersonEmailTextController,
@@ -501,6 +519,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               ],
             ),
             body: ListView(
+              key: Key('companyEditProfileListViewKey'),
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
