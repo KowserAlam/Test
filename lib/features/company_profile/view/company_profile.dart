@@ -211,17 +211,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         children: [
           if (companyDetails?.companyProfile != null)
             _htmlItem(context: context, label: StringResources.companyProfileText, value: companyDetails.companyProfile, valueKey: null),
-//          Text.rich(TextSpan(children: [
-//            TextSpan(
-//                text: StringResources.companyProfileText + ': ',
-//                style: descriptionFontStyleBold),
-//            WidgetSpan(
-//                child: Text(
-//              companyDetails.companyProfile,
-//              style: TextStyle(color: Colors.lightBlue),
-//            ))
-//          ])),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
           CompanyProfileForamtedText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
