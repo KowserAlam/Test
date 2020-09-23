@@ -621,6 +621,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       body: RefreshIndicator(
         onRefresh: vm.refresh,
         child: ListView(
+          key: Key('companyViewProfileListViewKey'),
           children: [
             Container(
               padding: EdgeInsets.all(10),
