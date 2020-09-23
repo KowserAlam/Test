@@ -50,4 +50,7 @@ class Keys{
   static final pickLocationTextKey = find.byValueKey('pickLocationTextKey');
 
   static final editProfileSaveButton = find.byValueKey('editProfileSaveButton');
+
+  //Bottom nav bar keys
+  static final bottomNavBarProfileKey = find.byValueKey('bottomNavBarProfileKey');
 }

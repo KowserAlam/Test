@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
         // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
-            label: StringResources.profileText),
+            label: StringResources.profileText, key: Key('bottomNavBarProfileKey')),
       ],
     );
 //    var bottomNavBar = BottomNavigationBar(

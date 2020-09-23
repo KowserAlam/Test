@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FABBottomAppBarItem {
-  FABBottomAppBarItem({this.iconData, this.label});
+  FABBottomAppBarItem({this.iconData, this.label, key});
 
   IconData iconData;
   String label;
