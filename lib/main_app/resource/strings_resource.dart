@@ -7,7 +7,7 @@ class StringResources {
       "Sign up Successful \n Check your email to verify account !";
 
   static String passwordChangeSuccessful = "Your password has been changed successfully";
-  static String appName = "Job Express Company";
+  static String appName = "JobXprss for Company";
   static String appNameDev = "$appName Dev";
   static String appNameBeta = "$appName Beta";
   static String appNameQA = "$appName  QA";
