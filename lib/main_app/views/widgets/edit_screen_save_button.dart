@@ -19,7 +19,7 @@ class EditScreenSaveButton extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               text ?? "",
-//              style: TextStyle(color: Colors.white),
+             style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),

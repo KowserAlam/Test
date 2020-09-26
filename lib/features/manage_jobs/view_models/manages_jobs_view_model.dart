@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
+import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
+import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
+import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
@@ -21,11 +27,6 @@ class ManageJobViewModel with ChangeNotifier {
     _totalJobCount = 0;
     _appError = null;
 
-    if (isFormOnPageLoad) {
-      bool shouldNotFetchData = CommonServiceRule.instance
-          .shouldNotFetchData(_lastFetchTime, _appError);
-      if (shouldNotFetchData) return null;
-    }
     _pageCount = 1;
     _isFetchingData = true;
     notifyListeners();
@@ -88,8 +89,62 @@ class ManageJobViewModel with ChangeNotifier {
     _pageCount = 0;
     return getJobList();
   }
-  
-  
+
+  Future<bool> changeJobStatus(JobStatus jobStatus, String jid,int index) async {
+
+    _getUrl(){
+      switch(jobStatus){
+
+        case JobStatus.DRAFT:
+          return "";
+          break;
+        case JobStatus.PUBLISHED:
+          return "${Urls.jobMakeUnPublishUrl}$jid/";
+          break;
+        case JobStatus.POSTED:
+          return "${Urls.jobMakeUnPostUrl}$jid/";
+          break;
+        case JobStatus.UNPUBLISHED:
+          return "${Urls.jobMakeUnpublishUrl}$jid/";
+          break;
+      }
+    }
+
+
+
+    try {
+      BotToast.showLoading();
+      var data = {"":""};
+
+      var url = _getUrl();
+
+      var res = await ApiClient().putRequest(url, data);
+      logger.i(url);
+      logger.i(res.statusCode);
+      logger.i(res.body);
+
+      if (res.statusCode == 200) {
+        BotToast.closeAllLoading();
+        jobList[index].jobStatus = jobStatus;
+        notifyListeners();
+
+        return true;
+      } else {
+        BotToast.closeAllLoading();
+        return false;
+      }
+    } on SocketException catch (e) {
+      BotToast.showText(text: StringResources.couldNotReachServer);
+      logger.e(e);
+      BotToast.closeAllLoading();
+      return false;
+    } catch (e) {
+      logger.e(e);
+      BotToast.closeAllLoading();
+      BotToast.showText(text: StringResources.somethingIsWrong);
+      return false;
+    }
+  }
 
   bool get showError => _appError != null && _jobList.length == 0;
 

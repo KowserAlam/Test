@@ -59,20 +59,16 @@ class JobListModel {
 
   JobStatus _parseJobStatusEnum(String status) {
     switch (status) {
-      case "RAW":
-        return JobStatus.RAW;
       case "DRAFT":
         return JobStatus.DRAFT;
-      case "APPROVED":
-        return JobStatus.APPROVED;
-      case "REVIEWED":
-        return JobStatus.REVIEWED;
+      case "POSTED":
+        return JobStatus.POSTED;
       case "PUBLISHED":
         return JobStatus.PUBLISHED;
       case "UNPUBLISHED":
         return JobStatus.UNPUBLISHED;
       default:
-        return JobStatus.NOT_READY;
+        return JobStatus.DRAFT;
     }
   }
 }

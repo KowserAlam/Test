@@ -14,24 +14,12 @@ class JobStatusWidget extends StatelessWidget {
     String text = "POSTED";
 
     switch (status) {
-      case JobStatus.NOT_READY:
-        break;
-      case JobStatus.RAW:
-        break;
       case JobStatus.POSTED:
-        text = "POSTED";
         color = Colors.teal;
         break;
       case JobStatus.DRAFT:
         text = "DRAFT";
         color = Colors.purple;
-
-        break;
-      case JobStatus.REVIEWED:
-        break;
-      case JobStatus.APPROVED:
-        text = "APPROVED";
-        color = Colors.blue;
         break;
       case JobStatus.UNPUBLISHED:
         text = "UNPUBLISHED";

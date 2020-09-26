@@ -10,18 +10,21 @@ import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_status_widget.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/method_extension.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class JobListTileWidget extends StatefulWidget {
   final JobListModel jobModel;
   final Function onApply;
   final Function onFavorite;
+  final int index;
 
-  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply});
+  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply,this.index});
 
   @override
   _JobListTileWidgetState createState() => _JobListTileWidgetState();
@@ -275,12 +278,14 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
   _showBottomSheet() {
     var jobStatus = widget.jobModel.jobStatus;
     bool allowEdit = jobStatus != JobStatus.PUBLISHED;
+    bool isPublished = jobStatus == JobStatus.PUBLISHED;
+    bool isDraft = jobStatus == JobStatus.DRAFT;
+    bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
+    var vm = Provider.of<ManageJobViewModel>(context,listen: false);
 
     var items = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-
-
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -291,17 +296,57 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           ),
         ),
         // view
-        ListTile(
-          onTap: () {
-            Navigator.pop(context);
 
-          },
-          leading: Icon(
-            FeatherIcons.eye,
-            color: Theme.of(context).primaryColor,
+
+        // unpublish
+        if (isDraft)
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              vm.changeJobStatus( JobStatus.POSTED,widget.jobModel.jobId,widget.index);
+            },
+            leading: Icon(
+              FontAwesomeIcons.folderMinus,
+              color: Colors.red,
+            ),
+            title: Text(
+              StringResources.postText,
+              style: TextStyle(color: Colors.red),
+            ),
           ),
-          title: Text(StringResources.unpublishText,style: TextStyle(color: Colors.red),),
-        ),
+
+        // unpublish
+        if (isPublished)
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              vm.changeJobStatus( JobStatus.UNPUBLISHED,widget.jobModel.jobId,widget.index);
+            },
+            leading: Icon(
+              FontAwesomeIcons.folderMinus,
+              color: Colors.red,
+            ),
+            title: Text(
+              StringResources.unpublishText,
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        // publish
+        if (isUnPublished)
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              vm.changeJobStatus( JobStatus.PUBLISHED,widget.jobModel.jobId,widget.index);
+            },
+            leading: Icon(
+              FontAwesomeIcons.folder,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              StringResources.publishText,
+            ),
+          ),
+
         ListTile(
           onTap: () {
             Navigator.pop(context);

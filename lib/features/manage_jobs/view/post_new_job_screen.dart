@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/select_required_skill_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
@@ -156,7 +157,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 //     }
 // }
 
-  _handlePost() async {
+  _handlePost([bool isPost = false]) async {
     bool isValid = _formKey.currentState.validate();
 
     if (isValid) {
@@ -201,6 +202,17 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
       };
 
 //      logger.i(data);
+
+      if(isPost){
+        data.addAll({
+          "status":"POSTED"
+        });
+      }else{
+        data.addAll({
+          "status":"DRAFT"
+        });
+
+      }
       var manageJobVM = Provider.of<ManageJobViewModel>(context, listen: false);
 
       var _vm = widget.jobPostViewModel;
@@ -243,8 +255,13 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
             appBar: AppBar(
               title: Text(appBarText),
               actions: [
+                if(!isEditMode || widget.copyAsNew)
                 EditScreenSaveButton(
-                  onPressed: _handlePost,
+                  onPressed:()=>_handlePost(),
+                  text: "Draft",
+                ),
+                EditScreenSaveButton(
+                  onPressed:()=>_handlePost(true),
                   text: isEditMode && !widget.copyAsNew ? "Update" : "Post",
                 ),
               ],

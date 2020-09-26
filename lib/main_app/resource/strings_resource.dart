@@ -101,6 +101,8 @@ class StringResources {
   static String viewText = "View";
   static String previewText = "Preview";
   static String unpublishText = "Unpublish";
+  static String publishText = "Publish";
+  static String postText = "Post";
 
   /// ***************** Feature Assessment ***********************
   static String questionTextUpperCase = "QUESTIONS";
@@ -478,7 +480,7 @@ static const String appliedText = "Applied";
 static const String applicationsText = "Application(s)";
 static const String viewApplicationsText = "Application(s)";
 static const String shortListedText = "Shortlisted";
-static const String postText = "Post";
+
 
 static const String favoriteText = "Favorite";
 static const String jobsText = "Jobs";

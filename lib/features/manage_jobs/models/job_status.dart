@@ -1,9 +1,5 @@
 enum JobStatus {
-  NOT_READY,
-  RAW,
   DRAFT,
-  REVIEWED,
-  APPROVED,
   PUBLISHED,
   POSTED,
   UNPUBLISHED,

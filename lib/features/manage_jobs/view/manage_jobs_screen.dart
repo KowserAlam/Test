@@ -60,7 +60,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
 
             JobListModel job = jobList[index];
 
-            return JobListTileWidget(job);
+            return JobListTileWidget(job,index: index,);
           });
 
       return Scaffold(
