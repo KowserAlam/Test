@@ -182,6 +182,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                       ),
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
+                        key: Key('companyEditProfileIconKey'),
                         onPressed: () {
                           Navigator.push(
                               context,
