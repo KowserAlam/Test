@@ -5,21 +5,28 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
 import 'package:jobxprss_company/features/messaging/model/message_sender_data_model.dart';
 import 'package:jobxprss_company/features/messaging/repositories/message_repository.dart';
 import 'package:jobxprss_company/features/messaging/view/conversation_screen.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
+import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
 class CandidateListTile extends StatelessWidget {
   final Candidate candidate;
+  final int index;
+  final String jobId;
 
-  CandidateListTile(this.candidate);
+  CandidateListTile(this.candidate,
+      {@required this.index, @required this.jobId});
 
   @override
   Widget build(BuildContext context) {
+    final ManageCandidateVewModel manageCandidateVm =
+        Get.find<ManageCandidateVewModel>(tag: jobId);
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
     var backgroundColor = Theme.of(context).backgroundColor;
@@ -101,8 +108,11 @@ class CandidateListTile extends StatelessWidget {
                         ),
                         Column(
                           children: [
+                            // message
                             IconButton(
+                              iconSize: 20,
                               onPressed: () {
+
 //                            _showSendMessageDialog(context);
 //
                                 var model = MessageSenderModel(
@@ -116,19 +126,44 @@ class CandidateListTile extends StatelessWidget {
                               },
                               icon: Icon(FontAwesomeIcons.comment),
                             ),
-                            IconButton(
-                              iconSize: 25,
-                              onPressed: () {
 
-                              },
-                              icon:  Stack(
-                                    children: [
-                                      if(candidate.isShortlisted)
-                                      Icon(FontAwesomeIcons.solidHeart,color: Theme.of(context).primaryColor,),
-                                      Icon(FontAwesomeIcons.heart,),
-                                    ],
-                                  ),
-                            ),
+                            ValueBuilder<bool>(
+                                initialValue: false,
+                                builder: (isLoading, updateFn) {
+                                  if (isLoading) {
+                                    return IconButton(
+                                      icon: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Loader(size: 8,),
+                                      ),
+                                      onPressed: null,
+                                    );
+                                  }
+                                  return IconButton(
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      updateFn(true);
+                                      manageCandidateVm
+                                          .toggleCandidateShortlistedStatus(
+                                              candidate.applicationId, index).then((value) {
+                                        updateFn(false);
+                                      });
+                                    },
+                                    icon: Stack(
+                                      children: [
+                                        if (candidate.isShortlisted)
+                                          Icon(
+                                            FontAwesomeIcons.solidHeart,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        Icon(
+                                          FontAwesomeIcons.heart,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
                           ],
                         ),
                       ],

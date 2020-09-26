@@ -33,14 +33,17 @@ class JobStatusWidget extends StatelessWidget {
         text = "APPROVED";
         color = Colors.blue;
         break;
+      case JobStatus.UNPUBLISHED:
+        text = "UNPUBLISHED";
+        color = Colors.grey;
+        break;
       case JobStatus.PUBLISHED:
         if (isExpired) {
-          text = "EXPIRED";
           color = Colors.red;
         } else {
-          text = "PUBLISHED";
           color = Colors.green;
         }
+        text = "PUBLISHED";
 
         break;
     }

@@ -55,6 +55,7 @@ class Urls {
   static String companySearchUrl = "/api/company/search";
   static String companyGetUrl = "/api/company/get";
   static String jwtRefreshUrl = "/api/token/refresh/";
+  static String toggleCandidateShortlistedStatusUrl = "/api/company-shortlist/mark/";
 
   static String createMessageListUrl = "/api/employer-message-create/";
   static String messageSenderListUrl = "/api/sender-list/";

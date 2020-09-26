@@ -41,7 +41,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
       body: Obx((){
         var candidates = manageCandidateVm.candidates;
         return PageStateBuilder(
-          onRefresh: manageCandidateVm.refresh,
+          onRefresh: ()=>manageCandidateVm.refresh(widget.jobId),
           showError: manageCandidateVm.showError,
           appError: manageCandidateVm.appError,
           showLoader: manageCandidateVm.showLoader,
@@ -51,7 +51,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
               itemCount: candidates.length,
               itemBuilder: (BuildContext context, int index) {
                 Candidate candidate = candidates[index];
-                return CandidateListTile(candidate);
+                return CandidateListTile(candidate,index: index,jobId: widget.jobId,);
               }),
         );
       }),
