@@ -22,6 +22,7 @@ class Keys{
     //view Screen
   static final companyEditProfileAppBarKey = find.byValueKey('companyEditProfileAppBarKey');
   static final companyViewProfileListViewKey = find.byValueKey('companyViewProfileListViewKey');
+  static final companyEditProfileIconKey = find.byValueKey('companyEditProfileIconKey');
     //edit screen
   static final companyEditProfileListViewKey = find.byValueKey('companyEditProfileListViewKey'); //for listView Scroll
   static final companyNameTextfieldKey = find.byValueKey('companyNameTextfieldKey');
@@ -47,6 +48,7 @@ class Keys{
   static final companyContactPersonDesignationTextKey = find.byValueKey('companyContactPersonDesignationTextKey');
   static final companyContactPersonMobileNoTextKey = find.byValueKey('companyContactPersonMobileNoTextKey');
   static final companyContactPersonEmailTextKey = find.byValueKey('companyContactPersonEmailTextKey');
+  static final companyAreaTextfieldKey = find.byValueKey('companyAreaTextfieldKey');
   static final pickLocationTextKey = find.byValueKey('pickLocationTextKey');
 
   static final editProfileSaveButton = find.byValueKey('editProfileSaveButton');
