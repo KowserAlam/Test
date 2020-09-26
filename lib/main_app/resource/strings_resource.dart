@@ -151,7 +151,7 @@ class StringResources {
   static String skillCheckText = "Skill Check";
   static String appliedJobsText = "Applied Jobs";
   static String favoriteJobsText = "Favorite Jobs";
-  static String signOutText = "Sign out";
+  static String signOutText = "Sign Out";
 
   static String darkModeText = "DarkMode";
 
