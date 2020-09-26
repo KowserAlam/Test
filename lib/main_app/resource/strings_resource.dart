@@ -100,6 +100,7 @@ class StringResources {
   static String viewMoreText = "View More";
   static String viewText = "View";
   static String previewText = "Preview";
+  static String unpublishText = "Unpublish";
 
   /// ***************** Feature Assessment ***********************
   static String questionTextUpperCase = "QUESTIONS";

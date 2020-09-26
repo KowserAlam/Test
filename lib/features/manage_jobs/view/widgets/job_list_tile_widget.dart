@@ -279,6 +279,8 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     var items = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+
+
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -289,6 +291,17 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           ),
         ),
         // view
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+
+          },
+          leading: Icon(
+            FeatherIcons.eye,
+            color: Theme.of(context).primaryColor,
+          ),
+          title: Text(StringResources.unpublishText,style: TextStyle(color: Colors.red),),
+        ),
         ListTile(
           onTap: () {
             Navigator.pop(context);
