@@ -31,8 +31,9 @@ Future<void> editProfileTest()async{
       await expect(await driver.getText(Keys.companyEditProfileAppBarKey), 'Update Info');
       await driver.tap(Keys.companyNameTextfieldKey);
       await driver.enterText('Company Name');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 4),() {});
+      await expect(await driver.getText(find.text('Company Name')), 'Company Name');
 
     });
 
