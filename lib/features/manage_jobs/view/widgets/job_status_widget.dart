@@ -15,7 +15,7 @@ class JobStatusWidget extends StatelessWidget {
 
     switch (status) {
       case JobStatus.POSTED:
-        color = Colors.teal;
+        color = Colors.blue;
         break;
       case JobStatus.DRAFT:
         text = "DRAFT";
@@ -26,11 +26,8 @@ class JobStatusWidget extends StatelessWidget {
         color = Colors.grey;
         break;
       case JobStatus.PUBLISHED:
-        if (isExpired) {
-          color = Colors.red;
-        } else {
-          color = Colors.green;
-        }
+
+        color = Colors.green;
         text = "PUBLISHED";
 
         break;

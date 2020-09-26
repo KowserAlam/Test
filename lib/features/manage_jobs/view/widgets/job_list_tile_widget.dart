@@ -306,12 +306,11 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
               vm.changeJobStatus( JobStatus.POSTED,widget.jobModel.jobId,widget.index);
             },
             leading: Icon(
-              FontAwesomeIcons.folderMinus,
-              color: Colors.red,
+              FontAwesomeIcons.checkSquare,
+color: Theme.of(context).primaryColor,
             ),
             title: Text(
               StringResources.postText,
-              style: TextStyle(color: Colors.red),
             ),
           ),
 
