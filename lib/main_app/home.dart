@@ -4,9 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen_all.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/features/messaging/view/message_list_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -26,9 +28,11 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
   String appbarTitle = StringResources.appName;
 
+
   @override
   void initState() {
     TokenRefreshScheduler.getInstance();
+    Get.put(ManageJobViewModel());
     super.initState();
   }
 
@@ -207,7 +211,7 @@ class _HomeState extends State<Home> {
               DashBoardScreen(),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
-              Center(child: Text(StringResources.manageCandidatesText),),
+              ManageCandidateScreenAll(),
               CompanyProfile(),
             ],
           ),

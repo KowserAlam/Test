@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/main_app/api_helpers/api_client.dart';
@@ -12,44 +13,39 @@ import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
-class ManageJobViewModel with ChangeNotifier {
-  List<JobListModel> _jobList = [];
-  bool _isFetchingData = false;
-  bool _isFetchingMoreData = false;
-  bool _hasMoreData = false;
+class ManageJobViewModel extends GetxController {
+  var jobList = <JobListModel>[].obs;
+  var isFetchingData = false.obs;
+  var isFetchingMoreData = false.obs;
+  var hasMoreData = false.obs;
   int _pageCount = 1;
-  bool _isInSearchMode = false;
-  int _totalJobCount = 0;
-  AppError _appError;
-  DateTime _lastFetchTime;
+  var _isInSearchMode = false.obs;
+  var totalJobCount = 0.obs;
+  var appError = AppError.none.obs;
 
   Future<bool> getJobList({bool isFormOnPageLoad = false}) async {
-    _totalJobCount = 0;
-    _appError = null;
-
+    totalJobCount.value = 0;
+    appError.value = AppError.none;
     _pageCount = 1;
-    _isFetchingData = true;
-    notifyListeners();
+    isFetchingData.value = true;
 
     Either<AppError, ManageJobListScreenDataModel> result =
         await ManageJobRepository().getJobList();
     return result.fold((l) {
-      _hasMoreData = false;
-      _isFetchingData = false;
-      _totalJobCount = 0;
-      _appError = l;
-      notifyListeners();
+      hasMoreData.value = false;
+      isFetchingData.value = false;
+      totalJobCount.value = 0;
+      appError.value = l;
+
       logger.i(l);
       return false;
     }, (ManageJobListScreenDataModel dataModel) {
-      _lastFetchTime = DateTime.now();
       var list = dataModel.jobList;
-      _isFetchingData = false;
-      _jobList = list;
-      _totalJobCount = dataModel.count;
-      _hasMoreData = dataModel.nextPage;
-      _appError = null;
-      notifyListeners();
+      isFetchingData.value = false;
+      jobList.value = list;
+      totalJobCount.value = dataModel.count;
+      hasMoreData.value = dataModel.nextPage;
+      appError.value = AppError.none;
       return true;
     });
   }
@@ -59,28 +55,28 @@ class ManageJobViewModel with ChangeNotifier {
   }
 
   getMoreData() async {
-    if (!_isFetchingData && !_isFetchingMoreData && _hasMoreData) {
-      isFetchingMoreData = true;
+    if (!isFetchingData.value &&
+        !isFetchingMoreData.value &&
+        hasMoreData.value) {
+      isFetchingMoreData.value = true;
       debugPrint('Getting more jobs');
-      hasMoreData = true;
+      hasMoreData.value = true;
       incrementPageCount();
       Either<AppError, ManageJobListScreenDataModel> result =
           await ManageJobRepository().getJobList(page: _pageCount);
       result.fold((l) {
-        _isFetchingMoreData = false;
-        _hasMoreData = false;
-        _totalJobCount = 0;
-        notifyListeners();
+        isFetchingMoreData.value = false;
+        hasMoreData.value = false;
+        totalJobCount.value = 0;
 
         logger.i(l);
       }, (ManageJobListScreenDataModel dataModel) {
         // right
         var list = dataModel.jobList;
-        _totalJobCount = dataModel.count;
-        _hasMoreData = dataModel.nextPage;
-        _jobList.addAll(list);
-        _isFetchingMoreData = false;
-        notifyListeners();
+        totalJobCount.value = dataModel.count;
+        hasMoreData.value = dataModel.nextPage;
+        jobList.addAll(list);
+        isFetchingMoreData.value = false;
       });
     }
   }
@@ -90,11 +86,10 @@ class ManageJobViewModel with ChangeNotifier {
     return getJobList();
   }
 
-  Future<bool> changeJobStatus(JobStatus jobStatus, String jid,int index) async {
-
-    _getUrl(){
-      switch(jobStatus){
-
+  Future<bool> changeJobStatus(
+      JobStatus jobStatus, String jid, int index) async {
+    _getUrl() {
+      switch (jobStatus) {
         case JobStatus.DRAFT:
           return "";
           break;
@@ -110,11 +105,9 @@ class ManageJobViewModel with ChangeNotifier {
       }
     }
 
-
-
     try {
       BotToast.showLoading();
-      var data = {"":""};
+      var data = {"": ""};
 
       var url = _getUrl();
 
@@ -126,7 +119,6 @@ class ManageJobViewModel with ChangeNotifier {
       if (res.statusCode == 200) {
         BotToast.closeAllLoading();
         jobList[index].jobStatus = jobStatus;
-        notifyListeners();
 
         return true;
       } else {
@@ -146,70 +138,7 @@ class ManageJobViewModel with ChangeNotifier {
     }
   }
 
-  bool get showError => _appError != null && _jobList.length == 0;
+  bool get showError => appError.value != AppError.none && jobList.length == 0;
 
-  bool get showLoader => _jobList.length == 0 && _isFetchingData;
-
-  DateTime get lastFetchTime => _lastFetchTime;
-
-  set lastFetchTime(DateTime value) {
-    _lastFetchTime = value;
-    notifyListeners();
-  }
-
-  AppError get appError => _appError;
-
-  set appError(AppError value) {
-    _appError = value;
-    notifyListeners();
-  }
-
-  int get totalJobCount => _totalJobCount;
-
-  set totalJobCount(int value) {
-    _totalJobCount = value;
-    notifyListeners();
-  }
-
-  bool get isInSearchMode => _isInSearchMode;
-
-  set isInSearchMode(bool value) {
-    _isInSearchMode = value;
-    notifyListeners();
-  }
-
-  int get pageCount => _pageCount;
-
-  set pageCount(int value) {
-    _pageCount = value;
-    notifyListeners();
-  }
-
-  bool get hasMoreData => _hasMoreData;
-
-  set hasMoreData(bool value) {
-    _hasMoreData = value;
-    notifyListeners();
-  }
-
-  bool get isFetchingMoreData => _isFetchingMoreData;
-
-  set isFetchingMoreData(bool value) {
-    _isFetchingMoreData = value;
-    notifyListeners();
-  }
-
-  bool get isFetchingData => _isFetchingData;
-
-  set isFetchingData(bool value) {
-    _isFetchingData = value;
-    notifyListeners();
-  }
-
-  List<JobListModel> get jobList => _jobList;
-
-  set jobList(List<JobListModel> value) {
-    _jobList = value;
-    notifyListeners();
-  }
+  bool get showLoader => jobList.length == 0 && isFetchingData.value;
 }

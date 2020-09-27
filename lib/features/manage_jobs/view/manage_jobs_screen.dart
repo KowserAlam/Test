@@ -1,5 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_list_tile_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
@@ -14,22 +15,25 @@ class ManageJobsScreen extends StatefulWidget {
 }
 
 class _ManageJobsScreenState extends State<ManageJobsScreen>
-    with AfterLayoutMixin {
+{
+  ManageJobViewModel jobListViewModel;
   ScrollController _scrollController = ScrollController();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    var vm = Provider.of<ManageJobViewModel>(context, listen: false);
-    vm.getJobList();
+  void initState() {
 
+    jobListViewModel = Get.find<ManageJobViewModel>();
+    jobListViewModel.getJobList();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        vm.getMoreData();
+        jobListViewModel.getMoreData();
       }
     });
+    super.initState();
   }
+
 
   @override
   void dispose() {
@@ -42,20 +46,23 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
     var backgroundColor = Theme.of(context).backgroundColor;
     var scaffoldBackgroundColor = Theme.of(context).backgroundColor;
 
-    return Consumer<ManageJobViewModel>(
-        builder: (context, jobListViewModel, _) {
+    return Obx( () {
       var jobList = jobListViewModel.jobList;
-      var isInSearchMode = jobListViewModel.isInSearchMode;
+      // var isInSearchMode = jobListViewModel.isInSearchMode;
       var jobListWidget = ListView.builder(
           padding: EdgeInsets.symmetric(vertical: 4),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: jobList.length + 1,
           itemBuilder: (context, index) {
+
+
             if (index == jobList.length) {
-              return jobListViewModel.isFetchingMoreData
-                  ? Padding(padding: EdgeInsets.all(15), child: Loader())
-                  : SizedBox();
+              return Obx((){
+                return jobListViewModel.isFetchingMoreData.value
+                    ? Padding(padding: EdgeInsets.all(15), child: Loader())
+                    : SizedBox();
+              });
             }
 
             JobListModel job = jobList[index];
@@ -68,14 +75,14 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
         body: PageStateBuilder(
           showLoader: jobListViewModel.showLoader,
           showError: jobListViewModel.showError,
-          appError: jobListViewModel.appError,
+          appError: jobListViewModel.appError.value,
           onRefresh: jobListViewModel.refresh,
           child: ListView(
             physics: AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
             children: [
               (jobListViewModel.jobList.length == 0 &&
-                      !jobListViewModel.isFetchingData)
+                      !jobListViewModel.isFetchingData.value)
                   ? Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

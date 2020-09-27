@@ -40,7 +40,7 @@ class JXCApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => PasswordResetViewModel()),
       ChangeNotifierProvider(create: (context) => PasswordChangeViewModel()),
       ChangeNotifierProvider(create: (context) => DashboardViewModel()),
-      ChangeNotifierProvider(create: (context) => ManageJobViewModel()),
+      // ChangeNotifierProvider(create: (context) => ManageJobViewModel()),
       ChangeNotifierProvider(create: (context) => CompanyProfileViewModel()),
       ChangeNotifierProvider(
           create: (context) => MessageSenderListScreenViewModel()),
