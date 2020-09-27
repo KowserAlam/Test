@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 
 class Keys{
@@ -55,4 +56,12 @@ class Keys{
 
   //Bottom nav bar keys
   static final bottomNavBarProfileKey = find.byValueKey('bottomNavBarProfileKey');
+  static final bottomNavBarDashboardKey = find.byValueKey('bottomNavBarDashboardKey');
+  static final bottomNavBarManageJobsKey = find.byValueKey('bottomNavBarManageJobsKey');
+  static final bottomNavBarCandidatesKey = find.byValueKey('bottomNavBarCandidatesKey');
+  static final PostJobsFloatingActionButtonKey = find.byTooltip('Post');
+  //Dashboard
+  static final infoboxJobsPostedTextKey = find.byValueKey('infoboxJobsPostedTextKey');
+  static final infoboxApplicationsTextKey = find.byValueKey('infoboxApplicationsTextKey');
+  static final infoboxShortListedTextKey = find.byValueKey('infoboxShortListedTextKey');
 }

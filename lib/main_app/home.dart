@@ -86,20 +86,20 @@ class _HomeState extends State<Home> {
         // dashboard
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.home,
-            label: StringResources.dashBoardText),
+            label: StringResources.dashBoardText, key: Key('bottomNavBarDashboardKey'),),
         //manageJobs
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.briefcase,
-            label: StringResources.manageJobsText),
+            label: StringResources.manageJobsText, key: Key('bottomNavBarManageJobsKey'),),
 
         //manageCandidatesText
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.users,
-            label: StringResources.candidatesText),
+            label: StringResources.candidatesText, key: Key('bottomNavBarCandidatesKey'),),
         // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
-            label: StringResources.profileText, key: Key('bottomNavBarProfileKey')),
+            label: StringResources.profileText, key: Key('bottomNavBarProfileKey'),),
       ],
     );
 //    var bottomNavBar = BottomNavigationBar(
