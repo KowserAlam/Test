@@ -93,35 +93,35 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         );
       },
     );
-    var confirmPassword = Consumer<PasswordChangeViewModel>(
-      builder: (context, passwordChangeViewModel, _) {
-        bool isObscure = passwordChangeViewModel.isObscurePasswordConfirm;
-        return CustomTextFieldRounded(
-          labelText: StringResources.confirmPasswordText,
-          onChanged: passwordChangeViewModel.onChangeConfirmPassword,
-          errorText: passwordChangeViewModel.errorTextConfirmPassword,
-          prefixIcon: Icon(
-              Icons.lock
-          ),
-          suffixIcon: IconButton(
-            icon: !isObscure
-                ? Icon(
-              Icons.visibility,
-            )
-                : Icon(
-              Icons.visibility_off,
-              color: Theme.of(context).textTheme.body1.color,
-            ),
-            onPressed: () {
-              passwordChangeViewModel.isObscurePasswordConfirm = !isObscure;
-            },
-          ),
-          obscureText: passwordChangeViewModel.isObscurePasswordConfirm,
-          controller: _confirmPasswordTextController,
-          hintText: StringResources.confirmPasswordText,
-        );
-      },
-    );
+//    var confirmPassword = Consumer<PasswordChangeViewModel>(
+//      builder: (context, passwordChangeViewModel, _) {
+//        bool isObscure = passwordChangeViewModel.isObscurePasswordConfirm;
+//        return CustomTextFieldRounded(
+//          labelText: StringResources.confirmPasswordText,
+//          onChanged: passwordChangeViewModel.onChangeConfirmPassword,
+//          errorText: passwordChangeViewModel.errorTextConfirmPassword,
+//          prefixIcon: Icon(
+//              Icons.lock
+//          ),
+//          suffixIcon: IconButton(
+//            icon: !isObscure
+//                ? Icon(
+//              Icons.visibility,
+//            )
+//                : Icon(
+//              Icons.visibility_off,
+//              color: Theme.of(context).textTheme.body1.color,
+//            ),
+//            onPressed: () {
+//              passwordChangeViewModel.isObscurePasswordConfirm = !isObscure;
+//            },
+//          ),
+//          obscureText: passwordChangeViewModel.isObscurePasswordConfirm,
+//          controller: _confirmPasswordTextController,
+//          hintText: StringResources.confirmPasswordText,
+//        );
+//      },
+//    );
     var submitButton = changePassViewModel.isBusy? Loader(): Container(
       height: 50,
       width: 200,
@@ -152,10 +152,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 height: 15,
               ),
               newPassword,
-              SizedBox(
-                height: 15,
-              ),
-              confirmPassword,
+//              SizedBox(
+//                height: 15,
+//              ),
+//              confirmPassword,
               SizedBox(
                 height: 20,
               ),

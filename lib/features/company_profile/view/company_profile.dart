@@ -182,6 +182,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                       ),
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
+                        key: Key('companyEditProfileIconKey'),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -662,7 +663,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         @required Key valueKey}) {
 //    double width = MediaQuery.of(context).size.width > 720 ? 160 : 130;
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         crossAxisAlignment:CrossAxisAlignment.start,
         children: [

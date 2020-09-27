@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   double longitude;
 
   var _companyNameTextController = TextEditingController();
-  ZefyrController _companyProfileTextController =
-      ZefyrController(NotusDocument());
+  ZefyrController _companyProfileTextController = ZefyrController(NotusDocument());
   var _legalStructureTextController = TextEditingController();
   var _noOfHumanResourceTextController = TextEditingController();
   var _noOfITResourceTextController = TextEditingController();
@@ -86,9 +86,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     company = widget.company;
 
     _companyNameTextController.text = company.name;
-    if (company.companyProfile != null) {
-      _companyProfileTextController =
-          ZefyrController(company.companyProfile.htmlToNotusDocument);
+    if(company.companyProfile != null){
+      _companyProfileTextController = ZefyrController(company.companyProfile.htmlToNotusDocument);
     }
     yearOfEstablishment = company.yearOfEstablishment;
     _legalStructureTextController.text = company.legalStructure;
@@ -138,8 +137,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text,
-        "company_profile":
-            _companyProfileTextController.document.toHTML.getStringInNotNull,
+        "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
         "area": _areaTextController.text,

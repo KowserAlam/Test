@@ -37,9 +37,12 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ? StringResources.noneText
         : DateFormatUtil().dateFormat1(widget.jobModel.postDate);
 
-    String deadLineText = widget.jobModel.applicationDeadline == null
-        ? StringResources.noneText
-        : DateFormatUtil().dateFormat1(widget.jobModel.applicationDeadline);
+    String deadLineText = widget.jobModel.applicationDeadline != null?
+    widget.jobModel.applicationDeadline.isBefore(DateTime.now())?'0 day(s) remaining':widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+' day(s) remaining'
+        :StringResources.noneText;
+//    String deadLineText = widget.jobModel.applicationDeadline == null
+//        ? StringResources.noneText
+//        : '('+widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+') Days Remaining';
 //    bool isDateExpired = widget.jobModel.applicationDeadline != null
 //        ? DateTime.now().isAfter(widget.jobModel.applicationDeadline)
 //        : true;
@@ -138,7 +141,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
       ],
     );
-    var applicationDeadlineWidget = Row(
+    var applicationDeadlineWidget = deadLineText!='None'?Row(
       children: <Widget>[
         Icon(FeatherIcons.clock, size: iconSize, color: subtitleColor),
         SizedBox(width: 5),
@@ -148,7 +151,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
               color: isDateExpired ? Colors.red : subtitleColor),
         ),
       ],
-    );
+    ): SizedBox();
 
     var publishDate = Row(
       children: <Widget>[
@@ -355,7 +358,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           },
           leading: Icon(
             FeatherIcons.eye,
-            color: Theme.of(context).primaryColor,
+            color: Colors.green,
           ),
           title: Text(StringResources.previewText),
         ),
@@ -384,7 +387,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           },
           leading: Icon(
             FeatherIcons.copy,
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
           ),
           title: Text(StringResources.copyAsNewText),
         ),
