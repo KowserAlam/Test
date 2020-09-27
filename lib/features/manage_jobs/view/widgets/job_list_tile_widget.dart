@@ -284,7 +284,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     bool isPublished = jobStatus == JobStatus.PUBLISHED;
     bool isDraft = jobStatus == JobStatus.DRAFT;
     bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
-    var vm = Provider.of<ManageJobViewModel>(context, listen: false);
+    var vm = Get.find<ManageJobViewModel>();
 
     var items = Column(
       mainAxisSize: MainAxisSize.min,

@@ -119,6 +119,7 @@ class ManageJobViewModel extends GetxController {
       if (res.statusCode == 200) {
         BotToast.closeAllLoading();
         jobList[index].jobStatus = jobStatus;
+        jobList.value = jobList.toList();
 
         return true;
       } else {
