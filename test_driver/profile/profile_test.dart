@@ -255,7 +255,8 @@ Future<void> editProfileTest()async{
       await driver.enterText('Company BDjobs Name');
       await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
-      await expect(await driver.getText(find.text('Company BDjobs Name')), 'Company BDjobs Name');
+      await driver.scroll(find.text('Company BDjobs Name'), 0, -300, (const Duration(seconds: 8) ));
+      //await expect(await driver.getText(find.text('Company BDjobs Name')), 'Company BDjobs Name');
     });
 
     test('Insert name in FaceBook', () async {
