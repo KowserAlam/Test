@@ -42,6 +42,7 @@ class StringResources {
   static String enterValidEmail = 'Enter Valid Email';
   static String enterValidPhoneNumber = 'Enter Valid Phone Number';
   static String twoDecimal = "Please enter a value within 0-9 and with two decimal values max";
+  static String fillMandatoryFields = "Please fill up all required fields";
 
   ///
   static String passwordText = "Password";

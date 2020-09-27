@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +171,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
       if (res) {
         Navigator.pop(context);
       }
+    }else{
+      BotToast.showText(text: StringResources.fillMandatoryFields);
     }
   }
 
