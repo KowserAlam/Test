@@ -13,11 +13,11 @@ import 'package:jobxprss_company/main_app/util/validator.dart';
 class PasswordChangeViewModel with ChangeNotifier {
   String _oldPassword = "";
   String _newPassword = "";
-  String _confirmNewPassword = "";
+  //String _confirmNewPassword = "";
 
   String _errorTextOldPassword;
   String _errorTextNewPassword;
-  String _errorTextConfirmPassword;
+  //String _errorTextConfirmPassword;
   bool _isBusy = false;
   bool _isObscurePasswordOld = true;
   bool _isObscurePasswordNew = true;
@@ -68,20 +68,18 @@ class PasswordChangeViewModel with ChangeNotifier {
     _errorTextNewPassword = value;
   }
 
-  String get errorTextConfirmPassword => _errorTextConfirmPassword;
-
-  set errorTextConfirmPassword(String value) {
-    _errorTextConfirmPassword = value;
-  }
+//  String get errorTextConfirmPassword => _errorTextConfirmPassword;
+//
+//  set errorTextConfirmPassword(String value) {
+//    _errorTextConfirmPassword = value;
+//  }
 
   bool get allowSubmitButton {
-    bool isNoErrors = _errorTextConfirmPassword == null &&
-        _errorTextNewPassword == null &&
+    bool isNoErrors = _errorTextNewPassword == null &&
         _errorTextOldPassword == null;
 
     bool isNoEmptyFields = _newPassword.isNotEmptyOrNotNull &&
-        _oldPassword.isNotEmptyOrNotNull &&
-        _confirmNewPassword.isNotEmptyOrNotNull;
+        _oldPassword.isNotEmptyOrNotNull ;
 
     return isNoEmptyFields & isNoErrors;
   }
@@ -89,10 +87,10 @@ class PasswordChangeViewModel with ChangeNotifier {
   bool validate() {
     onChangeOldPassword(_oldPassword);
     onChangeNewPassword(_newPassword);
-    onChangeConfirmPassword(_confirmNewPassword);
+//    onChangeConfirmPassword(_confirmNewPassword);
 
     return _errorTextNewPassword == null &&
-        _errorTextConfirmPassword == null &&
+//        _errorTextConfirmPassword == null &&
         _errorTextOldPassword == null;
   }
 
@@ -106,19 +104,19 @@ class PasswordChangeViewModel with ChangeNotifier {
     _newPassword = val;
     _errorTextNewPassword = Validator().validatePassword(val);
 
-    if (_confirmNewPassword.isNotEmptyOrNotNull) {
-      onChangeConfirmPassword(_confirmNewPassword);
-    }
+//    if (_confirmNewPassword.isNotEmptyOrNotNull) {
+//      onChangeConfirmPassword(_confirmNewPassword);
+//    }
     notifyListeners();
   }
 
-  onChangeConfirmPassword(String val) {
-    _confirmNewPassword = val;
-    _errorTextConfirmPassword =
-        Validator().validateConfirmPassword(_newPassword, val);
-
-    notifyListeners();
-  }
+//  onChangeConfirmPassword(String val) {
+//    _confirmNewPassword = val;
+//    _errorTextConfirmPassword =
+//        Validator().validateConfirmPassword(_newPassword, val);
+//
+//    notifyListeners();
+//  }
 
 
   resetState(){
@@ -127,10 +125,10 @@ class PasswordChangeViewModel with ChangeNotifier {
     _isObscurePasswordConfirm = true;
      _oldPassword = "";
      _newPassword = "";
-     _confirmNewPassword = "";
+//     _confirmNewPassword = "";
      _errorTextOldPassword;
      _errorTextNewPassword;
-     _errorTextConfirmPassword;
+//     _errorTextConfirmPassword;
      _isBusy = false;
   }
 
