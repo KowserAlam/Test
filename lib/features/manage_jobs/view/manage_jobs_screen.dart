@@ -47,28 +47,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
     var scaffoldBackgroundColor = Theme.of(context).backgroundColor;
 
     return Obx( () {
-      var jobList = jobListViewModel.jobList;
-      // var isInSearchMode = jobListViewModel.isInSearchMode;
-      var jobListWidget = ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 4),
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: jobList.length + 1,
-          itemBuilder: (context, index) {
 
-
-            if (index == jobList.length) {
-              return Obx((){
-                return jobListViewModel.isFetchingMoreData.value
-                    ? Padding(padding: EdgeInsets.all(15), child: Loader())
-                    : SizedBox();
-              });
-            }
-
-            JobListModel job = jobList[index];
-
-            return JobListTileWidget(job,index: index,);
-          });
 
       return Scaffold(
         key: _scaffoldKey,
@@ -92,7 +71,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
                   : Center(
                     child: Container(
                         constraints: BoxConstraints(maxWidth: 720),
-                        child: jobListWidget),
+                        child: _JobListWidget()),
                   ),
             ],
           ),
@@ -101,3 +80,35 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
     });
   }
 }
+
+class _JobListWidget extends StatelessWidget {
+  final     jobListViewModel = Get.find<ManageJobViewModel>();
+  @override
+  Widget build(BuildContext context) {
+    var jobList = jobListViewModel.jobList;
+    return Obx((){
+      return ListView.builder(
+          padding: EdgeInsets.symmetric(vertical: 4),
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: jobList.length + 1,
+          itemBuilder: (context, index) {
+
+
+            if (index == jobList.length) {
+              return Obx((){
+                return jobListViewModel.isFetchingMoreData.value
+                    ? Padding(padding: EdgeInsets.all(15), child: Loader())
+                    : SizedBox();
+              });
+            }
+
+            JobListModel job = jobList[index];
+
+            return JobListTileWidget(job,index: index,);
+          });
+    });
+
+  }
+}
+
