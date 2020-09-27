@@ -322,13 +322,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
                 selectedCountry = v;
               },
             ),
+            spaceBetween,
           ],
         );
         var contact = Column(
           children: [
             spaceBetween,
             Text(
-              StringResources.contactText,
+              StringResources.contactInfo,
               style: labelStyle,
             ),
             spaceBetween,

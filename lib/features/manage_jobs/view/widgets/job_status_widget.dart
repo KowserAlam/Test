@@ -15,15 +15,18 @@ class JobStatusWidget extends StatelessWidget {
 
     switch (status) {
       case JobStatus.POSTED:
-        color = Colors.blue;
+//        color = Colors.blue;
+        color = Colors.green;
         break;
       case JobStatus.DRAFT:
         text = "DRAFT";
-        color = Colors.purple;
+//        color = Colors.purple;
+        color = Colors.green;
         break;
       case JobStatus.UNPUBLISHED:
         text = "UNPUBLISHED";
-        color = Colors.grey;
+//        color = Colors.grey;
+        color = Colors.green;
         break;
       case JobStatus.PUBLISHED:
 
