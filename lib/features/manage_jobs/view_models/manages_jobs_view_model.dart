@@ -23,14 +23,14 @@ class ManageJobViewModel extends GetxController {
   var totalJobCount = 0.obs;
   var appError = AppError.none.obs;
 
-  Future<bool> getJobList({bool isFormOnPageLoad = false}) async {
+  Future<bool> getJobList({pageSize = 15}) async {
     totalJobCount.value = 0;
     appError.value = AppError.none;
     _pageCount = 1;
     isFetchingData.value = true;
 
     Either<AppError, ManageJobListScreenDataModel> result =
-        await ManageJobRepository().getJobList();
+        await ManageJobRepository().getJobList(pageSize:pageSize);
     return result.fold((l) {
       hasMoreData.value = false;
       isFetchingData.value = false;

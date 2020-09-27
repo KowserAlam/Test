@@ -18,9 +18,9 @@ import 'package:logger/logger.dart';
 
 class ManageJobRepository {
   Future<Either<AppError, ManageJobListScreenDataModel>> getJobList(
-      {JobStatus jobStatus,int page = 1}) async {
+      {JobStatus jobStatus,int page = 1,pageSize=15}) async {
 
-    var url = "${Urls.openJobsCompany}?page=$page&status=${jobStatus??""}";
+    var url = "${Urls.openJobsCompany}?page=$page&status=${jobStatus??""}&page_size=$pageSize";
 
     logger.i(url);
 

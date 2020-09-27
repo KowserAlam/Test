@@ -12,8 +12,9 @@ import 'package:provider/provider.dart';
 
 class ManageCandidateScreen extends StatefulWidget {
   final String jobId;
+  final showAppBar;
 
-  ManageCandidateScreen(this.jobId);
+  ManageCandidateScreen(this.jobId,{this.showAppBar = true});
 
   @override
   _ManageCandidateScreenState createState() => _ManageCandidateScreenState();
@@ -25,7 +26,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
   @override
   void initState() {
     Get.put(ManageCandidateVewModel(),tag: widget.jobId,permanent: true);
-    manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:widget.jobId );
+    manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:widget.jobId);
     manageCandidateVm.getData(widget.jobId);
     super.initState();
   }
@@ -35,9 +36,9 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.showAppBar?AppBar(
         title: Text(StringResources.manageCandidatesText),
-      ),
+      ):null,
       body: Obx((){
         var candidates = manageCandidateVm.candidates;
         return PageStateBuilder(
