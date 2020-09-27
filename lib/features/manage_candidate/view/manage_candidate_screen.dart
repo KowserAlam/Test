@@ -17,19 +17,24 @@ class ManageCandidateScreen extends StatefulWidget {
   ManageCandidateScreen(this.jobId,{this.showAppBar = true});
 
   @override
-  _ManageCandidateScreenState createState() => _ManageCandidateScreenState();
+  _ManageCandidateScreenState createState() => _ManageCandidateScreenState(jobId);
 }
 
-class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
+class _ManageCandidateScreenState extends State<ManageCandidateScreen> {
   ManageCandidateVewModel manageCandidateVm;
+  _ManageCandidateScreenState(String jobId){
+    Get.put(ManageCandidateVewModel(),tag: jobId,permanent: true);
 
-  @override
-  void initState() {
-    Get.put(ManageCandidateVewModel(),tag: widget.jobId,permanent: true);
-    manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:widget.jobId);
-    manageCandidateVm.getData(widget.jobId);
-    super.initState();
+    manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:jobId);
+    manageCandidateVm.getData(jobId);
   }
+
+
+  // @override
+  // void initState() {
+  //
+  //   super.initState();
+  // }
 
 
 
@@ -58,6 +63,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen>{
       }),
     );
   }
+
 }
 
 

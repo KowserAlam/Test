@@ -54,18 +54,20 @@ class _HomeState extends State<Home> {
   }
 
   _modeToPage(int index) async {
-    if (currentIndex != index) {
-      var offset = 0;
+    // if (currentIndex != index) {
+    //   var offset = 0;
+    //
+    //   if (index > currentIndex) {
+    //     offset = 300;
+    //   } else if (index < currentIndex) {
+    //     offset = -300;
+    //   }
+    //   await _paeViewController.animateTo(_paeViewController.offset + offset,
+    //       duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
+    //
+    // }
 
-      if (index > currentIndex) {
-        offset = 300;
-      } else if (index < currentIndex) {
-        offset = -300;
-      }
-      await _paeViewController.animateTo(_paeViewController.offset + offset,
-          duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
-      _paeViewController.jumpToPage(index);
-    }
+    _paeViewController.jumpToPage(index);
   }
 
   @override
@@ -200,6 +202,7 @@ class _HomeState extends State<Home> {
             elevation: 2.0,
           ),
           body: PageView(
+            physics: NeverScrollableScrollPhysics(),
             onPageChanged: (index) {
               _updateAppBar(index);
               setState(() {
