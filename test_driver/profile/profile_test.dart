@@ -170,79 +170,103 @@ Future<void> editProfileTest()async{
     });
 
     test('Check Organization head designation ', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyOrganizationHeadDesignationTextKey, dyScroll: -300);
       await driver.tap(Keys.companyOrganizationHeadDesignationTextKey);
       await driver.enterText('Organization Head Designation');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Organization Head Designation')), 'Organization Head Designation');
     });
     test('Check Organization head Mobile ', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyOrganizationHeadMobileNoTextKey, dyScroll: -300);
       await driver.tap(Keys.companyOrganizationHeadMobileNoTextKey);
-      await driver.enterText('0101');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.enterText('01900000000');
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('01900000000')), '01900000000');
     });
 
     test('Check Contact person name', () async {
-      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonNameTextKey, dyScroll: -40);
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonNameTextKey, dyScroll: -400);
       await driver.tap(Keys.companyContactPersonNameTextKey);
       await driver.enterText('Contact Person Name');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Contact Person Name')), 'Contact Person Name');
     });
 
     test('Check Contact person Designation', () async {
-      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonDesignationTextKey, dyScroll: -40);
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonDesignationTextKey, dyScroll: -400);
       await driver.tap(Keys.companyContactPersonDesignationTextKey);
       await driver.enterText('Contact Person Designation');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Contact Person Designation')), 'Contact Person Designation');
     });
 
     test('Check Contact person Mobile No', () async {
-      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonMobileNoTextKey, dyScroll: -40);
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonMobileNoTextKey, dyScroll: -400);
       await driver.tap(Keys.companyContactPersonMobileNoTextKey);
       await driver.enterText('00000');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('00000')), '00000');
     });
 
     test('Check Contact person Email', () async {
-      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonEmailTextKey, dyScroll: -40);
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyContactPersonEmailTextKey, dyScroll: -400);
       await driver.tap(Keys.companyContactPersonEmailTextKey);
       await driver.enterText('email@email.com');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('email@email.com')), 'email@email.com');
     });
 
     test('Basis Membership Number', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.basisMembershipTextfieldKey, dyScroll: -400);
       await driver.tap(Keys.basisMembershipTextfieldKey);
-      await driver.enterText('1234');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.enterText('123444');
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 4),() {});
+      await expect(await driver.getText(find.text('123444')), '123444');
     });
 
     test('Check name in Google', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.nameInGoogleTextfieldKey, dyScroll: -400);
       await driver.tap(Keys.nameInGoogleTextfieldKey);
       await driver.enterText('Company Google Name');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Company Google Name')), 'Company Google Name');
     });
 
     test('Insert name in bdjobs', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.nameInBdJobsTextfieldKey, dyScroll: -400);
       await driver.tap(Keys.nameInBdJobsTextfieldKey);
       await driver.enterText('Company BDjobs Name');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Company BDjobs Name')), 'Company BDjobs Name');
     });
 
     test('Insert name in FaceBook', () async {
+      await driver.tap(Keys.companyEditProfileIconKey);
+      await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.nameInFacebookTextfieldKey, dyScroll: -400);
       await driver.tap(Keys.nameInFacebookTextfieldKey);
       await driver.enterText('Company FaceBook Name');
-      //await driver.tap(Keys.editProfileSaveButton);
+      await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await expect(await driver.getText(find.text('Company FaceBook Name')), 'Company FaceBook Name');
     });
-
-
 
   });
 
