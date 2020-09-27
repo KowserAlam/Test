@@ -44,8 +44,10 @@ class CompanyProfileViewModel with ChangeNotifier {
 
   Future<bool> updateCompany(Map<String, dynamic> data,
       {File imageFile}) async {
+
+    data.removeWhere((key, value) => value == null);
     BotToast.showLoading();
-    Future<bool> res = CompanyRepository().updateCompany(data, imageFile);
+    Future<bool> res = CompanyRepository().updateInfo(data);
     if (await res) {
       BotToast.closeAllLoading();
       // this for temporary .. will be replaced latter

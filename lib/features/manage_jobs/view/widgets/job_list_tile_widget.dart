@@ -24,7 +24,7 @@ class JobListTileWidget extends StatefulWidget {
   final Function onFavorite;
   final int index;
 
-  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply,this.index});
+  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index});
 
   @override
   _JobListTileWidgetState createState() => _JobListTileWidgetState();
@@ -281,7 +281,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     bool isPublished = jobStatus == JobStatus.PUBLISHED;
     bool isDraft = jobStatus == JobStatus.DRAFT;
     bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
-    var vm = Provider.of<ManageJobViewModel>(context,listen: false);
+    var vm = Provider.of<ManageJobViewModel>(context, listen: false);
 
     var items = Column(
       mainAxisSize: MainAxisSize.min,
@@ -297,17 +297,17 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
         // view
 
-
         // unpublish
         if (isDraft)
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus( JobStatus.POSTED,widget.jobModel.jobId,widget.index);
+              vm.changeJobStatus(
+                  JobStatus.POSTED, widget.jobModel.jobId, widget.index);
             },
             leading: Icon(
               FontAwesomeIcons.checkSquare,
-color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
             title: Text(
               StringResources.postText,
@@ -319,7 +319,8 @@ color: Theme.of(context).primaryColor,
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus( JobStatus.UNPUBLISHED,widget.jobModel.jobId,widget.index);
+              vm.changeJobStatus(
+                  JobStatus.UNPUBLISHED, widget.jobModel.jobId, widget.index);
             },
             leading: Icon(
               FontAwesomeIcons.folderMinus,
@@ -335,7 +336,8 @@ color: Theme.of(context).primaryColor,
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus( JobStatus.PUBLISHED,widget.jobModel.jobId,widget.index);
+              vm.changeJobStatus(
+                  JobStatus.PUBLISHED, widget.jobModel.jobId, widget.index);
             },
             leading: Icon(
               FontAwesomeIcons.folder,

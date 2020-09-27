@@ -4,6 +4,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/view/widgets/change_image_profile_widget.dart';
@@ -11,6 +12,7 @@ import 'package:jobxprss_company/features/company_profile/view/widgets/location_
 import 'package:jobxprss_company/features/company_profile/view_model/company_edit_profile_view_model.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/image_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
@@ -41,13 +43,15 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   double longitude;
 
   var _companyNameTextController = TextEditingController();
-  ZefyrController _companyProfileTextController = ZefyrController(NotusDocument());
+  ZefyrController _companyProfileTextController =
+      ZefyrController(NotusDocument());
   var _legalStructureTextController = TextEditingController();
   var _noOfHumanResourceTextController = TextEditingController();
   var _noOfITResourceTextController = TextEditingController();
   var _basisMembershipNoTextController = TextEditingController();
   var _addressTextController = TextEditingController();
   var _areaTextController = TextEditingController();
+
   // var _cityTextController = TextEditingController();
   var _contactNo1TextController = TextEditingController();
   var _contactNo2TextController = TextEditingController();
@@ -82,8 +86,9 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     company = widget.company;
 
     _companyNameTextController.text = company.name;
-    if(company.companyProfile != null){
-      _companyProfileTextController = ZefyrController(company.companyProfile.htmlToNotusDocument);
+    if (company.companyProfile != null) {
+      _companyProfileTextController =
+          ZefyrController(company.companyProfile.htmlToNotusDocument);
     }
     yearOfEstablishment = company.yearOfEstablishment;
     _legalStructureTextController.text = company.legalStructure;
@@ -133,7 +138,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text,
-        "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
+        "company_profile":
+            _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
         "address": _addressTextController.text,
         "area": _areaTextController.text,
@@ -154,6 +160,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             _noOfHumanResourceTextController.text,
         "no_of_it_resources": _noOfITResourceTextController.text,
         "contact_person": _contactPersonNameTextController.text,
+        "image": profileImage != null?ImageUtil.getBase64Image(profileImage):null,
         "contact_person_designation":
             _contactPersonDesignationTextController.text,
         "contact_person_mobile_no": _contactPersonPhoneTextController.text,
@@ -170,6 +177,13 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
       if (res) {
         Navigator.pop(context);
       }
+    } else {
+      Get.snackbar(
+          StringResources.errorText, StringResources.checkRequiredField,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          );
     }
   }
 
@@ -514,7 +528,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(
-              title: Text(StringResources.updateInfoText, key: Key('companyEditProfileAppBarKey'),),
+              title: Text(
+                StringResources.updateInfoText,
+                key: Key('companyEditProfileAppBarKey'),
+              ),
               actions: [
                 EditScreenSaveButton(
                   text: StringResources.saveText,

@@ -307,6 +307,7 @@ class StringResources {
   static String graduationDateShouldBeAfterEnrollDate = "Graduation date should be after enroll date";
   static String blankJoiningDateErrorText = "Please enter joining date";
   static String blankLeavingDateErrorText = "Please enter leaving date";
+  static String errorText = "Error";
 
 
 

@@ -63,28 +63,31 @@ class CompanyRepository {
   Future<bool> uploadProfileImage(File imageFile) async {
     var name =
         await AuthService.getInstance().then((value) => value.getUser().cId);
+
     String url = "${Urls.companyProfileUpdateUrl}/$name/";
-    return ApiClient().uploadFileAsFormData(url, imageFile, "profile_picture");
+    var res = await  ApiClient().uploadFileAsFormData(url, imageFile, "profile_picture");
+    logger.i(res);
+    return res;
   }
 
-  Future<bool> updateCompany(Map<String, dynamic> data,
-      [File imageFile]) async {
-    if (imageFile != null) {
-      var res = await uploadProfileImage(imageFile);
+  // Future<bool> updateCompany(Map<String, dynamic> data,
+  //     [File imageFile]) async {
+  //   if (imageFile != null) {
+  //     var res = await uploadProfileImage(imageFile);
+  //
+  //     if (res) {
+  //       return _updateInfo(data);
+  //     }
+  //     return false;
+  //   } else {
+  //     return _updateInfo(data);
+  //   }
+  // }
 
-      if (res) {
-        return _updateInfo(data);
-      }
-      return false;
-    } else {
-      return _updateInfo(data);
-    }
-  }
-
-  Future<bool> _updateInfo(Map<String, dynamic> data) async {
+  Future<bool> updateInfo(Map<String, dynamic> data) async {
     try {
-      var name =
-          await AuthService.getInstance().then((value) => value.getUser().cId);
+      // var name =
+      // await AuthService.getInstance().then((value) => value.getUser().cId);
       String url = "${Urls.companyProfileUpdateUrl}/";
       var res = await ApiClient().putRequest(url, data);
       logger.i(url);

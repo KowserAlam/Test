@@ -70,9 +70,11 @@ class ApiClient {
       request.files.add(await http.MultipartFile.fromPath(nameKey, file.path));
       request.headers.addAll(await _getHeaderFormData());
       var res = await request.send();
+      logger.i(res.statusCode);
       if (res.statusCode == 200) {
         return true;
       } else {
+        logger.i('something is wrong');
         return false;
       }
     } catch (err) {

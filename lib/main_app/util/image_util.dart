@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:uuid/uuid.dart';
 
-class ImageCompressUtil {
+class ImageUtil {
   static Future<Directory> _getTemporaryDirectory() async {
     return Directory.systemTemp;
   }
@@ -19,5 +20,14 @@ class ImageCompressUtil {
       minWidth: 400,
     );
     return finalImage;
+  }
+
+  static String getBase64Image(File imageFile){
+    List<int> imageBytes = imageFile.readAsBytesSync();
+//    print(imageBytes);
+    var img = "data:image/jpg;base64," + base64Encode(imageBytes);
+//    print(img);
+    return img;
+
   }
 }
