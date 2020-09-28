@@ -236,6 +236,13 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           }
         });
       }
+    }else {
+      Get.snackbar(
+        StringResources.errorText, StringResources.checkRequiredField,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
