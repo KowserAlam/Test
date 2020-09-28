@@ -213,7 +213,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         });
 
       }
-      var manageJobVM = Provider.of<ManageJobViewModel>(context, listen: false);
+      var manageJobVM = Get.find<ManageJobViewModel>();
 
       var _vm = widget.jobPostViewModel;
 
@@ -236,6 +236,13 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
           }
         });
       }
+    }else {
+      Get.snackbar(
+        StringResources.errorText, StringResources.checkRequiredField,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -249,7 +256,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
       child: Consumer<JobPostViewModel>(builder: (context, _vm, _) {
         var appBarText = isEditMode && !widget.copyAsNew
             ? widget?.jobModel?.title ?? ""
-            : StringResources.postNewJobText;
+            : StringResources.postJobText;
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(

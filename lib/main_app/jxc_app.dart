@@ -33,8 +33,6 @@ class JXCApp extends StatelessWidget {
       defaultDurationTransition: Duration(milliseconds: 180),
     );
 
-
-
     var providers = [
       ChangeNotifierProvider(create: (context) => SigninViewModel()),
       ChangeNotifierProvider(create: (context) => PasswordResetViewModel()),

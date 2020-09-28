@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
-import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile_scren.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
 import 'package:jobxprss_company/features/messaging/model/message_sender_data_model.dart';
 import 'package:jobxprss_company/features/messaging/repositories/message_repository.dart';
@@ -12,6 +12,7 @@ import 'package:jobxprss_company/features/messaging/view/conversation_screen.dar
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -55,8 +56,8 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var profileImage = Container(
-      height: 60,
-      width: 60,
+      height: 80,
+      width: 80,
       child: CachedNetworkImage(
         fit: BoxFit.cover,
         imageUrl: candidate.image ?? "",
@@ -68,119 +69,102 @@ class CandidateListTile extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(color: scaffoldBackgroundColor, boxShadow: [
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-      ]),
-      margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
+
+      decoration: BoxDecoration(
+          borderRadius: CommonStyle.borderRadius,
+          color: scaffoldBackgroundColor, boxShadow: CommonStyle.boxShadow),
+      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
       child: Material(
         color: backgroundColor,
+          borderRadius: CommonStyle.borderRadius,
         child: InkWell(
           onTap: () {
-            Get.to(CandidateProfile(candidate.slug));
+            Get.to(CandidateProfileScreen(candidate.slug));
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 3),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        profileImage,
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              name,
-                              designation,
-                              experience,
-                              skills,
-                            ],
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            // message
-                            IconButton(
-                              iconSize: 20,
-                              onPressed: () {
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                profileImage,
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      name,
+                      designation,
+                      experience,
+                      skills,
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    // message
+                    IconButton(
+                      iconSize: 20,
+                      onPressed: () {
 
 //                            _showSendMessageDialog(context);
 //
-                                var model = MessageSenderModel(
-                                    otherPartyImage: candidate.image,
-                                    otherPartyName: candidate.fullName,
-                                    otherPartyUserId: candidate.user);
-                                Get.to(ConversationScreen(
-                                  model,
+                        var model = MessageSenderModel(
+                            otherPartyImage: candidate.image,
+                            otherPartyName: candidate.fullName,
+                            otherPartyUserId: candidate.user);
+                        Get.to(ConversationScreen(
+                          model,
 //                              senderListId: vm.company?.user?.toString(),
-                                ));
-                              },
-                              icon: Icon(FontAwesomeIcons.comment),
-                            ),
-
-                            ValueBuilder<bool>(
-                                initialValue: false,
-                                builder: (isLoading, updateFn) {
-                                  if (isLoading) {
-                                    return IconButton(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Loader(size: 8,),
-                                      ),
-                                      onPressed: null,
-                                    );
-                                  }
-                                  return IconButton(
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      updateFn(true);
-                                      manageCandidateVm
-                                          .toggleCandidateShortlistedStatus(
-                                              candidate.applicationId, index).then((value) {
-                                        updateFn(false);
-                                      });
-                                    },
-                                    icon: Stack(
-                                      children: [
-                                        if (candidate.isShortlisted)
-                                          Icon(
-                                            FontAwesomeIcons.solidHeart,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        Icon(
-                                          FontAwesomeIcons.heart,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ],
-                        ),
-                      ],
+                        ));
+                      },
+                      icon: Icon(FontAwesomeIcons.comment),
                     ),
+
+                    ValueBuilder<bool>(
+                        initialValue: false,
+                        builder: (isLoading, updateFn) {
+                          if (isLoading) {
+                            return IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Loader(size: 8,),
+                              ),
+                              onPressed: null,
+                            );
+                          }
+                          return IconButton(
+                            iconSize: 20,
+                            onPressed: () {
+                              updateFn(true);
+                              manageCandidateVm
+                                  .toggleCandidateShortlistedStatus(
+                                      candidate.applicationId, index).then((value) {
+                                updateFn(false);
+                              });
+                            },
+                            icon: Stack(
+                              children: [
+                                if (candidate.isShortlisted)
+                                  Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                Icon(
+                                  FontAwesomeIcons.heart,
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                   ],
                 ),
-              ),
-              //Job Title
-//              Divider(height: 1),
-//              Padding(
-//                padding: EdgeInsets.all(8),
-//                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[],
-//                ),
-//              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -48,7 +48,6 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
 
     return Obx( () {
 
-
       return Scaffold(
         key: _scaffoldKey,
         body: PageStateBuilder(

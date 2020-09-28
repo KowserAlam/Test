@@ -7,6 +7,7 @@ class CommonStyle {
   ];
 
   static var borderRadiusRound = BorderRadius.circular(25);
+  static var borderRadius = BorderRadius.circular(7);
 
   static focusedBorder(context) => OutlineInputBorder(
       borderRadius: BorderRadius.circular(7),

@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:after_layout/after_layout.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,16 +30,18 @@ class CompanyEditProfile extends StatefulWidget {
   _CompanyEditProfileState createState() => _CompanyEditProfileState();
 }
 
-class _CompanyEditProfileState extends State<CompanyEditProfile>
-    with AfterLayoutMixin {
+class _CompanyEditProfileState extends State<CompanyEditProfile> {
+  TextStyle labelStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold
+  );
+
   Company company;
-  CompanyEditProfileViewModel _vm = CompanyEditProfileViewModel();
   var _formKey = GlobalKey<FormState>();
   File profileImage;
   String selectedCountry;
   double latitude;
   double longitude;
-
   var _companyNameTextController = TextEditingController();
   ZefyrController _companyProfileTextController = ZefyrController(NotusDocument());
   var _legalStructureTextController = TextEditingController();
@@ -69,22 +68,19 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _contactPersonPhoneTextController = TextEditingController();
   var _contactPersonDesignationTextController = TextEditingController();
   DateTime yearOfEstablishment;
-
   FocusNode _companyProfileFocusNode = FocusNode();
 
   var spaceBetween = SizedBox(
     height: 10,
   );
 
-  @override
-  void afterFirstLayout(BuildContext context) {
-    _vm.getCountryList();
-  }
-
+  CompanyEditProfileViewModel editProfileVm ;
   @override
   void initState() {
+    Get.put(CompanyEditProfileViewModel());
+    editProfileVm =Get.find<CompanyEditProfileViewModel>();
+    editProfileVm.getCountryList();
     company = widget.company;
-
     _companyNameTextController.text = company.name;
     if(company.companyProfile != null){
       _companyProfileTextController = ZefyrController(company.companyProfile.htmlToNotusDocument);
@@ -117,14 +113,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
     latitude = company.latitude;
     longitude = company.longitude;
     selectedCountry = company.city;
-    // if (company.country.isNotEmptyOrNotNull) {
-    //   CountryRepository().getCountryObjFromCode(company.country).then((value) {
-    //     selectedCountry = value;
-    //     logger.i(value);
-    //     setState(() {});
-    //   });
-    // }
-
     super.initState();
   }
 
@@ -136,35 +124,35 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
           Provider.of<CompanyProfileViewModel>(context, listen: false);
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
-        "legal_structure_of_this_company": _legalStructureTextController.text,
+        "legal_structure_of_this_company": _legalStructureTextController.text.getStringInNotNull,
         "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
-        "address": _addressTextController.text,
-        "area": _areaTextController.text,
+        "address": _addressTextController.text.getStringInNotNull,
+        "area": _areaTextController.text.getStringInNotNull,
         // "city": _cityTextController.text,
-        "city": selectedCountry.swapValueByComa ?? "",
-        "company_contact_no_one": _contactNo1TextController.text,
-        "company_contact_no_two": _contactNo2TextController.text,
-        "company_contact_no_three": _contactNo3TextController.text,
-        "email": _emailTextController.text,
-        "web_address": _webAddressTextController.text,
-        "company_name_bdjobs": _companyBdJobsTextController.text,
-        "company_name_facebook": _companyFacebookTextController.text,
-        "company_name_google": _companyGoogleTextController.text,
-        "organization_head": _orgHeadNameTextController.text,
-        "organization_head_designation": _orgHeadDesignationTextController.text,
-        "organization_head_number": _orgHeadPhoneTextController.text,
+        "city": selectedCountry.swapValueByComa.getStringInNotNull,
+        "company_contact_no_one": _contactNo1TextController.text.getStringInNotNull,
+        "company_contact_no_two": _contactNo2TextController.text.getStringInNotNull,
+        "company_contact_no_three": _contactNo3TextController.text.getStringInNotNull,
+        "email": _emailTextController.text.getStringInNotNull,
+        "web_address": _webAddressTextController.text.getStringInNotNull,
+        "company_name_bdjobs": _companyBdJobsTextController.text.getStringInNotNull,
+        "company_name_facebook": _companyFacebookTextController.text.getStringInNotNull,
+        "company_name_google": _companyGoogleTextController.text.getStringInNotNull,
+        "organization_head": _orgHeadNameTextController.text.getStringInNotNull,
+        "organization_head_designation": _orgHeadDesignationTextController.text.getStringInNotNull,
+        "organization_head_number": _orgHeadPhoneTextController.text.getStringInNotNull,
         "total_number_of_human_resources":
-            _noOfHumanResourceTextController.text,
-        "no_of_it_resources": _noOfITResourceTextController.text,
-        "contact_person": _contactPersonNameTextController.text,
+            _noOfHumanResourceTextController.text.getStringInNotNull,
+        "no_of_it_resources": _noOfITResourceTextController.text.getStringInNotNull,
+        "contact_person": _contactPersonNameTextController.text.getStringInNotNull,
         "image": profileImage != null?ImageUtil.getBase64Image(profileImage):null,
         "contact_person_designation":
-            _contactPersonDesignationTextController.text,
-        "contact_person_mobile_no": _contactPersonPhoneTextController.text,
-        "contact_person_email": _contactPersonEmailTextController.text,
-        "latitude": latitude.toStringAsFixed(8) ?? "",
-        "longitude": longitude.toStringAsFixed(8) ?? "",
+            _contactPersonDesignationTextController.text.getStringInNotNull,
+        "contact_person_mobile_no": _contactPersonPhoneTextController.text.getStringInNotNull,
+        "contact_person_email": _contactPersonEmailTextController.text.getStringInNotNull,
+        "latitude": latitude.toStringAsFixed(8) ?? null,
+        "longitude": longitude.toStringAsFixed(8) ?? null,
       };
       Logger().i(data);
 //
@@ -187,178 +175,222 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
 
   @override
   Widget build(BuildContext context) {
-    TextStyle labelStyle = Theme.of(context).textTheme.subtitle1;
+// var editProfileVm = Provider.of<CompanyEditProfileViewModel>(context);
 
-    return ChangeNotifierProvider(
-      create: (context) => _vm,
-      child: Consumer<CompanyEditProfileViewModel>(
-          builder: (context, editProfileVm, child) {
-        var header = Column(
+    return ZefyrScaffold(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            StringResources.updateInfoText,
+            key: Key('companyEditProfileAppBarKey'),
+          ),
+          actions: [
+            EditScreenSaveButton(
+              text: StringResources.saveText,
+              key: Key('editProfileSaveButton'),
+              onPressed: _handleSave,
+            )
+          ],
+        ),
+        body: ListView(
+          key: Key('companyEditProfileListViewKey'),
           children: [
-            spaceBetween,
-            ChangeProfileImage(
-              onImageSelect: (v) {
-                profileImage = v;
-              },
-            ),
-            spaceBetween,
-            //name
-            CustomTextFormField(
-              enabled: false,
-              readOnly: true,
-              keyboardType: TextInputType.text,
-              //focusNode: _fatherNameFocusNode,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    header(),
+                    basicInfo(),
+                    address(context),
+                    contact(),
+                    orgHead(),
+                    contactPerson(),
+                    otherInfo(),
+                    setLocation(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget header ()=> Column(
+    children: [
+      spaceBetween,
+      ChangeProfileImage(
+        onImageSelect: (v) {
+          profileImage = v;
+        },
+      ),
+      spaceBetween,
+      //name
+      CustomTextFormField(
+        enabled: false,
+        readOnly: true,
+        keyboardType: TextInputType.text,
+        //focusNode: _fatherNameFocusNode,
 //                    textInputAction: TextInputAction.next,
-              onFieldSubmitted: (a) {
+        onFieldSubmitted: (a) {
 //                      FocusScope.of(context)
 //                          .requestFocus(_motherNameFocusNode);
-              },
-              controller: _companyNameTextController,
-              labelText: StringResources.companyNameText,
-              hintText: StringResources.companyNameHint,
-              textFieldKey: Key('companyNameTextfieldKey'),
-            ),
-            spaceBetween,
-          ],
-        );
-        var basicInfo = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.basicInfoText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            //company_profile
-            CustomZefyrRichTextFormField(
-              labelText: StringResources.companyProfileText,
-              textFieldKey: Key('companyProfileTextfieldKey'),
-              focusNode: _companyProfileFocusNode,
-              controller: _companyProfileTextController,
-              height: 80,
-            ),
-            spaceBetween,
-            //Year of Establishment
-            CommonDatePickerFormField(
-              date: yearOfEstablishment,
-              onDateTimeChanged: (DateTime t) {
-                yearOfEstablishment = t;
-                setState(() {});
-              },
-              label: StringResources.companyYearsOfEstablishmentText,
-              dateFieldKey: Key('companyYearsOfEstablishmentDateFieldKey'),
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('legalStructureTextKey'),
-              keyboardType: TextInputType.text,
-              controller: _legalStructureTextController,
-              labelText: StringResources.legalStructureText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyNoOFHumanResourcesTextKey'),
-              validator: Validator().integerNumberNullableValidator,
-              keyboardType: TextInputType.number,
-              controller: _noOfHumanResourceTextController,
-              labelText: StringResources.companyNoOFHumanResourcesText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyNoOFItResourcesTextKey'),
-              validator: Validator().integerNumberNullableValidator,
-              keyboardType: TextInputType.number,
-              controller: _noOfITResourceTextController,
-              labelText: StringResources.companyNoOFItResourcesText,
-            ),
-            //Legal Structure
-            spaceBetween,
-          ],
-        );
-        var address = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.companyAddressSectionText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyAddressTextfieldKey'),
-              isRequired: true,
-              keyboardType: TextInputType.multiline,
-              minLines: 3,
-              maxLines: 8,
-              controller: _addressTextController,
-              labelText: StringResources.addressText,
-              hintText: StringResources.addressHintText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyAreaTextfieldKey'),
-              controller: _areaTextController,
-              labelText: StringResources.areaText,
-              hintText: StringResources.areaHintText,
-            ),
-            spaceBetween,
-            // CustomTextFormField(
-            //   keyboardType: TextInputType.text,
-            //   controller: _cityTextController,
-            //   labelText: StringResources.companyCityText,
-            //   hintText: StringResources.companyCityEg,
-            // ),
-            // spaceBetween,
-            CustomDropdownSearchFormField<String>(
-              dropdownKey: Key('CompanyCityDropdownListKey'),
-              labelText: StringResources.companyCityText,
-              hintText: StringResources.tapToSelectText,
-              items: editProfileVm.countryList,
-              mode: Mode.BOTTOM_SHEET,
-              showSearchBox: true,
-              autoFocusSearchBox: true,
-              showSelectedItem: true,
-              selectedItem: selectedCountry,
-              onChanged: (v) {
-                selectedCountry = v;
-              },
-            ),
-          ],
-        );
-        var contact = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.contactText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('contactNoTextfieldNo1Key'),
-              keyboardType: TextInputType.phone,
-              isRequired: true,
-              validator: Validator().validatePhoneNumber,
-              hintText: StringResources.phoneHintText,
-              controller: _contactNo1TextController,
-              labelText: StringResources.contactNoOneText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('contactNoTextfieldNo2Key'),
-              keyboardType: TextInputType.phone,
-              validator: Validator().validateNullablePhoneNumber,
-              hintText: StringResources.phoneHintText,
-              controller: _contactNo2TextController,
-              labelText: StringResources.contactNoTwoText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('contactNoTextfieldNo3Key'),
-              keyboardType: TextInputType.phone,
-              validator: Validator().validateNullablePhoneNumber,
-              hintText: StringResources.phoneHintText,
-              controller: _contactNo3TextController,
-              labelText: StringResources.contactNoThreeText,
-            ),
+        },
+        controller: _companyNameTextController,
+        labelText: StringResources.companyNameText,
+        hintText: StringResources.companyNameHint,
+        textFieldKey: Key('companyNameTextfieldKey'),
+      ),
+      spaceBetween,
+    ],
+  );
+
+  Widget basicInfo ()=> Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.basicInfoText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      //company_profile
+      CustomZefyrRichTextFormField(
+        labelText: StringResources.companyProfileText,
+        textFieldKey: Key('companyProfileTextfieldKey'),
+        focusNode: _companyProfileFocusNode,
+        controller: _companyProfileTextController,
+        height: 80,
+      ),
+      spaceBetween,
+      //Year of Establishment
+      CommonDatePickerFormField(
+        date: yearOfEstablishment,
+        onDateTimeChanged: (DateTime t) {
+          yearOfEstablishment = t;
+          setState(() {});
+        },
+        label: StringResources.companyYearsOfEstablishmentText,
+        dateFieldKey: Key('companyYearsOfEstablishmentDateFieldKey'),
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('legalStructureTextKey'),
+        keyboardType: TextInputType.text,
+        controller: _legalStructureTextController,
+        labelText: StringResources.legalStructureText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyNoOFHumanResourcesTextKey'),
+        validator: Validator().integerNumberNullableValidator,
+        keyboardType: TextInputType.number,
+        controller: _noOfHumanResourceTextController,
+        labelText: StringResources.companyNoOFHumanResourcesText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyNoOFItResourcesTextKey'),
+        validator: Validator().integerNumberNullableValidator,
+        keyboardType: TextInputType.number,
+        controller: _noOfITResourceTextController,
+        labelText: StringResources.companyNoOFItResourcesText,
+      ),
+      //Legal Structure
+      spaceBetween,
+    ],
+  );
+  Widget address (context){
+
+    return Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.companyAddressSectionText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyAddressTextfieldKey'),
+        isRequired: true,
+        keyboardType: TextInputType.multiline,
+        minLines: 3,
+        maxLines: 8,
+        controller: _addressTextController,
+        labelText: StringResources.addressText,
+        hintText: StringResources.addressHintText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyAreaTextfieldKey'),
+        controller: _areaTextController,
+        labelText: StringResources.areaText,
+        hintText: StringResources.areaHintText,
+      ),
+      spaceBetween,
+      // CustomTextFormField(
+      //   keyboardType: TextInputType.text,
+      //   controller: _cityTextController,
+      //   labelText: StringResources.companyCityText,
+      //   hintText: StringResources.companyCityEg,
+      // ),
+      // spaceBetween,
+      CustomDropdownSearchFormField<String>(
+        dropdownKey: Key('CompanyCityDropdownListKey'),
+        labelText: StringResources.companyCityText,
+        hintText: StringResources.tapToSelectText,
+        items: editProfileVm.countryList,
+        mode: Mode.BOTTOM_SHEET,
+        showSearchBox: true,
+        autoFocusSearchBox: true,
+        showSelectedItem: true,
+        selectedItem: selectedCountry,
+        onChanged: (v) {
+          selectedCountry = v;
+        },
+      )
+
+
+    ],
+  );
+  }
+  Widget contact ()=> Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.contactText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('contactNoTextfieldNo1Key'),
+        keyboardType: TextInputType.phone,
+        isRequired: true,
+        validator: Validator().validatePhoneNumber,
+        hintText: StringResources.phoneHintText,
+        controller: _contactNo1TextController,
+        labelText: StringResources.contactNoOneText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('contactNoTextfieldNo2Key'),
+        keyboardType: TextInputType.phone,
+        validator: Validator().validateNullablePhoneNumber,
+        hintText: StringResources.phoneHintText,
+        controller: _contactNo2TextController,
+        labelText: StringResources.contactNoTwoText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('contactNoTextfieldNo3Key'),
+        keyboardType: TextInputType.phone,
+        validator: Validator().validateNullablePhoneNumber,
+        hintText: StringResources.phoneHintText,
+        controller: _contactNo3TextController,
+        labelText: StringResources.contactNoThreeText,
+      ),
 //            spaceBetween,
 //            CustomTextFormField(
 //              validator: Validator().validateEmail,
@@ -366,204 +398,159 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
 //              controller: _emailTextController,
 //              labelText: StringResources.emailText,
 //            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyWebAddressTextfieldKey'),
-              hintText: StringResources.webAddressHintText,
-              controller: _webAddressTextController,
-              labelText: StringResources.companyWebAddressText,
-            ),
-            spaceBetween,
-          ],
-        );
-        var orgHead = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.companyOrganizationHeadSectionText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyOrganizationHeadNameTextKey'),
-              keyboardType: TextInputType.text,
-              isRequired: true,
-              controller: _orgHeadNameTextController,
-              labelText: StringResources.companyOrganizationHeadNameText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyOrganizationHeadDesignationTextKey'),
-              keyboardType: TextInputType.text,
-              controller: _orgHeadDesignationTextController,
-              labelText: StringResources.companyOrganizationHeadDesignationText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyOrganizationHeadMobileNoTextKey'),
-              keyboardType: TextInputType.phone,
-              controller: _orgHeadPhoneTextController,
-              validator: Validator().validateNullablePhoneNumber,
-              labelText: StringResources.companyOrganizationHeadMobileNoText,
-            ),
-            spaceBetween,
-          ],
-        );
-        var otherInfo = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.companyOtherInformationText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('basisMembershipTextfieldKey'),
-              keyboardType: TextInputType.number,
-              //focusNode: _fatherNameFocusNode,
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyWebAddressTextfieldKey'),
+        hintText: StringResources.webAddressHintText,
+        controller: _webAddressTextController,
+        labelText: StringResources.companyWebAddressText,
+      ),
+      spaceBetween,
+    ],
+  );
+  Widget orgHead ()=> Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.companyOrganizationHeadSectionText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyOrganizationHeadNameTextKey'),
+        keyboardType: TextInputType.text,
+        isRequired: true,
+        controller: _orgHeadNameTextController,
+        labelText: StringResources.companyOrganizationHeadNameText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyOrganizationHeadDesignationTextKey'),
+        keyboardType: TextInputType.text,
+        controller: _orgHeadDesignationTextController,
+        labelText: StringResources.companyOrganizationHeadDesignationText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyOrganizationHeadMobileNoTextKey'),
+        keyboardType: TextInputType.phone,
+        controller: _orgHeadPhoneTextController,
+        validator: Validator().validateNullablePhoneNumber,
+        labelText: StringResources.companyOrganizationHeadMobileNoText,
+      ),
+      spaceBetween,
+    ],
+  );
+  Widget otherInfo ()=> Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.companyOtherInformationText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('basisMembershipTextfieldKey'),
+        keyboardType: TextInputType.number,
+        //focusNode: _fatherNameFocusNode,
 //                    textInputAction: TextInputAction.next,
-              onFieldSubmitted: (a) {
+        onFieldSubmitted: (a) {
 //                      FocusScope.of(context)
 //                          .requestFocus(_motherNameFocusNode);
-              },
-              controller: _basisMembershipNoTextController,
-              labelText: StringResources.companyBasisMembershipNoText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('nameInGoogleTextfieldKey'),
-              controller: _companyGoogleTextController,
-              labelText: StringResources.nameInGoogle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('nameInBdJobsTextfieldKey'),
-              controller: _companyBdJobsTextController,
-              labelText: StringResources.nameInBdJobs,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('nameInFacebookTextfieldKey'),
-              controller: _companyFacebookTextController,
-              labelText: StringResources.nameInFacebook,
-            ),
-            spaceBetween,
-          ],
-        );
-        var contactPerson = Column(
-          children: [
-            spaceBetween,
-            Text(
-              StringResources.companyContactPersonSectionText,
-              style: labelStyle,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyContactPersonNameTextKey'),
-              keyboardType: TextInputType.text,
-              isRequired: true,
-              controller: _contactPersonNameTextController,
-              hintText: StringResources.fullNameHintText,
-              labelText: StringResources.companyContactPersonNameText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyContactPersonDesignationTextKey'),
-              keyboardType: TextInputType.text,
-              isRequired: true,
-              controller: _contactPersonDesignationTextController,
-              hintText: StringResources.designationHintText,
-              labelText: StringResources.companyContactPersonDesignationText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyContactPersonMobileNoTextKey'),
-              validator: Validator().validateNullablePhoneNumber,
-              keyboardType: TextInputType.phone,
-              controller: _contactPersonPhoneTextController,
-              hintText: StringResources.phoneHintText,
-              labelText: StringResources.companyContactPersonMobileNoText,
-            ),
-            spaceBetween,
-            CustomTextFormField(
-              textFieldKey: Key('companyContactPersonEmailTextKey'),
-              validator: Validator().validateEmail,
-              keyboardType: TextInputType.emailAddress,
-              controller: _contactPersonEmailTextController,
-              hintText: StringResources.emailHintText,
-              labelText: StringResources.companyContactPersonEmailText,
-            ),
-            spaceBetween,
-          ],
-        );
+        },
+        controller: _basisMembershipNoTextController,
+        labelText: StringResources.companyBasisMembershipNoText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('nameInGoogleTextfieldKey'),
+        controller: _companyGoogleTextController,
+        labelText: StringResources.nameInGoogle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('nameInBdJobsTextfieldKey'),
+        controller: _companyBdJobsTextController,
+        labelText: StringResources.nameInBdJobs,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('nameInFacebookTextfieldKey'),
+        controller: _companyFacebookTextController,
+        labelText: StringResources.nameInFacebook,
+      ),
+      spaceBetween,
+    ],
+  );
+  Widget contactPerson ()=> Column(
+    children: [
+      spaceBetween,
+      Text(
+        StringResources.companyContactPersonSectionText,
+        style: labelStyle,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyContactPersonNameTextKey'),
+        keyboardType: TextInputType.text,
+        isRequired: true,
+        controller: _contactPersonNameTextController,
+        hintText: StringResources.fullNameHintText,
+        labelText: StringResources.companyContactPersonNameText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyContactPersonDesignationTextKey'),
+        keyboardType: TextInputType.text,
+        isRequired: true,
+        controller: _contactPersonDesignationTextController,
+        hintText: StringResources.designationHintText,
+        labelText: StringResources.companyContactPersonDesignationText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyContactPersonMobileNoTextKey'),
+        validator: Validator().validateNullablePhoneNumber,
+        keyboardType: TextInputType.phone,
+        controller: _contactPersonPhoneTextController,
+        hintText: StringResources.phoneHintText,
+        labelText: StringResources.companyContactPersonMobileNoText,
+      ),
+      spaceBetween,
+      CustomTextFormField(
+        textFieldKey: Key('companyContactPersonEmailTextKey'),
+        validator: Validator().validateEmail,
+        keyboardType: TextInputType.emailAddress,
+        controller: _contactPersonEmailTextController,
+        hintText: StringResources.emailHintText,
+        labelText: StringResources.companyContactPersonEmailText,
+      ),
+      spaceBetween,
+    ],
+  );
+  Widget setLocation ()=> InkWell(
+    onTap: () {
+      LatLng po = (latitude != null && longitude != null)
+          ? LatLng(latitude, longitude)
+          : null;
 
-        var setLocation = InkWell(
-          onTap: () {
-            LatLng po = (latitude != null && longitude != null)
-                ? LatLng(latitude, longitude)
-                : null;
-
-            Navigator.of(context).push(CupertinoPageRoute(
-                builder: (BuildContext context) => LocationPicker(
-                      latLng: po,
-                      onSaveLocation: (LatLng latLng) {
-                        latitude = latLng.latitude;
-                        longitude = latLng.longitude;
-                        setState(() {});
-                      },
-                    )));
-          },
-          child: CustomTextFormField(
-            enabled: false,
-            readOnly: true,
-            labelText: StringResources.locationText,
-            hintText: StringResources.tapToSelectText,
-            controller: TextEditingController()
-              ..text = "${latitude ?? ""} , ${longitude ?? ""}",
-          ),
-        );
-
-        return ZefyrScaffold(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                StringResources.updateInfoText,
-                key: Key('companyEditProfileAppBarKey'),
-              ),
-              actions: [
-                EditScreenSaveButton(
-                  text: StringResources.saveText,
-                  key: Key('editProfileSaveButton'),
-                  onPressed: _handleSave,
-                )
-              ],
-            ),
-            body: ListView(
-              key: Key('companyEditProfileListViewKey'),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        header,
-                        basicInfo,
-                        address,
-                        contact,
-                        orgHead,
-                        contactPerson,
-                        otherInfo,
-                        setLocation,
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      }),
-    );
-  }
+      Navigator.of(context).push(CupertinoPageRoute(
+          builder: (BuildContext context) => LocationPicker(
+            latLng: po,
+            onSaveLocation: (LatLng latLng) {
+              latitude = latLng.latitude;
+              longitude = latLng.longitude;
+              setState(() {});
+            },
+          )));
+    },
+    child: CustomTextFormField(
+      enabled: false,
+      readOnly: true,
+      labelText: StringResources.locationText,
+      hintText: StringResources.tapToSelectText,
+      controller: TextEditingController()
+        ..text = "${latitude ?? ""} , ${longitude ?? ""}",
+    ),
+  );
 }

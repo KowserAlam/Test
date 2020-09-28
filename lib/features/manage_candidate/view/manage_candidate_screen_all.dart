@@ -6,6 +6,7 @@ import 'package:jobxprss_company/features/manage_candidate/view_models/manage_ca
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 
@@ -43,17 +44,28 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
             return SizedBox();
           }
           var selected = manageJobCandidateAllViewModel.selectedJob.value;
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownSearch<JobListModel>(
-              selectedItem: selected,
-              itemAsString: (v) =>
-                  "${v?.title ?? ""} ${v?.appliedCount != null ? "(${v?.appliedCount ?? "0"})" : ""}",
-              showSearchBox: true,
-              items: manageJobsVm.jobList,
-              onChanged: (v) {
-                manageJobCandidateAllViewModel.selectedJob.value = v;
-              },
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+            decoration: BoxDecoration(
+              borderRadius: CommonStyle.borderRadius,
+                color: Theme.of(context).backgroundColor,
+              boxShadow: CommonStyle.boxShadow
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: DropdownSearch<JobListModel>(
+                dropdownSearchDecoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+                selectedItem: selected,
+                itemAsString: (v) =>
+                    "${v?.title ?? ""} ${v?.appliedCount != null ? "(${v?.appliedCount ?? "0"})" : ""}",
+                showSearchBox: true,
+                items: manageJobsVm.jobList,
+                onChanged: (v) {
+                  manageJobCandidateAllViewModel.selectedJob.value = v;
+                },
+              ),
             ),
           );
         }),
