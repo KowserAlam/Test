@@ -9,9 +9,6 @@ import 'package:jobxprss_company/features/settings/settings_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/locator.dart';
-import 'package:jobxprss_company/main_app/views/about_us_screen.dart';
-import 'package:jobxprss_company/main_app/views/contact_us_screen.dart';
-import 'package:jobxprss_company/main_app/views/faq_screen.dart';
 import 'package:jobxprss_company/main_app/views/widgets/app_version_widget_small.dart';
 
 class AppDrawer extends StatefulWidget {
