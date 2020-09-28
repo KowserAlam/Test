@@ -55,8 +55,8 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var profileImage = Container(
-      height: 60,
-      width: 60,
+      height: 80,
+      width: 80,
       child: CachedNetworkImage(
         fit: BoxFit.cover,
         imageUrl: candidate.image ?? "",
@@ -79,108 +79,90 @@ class CandidateListTile extends StatelessWidget {
           onTap: () {
             Get.to(CandidateProfile(candidate.slug));
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 3),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        profileImage,
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              name,
-                              designation,
-                              experience,
-                              skills,
-                            ],
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            // message
-                            IconButton(
-                              iconSize: 20,
-                              onPressed: () {
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                profileImage,
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      name,
+                      designation,
+                      experience,
+                      skills,
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    // message
+                    IconButton(
+                      iconSize: 20,
+                      onPressed: () {
 
 //                            _showSendMessageDialog(context);
 //
-                                var model = MessageSenderModel(
-                                    otherPartyImage: candidate.image,
-                                    otherPartyName: candidate.fullName,
-                                    otherPartyUserId: candidate.user);
-                                Get.to(ConversationScreen(
-                                  model,
+                        var model = MessageSenderModel(
+                            otherPartyImage: candidate.image,
+                            otherPartyName: candidate.fullName,
+                            otherPartyUserId: candidate.user);
+                        Get.to(ConversationScreen(
+                          model,
 //                              senderListId: vm.company?.user?.toString(),
-                                ));
-                              },
-                              icon: Icon(FontAwesomeIcons.comment),
-                            ),
-
-                            ValueBuilder<bool>(
-                                initialValue: false,
-                                builder: (isLoading, updateFn) {
-                                  if (isLoading) {
-                                    return IconButton(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Loader(size: 8,),
-                                      ),
-                                      onPressed: null,
-                                    );
-                                  }
-                                  return IconButton(
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      updateFn(true);
-                                      manageCandidateVm
-                                          .toggleCandidateShortlistedStatus(
-                                              candidate.applicationId, index).then((value) {
-                                        updateFn(false);
-                                      });
-                                    },
-                                    icon: Stack(
-                                      children: [
-                                        if (candidate.isShortlisted)
-                                          Icon(
-                                            FontAwesomeIcons.solidHeart,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        Icon(
-                                          FontAwesomeIcons.heart,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ],
-                        ),
-                      ],
+                        ));
+                      },
+                      icon: Icon(FontAwesomeIcons.comment),
                     ),
+
+                    ValueBuilder<bool>(
+                        initialValue: false,
+                        builder: (isLoading, updateFn) {
+                          if (isLoading) {
+                            return IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Loader(size: 8,),
+                              ),
+                              onPressed: null,
+                            );
+                          }
+                          return IconButton(
+                            iconSize: 20,
+                            onPressed: () {
+                              updateFn(true);
+                              manageCandidateVm
+                                  .toggleCandidateShortlistedStatus(
+                                      candidate.applicationId, index).then((value) {
+                                updateFn(false);
+                              });
+                            },
+                            icon: Stack(
+                              children: [
+                                if (candidate.isShortlisted)
+                                  Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                Icon(
+                                  FontAwesomeIcons.heart,
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                   ],
                 ),
-              ),
-              //Job Title
-//              Divider(height: 1),
-//              Padding(
-//                padding: EdgeInsets.all(8),
-//                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[],
-//                ),
-//              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
