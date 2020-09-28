@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile_sections/candidate_profile_experience.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/widget/user_info_list_item.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/candidate_profile_view_model.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
@@ -45,7 +48,7 @@ class _CandidateProfileState extends State<CandidateProfile> {
                 children: [
                   profileImageWidget(),
                   displayNameWidget(),
-
+                  Experience(experienceInfoList: vm.candidate.value.experienceInfo,)
                 ],
               ),
             ),
