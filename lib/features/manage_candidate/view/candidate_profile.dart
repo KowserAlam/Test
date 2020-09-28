@@ -45,6 +45,7 @@ class _CandidateProfileState extends State<CandidateProfile> {
                 children: [
                   profileImageWidget(),
                   displayNameWidget(),
+
                 ],
               ),
             ),
