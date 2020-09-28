@@ -41,7 +41,6 @@ class _CandidateProfileTileState extends State<CandidateProfileTile> {
                 ),
                 imageUrl: widget.experienceInfo.companyProfilePic ?? "",
               ),
-
             ],
           )
         ],
