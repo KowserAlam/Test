@@ -133,9 +133,6 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                           constraints: BoxConstraints(maxWidth: 720),
                           child: Column(
                             children: [
-                              ProfileCompletePercentIndicatorWidget(
-                                  dashboardViewModel.profileCompletePercent /
-                                      100),
                               InfoBoxWidget(
                                 onTapApplications: widget.onTapApplied,
                                 onTapShortListed: widget.onTapFavourite,

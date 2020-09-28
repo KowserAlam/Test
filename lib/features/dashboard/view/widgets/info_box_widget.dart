@@ -117,10 +117,11 @@ class InfoBoxWidget extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, constrain) {
       bool isSmallTablet = Get.context.isTablet;
-      double iconSize = 35;
-      double numberFontSize = iconSize / 1.6;
-      double textFontSize = iconSize / 2.7;
-      double boxHeight = 120;
+
+      double iconSize = 10 + constrain.maxWidth/7;
+      double numberFontSize = iconSize / 2;
+      double textFontSize = iconSize / 3;
+      double boxHeight = constrain.maxWidth/1.6;
       return Container(
         margin: EdgeInsets.all(4),
         height: boxHeight,
