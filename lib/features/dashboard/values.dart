@@ -8,7 +8,6 @@ class DashboardValues{
   static const Widget sizedBoxBetweenSection = SizedBox(height: paddingBetweenSection,);
   static const Widget sizedBoxBetweenSectionLabel = SizedBox(height: paddingBetweenSectionLabel,);
   static final dashboardSectionLabelStyle = TextStyle(
-    fontFamily: GoogleFonts.oxygen().fontFamily,
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
