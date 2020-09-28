@@ -1,30 +1,26 @@
 import 'dart:async';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:dartz/dartz.dart' as dartZ;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jobxprss_company/main_app/api_helpers/urls.dart';
-import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
+import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
-import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/models/contact_us_model.dart';
 import 'package:jobxprss_company/main_app/models/settings_model.dart';
 import 'package:jobxprss_company/main_app/repositories/contact_us_submit_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/setting_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/util/logger_util.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
-import 'package:jobxprss_company/main_app/views/widgets/pge_view_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_button.dart';
-import 'package:jobxprss_company/main_app/views/widgets/custom_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:dartz/dartz.dart' as dartZ;
+
+import 'app_theme/app_theme.dart';
 
 
 class ContactUsScreen extends StatefulWidget {
@@ -53,9 +49,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     dartZ.Either<AppError, SettingsModel> result =
     await SettingsRepository().getSettingInfo();
     return result.fold((l) {
-      logger.i(l);
+      print(l);
     }, (SettingsModel settingsModel) {
-      logger.i(settingsModel.id);
+      print(settingsModel.id);
       _settingsModel = settingsModel;
       double lat = double.parse(settingsModel.latitude);
       double long = double.parse(settingsModel.longitude);
@@ -71,7 +67,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Future<bool> addContactUsData(ContactUsModel contactUsModel){
     return ContactUsSubmitRepository().addContactUsData(contactUsModel).then((res){
       return res.fold((l){
-        logger.i(l);
+        print(l);
         return false;
       }, (r){
         BotToast.showText(text: StringResources.contactUsSubmittedText);
@@ -102,7 +98,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     var markId = MarkerId("Ishraak Solutions");
     Marker _marker = Marker(
       onTap: () {
-        logger.i("tapped");
+        print("tapped");
       },
       position: LatLng(lat, long),
       infoWindow: InfoWindow(title: "Ishraak Solutions"),
@@ -148,15 +144,54 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     double fontAwesomeIconSize = 15;
 
     TextStyle titleStyle = TextStyle(fontWeight: FontWeight.bold,fontSize: 18);
-    Widget contactInfoItems(IconData iconData, String data){
-      return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Icon(iconData, size: 15,),
-          SizedBox(width: 5,),
-          Text(data, style: TextStyle(fontSize: 13),)
-        ],
+    Widget contactInfoItems(IconData iconData, String data, Function onTap){
+      return InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Colors.grey[300]),
+              color: Colors.grey.shade100,
+              gradient: LinearGradient(
+                  colors: [Colors.grey[100], Colors.white],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.075),
+                    offset: Offset(5,5),
+                    blurRadius: 10
+                ),
+                BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-5,-5),
+                    blurRadius: 10
+                )
+              ]
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(data, style: TextStyle(fontSize: 15, color: Colors.grey[700], fontWeight: FontWeight.bold),),
+              SizedBox(width: 7,),
+              Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey[600], width: 2)
+                ),
+                child: Center(
+                  child: Icon(iconData, size: 16, color: Colors.grey[600],),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     };
 
@@ -216,7 +251,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       );
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringResources.contactUsText),
+        title: Text(StringResources.contactUsText, key: Key('contactUsTextOnAppBar')),
       ),
       body: ListView(
         children: [
@@ -228,7 +263,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       gradient: AppTheme.lightLinearGradient,
@@ -238,13 +273,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(StringResources.contactUsContactInfoText,style: titleStyle,),
+                        Text(StringResources.contactUsContactInfoText,style: titleStyle),
                         Divider(height: 25,),
-                        contactInfoItems(Icons.pin_drop, _settingsModel.address),
+                        contactInfoItems(Icons.language, 'www.ishraak.com', (){UrlLauncherHelper.launchUrl('ishraak.com');}),
                         spaceBetweenLines,
-                        contactInfoItems(Icons.mail_outline, _settingsModel.supportEmail),
+                        contactInfoItems(Icons.email, _settingsModel.supportEmail, (){UrlLauncherHelper.sendMail(_settingsModel.supportEmail);}),
                         spaceBetweenLines,
-                        contactInfoItems(Icons.phone_in_talk, _settingsModel.phone),
+                        contactInfoItems(Icons.phone_in_talk, _settingsModel.phone, (){UrlLauncherHelper.launchDialer(_settingsModel.phone);}),
+                        SizedBox(height: 25,),
+                        Text.rich(TextSpan(children: <TextSpan>[
+                          TextSpan(text: 'Address: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+                          TextSpan(text: _settingsModel.address, style: TextStyle(fontSize: 17))
+                        ])),
+                        spaceBetweenLines
                       ],
                     ),
                   ),
@@ -256,6 +297,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       SizedBox(height: 10,),
                       CustomTextFormField(
                         hintText: StringResources.contactUsNameText,
+                        textFieldKey: Key('contactUsNameTextField'),
                         controller: nameController,
                         validator: Validator().nullFieldValidate,
                         onFieldSubmitted: (v){
@@ -266,6 +308,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       spaceBetweenLines,
                       CustomTextFormField(
                         hintText: StringResources.contactUsEmailText,
+                        textFieldKey: Key('contactUsEmailTextField'),
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: Validator().validateEmail,
@@ -278,6 +321,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       spaceBetweenLines,
                       CustomTextFormField(
                         hintText: StringResources.contactUsPhoneText,
+                        textFieldKey: Key('contactUsPhoneTextField'),
                         controller: phoneController,
                         keyboardType: TextInputType.number,
                         validator: Validator().validatePhoneNumber,
@@ -290,6 +334,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       spaceBetweenLines,
                       CustomTextFormField(
                         hintText: StringResources.contactUsSubjectText,
+                        textFieldKey: Key('contactUsSubjectTextField'),
                         controller: subjectController,
                         validator: Validator().nullFieldValidate,
                         focusNode: subjectFocusNode,
@@ -301,6 +346,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       spaceBetweenLines,
                       CustomTextFormField(
                         hintText: StringResources.contactUsMessageText,
+                        textFieldKey: Key('contactUsMessageTextField'),
                         controller: messageController,
                         validator: Validator().nullFieldValidate,
                         maxLines: 5,
@@ -317,6 +363,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             padding: EdgeInsets.symmetric(horizontal: 80),
             child: CommonButton(
               label: 'Submit',
+              key: Key('contactUsSubmitButtonKey'),
               onTap: (){
                 _handleSave();
               },

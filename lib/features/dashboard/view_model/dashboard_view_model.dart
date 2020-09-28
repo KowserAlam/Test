@@ -12,16 +12,8 @@ class DashboardViewModel with ChangeNotifier {
   List<SkillJobChartDataModel> _skillJobChartData = [];
   bool _isLoadingInfoBoxData = false;
   bool _isLoadingSkillJobChartData = false;
-  bool _idExpandedSkillList = false;
-  DateTime _lastFetchTime;
-  double profileCompletePercent = 0;
 
-  Future<AppError> getDashboardData({bool isFormOnPageLoad = false}) async {
-    if (isFormOnPageLoad) {
-      bool shouldNotFetchData = CommonServiceRule.instance.shouldNotFetchData(_lastFetchTime, _infoBoxError);
-      if (shouldNotFetchData) return null;
-    }
-
+  Future<AppError> getDashboardData() async {
     _isLoadingInfoBoxData = true;
     _isLoadingSkillJobChartData = true;
     _infoBoxError = null;
@@ -32,8 +24,6 @@ class DashboardViewModel with ChangeNotifier {
       _getISkillJobChartData(),
 //      _getProfileCompleteness(),
     ]).then((value) {
-
-      _lastFetchTime = DateTime.now();
       return _infoBoxError;
     });
   }
@@ -70,13 +60,6 @@ class DashboardViewModel with ChangeNotifier {
     });
   }
 
-//  Future<double> _getProfileCompleteness() async {
-//    return DashBoardRepository().getProfileCompletenessPercent().then((value) {
-//      notifyListeners();
-//      return profileCompletePercent = value;
-//    });
-//  }
-
   bool get shouldShowInfoBoxLoader =>
       _isLoadingInfoBoxData && (_infoBoxData == null);
 
@@ -95,12 +78,5 @@ class DashboardViewModel with ChangeNotifier {
 
   bool get isLoadingSkillJobChartData => _isLoadingSkillJobChartData;
 
-  bool get idExpandedSkillList => _idExpandedSkillList;
-
   bool get shouldShowError => _infoBoxError != null && infoBoxData == null;
-
-  set idExpandedSkillList(bool value) {
-    _idExpandedSkillList = value;
-    notifyListeners();
-  }
 }

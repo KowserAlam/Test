@@ -249,7 +249,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
       child: Consumer<JobPostViewModel>(builder: (context, _vm, _) {
         var appBarText = isEditMode && !widget.copyAsNew
             ? widget?.jobModel?.title ?? ""
-            : StringResources.postNewJobText;
+            : StringResources.postJobText;
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(

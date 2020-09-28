@@ -3,22 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
-import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/job_details.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/job_status_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 import 'package:jobxprss_company/method_extension.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
-class JobListTileWidget extends StatefulWidget {
+class JobListTileWidget extends StatelessWidget {
   final JobListModel jobModel;
   final Function onApply;
   final Function onFavorite;
@@ -27,33 +26,25 @@ class JobListTileWidget extends StatefulWidget {
   JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index});
 
   @override
-  _JobListTileWidgetState createState() => _JobListTileWidgetState();
-}
-
-class _JobListTileWidgetState extends State<JobListTileWidget> {
-  @override
   Widget build(BuildContext context) {
-    String publishDateText = widget.jobModel.postDate == null
+    String publishDateText = jobModel.postDate == null
         ? StringResources.noneText
-        : DateFormatUtil().dateFormat1(widget.jobModel.postDate);
+        : DateFormatUtil().dateFormat1(jobModel.postDate);
 
-    String deadLineText = widget.jobModel.applicationDeadline != null?
-    widget.jobModel.applicationDeadline.isBefore(DateTime.now())?'0 day(s) remaining':widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+' day(s) remaining'
-        :StringResources.noneText;
-//    String deadLineText = widget.jobModel.applicationDeadline == null
-//        ? StringResources.noneText
-//        : '('+widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+') Days Remaining';
-//    bool isDateExpired = widget.jobModel.applicationDeadline != null
-//        ? DateTime.now().isAfter(widget.jobModel.applicationDeadline)
-//        : true;
-
-//    debugPrint("Deadline: ${widget.jobModel.applicationDeadline}\n Today: ${DateTime.now()} \n $isDateExpired");
+    String deadLineText = jobModel.applicationDeadline != null
+        ? jobModel.applicationDeadline.isBefore(DateTime.now())
+            ? 'Date Expired'
+            : jobModel.applicationDeadline
+                    .difference(DateTime.now())
+                    .inDays
+                    .toString() +
+                ' day(s) remaining'
+        : StringResources.noneText;
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
     var backgroundColor = Theme.of(context).backgroundColor;
     var primaryColor = Theme.of(context).primaryColor;
     var scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
-
     var titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
     var subTitleStyle = TextStyle(fontSize: 12, color: subtitleColor);
     double iconSize = 12;
@@ -62,7 +53,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           _navigateToJobDetailsScreen();
         },
         child: Text(
-          widget.jobModel.title ?? "",
+          jobModel.title ?? "",
           style: titleStyle,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
@@ -78,16 +69,16 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           width: 5,
         ),
         Text(
-          widget.jobModel.jobCity ?? "",
+          jobModel.jobCity ?? "",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: subTitleStyle,
         )
       ],
     );
-    bool isDateExpired = widget.jobModel.applicationDeadline != null
-        ? (widget.jobModel.applicationDeadline.isBefore(DateTime.now()) &&
-            !widget.jobModel.applicationDeadline.isToday())
+    bool isDateExpired = jobModel.applicationDeadline != null
+        ? (jobModel.applicationDeadline.isBefore(DateTime.now()) &&
+            !jobModel.applicationDeadline.isToday())
         : true;
 
     var viewApplications = Tooltip(
@@ -99,7 +90,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "${widget.jobModel.appliedCount} ${StringResources.viewApplicationsText} ",
+            "${jobModel.appliedCount} ${StringResources.viewApplicationsText} ",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
@@ -123,7 +114,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
       tooltip: "Menu",
       icon: Icon(FontAwesomeIcons.ellipsisV),
       onPressed: () {
-        _showBottomSheet();
+        _showBottomSheet(context);
       },
     );
 
@@ -136,22 +127,24 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
         SizedBox(width: 5),
         Text(
-          widget.jobModel?.jobType?.toSentenceCase ?? "",
+          jobModel?.jobType?.toSentenceCase ?? "",
           style: subTitleStyle,
         ),
       ],
     );
-    var applicationDeadlineWidget = deadLineText!='None'?Row(
-      children: <Widget>[
-        Icon(FeatherIcons.clock, size: iconSize, color: subtitleColor),
-        SizedBox(width: 5),
-        Text(
-          deadLineText,
-          style: subTitleStyle.apply(
-              color: isDateExpired ? Colors.red : subtitleColor),
-        ),
-      ],
-    ): SizedBox();
+    var applicationDeadlineWidget = deadLineText != 'None'
+        ? Row(
+            children: <Widget>[
+              Icon(FeatherIcons.clock, size: iconSize, color: subtitleColor),
+              SizedBox(width: 5),
+              Text(
+                deadLineText,
+                style: subTitleStyle.apply(
+                    color: isDateExpired ? Colors.red : subtitleColor),
+              ),
+            ],
+          )
+        : SizedBox();
 
     var publishDate = Row(
       children: <Widget>[
@@ -167,22 +160,25 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         ),
       ],
     );
-    var jobStatus = JobStatusWidget(widget.jobModel.jobStatus, isDateExpired);
+    var jobStatus = JobStatusWidget(jobModel.jobStatus, isDateExpired);
 
     return Container(
-      decoration: BoxDecoration(color: scaffoldBackgroundColor, boxShadow: [
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-      ]),
-      margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
+
+      decoration: BoxDecoration(
+        borderRadius: CommonStyle.borderRadius,
+        color: scaffoldBackgroundColor,
+        boxShadow: CommonStyle.boxShadow,
+      ),
+      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
       child: Material(
+        borderRadius: CommonStyle.borderRadius,
         color: backgroundColor,
         child: InkWell(
           onLongPress: () {
-            _showBottomSheet();
+            _showBottomSheet(context);
           },
           onTap: () {
-            _showBottomSheet();
+            _showBottomSheet(context);
           },
           child: LayoutBuilder(builder: (context, constrain) {
             bool isTablet = context.isTablet;
@@ -209,7 +205,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-//                        if (widget.jobModel.jobCity != null) companyLocation,
+//                        if (jobModel.jobCity != null) companyLocation,
 
                           if (isTablet) publishDate,
                           if (isTablet) applicationDeadlineWidget,
@@ -229,7 +225,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                                       onPressed: () {
                                         _navigateToJobDetailsScreen();
                                       },
-                                      color: Colors.orange,
+                                      color: Colors.green,
                                     ),
                                     IconButton(
                                         iconSize: 20,
@@ -278,13 +274,13 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
     );
   }
 
-  _showBottomSheet() {
-    var jobStatus = widget.jobModel.jobStatus;
+  _showBottomSheet(context) {
+    var jobStatus = jobModel.jobStatus;
     bool allowEdit = jobStatus != JobStatus.PUBLISHED;
     bool isPublished = jobStatus == JobStatus.PUBLISHED;
     bool isDraft = jobStatus == JobStatus.DRAFT;
     bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
-    var vm = Provider.of<ManageJobViewModel>(context, listen: false);
+    var vm = Get.find<ManageJobViewModel>();
 
     var items = Column(
       mainAxisSize: MainAxisSize.min,
@@ -305,8 +301,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus(
-                  JobStatus.POSTED, widget.jobModel.jobId, widget.index);
+              vm.changeJobStatus(JobStatus.POSTED, jobModel.jobId, index);
             },
             leading: Icon(
               FontAwesomeIcons.checkSquare,
@@ -322,8 +317,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus(
-                  JobStatus.UNPUBLISHED, widget.jobModel.jobId, widget.index);
+              vm.changeJobStatus(JobStatus.UNPUBLISHED, jobModel.jobId, index);
             },
             leading: Icon(
               FontAwesomeIcons.folderMinus,
@@ -339,8 +333,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           ListTile(
             onTap: () {
               Navigator.pop(context);
-              vm.changeJobStatus(
-                  JobStatus.PUBLISHED, widget.jobModel.jobId, widget.index);
+              vm.changeJobStatus(JobStatus.PUBLISHED, jobModel.jobId, index);
             },
             leading: Icon(
               FontAwesomeIcons.folder,
@@ -372,7 +365,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
               : null,
           leading: Icon(
             FeatherIcons.edit,
-            color: allowEdit ? Theme.of(context).primaryColor : Colors.grey,
+            color: allowEdit ? Colors.black : Colors.grey,
           ),
           title: Text(
             StringResources.editText,
@@ -399,13 +392,13 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           },
           leading: Icon(
             FontAwesomeIcons.fileWord,
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
           ),
           title: Text(StringResources.viewApplicationsText),
         ),
       ],
     );
-    context.isTablet
+    Get.context.isTablet
         ? showGeneralDialog(
             barrierDismissible: true,
             barrierLabel:
@@ -418,10 +411,15 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                   content: items,
                   actions: [
                     RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                       onPressed: () {
                         Get.back();
                       },
-                      child: Text(StringResources.closeText),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(StringResources.closeText),
+                      ),
                     )
                   ],
                 ))
@@ -436,34 +434,39 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
   }
 
   _navigateToJobDetailsScreen() {
-    Navigator.of(context).push(CupertinoPageRoute(
-        builder: (context) => JobDetails(widget.jobModel.slug)));
+    Get.to(JobDetails(jobModel.slug));
+    // Navigator.of(context).push(CupertinoPageRoute(
+    //     builder: (context) => JobDetails(jobModel.slug)));
   }
 
   _navigateToEditNNewJobScreen([bool copyAsNew = false]) {
     BotToast.showLoading();
-    ManageJobRepository().fetchJobDetails(widget.jobModel.slug).then((value) {
+    ManageJobRepository().fetchJobDetails(jobModel.slug).then((value) {
       value.fold((l) {
         BotToast.closeAllLoading();
       }, (r) {
         BotToast.closeAllLoading();
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => PostNewJobScreen(
-                      jobModel: r,
-                      copyAsNew: copyAsNew,
-                    )));
+        Get.to(PostNewJobScreen(
+          jobModel: r,
+          copyAsNew: copyAsNew,
+        ));
+        // Navigator.push(
+        //     context,
+        //     CupertinoPageRoute(
+        //         builder: (context) => PostNewJobScreen(
+        //               jobModel: r,
+        //               copyAsNew: copyAsNew,
+        //             )));
       });
     });
   }
 
   _navigateToApplicationsScreen() {
-    Get.to(ManageCandidateScreen(widget.jobModel.jobId));
+    Get.to(ManageCandidateScreen(jobModel.jobId));
     // Navigator.push(
     //     context,
     //     CupertinoPageRoute(
     //         builder: (BuildContext context) =>
-    //             ManageCandidateScreen(widget.jobModel.jobId)));
+    //             ManageCandidateScreen(jobModel.jobId)));
   }
 }

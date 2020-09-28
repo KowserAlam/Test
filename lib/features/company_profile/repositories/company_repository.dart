@@ -120,7 +120,7 @@ class CompanyRepository {
       var res = await ApiClient().getRequest(Urls.companyGetUrl);
 
       if (res.statusCode == 200) {
-        logger.i(res.body);
+        // logger.i(res.body);
 
         var decodedJson = json.decode(utf8.decode(res.bodyBytes));
         saveCompanyLocalStorage(decodedJson);

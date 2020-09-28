@@ -18,90 +18,88 @@ class InfoBoxWidget extends StatelessWidget {
     var dashboardViewModel = Provider.of<DashboardViewModel>(context);
     var infoBoxData = Provider.of<DashboardViewModel>(context).infoBoxData;
     return dashboardViewModel.shouldShowInfoBoxLoader
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    enabled: true,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: _boxItem(
-                                linearGradient: LinearGradient(colors: [
-                          Color(0xff91bcf9),
-                          Color(0xff99d7f2),
-                        ]))),
-                        Expanded(
-                            child: _boxItem(
-                                linearGradient: LinearGradient(colors: [
-                          Color(0xff91bcf9),
-                          Color(0xff99d7f2),
-                        ]))),
-                        Expanded(
-                            child: _boxItem(
-                                linearGradient: LinearGradient(colors: [
-                          Color(0xff91bcf9),
-                          Color(0xff99d7f2),
-                        ]))),
-                      ],
-                    ))),
-          )
-        : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
+        ? Container(
+            child: Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                enabled: true,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    /// jobs
                     Expanded(
-                      child: _boxItem(
-                          linearGradient: LinearGradient(colors: [
-                            Color(0xffaa91fa),
-                            Color(0xff9eacfd),
-                          ]),
-                          iconData: FeatherIcons.command,
-                          label: StringResources.jobsPostedText,
-                          count: infoBoxData?.numberOfJobs ?? 0),
-                    ),
-
-                    /// applications
+                        child: _boxItem(
+                            linearGradient: LinearGradient(colors: [
+                      Color(0xff91bcf9),
+                      Color(0xff99d7f2),
+                    ]))),
                     Expanded(
-                      child:
-
-                          /// applied
-                          _boxItem(
-                              linearGradient: LinearGradient(colors: [
-                                Color(0xffffb87b),
-                                Color(0xffe1b8fe),
-                              ]),
-                              iconData: FeatherIcons.fileText,
-                              label: StringResources.applicationsText,
-                              onTap: onTapApplications,
-                              count: infoBoxData?.applicationCount),
-                    ),
-
-                    /// shortlited
+                        child: _boxItem(
+                            linearGradient: LinearGradient(colors: [
+                      Color(0xff91bcf9),
+                      Color(0xff99d7f2),
+                    ]))),
                     Expanded(
-                      child: _boxItem(
-                          linearGradient: LinearGradient(
-                            colors: [
-                              Color(0xff91bcf9),
-                              Color(0xff99d7f2),
-                            ],
-                          ),
-                          iconData: FeatherIcons.heart,
-                          label: StringResources.shortListedText,
-                          count: infoBoxData?.shortListed,
-                          onTap: onTapShortListed),
-                    ),
+                        child: _boxItem(
+                            linearGradient: LinearGradient(colors: [
+                      Color(0xff91bcf9),
+                      Color(0xff99d7f2),
+                    ]))),
                   ],
+                )))
+        : Column(
+          children: [
+            Row(
+              children: [
+                /// jobs
+                Expanded(
+                  key: Key('infoboxJobsPostedTextKey'),
+                  child: _boxItem(
+                      linearGradient: LinearGradient(colors: [
+                        Color(0xffaa91fa),
+                        Color(0xff9eacfd),
+                      ]),
+                      iconData: FeatherIcons.command,
+                      label: StringResources.jobsPostedText,
+                      count: infoBoxData?.numberOfJobs ?? 0),
+                ),
+
+                SizedBox(width: 8,),
+                /// applications
+                Expanded(
+                  key: Key('infoboxApplicationsTextKey'),
+                  child:
+
+                      /// applied
+                      _boxItem(
+                          linearGradient: LinearGradient(colors: [
+                            Color(0xffffb87b),
+                            Color(0xffe1b8fe),
+                          ]),
+                          iconData: FeatherIcons.fileText,
+                          label: StringResources.applicationsText,
+                          onTap: onTapApplications,
+                          count: infoBoxData?.applicationCount),
+                ),
+                SizedBox(width: 8,),
+                /// shortlited
+                Expanded(
+                  key: Key('infoboxShortListedTextKey'),
+                  child: _boxItem(
+                      linearGradient: LinearGradient(
+                        colors: [
+                          Color(0xff91bcf9),
+                          Color(0xff99d7f2),
+                        ],
+                      ),
+                      iconData: FeatherIcons.heart,
+                      label: StringResources.shortListedText,
+                      count: infoBoxData?.shortListed,
+                      onTap: onTapShortListed),
                 ),
               ],
             ),
-          );
+          ],
+        );
   }
 
   _boxItem({
@@ -114,12 +112,13 @@ class InfoBoxWidget extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, constrain) {
       bool isSmallTablet = Get.context.isTablet;
-      double iconSize = 35;
-      double numberFontSize = iconSize / 1.6;
-      double textFontSize = iconSize / 2.7;
-      double boxHeight = 120;
+
+      double iconSize = 10 + constrain.maxWidth/7;
+      double numberFontSize = iconSize / 2;
+      double textFontSize = iconSize / 3;
+      double boxHeight = constrain.maxWidth/1.6;
       return Container(
-        margin: EdgeInsets.all(4),
+        // margin: EdgeInsets.symmetric(horizontal: 4),
         height: boxHeight,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), gradient: linearGradient),

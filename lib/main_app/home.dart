@@ -4,9 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen_all.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/features/messaging/view/message_list_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
@@ -26,9 +28,11 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
   String appbarTitle = StringResources.appName;
 
+
   @override
   void initState() {
     TokenRefreshScheduler.getInstance();
+    Get.put(ManageJobViewModel());
     super.initState();
   }
 
@@ -50,18 +54,20 @@ class _HomeState extends State<Home> {
   }
 
   _modeToPage(int index) async {
-    if (currentIndex != index) {
-      var offset = 0;
+    // if (currentIndex != index) {
+    //   var offset = 0;
+    //
+    //   if (index > currentIndex) {
+    //     offset = 300;
+    //   } else if (index < currentIndex) {
+    //     offset = -300;
+    //   }
+    //   await _paeViewController.animateTo(_paeViewController.offset + offset,
+    //       duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
+    //
+    // }
 
-      if (index > currentIndex) {
-        offset = 300;
-      } else if (index < currentIndex) {
-        offset = -300;
-      }
-      await _paeViewController.animateTo(_paeViewController.offset + offset,
-          duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
-      _paeViewController.jumpToPage(index);
-    }
+    _paeViewController.jumpToPage(index);
   }
 
   @override
@@ -80,20 +86,20 @@ class _HomeState extends State<Home> {
         // dashboard
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.home,
-            label: StringResources.dashBoardText),
+            label: StringResources.dashBoardText, key: Key('bottomNavBarDashboardKey'),),
         //manageJobs
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.briefcase,
-            label: StringResources.manageJobsText),
+            label: StringResources.manageJobsText, key: Key('bottomNavBarManageJobsKey'),),
 
         //manageCandidatesText
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.users,
-            label: StringResources.candidatesText),
+            label: StringResources.candidatesText, key: Key('bottomNavBarCandidatesKey'),),
         // profile
         FABBottomAppBarItem(
             iconData: FontAwesomeIcons.solidBuilding,
-            label: StringResources.profileText, key: Key('bottomNavBarProfileKey')),
+            label: StringResources.profileText, key: Key('bottomNavBarProfileKey'),),
       ],
     );
 //    var bottomNavBar = BottomNavigationBar(
@@ -196,6 +202,7 @@ class _HomeState extends State<Home> {
             elevation: 2.0,
           ),
           body: PageView(
+            physics: NeverScrollableScrollPhysics(),
             onPageChanged: (index) {
               _updateAppBar(index);
               setState(() {
@@ -207,7 +214,7 @@ class _HomeState extends State<Home> {
               DashBoardScreen(),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
-              Center(child: Text(StringResources.manageCandidatesText),),
+              ManageCandidateScreenAll(),
               CompanyProfile(),
             ],
           ),

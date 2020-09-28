@@ -74,6 +74,7 @@ class StringResources {
 
   static String examNameText = "Exam";
   static String noExamText = "No Exam";
+  static String moreInfoTitleText = "More Info";
 
   static String instructionText = "Instruction";
   static String instructionDetailsText = " Exam ";
@@ -184,6 +185,7 @@ class StringResources {
   static var educationsText = "Education";
   static var skillsText = "Skills";
   static var jobsPostedText = "Job(s) \nPosted";
+  static var jobsPostedMonthlyText = "Jobs Posted Monthly";
   static var skillText = "Skill";
   static var professionalSkillText = "Professional Skills";
   static var projectsText = "Portfolio";
@@ -556,7 +558,7 @@ static const String requiredSkillsText = 'Required Skills';
 static const String benefitSectionTitle = 'Benefits';
 static const String jobSource = 'Job Source';
 static const String jobsOnMapText = 'Job On Map';
-static const String postNewJobText = 'Post New Job';
+static const String postJobText = 'Post Job';
 static const String doYouWantToApplyText = 'Do you want to apply for this job?';
 static const String jobsFoundText = 'jobs found';
 static const String sortBy = 'Sort By';

@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 export 'package:dropdown_search/dropdown_search.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class CustomDropdownSearchFormField<T> extends StatelessWidget {
   final FormFieldValidator<T> validator;
@@ -86,6 +87,7 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
       children: <Widget>[
         Row(
           children: [
+            if(labelText.isNotEmptyOrNotNull)
             Text("  ${labelText ?? ""}",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             if (isRequired)
@@ -128,8 +130,7 @@ class CustomDropdownSearchFormField<T> extends StatelessWidget {
             items: items,
             onFind: onFind,
             popupItemBuilder: popupItemBuilder,
-            popupShape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            popupShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             dropdownBuilderSupportsNullItem: true,
             autoFocusSearchBox: autoFocusSearchBox,
             popupItemDisabled: popupItemDisabled,

@@ -4,22 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
-import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/settings/settings_screen.dart';
 import 'package:jobxprss_company/features/settings/settings_view_model.dart';
-import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
-import 'package:jobxprss_company/main_app/auth_service/auth_user_model.dart';
-import 'package:jobxprss_company/main_app/jxc_app.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/root.dart';
 import 'package:jobxprss_company/main_app/util/locator.dart';
-import 'package:jobxprss_company/main_app/views/about_us_screen.dart';
-import 'package:jobxprss_company/main_app/views/contact_us_screen.dart';
-import 'package:jobxprss_company/main_app/views/faq_screen.dart';
 import 'package:jobxprss_company/main_app/views/widgets/app_version_widget_small.dart';
-import 'package:jobxprss_company/main_app/views/widgets/restart_widget.dart';
-import 'package:provider/provider.dart';
 
 class AppDrawer extends StatefulWidget {
   final String routeName;
@@ -161,42 +151,42 @@ class _AppDrawerState extends State<AppDrawer> {
 //                  ),
 //                  Divider(height: 1),
                   //about us
-                  DrawerListWidget(
-                    label: StringResources.aboutUsText,
-                    icon: FontAwesomeIcons.infoCircle,
-                    isSelected: false,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => AboutUsScreen()));
-                    },
-                  ),
-                  Divider(height: 1),
-                  //contact us
-                  DrawerListWidget(
-                    label: StringResources.contactUsText,
-                    icon: FontAwesomeIcons.at,
-                    isSelected: false,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => ContactUsScreen()));
-                    },
-                  ),
-
-                  Divider(height: 1),
-                  //faq
-                  DrawerListWidget(
-                    label: StringResources.faqText,
-                    icon: FontAwesomeIcons.questionCircle,
-                    isSelected: false,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => FAQScreen()));
-                    },
-                  ),
-                  Divider(height: 1),
+                  // DrawerListWidget(
+                  //   label: StringResources.aboutUsText,
+                  //   icon: FontAwesomeIcons.infoCircle,
+                  //   isSelected: false,
+                  //   onTap: () {
+                  //     Navigator.pop(context);
+                  //     Navigator.of(context).push(CupertinoPageRoute(
+                  //         builder: (context) => AboutUsScreen()));
+                  //   },
+                  // ),
+                  // Divider(height: 1),
+                  // //contact us
+                  // DrawerListWidget(
+                  //   label: StringResources.contactUsText,
+                  //   icon: FontAwesomeIcons.at,
+                  //   isSelected: false,
+                  //   onTap: () {
+                  //     Navigator.pop(context);
+                  //     Navigator.of(context).push(CupertinoPageRoute(
+                  //         builder: (context) => ContactUsScreen()));
+                  //   },
+                  // ),
+                  //
+                  // Divider(height: 1),
+                  // //faq
+                  // DrawerListWidget(
+                  //   label: StringResources.faqText,
+                  //   icon: FontAwesomeIcons.questionCircle,
+                  //   isSelected: false,
+                  //   onTap: () {
+                  //     Navigator.pop(context);
+                  //     Navigator.of(context).push(CupertinoPageRoute(
+                  //         builder: (context) => FAQScreen()));
+                  //   },
+                  // ),
+                  // Divider(height: 1),
 
                   /// ************ sign out
                   DrawerListWidget(

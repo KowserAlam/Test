@@ -18,7 +18,9 @@ class UrlLauncherHelper {
       await launchUrl(fallbackUrl);
     }
   }
-
+  static launchDialer(String number)async{
+    launch("tel: $number");
+  }
 
   static launchUrl(String url) async {
     if(url.isNotEmptyOrNotNull)
