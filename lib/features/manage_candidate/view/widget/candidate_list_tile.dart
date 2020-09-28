@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
-import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile_scren.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
 import 'package:jobxprss_company/features/messaging/model/message_sender_data_model.dart';
 import 'package:jobxprss_company/features/messaging/repositories/message_repository.dart';
@@ -79,7 +79,7 @@ class CandidateListTile extends StatelessWidget {
           borderRadius: CommonStyle.borderRadius,
         child: InkWell(
           onTap: () {
-            Get.to(CandidateProfile(candidate.slug));
+            Get.to(CandidateProfileScreen(candidate.slug));
           },
           child: Padding(
             padding: EdgeInsets.all(8),

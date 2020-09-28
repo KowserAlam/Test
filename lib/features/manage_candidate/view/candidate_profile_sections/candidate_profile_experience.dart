@@ -7,10 +7,8 @@ import 'package:jobxprss_company/features/manage_candidate/view/widget/user_info
 class Experience extends StatelessWidget {
   final List<ExperienceInfo> experienceInfoList;
   Experience({this.experienceInfoList});
-
   @override
   Widget build(BuildContext context) {
-
     return UserInfoListItem(
         icon: FontAwesomeIcons.globe,
         label: 'Work Experience',

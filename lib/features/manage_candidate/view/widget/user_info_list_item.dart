@@ -38,7 +38,7 @@ class _UserInfoListItemState extends State<UserInfoListItem> {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: 8,
         ),
         ListView.builder(
           shrinkWrap: true,

@@ -213,7 +213,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         });
 
       }
-      var manageJobVM = Provider.of<ManageJobViewModel>(context, listen: false);
+      var manageJobVM = Get.find<ManageJobViewModel>();
 
       var _vm = widget.jobPostViewModel;
 
