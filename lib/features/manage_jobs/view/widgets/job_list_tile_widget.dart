@@ -38,7 +38,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
         : DateFormatUtil().dateFormat1(widget.jobModel.postDate);
 
     String deadLineText = widget.jobModel.applicationDeadline != null?
-    widget.jobModel.applicationDeadline.isBefore(DateTime.now())?'0 day(s) remaining':widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+' day(s) remaining'
+    widget.jobModel.applicationDeadline.isBefore(DateTime.now())?'Date Expired':widget.jobModel.applicationDeadline.difference(DateTime.now()).inDays.toString()+' day(s) remaining'
         :StringResources.noneText;
 //    String deadLineText = widget.jobModel.applicationDeadline == null
 //        ? StringResources.noneText
@@ -229,7 +229,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
                                       onPressed: () {
                                         _navigateToJobDetailsScreen();
                                       },
-                                      color: Colors.orange,
+                                      color: Colors.green,
                                     ),
                                     IconButton(
                                         iconSize: 20,
@@ -372,7 +372,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
               : null,
           leading: Icon(
             FeatherIcons.edit,
-            color: allowEdit ? Theme.of(context).primaryColor : Colors.grey,
+            color: allowEdit ? Colors.black : Colors.grey,
           ),
           title: Text(
             StringResources.editText,
@@ -399,7 +399,7 @@ class _JobListTileWidgetState extends State<JobListTileWidget> {
           },
           leading: Icon(
             FontAwesomeIcons.fileWord,
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
           ),
           title: Text(StringResources.viewApplicationsText),
         ),
