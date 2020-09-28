@@ -294,7 +294,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         spaceBetweenFields,
                         // job description
                         CustomZefyrRichTextFormField(
-                          zefyrKey: Key('jobDescriptionField'),
+                          zefyrKey: Key('jobDescriptionFieldKey'),
                           labelText: StringResources.jobDescriptionTitle,
                           focusNode: _descriptionFocusNode,
                           controller: _descriptionZefyrController,
@@ -303,6 +303,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         spaceBetweenFields,
                         //job category
                         CustomDropdownSearchFormField(
+                          dropdownKey: Key('categoryKey'),
                           selectedItem: selectedJobCategory,
                           labelText: StringResources.category,
                           hintText: StringResources.tapToSelectText,
@@ -334,6 +335,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           children: [
                             Expanded(
                               child: CustomDropdownSearchFormField(
+                                dropdownKey: Key('genderTextKey'),
                                 labelText: StringResources.genderText,
                                 hintText: StringResources.tapToSelectText,
                                 showSelectedItem: true,

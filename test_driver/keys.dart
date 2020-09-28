@@ -69,4 +69,7 @@ class Keys{
   //Post Job
   static final postJobAppBarKey = find.byValueKey('postJobAppBarKey');
   static final jobTitleTextfieldKey = find.byValueKey('jobTitleTextfieldKey');
+  static final jobDescriptionFieldKey = find.byValueKey('jobDescriptionFieldKey');
+  static final categoryKey = find.byValueKey('categoryKey');
+  static final genderTextKey = find.byValueKey('genderTextKey');
 }

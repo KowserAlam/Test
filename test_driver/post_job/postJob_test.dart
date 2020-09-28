@@ -27,10 +27,10 @@ Future<void> postJobTest()async{
     });
 
     //test cases are started from here
-    test('Navigate to Post Job screen', () async {
+    test('Navigate to Post Job screen from bottom navigation bar', () async {
       await driver.tap(Keys.PostJobsFloatingActionButtonKey);
       await Future.delayed(const Duration(seconds: 4),() {});
-      await expect(await driver.getText(Keys.postJobAppBarKey), 'Post Job');
+      await expect(await driver.getText(Keys.postJobAppBarKey), 'POST JOB');
     });
 
     test('Check job title textfield', () async {
@@ -39,6 +39,23 @@ Future<void> postJobTest()async{
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 
+    test('Check job description', () async {
+      await driver.tap(Keys.jobDescriptionFieldKey);
+      await driver.enterText('Sample Job Description, Sample Job Description');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Category', () async {
+      await driver.tap(Keys.categoryKey);
+      await driver.tap(find.text('Back-End Developer'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Gender', () async {
+      await driver.tap(Keys.genderTextKey);
+      await driver.tap(find.text('Any'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
 
   });
 
