@@ -74,6 +74,7 @@ class StringResources {
 
   static String examNameText = "Exam";
   static String noExamText = "No Exam";
+  static String moreInfoTitleText = "More Info";
 
   static String instructionText = "Instruction";
   static String instructionDetailsText = " Exam ";
@@ -184,6 +185,7 @@ class StringResources {
   static var educationsText = "Education";
   static var skillsText = "Skills";
   static var jobsPostedText = "Job(s) \nPosted";
+  static var jobsPostedMonthlyText = "Jobs Posted Monthly";
   static var skillText = "Skill";
   static var professionalSkillText = "Professional Skills";
   static var projectsText = "Portfolio";

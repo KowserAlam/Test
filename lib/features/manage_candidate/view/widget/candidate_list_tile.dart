@@ -12,6 +12,7 @@ import 'package:jobxprss_company/features/messaging/view/conversation_screen.dar
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
+import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -68,13 +69,14 @@ class CandidateListTile extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(color: scaffoldBackgroundColor, boxShadow: [
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 17),
-      ]),
-      margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
+
+      decoration: BoxDecoration(
+          borderRadius: CommonStyle.borderRadius,
+          color: scaffoldBackgroundColor, boxShadow: CommonStyle.boxShadow),
+      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
       child: Material(
         color: backgroundColor,
+          borderRadius: CommonStyle.borderRadius,
         child: InkWell(
           onTap: () {
             Get.to(CandidateProfile(candidate.slug));

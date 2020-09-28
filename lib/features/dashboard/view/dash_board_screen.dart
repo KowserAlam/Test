@@ -1,18 +1,15 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
+import 'package:jobxprss_company/features/dashboard/values.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/info_box_widget.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/job_chart_widget.dart';
-import 'package:jobxprss_company/features/dashboard/view/widgets/profile_complete_parcent_indicatior_widget.dart';
+import 'package:jobxprss_company/features/dashboard/view/widgets/other_screens_widget.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
-
 import 'package:jobxprss_company/main_app/auth_service/auth_service.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
-
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
-import 'package:jobxprss_company/main_app/root.dart';
 import 'package:jobxprss_company/main_app/views/app_drawer.dart';
 import 'package:jobxprss_company/main_app/views/widgets/failure_widget.dart';
 import 'package:jobxprss_company/main_app/views/widgets/restart_widget.dart';
@@ -34,7 +31,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
   @override
   void afterFirstLayout(BuildContext context) {
     Provider.of<DashboardViewModel>(context, listen: false)
-        .getDashboardData(isFormOnPageLoad: true)
+        .getDashboardData()
         .then((value) {
       if (value == AppError.unauthorized) {
         _signOut(context);
@@ -62,6 +59,8 @@ class _DashBoardScreenState extends State<DashBoardScreen>
 
   @override
   Widget build(BuildContext context) {
+
+
     var dashboardViewModel = Provider.of<DashboardViewModel>(context);
 
     errorWidget() {
@@ -130,16 +129,21 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                     children: [
                       Center(
                         child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           constraints: BoxConstraints(maxWidth: 720),
                           child: Column(
                             children: [
+                              DashboardValues.sizedBoxBetweenSection,
                               InfoBoxWidget(
                                 onTapApplications: widget.onTapApplied,
                                 onTapShortListed: widget.onTapFavourite,
                               ),
+                              DashboardValues.sizedBoxBetweenSection,
                               JobChartWidget(
                                 animate: true,
                               ),
+                              DashboardValues.sizedBoxBetweenSection,
+                              OtherScreensWidget(),
                             ],
                           ),
                         ),
