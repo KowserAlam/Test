@@ -42,7 +42,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   String selectedCountry;
   double latitude;
   double longitude;
-
   var _companyNameTextController = TextEditingController();
   ZefyrController _companyProfileTextController = ZefyrController(NotusDocument());
   var _legalStructureTextController = TextEditingController();
@@ -69,7 +68,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   var _contactPersonPhoneTextController = TextEditingController();
   var _contactPersonDesignationTextController = TextEditingController();
   DateTime yearOfEstablishment;
-
   FocusNode _companyProfileFocusNode = FocusNode();
 
   var spaceBetween = SizedBox(
@@ -84,7 +82,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
   @override
   void initState() {
     company = widget.company;
-
     _companyNameTextController.text = company.name;
     if(company.companyProfile != null){
       _companyProfileTextController = ZefyrController(company.companyProfile.htmlToNotusDocument);
@@ -136,35 +133,35 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
           Provider.of<CompanyProfileViewModel>(context, listen: false);
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
-        "legal_structure_of_this_company": _legalStructureTextController.text,
+        "legal_structure_of_this_company": _legalStructureTextController.text.getStringInNotNull,
         "company_profile": _companyProfileTextController.document.toHTML.getStringInNotNull,
         "basis_membership_no": _basisMembershipNoTextController.text,
-        "address": _addressTextController.text,
-        "area": _areaTextController.text,
+        "address": _addressTextController.text.getStringInNotNull,
+        "area": _areaTextController.text.getStringInNotNull,
         // "city": _cityTextController.text,
-        "city": selectedCountry.swapValueByComa ?? "",
-        "company_contact_no_one": _contactNo1TextController.text,
-        "company_contact_no_two": _contactNo2TextController.text,
-        "company_contact_no_three": _contactNo3TextController.text,
-        "email": _emailTextController.text,
-        "web_address": _webAddressTextController.text,
-        "company_name_bdjobs": _companyBdJobsTextController.text,
-        "company_name_facebook": _companyFacebookTextController.text,
-        "company_name_google": _companyGoogleTextController.text,
-        "organization_head": _orgHeadNameTextController.text,
-        "organization_head_designation": _orgHeadDesignationTextController.text,
-        "organization_head_number": _orgHeadPhoneTextController.text,
+        "city": selectedCountry.swapValueByComa.getStringInNotNull,
+        "company_contact_no_one": _contactNo1TextController.text.getStringInNotNull,
+        "company_contact_no_two": _contactNo2TextController.text.getStringInNotNull,
+        "company_contact_no_three": _contactNo3TextController.text.getStringInNotNull,
+        "email": _emailTextController.text.getStringInNotNull,
+        "web_address": _webAddressTextController.text.getStringInNotNull,
+        "company_name_bdjobs": _companyBdJobsTextController.text.getStringInNotNull,
+        "company_name_facebook": _companyFacebookTextController.text.getStringInNotNull,
+        "company_name_google": _companyGoogleTextController.text.getStringInNotNull,
+        "organization_head": _orgHeadNameTextController.text.getStringInNotNull,
+        "organization_head_designation": _orgHeadDesignationTextController.text.getStringInNotNull,
+        "organization_head_number": _orgHeadPhoneTextController.text.getStringInNotNull,
         "total_number_of_human_resources":
-            _noOfHumanResourceTextController.text,
-        "no_of_it_resources": _noOfITResourceTextController.text,
-        "contact_person": _contactPersonNameTextController.text,
+            _noOfHumanResourceTextController.text.getStringInNotNull,
+        "no_of_it_resources": _noOfITResourceTextController.text.getStringInNotNull,
+        "contact_person": _contactPersonNameTextController.text.getStringInNotNull,
         "image": profileImage != null?ImageUtil.getBase64Image(profileImage):null,
         "contact_person_designation":
-            _contactPersonDesignationTextController.text,
-        "contact_person_mobile_no": _contactPersonPhoneTextController.text,
-        "contact_person_email": _contactPersonEmailTextController.text,
-        "latitude": latitude.toStringAsFixed(8) ?? "",
-        "longitude": longitude.toStringAsFixed(8) ?? "",
+            _contactPersonDesignationTextController.text.getStringInNotNull,
+        "contact_person_mobile_no": _contactPersonPhoneTextController.text.getStringInNotNull,
+        "contact_person_email": _contactPersonEmailTextController.text.getStringInNotNull,
+        "latitude": latitude.toStringAsFixed(8) ?? null,
+        "longitude": longitude.toStringAsFixed(8) ?? null,
       };
       Logger().i(data);
 //
@@ -496,7 +493,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
             spaceBetween,
           ],
         );
-
         var setLocation = InkWell(
           onTap: () {
             LatLng po = (latitude != null && longitude != null)
@@ -522,7 +518,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile>
               ..text = "${latitude ?? ""} , ${longitude ?? ""}",
           ),
         );
-
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(
