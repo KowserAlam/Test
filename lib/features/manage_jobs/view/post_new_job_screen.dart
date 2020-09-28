@@ -253,7 +253,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         return ZefyrScaffold(
           child: Scaffold(
             appBar: AppBar(
-              title: Text(appBarText),
+              title: Text(appBarText, key: Key('postJobAppBarKey'),),
               actions: [
                 if(!isEditMode || widget.copyAsNew)
                 EditScreenSaveButton(
@@ -277,6 +277,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                       children: [
                         //title
                         CustomTextFormField(
+                          textFieldKey: Key('jobTitleTextfieldKey'),
                           isRequired: true,
                           validator: Validator().nullFieldValidate,
                           controller: _jobTitleTextEditingController,

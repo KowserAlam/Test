@@ -64,4 +64,9 @@ class Keys{
   static final infoboxJobsPostedTextKey = find.byValueKey('infoboxJobsPostedTextKey');
   static final infoboxApplicationsTextKey = find.byValueKey('infoboxApplicationsTextKey');
   static final infoboxShortListedTextKey = find.byValueKey('infoboxShortListedTextKey');
+
+
+  //Post Job
+  static final postJobAppBarKey = find.byValueKey('postJobAppBarKey');
+  static final jobTitleTextfieldKey = find.byValueKey('jobTitleTextfieldKey');
 }
