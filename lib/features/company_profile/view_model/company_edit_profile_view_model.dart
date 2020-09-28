@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 
-class CompanyEditProfileViewModel with ChangeNotifier{
+class CompanyEditProfileViewModel extends GetxController{
 
-  List<String> _countryList = [];
+  RxList<String> countryList = <String>[].obs;
 
 //  getAllList(){
 //    getCountryList();
@@ -11,10 +12,8 @@ class CompanyEditProfileViewModel with ChangeNotifier{
 
   getCountryList()async{
   CountryRepository().getCityCountryList().then((value) {
-    _countryList = value;
-    notifyListeners();
+    countryList.value = value;
   });
   }
 
-  List<String> get countryList => _countryList;
 }
