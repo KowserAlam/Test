@@ -7,7 +7,6 @@ import 'package:jobxprss_company/main_app/contact_us_screen.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/about_us_screen.dart';
-import 'package:jobxprss_company/main_app/views/contact_us_screen.dart';
 import 'package:jobxprss_company/main_app/views/faq_screen.dart';
 
 
