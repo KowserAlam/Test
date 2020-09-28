@@ -57,6 +57,7 @@ class InfoBoxWidget extends StatelessWidget {
                   children: [
                     /// jobs
                     Expanded(
+                      key: Key('infoboxJobsPostedTextKey'),
                       child: _boxItem(
                           linearGradient: LinearGradient(colors: [
                             Color(0xffaa91fa),
@@ -69,6 +70,7 @@ class InfoBoxWidget extends StatelessWidget {
 
                     /// applications
                     Expanded(
+                      key: Key('infoboxApplicationsTextKey'),
                       child:
 
                           /// applied
@@ -85,6 +87,7 @@ class InfoBoxWidget extends StatelessWidget {
 
                     /// shortlited
                     Expanded(
+                      key: Key('infoboxShortListedTextKey'),
                       child: _boxItem(
                           linearGradient: LinearGradient(
                             colors: [
