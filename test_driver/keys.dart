@@ -67,6 +67,7 @@ class Keys{
 
 
   //Post Job
+  static final postJobDraftButtonKey = find.byValueKey('postJobDraftButtonKey');
   static final singleChildScrollViewKey = find.byValueKey('singleChildScrollViewKey');
   static final postJobAppBarKey = find.byValueKey('postJobAppBarKey');
   static final jobTitleTextfieldKey = find.byValueKey('jobTitleTextfieldKey');

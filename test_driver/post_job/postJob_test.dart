@@ -107,23 +107,58 @@ Future<void> postJobTest()async{
     });
 
     test('Check Responsibilities', () async {
-      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.responsibilitiesRichtextKey, dyScroll: -30);
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.responsibilitiesRichtextKey, dyScroll: -70);
       await driver.tap(Keys.responsibilitiesRichtextKey);
       await driver.enterText('Sample Responsibilities');
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 
     test('Check Education', () async {
-      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.educationRichtextKey, dyScroll: -30);
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.educationRichtextKey, dyScroll: -70);
       await driver.tap(Keys.educationRichtextKey);
       await driver.enterText('Sample Education');
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 
-    test('Check Education', () async {
-      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobAdditionalRequirementsRichtextKey, dyScroll: -30);
+    test('Check Additional Requirement', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobAdditionalRequirementsRichtextKey, dyScroll: -70);
       await driver.tap(Keys.jobAdditionalRequirementsRichtextKey);
       await driver.enterText('Sample Additional Requirement');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Other Benefits', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.otherBenefitsRichtextKey, dyScroll: -70);
+      await driver.tap(Keys.otherBenefitsRichtextKey);
+      await driver.enterText('Sample Other Benefits');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Job Location', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobLocationTextfieldKey, dyScroll: -70);
+      await driver.tap(Keys.jobLocationTextfieldKey);
+      await driver.enterText('Niketan, Road 4, Block B');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Job Area', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobAreaTextfieldKey, dyScroll: -70);
+      await driver.tap(Keys.jobAreaTextfieldKey);
+      await driver.enterText('Gulshan-1');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check City', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobCityDropDownListKey, dyScroll: -70);
+      await driver.tap(Keys.jobCityDropDownListKey);
+      await driver.tap(find.text('Tangail, Bangladesh'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Job Site', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobSiteDropDownListKey, dyScroll: -70);
+      await driver.tap(Keys.jobSiteDropDownListKey);
+      await driver.tap(find.text('On-site'));
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 
