@@ -71,5 +71,27 @@ class Keys{
   static final jobTitleTextfieldKey = find.byValueKey('jobTitleTextfieldKey');
   static final jobDescriptionFieldKey = find.byValueKey('jobDescriptionFieldKey');
   static final categoryKey = find.byValueKey('categoryKey');
-  static final genderTextKey = find.byValueKey('genderTextKey');
+  static final genderDropdownSelectKey = find.byValueKey('genderDropdownSelectKey');
+  static final experienceDropdownSelectKey = find.byValueKey('experienceDropdownSelectKey');
+  static final qualificationDropdownSelectKey = find.byValueKey('qualificationDropdownSelectKey');
+  static final vacancyTextfieldKey = find.byValueKey('vacancyTextfieldKey');
+  static final salaryAmountRadioButtonKey = find.byValueKey('salaryAmountRadioButtonKey');
+  static final salaryRangeRadioButtonKey = find.byValueKey('salaryRangeRadioButtonKey');
+  static final salaryNegotiableRadioButtonKey = find.byValueKey('salaryNegotiableRadioButtonKey');
+  static final salaryAmountTextfieldKey = find.byValueKey('salaryAmountTextfieldKey');
+  static final salaryMinTextfieldKey = find.byValueKey('salaryMinTextfieldKey');
+  static final salaryMaxTextfieldKey = find.byValueKey('salaryMaxTextfieldKey');
+  static final applicationDeadlineDatePickerKey = find.byValueKey('applicationDeadlineDatePickerKey');
+  static final responsibilitiesRichtextKey = find.byValueKey('responsibilitiesRichtextKey');
+  static final educationRichtextKey = find.byValueKey('educationRichtextKey');
+  static final jobAdditionalRequirementsRichtextKey = find.byValueKey('jobAdditionalRequirementsRichtextKey');
+  static final otherBenefitsRichtextKey = find.byValueKey('otherBenefitsRichtextKey');
+  static final jobLocationTextfieldKey = find.byValueKey('jobLocationTextfieldKey');
+  static final jobAreaTextfieldKey = find.byValueKey('jobAreaTextfieldKey');
+  static final jobCityDropDownListKey = find.byValueKey('jobCityDropDownListKey');
+  static final jobSiteDropDownListKey = find.byValueKey('jobSiteDropDownListKey');
+  static final jobNatureDropDownListKey = find.byValueKey('jobNatureDropDownListKey');
+  static final jobTypeDropDownListKey = find.byValueKey('jobTypeDropDownListKey');
+  static final jobAboutCompanyTextfieldKey = find.byValueKey('jobAboutCompanyTextfieldKey');
+
 }

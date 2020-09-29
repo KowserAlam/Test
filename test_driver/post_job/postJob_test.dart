@@ -52,7 +52,7 @@ Future<void> postJobTest()async{
     });
 
     test('Check Gender', () async {
-      await driver.tap(Keys.genderTextKey);
+      await driver.tap(Keys.genderDropdownSelectKey);
       await driver.tap(find.text('Any'));
       await Future.delayed(const Duration(seconds: 4),() {});
     });
