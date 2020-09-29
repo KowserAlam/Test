@@ -56,6 +56,76 @@ Future<void> postJobTest()async{
       await driver.tap(find.text('Any'));
       await Future.delayed(const Duration(seconds: 4),() {});
     });
+    test('Check Experience', () async {
+      await driver.tap(Keys.experienceDropdownSelectKey);
+      await driver.tap(find.text('10'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Qualification', () async {
+      await driver.tap(Keys.qualificationDropdownSelectKey);
+      await driver.tap(find.text('BSc in CSE'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Vacancy', () async {
+      await driver.tap(Keys.vacancyTextfieldKey);
+      await driver.tap(find.text('3'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+    test('Check Salary Amount', () async {
+      await driver.tap(Keys.salaryAmountRadioButtonKey);
+      await driver.tap(Keys.salaryAmountTextfieldKey);
+      await driver.enterText('20000');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Salary Range', () async {
+      await driver.tap(Keys.salaryRangeRadioButtonKey);
+      await driver.tap(Keys.salaryMinTextfieldKey);
+      await driver.enterText('5000');
+      await driver.tap(Keys.salaryMaxTextfieldKey);
+      await driver.enterText('10000');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+    test('Check Nagotiable and get back to salary amount', () async {
+      await driver.tap(Keys.salaryNegotiableRadioButtonKey);
+      await driver.tap(Keys.salaryRangeRadioButtonKey);
+      await driver.tap(Keys.salaryMinTextfieldKey);
+      await driver.enterText('');
+      await driver.tap(Keys.salaryMaxTextfieldKey);
+      await driver.enterText('');
+      await driver.tap(Keys.salaryAmountRadioButtonKey);
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Deadline and pick a date', () async {
+      await driver.tap(Keys.applicationDeadlineDatePickerKey);
+      await driver.scrollUntilVisible(Keys.datePickerKey, find.text('2021'), dyScroll: -10);
+      await driver.tap(Keys.doneButtonKey);
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Responsibilities', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.responsibilitiesRichtextKey, dyScroll: -30);
+      await driver.tap(Keys.responsibilitiesRichtextKey);
+      await driver.enterText('Sample Responsibilities');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Education', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.educationRichtextKey, dyScroll: -30);
+      await driver.tap(Keys.educationRichtextKey);
+      await driver.enterText('Sample Education');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check Education', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobAdditionalRequirementsRichtextKey, dyScroll: -30);
+      await driver.tap(Keys.jobAdditionalRequirementsRichtextKey);
+      await driver.enterText('Sample Additional Requirement');
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
 
   });
 

@@ -264,6 +264,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
               actions: [
                 if(!isEditMode || widget.copyAsNew)
                 EditScreenSaveButton(
+                  key: Key('postJobDraftButton'),
                   onPressed:()=>_handlePost(),
                   text: "Draft",
                 ),
@@ -274,6 +275,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
               ],
             ),
             body: SingleChildScrollView(
+              key: Key('singleChildScrollViewKey'),
               padding: EdgeInsets.all(8),
               child: Form(
                 key: _formKey,
