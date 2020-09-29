@@ -286,7 +286,7 @@ class _JobDetailsState extends State<JobDetails> {
         ],
       ),
     );
-    var description = Container(
+    var description = jobDetails.descriptions.htmlToNotusDocument.toPlainText().length!=1?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -313,16 +313,18 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            jobDetails.descriptions != null
-                ? jobDetails.descriptions
-                : StringResources.noneText,
-            style: descriptionFontStyle,
-          )
+//          Text(
+//            jobDetails.descriptions != null
+//                ? jobDetails.descriptions
+//                : StringResources.noneText,
+//            style: descriptionFontStyle,
+//          ),
+          HtmlWidget(jobDetails.descriptions.htmlToNotusDocument.toPlainText().length.toString()),
+          spaceBetweenSections
         ],
       ),
-    );
-    var responsibilities = Container(
+    ):SizedBox();
+    var responsibilities = jobDetails.responsibilities.htmlToNotusDocument.toPlainText().length!=1?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -344,16 +346,18 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            jobDetails.responsibilities != null
-                ? jobDetails.responsibilities
-                : StringResources.noneText,
-            style: descriptionFontStyle,
-          )
+//          Text(
+//            jobDetails.responsibilities != null
+//                ? jobDetails.responsibilities
+//                : StringResources.noneText,
+//            style: descriptionFontStyle,
+//          ),
+          HtmlWidget(jobDetails.responsibilities),
+          spaceBetweenSections
         ],
       ),
-    );
-    var education = Container(
+    ):SizedBox();
+    var education = jobDetails.education.htmlToNotusDocument.toPlainText().length!=1?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -375,17 +379,13 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            jobDetails.education != null
-                ? jobDetails.education
-                : StringResources.noneText,
-            style: descriptionFontStyle,
-          )
+          HtmlWidget(jobDetails.education),
+          spaceBetweenSections
         ],
       ),
-    );
+    ):SizedBox();
 
-    var additionalRequirements = Container(
+    var additionalRequirements = jobDetails.additionalRequirements.htmlToNotusDocument.toPlainText().length!=1?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -400,15 +400,11 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            jobDetails.additionalRequirements != null
-                ? jobDetails.additionalRequirements
-                : StringResources.noneText,
-            style: descriptionFontStyle,
-          )
+          HtmlWidget(jobDetails.additionalRequirements),
+          spaceBetweenSections
         ],
       ),
-    );
+    ):SizedBox();
 
     var location = Container(
       child: Column(
@@ -510,9 +506,6 @@ class _JobDetailsState extends State<JobDetails> {
               jobDetails.jobSite != null
                   ? refactorAboutJobStrings(jobDetails.jobSite)
                   : StringResources.noneText),
-          SizedBox(
-            height: 5,
-          ),
         ],
       ),
     );
@@ -633,7 +626,7 @@ class _JobDetailsState extends State<JobDetails> {
         ],
       ),
     );
-    var otherBenefits = Container(
+    var otherBenefits = jobDetails.otherBenefits.htmlToNotusDocument.toPlainText().length!=1?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -655,15 +648,11 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            jobDetails.otherBenefits != null
-                ? jobDetails.otherBenefits
-                : StringResources.noneText,
-            style: descriptionFontStyle,
-          )
+          HtmlWidget(jobDetails.otherBenefits),
+          spaceBetweenSections
         ],
       ),
-    );
+    ):SizedBox();
     var jobSummary = Column(
       children: <Widget>[
         Row(
@@ -754,7 +743,7 @@ class _JobDetailsState extends State<JobDetails> {
         )
       ],
     );
-    var requiredSkills = Container(
+    var requiredSkills = jobDetails.jobSkills.length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -782,7 +771,7 @@ class _JobDetailsState extends State<JobDetails> {
           )
         ],
       ),
-    );
+    ):SizedBox();
 
     var benefits = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -931,15 +920,15 @@ class _JobDetailsState extends State<JobDetails> {
                       aboutJob,
                       spaceBetweenSections,
                       description,
-                      spaceBetweenSections,
+//                      spaceBetweenSections,
                       responsibilities,
-                      spaceBetweenSections,
+//                      spaceBetweenSections,
                       requiredSkills,
                       spaceBetweenSections,
                       education,
-                      spaceBetweenSections,
+//                      spaceBetweenSections,
                       additionalRequirements,
-                      spaceBetweenSections,
+//                      spaceBetweenSections,
                       location,
                       spaceBetweenSections,
                       aboutCompany,
@@ -1013,19 +1002,5 @@ class _JobDetailsState extends State<JobDetails> {
     );
   }
 
-  Widget _htmlItem(
-      {@required BuildContext context,
-        @required String label,
-        @required String value,
-        @required Key valueKey}) {
-//    double width = MediaQuery.of(context).size.width > 720 ? 160 : 130;
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Row(
-        crossAxisAlignment:CrossAxisAlignment.start,
-        children: [
-          Text("$label: ",style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-          Expanded(child: HtmlWidget("${value ?? ""}", key: valueKey,)),
-        ],),
-    );}
+
 }

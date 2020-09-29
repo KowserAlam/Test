@@ -207,13 +207,14 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (companyDetails?.companyProfile != null)
-            _htmlItem(
-                context: context,
-                label: StringResources.companyProfileText,
-                value: companyDetails.companyProfile,
-                valueKey: null),
-          SizedBox(height: 5),
+          companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?
+          companyProfileFormattedText(StringResources.companyProfileText, companyDetails.companyProfile.htmlToNotusDocument.toPlainText()):SizedBox(),
+//            _htmlItem(
+//                context: context,
+//                label: StringResources.companyProfileText,
+//                value: companyDetails.companyProfile,
+//                valueKey: null),
+          SizedBox(height: companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?5:0),
           companyProfileFormattedText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
