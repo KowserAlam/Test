@@ -179,6 +179,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
     return ZefyrScaffold(
       child: Scaffold(
+        
         appBar: AppBar(
           title: Text(
             StringResources.updateInfoText,
