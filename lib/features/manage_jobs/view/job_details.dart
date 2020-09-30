@@ -434,29 +434,23 @@ class _JobDetailsState extends State<JobDetails> {
                   ? jobDetails.jobAddress
                   : StringResources.noneText),
           SizedBox(
-            height: 5,
+            height: jobDetails.jobArea != null?5:0,
           ),
-          jobSummeryRichText(
+          jobDetails.jobArea != null?jobSummeryRichText(
               StringResources.jobAreaText,
-              jobDetails.jobArea != null
-                  ? jobDetails.jobArea
-                  : StringResources.noneText),
+              jobDetails.jobArea):SizedBox(),
           SizedBox(
-            height: 5,
+            height: jobDetails.jobCity != null?5:0,
           ),
-          jobSummeryRichText(
+          jobDetails.jobCity != null?jobSummeryRichText(
               StringResources.jobCityText,
-              jobDetails.jobCity != null
-                  ? jobDetails.jobCity
-                  : StringResources.noneText),
+              jobDetails.jobCity):SizedBox(),
           SizedBox(
-            height: 5,
+            height: jobDetails.jobCountry != null?5:0,
           ),
-          jobSummeryRichText(
+          jobDetails.jobCountry != null?jobSummeryRichText(
               StringResources.jobCountryText,
-              jobDetails.jobCountry != null
-                  ? jobDetails.jobCountry
-                  : StringResources.noneText),
+              jobDetails.jobCountry):SizedBox(),
           SizedBox(
             height: 5,
           ),
@@ -603,14 +597,12 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          jobSummeryRichText(
+          jobDetails.salary != null?jobSummeryRichText(
             StringResources.currentOffer,
-            jobDetails.salary != null
-                ? jobDetails.salary.toString() +
+            jobDetails.salary.toString() +
                     ' ' +
                     (jobDetails.currency != null ? jobDetails.currency : '')
-                : StringResources.noneText,
-          ),
+          ):SizedBox(),
           jobSummeryRichText(
             StringResources.salaryRangeText,
             (jobDetails.salaryMin != null
@@ -700,29 +692,25 @@ class _JobDetailsState extends State<JobDetails> {
                 ],
               ),
               SizedBox(
-                height: 5,
+                height: jobDetails.qualification != null?5:0,
               ),
-              Row(
+              jobDetails.qualification != null?Row(
                 children: <Widget>[
                   jobSummeryRichText(
                       StringResources.qualificationText,
-                      jobDetails.qualification != null
-                          ? jobDetails.qualification
-                          : StringResources.noneText)
+                      jobDetails.qualification)
                 ],
-              ),
+              ):SizedBox(),
               SizedBox(
-                height: 5,
+                height: jobDetails.gender != null?5:0,
               ),
-              Row(
+              jobDetails.gender != null?Row(
                 children: <Widget>[
                   jobSummeryRichText(
                       StringResources.gender,
-                      jobDetails.gender != null
-                          ? jobDetails.gender
-                          : StringResources.noneText)
+                      jobDetails.gender)
                 ],
-              ),
+              ):SizedBox(),
               SizedBox(
                 height: 5,
               ),
