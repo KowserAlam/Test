@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/route_manager.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen_all.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -54,6 +57,9 @@ class InfoBoxWidget extends StatelessWidget {
                 Expanded(
                   key: Key('infoboxJobsPostedTextKey'),
                   child: _boxItem(
+//                    onTap: (){
+//                      Get.to(ManageJobsScreen());
+//                    },
                       linearGradient: LinearGradient(colors: [
                         Color(0xffaa91fa),
                         Color(0xff9eacfd),
