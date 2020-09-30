@@ -7,6 +7,8 @@ class Keys{
   static final datePickerKey = find.byValueKey('datePickerKey');
   static final doneButtonKey = find.byValueKey('doneButtonKey');
 
+  //Home
+
 
   //login screen
   static final welcomeBackKey = find.byValueKey('welcomeBackKey');
@@ -18,6 +20,7 @@ class Keys{
   static final paswwordVisibilityOff = find.byValueKey('paswwordVisibilityOff');
   static final forgotPasswordTextKey = find.byValueKey('forgotPasswordTextKey');
   static final passwordResetScreenAppBarTitleKey = find.byValueKey('passwordResetScreenAppBarTitleKey');
+  //
 
   //company edit profile
     //view Screen
@@ -67,6 +70,7 @@ class Keys{
 
 
   //Post Job
+  static final postJobPostAndUpdateButtonKey = find.byValueKey('postJobPostAndUpdateButtonKey');
   static final postJobDraftButtonKey = find.byValueKey('postJobDraftButtonKey');
   static final singleChildScrollViewKey = find.byValueKey('singleChildScrollViewKey');
   static final postJobAppBarKey = find.byValueKey('postJobAppBarKey');

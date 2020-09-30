@@ -27,6 +27,15 @@ Future<void> postJobTest()async{
     });
 
     //test cases are started from here
+    test('Try to login with registered email and password', () async {
+      await driver.tap(Keys.emailAddressTextfieldKey);
+      await driver.enterText('mahmudoni01@gmail.com');
+      await driver.tap(Keys.passwordTextfieldKey);
+      await driver.enterText('1234567r');
+      await driver.tap(Keys.signInButtonKey);
+      await Future.delayed(const Duration(seconds: 5), () {});
+    });
+
     test('Navigate to Post Job screen from bottom navigation bar', () async {
       await driver.tap(Keys.PostJobsFloatingActionButtonKey);
       await Future.delayed(const Duration(seconds: 4),() {});
@@ -161,6 +170,32 @@ Future<void> postJobTest()async{
       await driver.tap(find.text('On-site'));
       await Future.delayed(const Duration(seconds: 4),() {});
     });
+    test('Check Job Nature', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobNatureDropDownListKey, dyScroll: -70);
+      await driver.tap(Keys.jobNatureDropDownListKey);
+      await driver.tap(find.text('Full-time'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+    test('Check Job Type', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobTypeDropDownListKey, dyScroll: -70);
+      await driver.tap(Keys.jobTypeDropDownListKey);
+      await driver.tap(find.text('Permanent'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check About Company', () async {
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, Keys.jobAboutCompanyTextfieldKey, dyScroll: -70);
+      await driver.tap(Keys.jobAboutCompanyTextfieldKey);
+      await driver.tap(find.text('Permanent'));
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+    test('Check draft button and confirm all data saved successfully', () async {
+      await driver.tap(Keys.postJobDraftButtonKey);
+      await Future.delayed(const Duration(seconds: 4),() {});
+    });
+
+
 
   });
 
