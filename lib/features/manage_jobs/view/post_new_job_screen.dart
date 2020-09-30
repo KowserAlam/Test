@@ -264,6 +264,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
               actions: [
                 if(!isEditMode || widget.copyAsNew)
                 EditScreenSaveButton(
+                  key: Key('postJobDraftButtonKey'),
                   onPressed:()=>_handlePost(),
                   text: "Draft",
                 ),
@@ -274,6 +275,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
               ],
             ),
             body: SingleChildScrollView(
+              key: Key('singleChildScrollViewKey'),
               padding: EdgeInsets.all(8),
               child: Form(
                 key: _formKey,
@@ -335,7 +337,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           children: [
                             Expanded(
                               child: CustomDropdownSearchFormField(
-                                dropdownKey: Key('genderTextKey'),
+                                dropdownKey: Key('genderDropdownSelectKey'),
                                 labelText: StringResources.genderText,
                                 hintText: StringResources.tapToSelectText,
                                 showSelectedItem: true,
@@ -351,6 +353,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                             ),
                             Expanded(
                               child: CustomDropdownSearchFormField(
+                                dropdownKey: Key('experienceDropdownSelectKey'),
                                 selectedItem: selectedJobExperience,
                                 labelText: StringResources.experience,
                                 hintText: StringResources.tapToSelectText,
@@ -368,6 +371,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         // qualification
                         CustomDropdownSearchFormField(
+                          dropdownKey: Key('qualificationDropdownSelectKey'),
                           selectedItem: selectedJobQualification,
                           labelText: StringResources.qualificationText,
                           hintText: StringResources.tapToSelectText,
@@ -382,6 +386,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         //vacancy
                         CustomTextFormField(
+                          textFieldKey: Key('vacancyTextfieldKey'),
                           isRequired: true,
                           validator: Validator().integerNumberValidator,
                           controller: _jobVacancyTextEditingController,
@@ -407,6 +412,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                 children: [
                                   Row(children: [
                                     Radio<SalaryOption>(
+                                        key: Key('salaryAmountRadioButtonKey'),
                                         groupValue: selectedSalaryOption,
                                         value: SalaryOption.AMOUNT,
                                         onChanged: (value) {
@@ -418,6 +424,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                   ]),
                                   Row(children: [
                                     Radio<SalaryOption>(
+                                        key: Key('salaryRangeRadioButtonKey'),
                                         groupValue: selectedSalaryOption,
                                         value: SalaryOption.RANGE,
                                         onChanged: (value) {
@@ -429,6 +436,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                   ]),
                                   Row(children: [
                                     Radio<SalaryOption>(
+                                        key: Key('salaryNegotiableRadioButtonKey'),
                                         groupValue: selectedSalaryOption,
                                         value: SalaryOption.NEGOTIABLE,
                                         onChanged: (value) {
@@ -447,6 +455,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                           Column(children: [
                             //salary
                             CustomTextFormField(
+                              textFieldKey: Key('salaryAmountTextfieldKey'),
                               controller: _salaryTextEditingController,
                               hintText: StringResources.salary,
                               labelText: StringResources.salaryAmountText,
@@ -462,6 +471,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                   children: [
                                     Expanded(
                                       child: CustomTextFormField(
+                                        textFieldKey: Key('salaryMinTextfieldKey'),
                                         validator: Validator()
                                             .moneyAmountNullableValidate,
                                         controller:
@@ -475,6 +485,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                                     ),
                                     Expanded(
                                       child: CustomTextFormField(
+                                        textFieldKey: Key('salaryMaxTextfieldKey'),
                                         validator: Validator()
                                             .moneyAmountNullableValidate,
                                         controller:
@@ -492,6 +503,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         // application deadline
 
                         CommonDatePickerFormField(
+                          dateFieldKey: Key('applicationDeadlineDatePickerKey'),
                           onDateTimeChanged: (DateTime d) {
                             applicationDeadline = d;
                             setState(() {});
@@ -504,6 +516,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         // Responsibilities
                         CustomZefyrRichTextFormField(
+                          zefyrKey: Key('responsibilitiesRichtextKey'),
                           labelText: StringResources.responsibilitiesTitle,
                           focusNode: _jobResponsibilitiesFocusNode,
                           controller: _jobResponsibilitiesZefyrController,
@@ -513,6 +526,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         // Education
                         CustomZefyrRichTextFormField(
+                          zefyrKey: Key('educationRichtextKey'),
                           labelText: StringResources.educationsText,
                           focusNode: _jobEducationFocusNode,
                           controller: _jobEducationZefyrController,
@@ -521,6 +535,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         // Additional Requirements
                         CustomZefyrRichTextFormField(
+                          zefyrKey: Key('jobAdditionalRequirementsRichtextKey'),
                           labelText:
                               StringResources.jobAdditionalRequirementsText,
                           focusNode: _jobAdditionalFocusNode,
@@ -529,6 +544,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         spaceBetweenFields,
                         // otherBenefitsTitle
                         CustomZefyrRichTextFormField(
+                          zefyrKey: Key('otherBenefitsRichtextKey'),
                           labelText: StringResources.otherBenefitsTitle,
                           focusNode: _jobOtherBenefitsFocusNode,
                           controller: _jobOtherBenefitsZefyrController,
@@ -538,6 +554,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         //address
                         CustomTextFormField(
+                          textFieldKey: Key('jobLocationTextfieldKey'),
                           isRequired: true,
                           validator: Validator().nullFieldValidate,
                           controller: _jobAddressTextEditingController,
@@ -552,6 +569,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         // area
                         CustomTextFormField(
+                          textFieldKey: Key('jobAreaTextfieldKey'),
                           controller: _jobAreaTextEditingController,
                           labelText: StringResources.jobAreaText,
                           hintText: StringResources.jobAreaText,
@@ -564,6 +582,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                             builder: (context,
                                 AsyncSnapshot<List<String>> snapshot) {
                               return CustomDropdownSearchFormField<String>(
+                                dropdownKey: Key('jobCityDropDownListKey'),
                                 selectedItem: _selectedCityCountry,
                                 items: snapshot.data ?? <String>[],
                                 popupItemBuilder: (c, s, b) => ListTile(
@@ -579,6 +598,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         spaceBetweenFields,
                         // job site
                         CustomDropdownSearchFormField<JobSite>(
+                          dropdownKey: Key('jobSiteDropDownListKey'),
                           selectedItem: selectedJobSite,
                           labelText: StringResources.jobSiteText,
                           hintText: StringResources.tapToSelectText,
@@ -596,6 +616,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         //job nature
                         CustomDropdownSearchFormField<JobNature>(
+                          dropdownKey: Key('jobNatureDropDownListKey'),
                           selectedItem: selectedJobNature,
                           labelText: StringResources.jobNature,
                           hintText: StringResources.tapToSelectText,
@@ -613,6 +634,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
 
                         //job type
                         CustomDropdownSearchFormField<JobType>(
+                          dropdownKey: Key('jobTypeDropDownListKey'),
                           isRequired: true,
                           selectedItem: selectedJobType,
                           labelText: StringResources.jobTypeText,
@@ -642,6 +664,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                         spaceBetweenFields,
                         //profile
                         CustomZefyrRichTextFormField(
+                          zefyrKey: Key('jobAboutCompanyTextfieldKey'),
                           labelText: StringResources.jobAboutCompanyText,
                           focusNode: _aboutCompanyFocusNode,
                           controller: _aboutCompanyZefyrController,
