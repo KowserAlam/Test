@@ -269,6 +269,7 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
                   text: "Draft",
                 ),
                 EditScreenSaveButton(
+                  key: Key('postJobPostAndUpdateButtonKey'),
                   onPressed:()=>_handlePost(true),
                   text: isEditMode && !widget.copyAsNew ? "Update" : "Post",
                 ),

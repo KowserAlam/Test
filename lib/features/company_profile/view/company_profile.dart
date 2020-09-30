@@ -402,6 +402,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                                 },
                                 child: Text(
                                   companyDetails.webAddress,
+                                  key: Key('companyViewProfileWebAddress'),
                                   style: TextStyle(color: Colors.lightBlue),
                                 )),
                           )

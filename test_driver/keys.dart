@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 
 class Keys{
@@ -6,6 +5,8 @@ class Keys{
   static final backButton = find.byTooltip('Back');
   static final datePickerKey = find.byValueKey('datePickerKey');
   static final doneButtonKey = find.byValueKey('doneButtonKey');
+
+  //Home
 
 
   //login screen
@@ -18,12 +19,14 @@ class Keys{
   static final paswwordVisibilityOff = find.byValueKey('paswwordVisibilityOff');
   static final forgotPasswordTextKey = find.byValueKey('forgotPasswordTextKey');
   static final passwordResetScreenAppBarTitleKey = find.byValueKey('passwordResetScreenAppBarTitleKey');
+  //
 
-  //company edit profile
+  //company profile
     //view Screen
   static final companyEditProfileAppBarKey = find.byValueKey('companyEditProfileAppBarKey');
   static final companyViewProfileListViewKey = find.byValueKey('companyViewProfileListViewKey');
   static final companyEditProfileIconKey = find.byValueKey('companyEditProfileIconKey');
+  static final companyViewProfileWebAddress = find.byValueKey('companyViewProfileWebAddress');
     //edit screen
   static final companyEditProfileListViewKey = find.byValueKey('companyEditProfileListViewKey'); //for listView Scroll
   static final companyNameTextfieldKey = find.byValueKey('companyNameTextfieldKey');
@@ -67,6 +70,7 @@ class Keys{
 
 
   //Post Job
+  static final postJobPostAndUpdateButtonKey = find.byValueKey('postJobPostAndUpdateButtonKey');
   static final postJobDraftButtonKey = find.byValueKey('postJobDraftButtonKey');
   static final singleChildScrollViewKey = find.byValueKey('singleChildScrollViewKey');
   static final postJobAppBarKey = find.byValueKey('postJobAppBarKey');
