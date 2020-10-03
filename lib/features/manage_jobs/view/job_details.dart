@@ -120,6 +120,76 @@ class _JobDetailsState extends State<JobDetails> {
     });
   }
 
+
+//  List<ActionMenuOptions> choices(JobStatus jobStatus){
+//    bool allowEdit = jobStatus != JobStatus.PUBLISHED;
+//    bool isPublished = jobStatus == JobStatus.PUBLISHED;
+//    bool isDraft = jobStatus == JobStatus.DRAFT;
+//    bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
+//    return
+//      [
+//        ActionMenuOptions(title:'Edit', onTap: (){
+//
+//        }),
+//        ActionMenuOptions(title:'Copy as New', onTap: (){
+//
+//        })
+//      ];
+//  }
+
+  List<PopupMenuItem<String>> options(JobStatus jobStatus){
+    bool allowEdit = jobStatus != JobStatus.PUBLISHED;
+    bool isPublished = jobStatus == JobStatus.PUBLISHED;
+    bool isDraft = jobStatus == JobStatus.DRAFT;
+    bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
+    bool isPosted = jobStatus == JobStatus.POSTED;
+    List<PopupMenuItem<String>> a = [];
+    if(allowEdit){
+      a.add(PopupMenuItem<String>(
+          value: StringResources.editText,
+          child: Text(StringResources.editText)));
+    }
+    if(isDraft){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.postText,
+        child: Text(StringResources.postText)));
+    }
+    if(isUnPublished){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.publishText,
+        child: Text(StringResources.publishText),));
+    }
+    if(isPublished){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.unpublishText,
+        child: Text(StringResources.unpublishText),));
+    }
+    a.add(
+        PopupMenuItem<String>(
+          value: StringResources.copyAsNewText,
+          child: Text(StringResources.copyAsNewText),));
+//    if(isPosted){
+//      a.add(PopupMenuItem<String>(
+//        value: StringResources.unpublishText,
+//        child: Text(StringResources.unpublishText),));
+//    }
+    return a;
+  }
+
+  onOptionSelect(String choice){
+    if(choice == StringResources.editText){
+      Get.to(PostNewJobScreen(
+        jobModel: jobDetails,
+        copyAsNew: false,
+      ));
+    }else if(choice == StringResources.copyAsNewText){
+      Get.to(PostNewJobScreen(
+        jobModel: jobDetails,
+        copyAsNew: true,
+      ));
+    }
+  }
+
 //  getCompany(JobModel jobModel) async{
 //    CompanyListRepository().getCompanyDetails(jobModel.companyName).then((value) {
 //      jobCompany = value;
@@ -843,15 +913,12 @@ class _JobDetailsState extends State<JobDetails> {
         title: Text(
           StringResources.jobDetailsAppBarTitle,
         ),
-        actions: [
-          IconButton(icon: Icon(FeatherIcons.edit),
-          onPressed: (){
-            Get.to(PostNewJobScreen(
-              jobModel: jobDetails,
-              copyAsNew: false,
-            ));
-          }
-          )
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: onOptionSelect,
+            itemBuilder: (BuildContext context){
+            return options(jobDetails.jobStatus);
+          })
         ],
       ),
       body: ListView(
@@ -993,3 +1060,4 @@ class _JobDetailsState extends State<JobDetails> {
 
 
 }
+

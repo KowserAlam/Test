@@ -4,6 +4,8 @@ import 'package:jobxprss_company/main_app/flavour/flavour_config.dart';
 import 'package:jobxprss_company/main_app/models/skill.dart';
 import 'package:jobxprss_company/method_extension.dart';
 
+import 'job_status.dart';
+
 class JobModel {
   String jobId;
   String slug;
@@ -46,6 +48,7 @@ class JobModel {
   String jobType;
   String additionalRequirements;
   String companyProfile;
+  JobStatus jobStatus;
 
   JobModel(
       {this.jobId,
@@ -89,7 +92,8 @@ class JobModel {
       this.jobSite,
       this.jobType,
       this.additionalRequirements,
-      this.companyProfile});
+      this.companyProfile,
+      this.jobStatus,});
 
   JobModel.fromJson(Map<String, dynamic> json) {
     String baseUrl = FlavorConfig?.instance?.values?.baseUrl;
@@ -168,6 +172,8 @@ class JobModel {
         ? false
         : (json['is_favourite'] == "True" ? true : false);
 
+    jobStatus = _parseJobStatusEnum(json['status']);
+
 //    if (json['profile_picture'] != null) {
 //      profilePicture = "$baseUrl${json['profile_picture']}";
 //    }
@@ -208,5 +214,20 @@ extension SalaryOptionEX on SalaryOption {
       default:
         return "NEGOTIABLE";
     }
+  }
+}
+
+JobStatus _parseJobStatusEnum(String status) {
+  switch (status) {
+    case "DRAFT":
+      return JobStatus.DRAFT;
+    case "POSTED":
+      return JobStatus.POSTED;
+    case "PUBLISHED":
+      return JobStatus.PUBLISHED;
+    case "UNPUBLISHED":
+      return JobStatus.UNPUBLISHED;
+    default:
+      return JobStatus.DRAFT;
   }
 }
