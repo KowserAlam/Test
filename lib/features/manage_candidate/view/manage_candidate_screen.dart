@@ -42,7 +42,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.showAppBar?AppBar(
-        title: Text(StringResources.manageCandidatesText),
+        title: Text(StringResources.manageCandidatesText, key: Key('manageCandidatesAppBarTextKey'),),
       ):null,
       body: Obx((){
         var candidates = manageCandidateVm.candidates;

@@ -179,6 +179,7 @@ class _JobDetailsState extends State<JobDetails> {
         appBar: AppBar(
           title: Text(
             StringResources.jobDetailsAppBarTitle,
+            key: Key('jobDetailsAppBarTitleKey'),
           ),
         ),
         body: Center(

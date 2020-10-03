@@ -102,6 +102,15 @@ class Keys{
 
   //ManageJobs
   static final noJobsFoundKey = find.byValueKey('noJobsFoundKey');
-  //manageJobsListViewKey
+  static final manageJobsListViewKey = find.byValueKey('manageJobsListViewKey');
+  static final menuButtonKey1 = find.byValueKey('menuButtonKey1');
+  static final menuButtonKey2 = find.byValueKey('menuButtonKey2');
+  static final menuButtonKey17 = find.byValueKey('menuButtonKey17');
+  static final appBarTitleKey = find.byValueKey('appBarTitleKey');
+  //publishedDateKey
+  static final menuPreviewJobDetailsKey = find.byValueKey('menuPreviewJobDetailsKey');
+  static final jobDetailsAppBarTitleKey = find.byValueKey('jobDetailsAppBarTitleKey');
+  static final menuViewApplicationsTextKey = find.byValueKey('menuViewApplicationsTextKey');
+  static final manageCandidatesAppBarTextKey = find.byValueKey('manageCandidatesAppBarTextKey');
 
 }

@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
       child: FlavorBanner(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appbarTitle),
+            title: Text(appbarTitle, key: Key('appBarTitleKey'),),
             actions: [
               IconButton(
                 icon: Icon(FontAwesomeIcons.solidComments),
