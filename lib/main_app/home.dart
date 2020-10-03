@@ -212,7 +212,9 @@ class _HomeState extends State<Home> {
             controller: _paeViewController,
             children: <Widget>[
               DashBoardScreen(
-//                onTapApplications: (){Get.to(ManageCandidateScreenAll());},
+                onTapJobPosted: (){_modeToPage(1);},
+                onTapApplications: (){_modeToPage(2);},
+                onTapShortlisted: (){},
               ),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),

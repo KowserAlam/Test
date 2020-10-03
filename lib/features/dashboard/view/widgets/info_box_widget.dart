@@ -13,8 +13,9 @@ import 'package:get/get.dart';
 class InfoBoxWidget extends StatelessWidget {
   final Function onTapShortListed;
   final Function onTapApplications;
+  final Function onTapJobPosted;
 
-  InfoBoxWidget({this.onTapShortListed, this.onTapApplications});
+  InfoBoxWidget({this.onTapShortListed, this.onTapApplications, this.onTapJobPosted});
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +58,7 @@ class InfoBoxWidget extends StatelessWidget {
                 Expanded(
                   key: Key('infoboxJobsPostedTextKey'),
                   child: _boxItem(
-//                    onTap: (){
-//                      Get.to(ManageJobsScreen());
-//                    },
+                    onTap: onTapJobPosted,
                       linearGradient: LinearGradient(colors: [
                         Color(0xffaa91fa),
                         Color(0xff9eacfd),
