@@ -34,9 +34,9 @@ class JobListTileWidget extends StatelessWidget {
     String deadLineText = jobModel.applicationDeadline != null
         ? jobModel.applicationDeadline.isBefore(DateTime.now())
             ? 'Date Expired'
-            : jobModel.applicationDeadline
+            : (jobModel.applicationDeadline
                     .difference(DateTime.now())
-                    .inDays
+                    .inDays+1)
                     .toString() +
                 ' day(s) remaining'
         : StringResources.noneText;
