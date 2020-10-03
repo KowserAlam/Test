@@ -208,7 +208,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?
-          companyProfileFormattedText(StringResources.companyProfileText, companyDetails.companyProfile.htmlToNotusDocument.toPlainText()):SizedBox(),
+          HtmlWidget(companyDetails.companyProfile):SizedBox(),
 //            _htmlItem(
 //                context: context,
 //                label: StringResources.companyProfileText,
