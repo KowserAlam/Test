@@ -63,11 +63,11 @@ class Keys{
   static final bottomNavBarManageJobsKey = find.byValueKey('bottomNavBarManageJobsKey');
   static final bottomNavBarCandidatesKey = find.byValueKey('bottomNavBarCandidatesKey');
   static final PostJobsFloatingActionButtonKey = find.byTooltip('Post');
+
   //Dashboard
   static final infoboxJobsPostedTextKey = find.byValueKey('infoboxJobsPostedTextKey');
   static final infoboxApplicationsTextKey = find.byValueKey('infoboxApplicationsTextKey');
   static final infoboxShortListedTextKey = find.byValueKey('infoboxShortListedTextKey');
-
 
   //Post Job
   static final postJobPostAndUpdateButtonKey = find.byValueKey('postJobPostAndUpdateButtonKey');
@@ -99,5 +99,9 @@ class Keys{
   static final jobNatureDropDownListKey = find.byValueKey('jobNatureDropDownListKey');
   static final jobTypeDropDownListKey = find.byValueKey('jobTypeDropDownListKey');
   static final jobAboutCompanyTextfieldKey = find.byValueKey('jobAboutCompanyTextfieldKey');
+
+  //ManageJobs
+  static final noJobsFoundKey = find.byValueKey('noJobsFoundKey');
+  //manageJobsListViewKey
 
 }
