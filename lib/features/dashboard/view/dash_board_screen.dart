@@ -18,8 +18,9 @@ import 'package:provider/provider.dart';
 class DashBoardScreen extends StatefulWidget {
   final Function onTapShortlisted;
   final Function onTapApplications;
+  final Function onTapJobPosted;
 
-  DashBoardScreen({Key key, this.onTapShortlisted, this.onTapApplications})
+  DashBoardScreen({Key key, this.onTapShortlisted, this.onTapApplications, this.onTapJobPosted})
       : super(key: key);
 
   @override
@@ -137,6 +138,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                               InfoBoxWidget(
                                 onTapApplications: widget.onTapApplications,
                                 onTapShortListed: widget.onTapShortlisted,
+                                onTapJobPosted: widget.onTapJobPosted,
                               ),
                               DashboardValues.sizedBoxBetweenSection,
                               JobChartWidget(
