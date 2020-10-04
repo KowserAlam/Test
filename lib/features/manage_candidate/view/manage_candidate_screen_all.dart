@@ -52,10 +52,11 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
               boxShadow: CommonStyle.boxShadow
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: DropdownSearch<JobListModel>(
                 dropdownSearchDecoration: InputDecoration(
                   border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 4),
                 ),
                 selectedItem: selected,
                 itemAsString: (v) =>

@@ -28,7 +28,7 @@ class JobListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String publishDateText = jobModel.postDate == null
-        ? StringResources.noneText
+        ? ""
         : DateFormatUtil().dateFormat1(jobModel.postDate);
 
     String deadLineText = jobModel.applicationDeadline != null
@@ -39,7 +39,7 @@ class JobListTileWidget extends StatelessWidget {
                     .inDays+1)
                     .toString() +
                 ' day(s) remaining'
-        : StringResources.noneText;
+        : "";
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
     var backgroundColor = Theme.of(context).backgroundColor;
@@ -82,6 +82,7 @@ class JobListTileWidget extends StatelessWidget {
         : true;
 
     var viewApplications = Tooltip(
+      key: Key('manageCandidatesTileViewApplicationsKey$index'),
       message: "View Applications",
       child: InkWell(
         onTap: () {
@@ -112,6 +113,7 @@ class JobListTileWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       iconSize: 18,
       tooltip: "Menu",
+      key: Key('menuButtonKey$index'),
       icon: Icon(FontAwesomeIcons.ellipsisV),
       onPressed: () {
         _showBottomSheet(context);
@@ -132,7 +134,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
       ],
     );
-    var applicationDeadlineWidget = deadLineText != 'None'
+    var applicationDeadlineWidget = deadLineText.isNotEmptyOrNotNull
         ? Row(
             children: <Widget>[
               Icon(FeatherIcons.clock, size: iconSize, color: subtitleColor),
@@ -147,6 +149,7 @@ class JobListTileWidget extends StatelessWidget {
         : SizedBox();
 
     var publishDate = Row(
+      key: Key('publishedDateKey'),
       children: <Widget>[
         Icon(
           FeatherIcons.calendar,
@@ -258,9 +261,15 @@ class JobListTileWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            publishDate,
-                            applicationDeadlineWidget,
-                            viewApplications,
+                            Expanded(
+                              flex: 2,
+                              child: publishDateText.isEmptyOrNull?SizedBox():
+                              publishDate,
+                            ),
+                            Expanded(
+                                flex: 3,
+                                child: applicationDeadlineWidget),
+                            Expanded(flex: 2, child: viewApplications),
                           ],
                         ),
                       ),
@@ -345,6 +354,7 @@ class JobListTileWidget extends StatelessWidget {
           ),
 
         ListTile(
+          key: Key('menuPreviewJobDetailsKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToJobDetailsScreen();
@@ -357,6 +367,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
 //edit
         ListTile(
+          key: Key('editJobKey'),
           onTap: allowEdit
               ? () {
                   Navigator.pop(context);
@@ -374,6 +385,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
 //copy
         ListTile(
+          key: Key('copyAsNewJobKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToEditNNewJobScreen(true);
@@ -386,6 +398,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
         // view applications
         ListTile(
+          key: Key('menuViewApplicationsTextKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToApplicationsScreen();

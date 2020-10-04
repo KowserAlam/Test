@@ -149,8 +149,7 @@ class _CompanyListTileState extends State<CompanyListTile> {
                           ? DateFormatUtil.formatDate(
                           widget.company
                               .yearOfEstablishment)
-                          : StringResources
-                          .noneText,
+                          : "",
                       style: TextStyle(
                           color: subtitleColor,
                           fontWeight:

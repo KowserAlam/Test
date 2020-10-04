@@ -463,7 +463,7 @@ class StringResources {
   static var versionTextLowerCase = "v ";
   static String noExamFoundText = "No exam found !";
 
-  static var homText = "home";
+  static var homText = "Home";
 
   static var workExperienceText = "Work Experience";
 
@@ -482,7 +482,7 @@ class StringResources {
 
   ///
 /// Jobs
-static const String noneText = "None";
+// static const String noneText = "None";
 static const String deadlineText = "Deadline";
 static const String applyText = "Apply";
 static const String applyFilterText = "Apply Filter";

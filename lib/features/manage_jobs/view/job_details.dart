@@ -268,6 +268,7 @@ class _JobDetailsState extends State<JobDetails> {
         appBar: AppBar(
           title: Text(
             StringResources.jobDetailsAppBarTitle,
+            key: Key('jobDetailsAppBarTitleKey'),
           ),
         ),
         body: Center(
@@ -327,7 +328,7 @@ class _JobDetailsState extends State<JobDetails> {
                         child: Text(
                           jobDetails.title != null
                               ? jobDetails.title
-                              : StringResources.noneText,
+                              : "",
                           style: headerTextStyle,
                         ),
                       ),
@@ -343,7 +344,7 @@ class _JobDetailsState extends State<JobDetails> {
                     Text(
                       jobDetails.company != null
                           ? jobDetails.company.name
-                          : StringResources.noneText,
+                          : "",
                       style: topSideDescriptionFontStyle
 
                     ),
@@ -407,7 +408,7 @@ class _JobDetailsState extends State<JobDetails> {
 //          Text(
 //            jobDetails.descriptions != null
 //                ? jobDetails.descriptions
-//                : StringResources.noneText,
+//                : "",
 //            style: descriptionFontStyle,
 //          ),
           HtmlWidget(jobDetails.descriptions),
@@ -439,7 +440,7 @@ class _JobDetailsState extends State<JobDetails> {
 //          Text(
 //            jobDetails.responsibilities != null
 //                ? jobDetails.responsibilities
-//                : StringResources.noneText,
+//                : "",
 //            style: descriptionFontStyle,
 //          ),
           HtmlWidget(jobDetails.responsibilities),
@@ -519,7 +520,7 @@ class _JobDetailsState extends State<JobDetails> {
               StringResources.jobAddressText,
               jobDetails.jobAddress != null
                   ? jobDetails.jobAddress
-                  : StringResources.noneText),
+                  : ""),
           SizedBox(
             height: jobDetails.jobArea != null?5:0,
           ),
@@ -570,7 +571,7 @@ class _JobDetailsState extends State<JobDetails> {
               StringResources.jobTypeText,
               jobDetails.jobType != null
                   ? refactorAboutJobStrings(jobDetails.jobType)
-                  : StringResources.noneText),
+                  : ""),
           SizedBox(
             height: 5,
           ),
@@ -578,7 +579,7 @@ class _JobDetailsState extends State<JobDetails> {
               StringResources.jobNature,
               jobDetails.jobNature != null
                   ? refactorAboutJobStrings(jobDetails.jobNature)
-                  : StringResources.noneText),
+                  : ""),
           SizedBox(
             height: 5,
           ),
@@ -586,7 +587,7 @@ class _JobDetailsState extends State<JobDetails> {
               StringResources.jobSiteText,
               jobDetails.jobSite != null
                   ? refactorAboutJobStrings(jobDetails.jobSite)
-                  : StringResources.noneText),
+                  : ""),
         ],
       ),
     );
@@ -692,13 +693,13 @@ class _JobDetailsState extends State<JobDetails> {
             StringResources.salaryRangeText,
             (jobDetails.salaryMin != null
                     ? jobDetails.salaryMin.toString()
-                    : StringResources.noneText) +
+                    : "") +
                 "-" +
                 (jobDetails.salaryMax != null
                     ? jobDetails.salaryMax.toString() +
                         ' ' +
                         (jobDetails.currency != null ? jobDetails.currency : '')
-                    : StringResources.noneText),
+                    : ""),
           ):SizedBox()
         ],
       ),
@@ -770,7 +771,7 @@ class _JobDetailsState extends State<JobDetails> {
                       StringResources.vacancy,
                       jobDetails.vacancy != null
                           ? jobDetails.vacancy.toString()
-                          : StringResources.noneText)
+                          : "")
                 ],
               ),
               SizedBox(
@@ -802,7 +803,7 @@ class _JobDetailsState extends State<JobDetails> {
                       StringResources.experience,
                       jobDetails.experience != null
                           ? jobDetails.experience
-                          : StringResources.noneText)
+                          : "")
                 ],
               ),
               SizedBox(
@@ -883,7 +884,7 @@ class _JobDetailsState extends State<JobDetails> {
             Text(
               jobDetails.postDate != null
                   ? DateFormatUtil.formatDate(jobDetails.postDate)
-                  : StringResources.noneText,
+                  : "",
               style: topSideDescriptionFontStyle,
             ),
           ],

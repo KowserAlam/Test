@@ -5,18 +5,16 @@ import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen_all.dart';
-import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
-import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/features/messaging/view/message_list_screen.dart';
 import 'package:jobxprss_company/main_app/flavour/flavor_banner.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
+import 'package:jobxprss_company/main_app/util/live_update_service.dart';
 import 'package:jobxprss_company/main_app/util/token_refresh_scheduler.dart';
 import 'package:jobxprss_company/main_app/views/app_drawer.dart';
 import 'package:jobxprss_company/main_app/views/widgets/bottom_appbar_fab.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -32,7 +30,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     TokenRefreshScheduler.getInstance();
+    Get.put(LiveUpdateService());
     Get.put(ManageJobViewModel());
+    Get.find<LiveUpdateService>().initSocket();
     super.initState();
   }
 
@@ -177,9 +177,10 @@ class _HomeState extends State<Home> {
       child: FlavorBanner(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appbarTitle),
+            title: Text(appbarTitle, key: Key('appBarTitleKey'),),
             actions: [
               IconButton(
+                key: Key('messageIconButtonOnAppbar'),
                 icon: Icon(FontAwesomeIcons.solidComments),
                 iconSize: 18,
                 onPressed: () {
