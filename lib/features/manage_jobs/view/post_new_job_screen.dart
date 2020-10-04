@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/widgets/select_required_skill_widget.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/job_post_veiw_model.dart';
@@ -11,7 +10,6 @@ import 'package:jobxprss_company/main_app/repositories/country_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_nature_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_site_list_repository.dart';
 import 'package:jobxprss_company/main_app/repositories/job_type_list_repository.dart';
-import 'package:jobxprss_company/main_app/repositories/skill_list_repository.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/validator.dart';
 import 'package:jobxprss_company/main_app/views/widgets/common_date_picker_form_field.dart';
@@ -19,9 +17,9 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdo
 import 'package:jobxprss_company/main_app/views/widgets/custom_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/edit_screen_save_button.dart';
+import 'package:jobxprss_company/method_extension.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:jobxprss_company/method_extension.dart';
 
 class PostNewJobScreen extends StatefulWidget {
   final JobModel jobModel;

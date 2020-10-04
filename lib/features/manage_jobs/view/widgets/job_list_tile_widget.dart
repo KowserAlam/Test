@@ -28,7 +28,7 @@ class JobListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String publishDateText = jobModel.postDate == null
-        ? StringResources.noneText
+        ? ""
         : DateFormatUtil().dateFormat1(jobModel.postDate);
 
     String deadLineText = jobModel.applicationDeadline != null
@@ -39,7 +39,7 @@ class JobListTileWidget extends StatelessWidget {
                     .inDays
                     .toString() +
                 ' day(s) remaining'
-        : StringResources.noneText;
+        : "";
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     var subtitleColor = isDarkMode ? Colors.white : AppTheme.grey;
     var backgroundColor = Theme.of(context).backgroundColor;
@@ -133,7 +133,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
       ],
     );
-    var applicationDeadlineWidget = deadLineText != 'None'
+    var applicationDeadlineWidget = deadLineText.isNotEmptyOrNotNull
         ? Row(
             children: <Widget>[
               Icon(FeatherIcons.clock, size: iconSize, color: subtitleColor),
@@ -260,9 +260,15 @@ class JobListTileWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            publishDate,
-                            applicationDeadlineWidget,
-                            viewApplications,
+                            Expanded(
+                              flex: 2,
+                              child: publishDateText.isEmptyOrNull?SizedBox():
+                              publishDate,
+                            ),
+                            Expanded(
+                                flex: 3,
+                                child: applicationDeadlineWidget),
+                            Expanded(flex: 2, child: viewApplications),
                           ],
                         ),
                       ),
