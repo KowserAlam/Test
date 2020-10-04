@@ -107,7 +107,7 @@ class Keys{
   static final menuButtonKey2 = find.byValueKey('menuButtonKey2');
   static final menuButtonKey17 = find.byValueKey('menuButtonKey17');
   static final appBarTitleKey = find.byValueKey('appBarTitleKey');
-  //publishedDateKey
+        //publishedDateKey
   static final menuPreviewJobDetailsKey = find.byValueKey('menuPreviewJobDetailsKey');
   static final jobDetailsAppBarTitleKey = find.byValueKey('jobDetailsAppBarTitleKey');
   static final menuViewApplicationsTextKey = find.byValueKey('menuViewApplicationsTextKey');
