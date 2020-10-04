@@ -101,6 +101,7 @@ class Keys{
   static final jobAboutCompanyTextfieldKey = find.byValueKey('jobAboutCompanyTextfieldKey');
 
   //ManageJobs
+  static final manageJobsScreenListViewKey = find.byValueKey('manageJobsScreenListViewKey');
   static final noJobsFoundKey = find.byValueKey('noJobsFoundKey');
   static final manageJobsListViewKey = find.byValueKey('manageJobsListViewKey');
   static final menuButtonKey1 = find.byValueKey('menuButtonKey1');
@@ -112,5 +113,8 @@ class Keys{
   static final jobDetailsAppBarTitleKey = find.byValueKey('jobDetailsAppBarTitleKey');
   static final menuViewApplicationsTextKey = find.byValueKey('menuViewApplicationsTextKey');
   static final manageCandidatesAppBarTextKey = find.byValueKey('manageCandidatesAppBarTextKey');
+  static final manageCandidatesTileViewApplicationsKey1 = find.byValueKey('manageCandidatesTileViewApplicationsKey1');
+  static final editJobKey = find.byValueKey('editJobKey');
+  static final copyAsNewJobKey = find.byValueKey('copyAsNewJobKey');
 
 }
