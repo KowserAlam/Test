@@ -104,6 +104,14 @@ Future<void> manageJobsTest()async{
       await driver.scrollUntilVisible(Keys.manageJobsScreenListViewKey, Keys.appBarTitleKey , dyScroll: 200);
     });
 
+    test('Check message icon button is working', () async {
+      await driver.tap(Keys.messageIconButtonOnAppbar);
+      await expect(await driver.getText(Keys.messageListScreenAppBarKey), 'Messages');
+      await Future.delayed(const Duration(seconds: 4), () {});
+      await driver.tap(Keys.backButton);
+      await expect(await driver.getText(Keys.appBarTitleKey), 'Manage Jobs');
+    });
+
   });
 
 }

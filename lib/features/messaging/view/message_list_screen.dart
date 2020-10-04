@@ -42,7 +42,7 @@ class _MessageListScreenState extends State<MessageListScreen>
     var vm = Provider.of<MessageSenderListScreenViewModel>(context);
     return Scaffold(
 appBar: AppBar(
-  title: Text(StringResources.messagesText),
+  title: Text(StringResources.messagesText, key: Key('messageListScreenAppBarKey'),),
 ),
       body: PageStateBuilder(
         onRefresh: () => vm.refresh(),

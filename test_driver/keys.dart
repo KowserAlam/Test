@@ -5,6 +5,8 @@ class Keys{
   static final backButton = find.byTooltip('Back');
   static final datePickerKey = find.byValueKey('datePickerKey');
   static final doneButtonKey = find.byValueKey('doneButtonKey');
+  static final messageIconButtonOnAppbar = find.byValueKey('messageIconButtonOnAppbar');
+  static final messageListScreenAppBarKey = find.byValueKey('messageListScreenAppBarKey');
 
   //Home
 
