@@ -434,7 +434,7 @@ class JobListTileWidget extends StatelessWidget {
   }
 
   _navigateToJobDetailsScreen() {
-    Get.to(JobDetails(jobModel.slug));
+    Get.to(JobDetails(jobModel.slug, index));
     // Navigator.of(context).push(CupertinoPageRoute(
     //     builder: (context) => JobDetails(jobModel.slug)));
   }

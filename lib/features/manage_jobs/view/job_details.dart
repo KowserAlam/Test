@@ -8,9 +8,11 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
@@ -26,8 +28,9 @@ import 'package:jobxprss_company/method_extension.dart';
 
 class JobDetails extends StatefulWidget {
   final String slug;
+  final int index;
 
-  JobDetails(this.slug);
+  JobDetails(this.slug, this.index);
 
   @override
   _JobDetailsState createState() => _JobDetailsState();
@@ -167,7 +170,13 @@ class _JobDetailsState extends State<JobDetails> {
     a.add(
         PopupMenuItem<String>(
           value: StringResources.copyAsNewText,
-          child: Text(StringResources.copyAsNewText),));
+          child: Text(StringResources.copyAsNewText),),
+    );
+    a.add(
+      PopupMenuItem<String>(
+        value: StringResources.viewApplicationsText,
+        child: Text(StringResources.viewApplicationsText),),
+    );
 //    if(isPosted){
 //      a.add(PopupMenuItem<String>(
 //        value: StringResources.unpublishText,
@@ -177,6 +186,7 @@ class _JobDetailsState extends State<JobDetails> {
   }
 
   onOptionSelect(String choice){
+    var vm = Get.find<ManageJobViewModel>();
     if(choice == StringResources.editText){
       Get.to(PostNewJobScreen(
         jobModel: jobDetails,
@@ -187,6 +197,15 @@ class _JobDetailsState extends State<JobDetails> {
         jobModel: jobDetails,
         copyAsNew: true,
       ));
+    }else if(choice == StringResources.postText){
+      vm.changeJobStatus(JobStatus.POSTED, jobDetails.jobId, widget.index);
+
+    }else if(choice == StringResources.publishText){
+      vm.changeJobStatus(JobStatus.PUBLISHED, jobDetails.jobId, widget.index);
+    }else if(choice == StringResources.unpublishText){
+      vm.changeJobStatus(JobStatus.UNPUBLISHED, jobDetails.jobId, widget.index);
+    }else if(choice == StringResources.viewApplicationsText){
+      Get.to(ManageCandidateScreen(jobDetails.jobId));
     }
   }
 
