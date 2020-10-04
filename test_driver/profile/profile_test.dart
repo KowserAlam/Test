@@ -148,15 +148,17 @@ Future<void> editProfileTest()async{
       await Future.delayed(const Duration(seconds: 3),() {});
       await expect(await driver.getText(find.text('01917508683')), '01917508683');
     });
-
-    test('Insert Company web address', () async {
+    // Insert Company web address and validate if it successfully saved and get back to save edit button
+    test('Insert Company web address and validate', () async {
       await driver.tap(Keys.companyEditProfileIconKey);
       await driver.scrollUntilVisible(Keys.companyEditProfileListViewKey, Keys.companyWebAddressTextfieldKey, dyScroll: -300);
       await driver.tap(Keys.companyWebAddressTextfieldKey);
       await driver.enterText('www.companyweb.com');
       await driver.tap(Keys.editProfileSaveButton);
       await Future.delayed(const Duration(seconds: 3),() {});
+      await driver.scrollUntilVisible(Keys.companyViewProfileListViewKey, Keys.companyViewProfileWebAddress, dyScroll: -200);
       await expect(await driver.getText(find.text('www.companyweb.com')), 'www.companyweb.com');
+      await driver.scrollUntilVisible(Keys.companyViewProfileListViewKey, Keys.editProfileSaveButton, dyScroll: 200);
     });
 
     test('Check Organization head ', () async {

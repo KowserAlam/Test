@@ -3,18 +3,19 @@ import 'package:zefyr/zefyr.dart';
 export 'package:zefyr/zefyr.dart';
 import 'package:jobxprss_company/main_app/util/zefyr_helper.dart';
 export 'package:jobxprss_company/main_app/util/zefyr_helper.dart';
-
-extension NotusDocumentEx on NotusDocument {
-  String get toHTML {
-    return ZeyfrHelper.notusDocumentToHTML(this);
-  }
-}
-
-extension StringEx on String {
-  NotusDocument get htmlToNotusDocument {
-    return ZeyfrHelper.htmlToNotusDocument(this);
-  }
-}
+import 'package:jobxprss_company/method_extension.dart';
+export 'package:jobxprss_company/method_extension.dart';
+//extension NotusDocumentEx on NotusDocument {
+//  String get toHTML {
+//    return ZeyfrHelper.notusDocumentToHTML(this);
+//  }
+//}
+//
+//extension StringEx on String {
+//  NotusDocument get htmlToNotusDocument {
+//    return ZeyfrHelper.htmlToNotusDocument(this);
+//  }
+//}
 
 class CustomZefyrRichTextFormField extends StatelessWidget {
   final ZefyrController controller;

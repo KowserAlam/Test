@@ -112,6 +112,7 @@ class JobListTileWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       iconSize: 18,
       tooltip: "Menu",
+      key: Key('menuButtonKey$index'),
       icon: Icon(FontAwesomeIcons.ellipsisV),
       onPressed: () {
         _showBottomSheet(context);
@@ -147,6 +148,7 @@ class JobListTileWidget extends StatelessWidget {
         : SizedBox();
 
     var publishDate = Row(
+      key: Key('publishedDateKey'),
       children: <Widget>[
         Icon(
           FeatherIcons.calendar,
@@ -345,6 +347,7 @@ class JobListTileWidget extends StatelessWidget {
           ),
 
         ListTile(
+          key: Key('menuPreviewJobDetailsKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToJobDetailsScreen();
@@ -386,6 +389,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
         // view applications
         ListTile(
+          key: Key('menuViewApplicationsTextKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToApplicationsScreen();

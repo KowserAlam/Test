@@ -56,6 +56,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
           appError: jobListViewModel.appError.value,
           onRefresh: jobListViewModel.refresh,
           child: ListView(
+            key: Key('manageJobsListViewKey'),
             physics: AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
             children: [
@@ -65,6 +66,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(StringResources.noJobsFound),
+                        key: Key('noJobsFoundKey'),
                       ),
                     )
                   : Center(

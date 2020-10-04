@@ -1,6 +1,8 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
 
+import 'main_app/util/zefyr_helper.dart';
+
 extension DateTimeExtension on DateTime {
   String get toYYYMMDDString {
     if (this != null)
@@ -21,7 +23,17 @@ extension DateTimeExtension on DateTime {
   }
 }
 
+extension NotusDocumentEx on NotusDocument {
+  String get toHTML {
+    return ZeyfrHelper.notusDocumentToHTML(this);
+  }
+}
+
 extension StringExtension on String {
+
+  NotusDocument get htmlToNotusDocument {
+    return ZeyfrHelper.htmlToNotusDocument(this);
+  }
   bool get isEmptyOrNull {
     if (this != null) {
       return this.isEmpty;

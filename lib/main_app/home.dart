@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
       child: FlavorBanner(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appbarTitle),
+            title: Text(appbarTitle, key: Key('appBarTitleKey'),),
             actions: [
               IconButton(
                 icon: Icon(FontAwesomeIcons.solidComments),
@@ -211,7 +211,11 @@ class _HomeState extends State<Home> {
             },
             controller: _paeViewController,
             children: <Widget>[
-              DashBoardScreen(),
+              DashBoardScreen(
+                onTapJobPosted: (){_modeToPage(1);},
+                onTapApplications: (){_modeToPage(2);},
+                onTapShortlisted: (){},
+              ),
               ManageJobsScreen(),
 //              ManageCandidateScreen(),
               ManageCandidateScreenAll(),

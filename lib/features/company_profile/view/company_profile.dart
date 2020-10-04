@@ -207,13 +207,14 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
       sectionBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (companyDetails?.companyProfile != null)
-            _htmlItem(
-                context: context,
-                label: StringResources.companyProfileText,
-                value: companyDetails.companyProfile,
-                valueKey: null),
-          SizedBox(height: 5),
+          companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?
+          HtmlWidget(companyDetails.companyProfile):SizedBox(),
+//            _htmlItem(
+//                context: context,
+//                label: StringResources.companyProfileText,
+//                value: companyDetails.companyProfile,
+//                valueKey: null),
+          SizedBox(height: companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?5:0),
           companyProfileFormattedText(
               StringResources.companyYearsOfEstablishmentText,
               companyDetails.yearOfEstablishment != null
@@ -401,6 +402,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                                 },
                                 child: Text(
                                   companyDetails.webAddress,
+                                  key: Key('companyViewProfileWebAddress'),
                                   style: TextStyle(color: Colors.lightBlue),
                                 )),
                           )
@@ -436,9 +438,6 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                       Row(
                         children: [
                           Text('Facebook: ', style: descriptionFontStyleBold),
-                          SizedBox(
-                            width: 5,
-                          ),
                           GestureDetector(
                               onTap: () {
                                 UrlLauncherHelper.launchUrl(
@@ -465,9 +464,6 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                       Row(
                         children: [
                           Text('BdJobs: ', style: descriptionFontStyleBold),
-                          SizedBox(
-                            width: 5,
-                          ),
                           GestureDetector(
                               onTap: () {
                                 UrlLauncherHelper.launchUrl(
@@ -496,9 +492,6 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                           Text(
                             'Google: ',
                             style: descriptionFontStyleBold,
-                          ),
-                          SizedBox(
-                            width: 5,
                           ),
                           GestureDetector(
                               onTap: () {
