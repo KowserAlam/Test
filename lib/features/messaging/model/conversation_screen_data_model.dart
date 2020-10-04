@@ -55,11 +55,11 @@ class Message {
   int receiver;
   String receiverType;
 //  ReceiverCompany receiverCompany;
-//  ReceiverPro receiverPro;
+ ReceiverPro receiverPro;
   int sender;
   String senderType;
 //  ReceiverCompany senderCompany;
-//  ReceiverPro senderPro;
+ ReceiverPro senderPro;
   DateTime createdAt;
 
   Message(
@@ -71,7 +71,7 @@ class Message {
         this.sender,
         this.senderType,
 //        this.senderCompany,
-//        this.senderPro,
+       this.senderPro,
         this.createdAt});
 
   Message.fromJson(Map<String, dynamic> json) {
@@ -89,9 +89,9 @@ class Message {
 //    senderCompany = json['sender_company'] != null
 //        ? new ReceiverCompany.fromJson(json['sender_company'])
 //        : null;
-//    senderPro = json['sender_pro'] != null
-//        ? new ReceiverPro.fromJson(json['sender_pro'])
-//        : null;
+   senderPro = json['sender_pro'] != null
+       ? new ReceiverPro.fromJson(json['sender_pro'])
+       : null;
     if(json['created_at'] != null){
       createdAt = DateTime.parse(json['created_at']);
     }

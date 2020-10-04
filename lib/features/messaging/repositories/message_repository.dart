@@ -56,7 +56,7 @@ class MessageRepository {
 //      logger.i(response.body);
       if (response.statusCode == 200) {
         var decodesJson = json.decode(utf8.decode(response.bodyBytes));
-        logger.i(decodesJson);
+        // logger.i(decodesJson);
         return Right(ConversationScreenDataModel.fromJson(decodesJson));
       } else if (response.statusCode == 401) {
         return Left(AppError.unauthorized);

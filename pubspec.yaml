@@ -22,7 +22,7 @@ dependencies:
   after_layout: ^1.0.7+2
   shared_preferences: ^0.5.12
   intl: ^0.16.1
-  page_view_indicators: ^1.3.2
+  page_view_indicators: ^1.4.0
   uuid: ^2.2.2
   image_cropper: ^1.3.1
   image_picker: ^0.6.7+11
@@ -36,10 +36,10 @@ dependencies:
   equatable: ^1.2.5
   connectivity: ^0.4.9+3
   logger: ^0.9.4
-  get_it: ^5.0.0
+  get_it: ^5.0.1
   flutter_typeahead: ^1.8.8
-  google_maps_flutter: ^0.5.33
-  webview_flutter: ^0.3.24
+  google_maps_flutter: ^1.0.2
+  webview_flutter: ^1.0.0
   charts_flutter: ^0.9.0
   shimmer: ^1.1.1
   percent_indicator: ^2.1.7+4
@@ -48,22 +48,26 @@ dependencies:
   flutter_cache: ^0.0.6
   permission_handler: ^5.0.1+1
   geolocator: 5.3.2+2
-  flutter_widget_from_html_core: ^0.5.0+5
+  flutter_widget_from_html_core: ^0.5.0+6
   quill_delta: ^1.1.3
   notustohtml: ^0.0.7
-  zefyr: ^0.11.0
+  zefyr: ^0.12.0
   flutter_linkify: ^3.1.3
   social_share: ^2.0.5
   get: ^3.12.1
-  velocity_x: ^0.4.1
+  socket_io_client: ^0.9.11
+#  velocity_x: ^0.4.1
 
 
 dependency_overrides:
-  zefyr:
-    git:
-      url: https://github.com/memspace/zefyr.git
-      path: packages/zefyr
-      commit: 6951cba588c55ccb46399efa517fc44a938539af
+  platform: 3.0.0-nullsafety.1
+
+
+#  zefyr:
+#    git:
+#      url: https://github.com/memspace/zefyr.git
+#      path: packages/zefyr
+#      commit: ea6c29a7cfce3091b07fd0a37f081bb0f16d2361
 
 
 dev_dependencies:
@@ -72,8 +76,8 @@ dev_dependencies:
   test:
   flutter_driver:
     sdk: flutter
-  flutter_launcher_icons: ^0.8.0
-  flutter_flavorizr: ^1.0.7
+  flutter_launcher_icons: ^0.8.1
+#    flutter_flavorizr: ^1.0.7
 
 
 flutter_icons:
