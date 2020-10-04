@@ -55,16 +55,16 @@ class _ConversationScreenState extends State<ConversationScreen>
         appBar: AppBar(
           title: Text(widget?.senderModel?.otherPartyName ?? ""),
           actions: [
-            IconButton(
-              onPressed: vm.isFetchingData ? null : () {
-                vm.refresh(widget.senderModel.otherPartyUserId);
-
-                _scrollController.animateTo(
-                    _scrollController.initialScrollOffset,
-                    duration: Duration(milliseconds: 500), curve:Curves.easeIn);
-              },
-              icon: vm.isFetchingData ? Loader() : Icon(Icons.refresh),
-            ),
+            // IconButton(
+            //   onPressed: vm.isFetchingData ? null : () {
+            //     vm.refresh(widget.senderModel.otherPartyUserId);
+            //
+            //     _scrollController.animateTo(
+            //         _scrollController.initialScrollOffset,
+            //         duration: Duration(milliseconds: 500), curve:Curves.easeIn);
+            //   },
+            //   icon: vm.isFetchingData ? Loader() : Icon(Icons.refresh),
+            // ),
           ],
         ),
 //      drawer: AppDrawer(),

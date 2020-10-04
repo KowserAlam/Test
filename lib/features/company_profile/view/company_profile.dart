@@ -135,7 +135,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
           TextSpan(text: ': ', style: descriptionFontStyleBold),
           TextSpan(
               text:
-                  description == null ? StringResources.noneText : description,
+                  description == null ? "": description,
               style: descriptionFontStyle),
         ]),
         style: descriptionFontStyle,
@@ -173,7 +173,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          companyDetails.name ?? StringResources.noneText,
+                          companyDetails.name ?? "",
                           style: headerTextStyle,
                         ),
                       ),
@@ -220,7 +220,7 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
               companyDetails.yearOfEstablishment != null
                   ? DateFormatUtil.formatDate(
                       companyDetails.yearOfEstablishment)
-                  : StringResources.noneText),
+                  :""),
           companyDetails.basisMembershipNo != null
               ? SizedBox(
                   height: 5,
