@@ -215,12 +215,11 @@ class _CompanyProfileState extends State<CompanyProfile> with AfterLayoutMixin {
 //                value: companyDetails.companyProfile,
 //                valueKey: null),
           SizedBox(height: companyDetails.companyProfile.htmlToNotusDocument.toPlainText().length != 1?5:0),
+          companyDetails.yearOfEstablishment != null ?
           companyProfileFormattedText(
               StringResources.companyYearsOfEstablishmentText,
-              companyDetails.yearOfEstablishment != null
-                  ? DateFormatUtil.formatDate(
-                      companyDetails.yearOfEstablishment)
-                  : StringResources.noneText),
+              DateFormatUtil.formatDate(
+                  companyDetails.yearOfEstablishment)):SizedBox(),
           companyDetails.basisMembershipNo != null
               ? SizedBox(
                   height: 5,
