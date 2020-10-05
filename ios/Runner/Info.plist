@@ -37,12 +37,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You need to provide photo album access to upload profile image.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs your location to show yor location on Maps.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires accessing your  Camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to show yor location on Maps.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You need to provide photo album access to upload profile image.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>$(ASSET_PREFIX)LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -50,8 +50,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
