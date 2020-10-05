@@ -2,31 +2,39 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/models/company.dart';
 import 'package:jobxprss_company/features/company_profile/repositories/company_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 
-class CompanyProfileViewModel with ChangeNotifier {
+class CompanyProfileViewModel extends GetxController {
   Company _company;
   bool _isLoading = false;
   AppError _appError;
 
+
+  @override
+  void onInit() {
+    getCompanyDetails();
+    super.onInit();
+  }
+
   Future<bool> getCompanyDetails() async {
     _appError = null;
     _isLoading = true;
-    notifyListeners();
+    update();
     var res = await CompanyRepository().getCompanyFromServer();
 
     return res.fold((l) {
       _appError = l;
       _isLoading = false;
-      notifyListeners();
+      update();
       return true;
     }, (r) {
       _company = r;
       _isLoading = false;
-      notifyListeners();
+      update();
       return false;
     });
   }
@@ -35,7 +43,7 @@ class CompanyProfileViewModel with ChangeNotifier {
 
   set company(Company value) {
     _company = value;
-    notifyListeners();
+    update();
   }
 
   Future<bool> refresh() {

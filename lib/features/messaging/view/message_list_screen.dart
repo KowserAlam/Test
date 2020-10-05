@@ -27,8 +27,7 @@ class _MessageListScreenState extends State<MessageListScreen>
   
   @override
   void afterFirstLayout(BuildContext context) {
-    Provider.of<CompanyProfileViewModel>(context, listen: false)
-        .getCompanyDetails();
+    Get.find<CompanyProfileViewModel>().getCompanyDetails();
     // var notiVM =
     //     Provider.of<MessageSenderListScreenViewModel>(context, listen: false);
     _vm.getSenderList();

@@ -120,8 +120,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     bool isValid = _formKey.currentState.validate();
 
     if (isValid) {
-      var companyVm =
-          Provider.of<CompanyProfileViewModel>(context, listen: false);
+    //  var companyVm = Provider.of<CompanyProfileViewModel>(context, listen: false);
       Map<String, dynamic> data = {
         "year_of_eastablishment": yearOfEstablishment?.toYYYMMDDString,
         "legal_structure_of_this_company": _legalStructureTextController.text.getStringInNotNull,
@@ -155,11 +154,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         "longitude": longitude.toStringAsFixed(8) ?? null,
       };
       Logger().i(data);
-//
-//      if (profileImage != null) {
-//        data.addAll({"profile_picture": profileImage.readAsBytesSync()});
-//      }
-      var res = await companyVm.updateCompany(data, imageFile: profileImage);
+
+      var res = await Get.find<CompanyProfileViewModel>().updateCompany(data, imageFile: profileImage);
       if (res) {
         Navigator.pop(context);
       }

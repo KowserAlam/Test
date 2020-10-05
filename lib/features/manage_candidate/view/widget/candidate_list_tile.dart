@@ -38,7 +38,7 @@ class CandidateListTile extends StatelessWidget {
     var subTitleStyle = TextStyle(fontSize: 12, color: subtitleColor);
     double iconSize = 12;
 
-    var vm = Provider.of<CompanyProfileViewModel>(context);
+    // var vm = //Provider.of<CompanyProfileViewModel>(context);
 
     var name = Text(candidate.fullName ?? "");
     // candidate.

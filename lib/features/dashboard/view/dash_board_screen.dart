@@ -1,6 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/values.dart';
 import 'package:jobxprss_company/features/dashboard/view/widgets/info_box_widget.dart';
@@ -20,36 +21,42 @@ class DashBoardScreen extends StatefulWidget {
   final Function onTapApplications;
   final Function onTapJobPosted;
 
-  DashBoardScreen({Key key, this.onTapShortlisted, this.onTapApplications, this.onTapJobPosted})
+  DashBoardScreen(
+      {Key key,
+      this.onTapShortlisted,
+      this.onTapApplications,
+      this.onTapJobPosted})
       : super(key: key);
 
   @override
   _DashBoardScreenState createState() => _DashBoardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen>
-    with AfterLayoutMixin {
+class _DashBoardScreenState extends State<DashBoardScreen> {
+  var _ = Get.put(DashboardViewModel());
+  DashboardViewModel vm =  Get.find<DashboardViewModel>();
+
+
   @override
-  void afterFirstLayout(BuildContext context) {
-    Provider.of<DashboardViewModel>(context, listen: false)
-        .getDashboardData()
-        .then((value) {
+  void initState() {
+
+
+   vm.getDashboardData().then((value) {
       if (value == AppError.unauthorized) {
         _signOut(context);
         return;
       }
     });
 
-    var cvm = Provider.of<CompanyProfileViewModel>(context, listen: false);
+    var cvm = Get.find<CompanyProfileViewModel>();
     if (cvm.company == null) {
       cvm.getCompanyDetails();
     }
+    super.initState();
   }
 
   Future<void> _refreshData() async {
-    var dbVM = Provider.of<DashboardViewModel>(context, listen: false);
-//    var upVM = Provider.of<UserProfileViewModel>(context, listen: false);
-    return dbVM.getDashboardData();
+    return vm.getDashboardData();
   }
 
   _signOut(context) {
@@ -62,43 +69,6 @@ class _DashBoardScreenState extends State<DashBoardScreen>
   Widget build(BuildContext context) {
 
 
-    var dashboardViewModel = Provider.of<DashboardViewModel>(context);
-
-    errorWidget() {
-      switch (dashboardViewModel.infoBoxError) {
-        case AppError.serverError:
-          return FailureFullScreenWidget(
-            errorMessage: StringResources.unableToLoadData,
-            onTap: () {
-              return _refreshData();
-            },
-          );
-
-        case AppError.networkError:
-          return FailureFullScreenWidget(
-            errorMessage: StringResources.couldNotReachServer,
-            onTap: () {
-              return _refreshData();
-            },
-          );
-
-        case AppError.unauthorized:
-          return FailureFullScreenWidget(
-            errorMessage: StringResources.unauthorizedText,
-            onTap: () {
-              return _signOut(context);
-            },
-          );
-
-        default:
-          return FailureFullScreenWidget(
-            errorMessage: StringResources.somethingIsWrong,
-            onTap: () {
-              return _refreshData();
-            },
-          );
-      }
-    }
 
     return Scaffold(
 //      appBar: AppBar(
@@ -119,14 +89,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child:
-            //dashboardViewModel.shouldShowError
-            false
-                ? ListView(
-                    children: [
-                      errorWidget(),
-                    ],
-                  )
-                : ListView(
+         ListView(
                     children: [
                       Center(
                         child: Container(
@@ -141,9 +104,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                                 onTapJobPosted: widget.onTapJobPosted,
                               ),
                               DashboardValues.sizedBoxBetweenSection,
-                              JobChartWidget(
-                                animate: true,
-                              ),
+                              JobChartWidget(),
                               DashboardValues.sizedBoxBetweenSection,
                               OtherScreensWidget(),
                             ],

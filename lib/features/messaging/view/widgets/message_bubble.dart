@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/messaging/model/conversation_screen_data_model.dart';
 import 'package:jobxprss_company/features/messaging/model/message_sender_data_model.dart';
@@ -22,7 +23,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var primaryColor = Theme.of(context).primaryColor;
-    var userProfileVm = Provider.of<CompanyProfileViewModel>(context);
+    var userProfileVm =Get.find<CompanyProfileViewModel>();
     var userId = userProfileVm?.company?.user;
     bool isMe = userId == message.sender;
     var appUser = userProfileVm?.company;

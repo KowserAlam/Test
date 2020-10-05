@@ -37,12 +37,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Used to demonstrate image picker plugin</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to capture audio for image picker plugin</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to demonstrate image picker plugin</string>
+	<string>You need to provide photo album access to upload profile image.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to show yor location on Maps.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires accessing your  Camera</string>
 	<key>UILaunchStoryboardName</key>
 	<string>$(ASSET_PREFIX)LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

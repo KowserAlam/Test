@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/dashboard/models/skill_job_chart_data_model.dart';
 import 'package:jobxprss_company/features/dashboard/values.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
@@ -30,8 +31,8 @@ class JobChartWidget extends StatelessWidget {
           ],
         ),
         DashboardValues.sizedBoxBetweenSectionLabel,
-        Consumer<DashboardViewModel>(builder:
-            (BuildContext context, dashboardViewModel, Widget child) {
+        GetBuilder<DashboardViewModel>(builder:
+            (DashboardViewModel dashboardViewModel,) {
           if (dashboardViewModel.shouldShowJoChartLoader) {
             return Container(
                 child: Shimmer.fromColors(

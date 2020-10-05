@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:jobxprss_company/features/dashboard/models/info_box_data_model.dart';
 import 'package:jobxprss_company/features/dashboard/models/skill_job_chart_data_model.dart';
 import 'package:jobxprss_company/features/dashboard/repositories/dashboard_repository.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
-import 'package:jobxprss_company/main_app/util/common_serviec_rule.dart';
 
-class DashboardViewModel with ChangeNotifier {
+class DashboardViewModel extends GetxController {
   AppError _infoBoxError;
   AppError _skillJobChartError;
   InfoBoxDataModel _infoBoxData;
@@ -18,7 +17,7 @@ class DashboardViewModel with ChangeNotifier {
     _isLoadingSkillJobChartData = true;
     _infoBoxError = null;
     _skillJobChartError = null;
-    notifyListeners();
+    update();
     return Future.wait([
       _getInfoBoxData(),
       _getISkillJobChartData(),
@@ -34,12 +33,12 @@ class DashboardViewModel with ChangeNotifier {
     return result.fold((l) {
       _infoBoxError = l;
       _isLoadingInfoBoxData = false;
-      notifyListeners();
+      update();
       return false;
     }, (r) {
       _infoBoxData = r;
       _isLoadingInfoBoxData = false;
-      notifyListeners();
+      update();
       return true;
     });
   }
@@ -50,12 +49,12 @@ class DashboardViewModel with ChangeNotifier {
     return result.fold((l) {
       _skillJobChartError = l;
       _isLoadingSkillJobChartData = false;
-      notifyListeners();
+      update();
       return false;
     }, (r) {
       _skillJobChartData = r;
       _isLoadingSkillJobChartData = false;
-      notifyListeners();
+      update();
       return true;
     });
   }

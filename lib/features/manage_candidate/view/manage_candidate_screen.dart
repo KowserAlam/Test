@@ -20,7 +20,7 @@ class ManageCandidateScreen extends StatefulWidget {
 class _ManageCandidateScreenState extends State<ManageCandidateScreen> {
   ManageCandidateVewModel manageCandidateVm;
   _ManageCandidateScreenState(String jobId){
-    Get.put(ManageCandidateVewModel(),tag: jobId,permanent: true);
+    Get.put(ManageCandidateVewModel(),tag: jobId);
 
     manageCandidateVm = Get.find<ManageCandidateVewModel>(tag:jobId);
     manageCandidateVm.getData(jobId);

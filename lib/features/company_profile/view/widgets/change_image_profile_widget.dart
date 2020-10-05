@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
@@ -70,7 +71,7 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
 
   @override
   Widget build(BuildContext context) {
-    var companyVm = Provider.of<CompanyProfileViewModel>(context);
+
     var primaryColor = Theme.of(context).primaryColor;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -93,15 +94,15 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
                               fileProfileImage,
                               fit: BoxFit.cover,
                             )
-                          : CachedNetworkImage(
+                          : GetBuilder(builder: (companyVm)=> CachedNetworkImage(
                               placeholder: (context, _) => Image.asset(
                                 kCompanyImagePlaceholder,
                                 fit: BoxFit.cover,
                               ),
                               fit: BoxFit.cover,
                               imageUrl:
-                                  companyVm?.company?.profilePicture ?? "",
-                            ),
+                              companyVm?.company?.profilePicture ?? "",
+                            )),
                     )),
               ),
             ),
