@@ -128,7 +128,7 @@ class _MemberShipListItemState extends State<MemberShipListItem> {
               HtmlWidget(widget.memberShip.description),
               SizedBox(height: 7,)
             ],
-          ):SizedBox()
+          ):SizedBox(height: 8,)
         ],
       ),
     );
