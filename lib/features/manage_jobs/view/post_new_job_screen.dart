@@ -255,25 +255,25 @@ class _PostNewJobScreenState extends State<PostNewJobScreen> {
         var appBarText = isEditMode && !widget.copyAsNew
             ? widget?.jobModel?.title!=null? "UPDATE JOB":""
             : StringResources.postJobText;
-        return ZefyrScaffold(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(appBarText, key: Key('postJobAppBarKey'),),
-              actions: [
-                if(!isEditMode || widget.copyAsNew)
-                EditScreenSaveButton(
-                  key: Key('postJobDraftButtonKey'),
-                  onPressed:()=>_handlePost(),
-                  text: "Draft",
-                ),
-                EditScreenSaveButton(
-                  key: Key('postJobPostAndUpdateButtonKey'),
-                  onPressed:()=>_handlePost(true),
-                  text: isEditMode && !widget.copyAsNew ? "Update" : "Post",
-                ),
-              ],
-            ),
-            body: SingleChildScrollView(
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(appBarText, key: Key('postJobAppBarKey'),),
+            actions: [
+              if(!isEditMode || widget.copyAsNew)
+              EditScreenSaveButton(
+                key: Key('postJobDraftButtonKey'),
+                onPressed:()=>_handlePost(),
+                text: "Draft",
+              ),
+              EditScreenSaveButton(
+                key: Key('postJobPostAndUpdateButtonKey'),
+                onPressed:()=>_handlePost(true),
+                text: isEditMode && !widget.copyAsNew ? "Update" : "Post",
+              ),
+            ],
+          ),
+          body: ZefyrScaffold( 
+            child: SingleChildScrollView(
               key: Key('singleChildScrollViewKey'),
               padding: EdgeInsets.all(8),
               child: Form(

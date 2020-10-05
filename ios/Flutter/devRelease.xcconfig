@@ -3,4 +3,4 @@
 FLUTTER_TARGET=lib/main-dev.dart
 
 ASSET_PREFIX=dev
-BUNDLE_NAME=JobXprss Company Dev
+BUNDLE_NAME=JobXprss for Company Dev

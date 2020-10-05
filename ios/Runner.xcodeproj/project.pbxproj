@@ -476,6 +476,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -613,6 +614,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -644,6 +646,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -742,6 +745,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 33C1A502E0E87122B72DB3DE /* Pods-Runner.debug prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
@@ -752,6 +756,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47260720AD5D37BFEA8BE23D /* Pods-Runner.profile prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
@@ -762,6 +767,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1FA6DE777D81AFABAF5AECCF /* Pods-Runner.release prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
@@ -772,8 +778,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 39B4CD124DE8870873FCE16E /* Pods-Runner.debug dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
 			};
 			name = "Debug dev";
@@ -782,8 +789,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1269FCC78F97D0F2ED670AA0 /* Pods-Runner.profile dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
 			};
 			name = "Profile dev";
@@ -792,8 +800,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C38FA03093288122AE14190 /* Pods-Runner.release dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 974BJ76Z86;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jobxprss-company";
 				PRODUCT_NAME = Runner;
 			};
 			name = "Release dev";
