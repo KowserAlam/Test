@@ -199,11 +199,13 @@ class _JobDetailsState extends State<JobDetails> {
       ));
     }else if(choice == StringResources.postText){
       vm.changeJobStatus(JobStatus.POSTED, jobDetails.jobId, widget.index);
-
+      getJobDetails();
     }else if(choice == StringResources.publishText){
       vm.changeJobStatus(JobStatus.PUBLISHED, jobDetails.jobId, widget.index);
+      getJobDetails();
     }else if(choice == StringResources.unpublishText){
       vm.changeJobStatus(JobStatus.UNPUBLISHED, jobDetails.jobId, widget.index);
+      getJobDetails();
     }else if(choice == StringResources.viewApplicationsText){
       Get.to(ManageCandidateScreen(jobDetails.jobId));
     }

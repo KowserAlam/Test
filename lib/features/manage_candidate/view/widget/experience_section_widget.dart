@@ -122,7 +122,7 @@ class _ExperienceListItemState extends State<ExperienceListItem> {
             children: [
               HtmlWidget(widget.experienceInfoModel.description),
             ],
-          ):SizedBox(height: 6,)
+          ):SizedBox(height: 8,)
         ],
       ),
     );
