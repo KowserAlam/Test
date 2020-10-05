@@ -141,6 +141,7 @@ class _EducationsListItemState extends State<EducationsListItem> {
           ExpansionTile(
             title: null,
             expandedAlignment: Alignment.centerLeft,
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
             tilePadding: EdgeInsets.zero,
             children: [
               widget.eduInfoModel.educationLevel!=null?Padding(
@@ -150,12 +151,10 @@ class _EducationsListItemState extends State<EducationsListItem> {
               if(widget.eduInfoModel.majorText!=null)_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
               if(widget.eduInfoModel.cgpa!=null)_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
               if(widget.eduInfoModel.degreeText!=null)_item(context: context, label: StringResources.degreeText, value: widget.eduInfoModel.degreeText, valueKey: null),
-              widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1?Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: HtmlWidget(widget.eduInfoModel.description),
-                ),
+              widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1?
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: HtmlWidget(widget.eduInfoModel.description),
               ):SizedBox(),
             ],
           ),
