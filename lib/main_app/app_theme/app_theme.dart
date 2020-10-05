@@ -61,10 +61,10 @@ class AppTheme {
       end: Alignment.topCenter,
       colors: [Colors.grey[600], Colors.grey[500]]);
 
-  static final fontFamily = GoogleFonts.roboto().fontFamily;
+  // static final fontFamily = GoogleFonts.roboto().fontFamily;
 
   static final ThemeData lightTheme = ThemeData(
-    fontFamily: fontFamily,
+    // fontFamily: fontFamily,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
     backgroundColor: lightScaffoldColor,

@@ -75,7 +75,7 @@ class JobPostViewModel with ChangeNotifier {
       //   return data;
       // });
 
-      data.removeWhere((key, value) => value == null);
+      // data.removeWhere((key, value) => value == null);
       // var cid = await AuthService.getInstance().then((value)=>value.getUser().name);
 
       var url = "${Urls.updateJobUrl}$jid/";

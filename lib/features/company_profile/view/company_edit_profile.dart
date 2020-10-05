@@ -177,23 +177,23 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   Widget build(BuildContext context) {
 // var editProfileVm = Provider.of<CompanyEditProfileViewModel>(context);
 
-    return ZefyrScaffold(
-      child: Scaffold(
-        
-        appBar: AppBar(
-          title: Text(
-            StringResources.updateInfoText,
-            key: Key('companyEditProfileAppBarKey'),
-          ),
-          actions: [
-            EditScreenSaveButton(
-              text: StringResources.saveText,
-              key: Key('editProfileSaveButton'),
-              onPressed: _handleSave,
-            )
-          ],
+    return Scaffold(
+      
+      appBar: AppBar(
+        title: Text(
+          StringResources.updateInfoText,
+          key: Key('companyEditProfileAppBarKey'),
         ),
-        body: ListView(
+        actions: [
+          EditScreenSaveButton(
+            text: StringResources.saveText,
+            key: Key('editProfileSaveButton'),
+            onPressed: _handleSave,
+          )
+        ],
+      ),
+      body: ZefyrScaffold(
+        child: ListView(
           key: Key('companyEditProfileListViewKey'),
           children: [
             Padding(

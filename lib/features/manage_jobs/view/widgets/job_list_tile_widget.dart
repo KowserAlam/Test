@@ -262,14 +262,14 @@ class JobListTileWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: publishDateText.isEmptyOrNull?SizedBox():
                               publishDate,
                             ),
                             Expanded(
-                                flex: 3,
+                                flex: 4,
                                 child: applicationDeadlineWidget),
-                            Expanded(flex: 2, child: viewApplications),
+                            viewApplications,
                           ],
                         ),
                       ),
@@ -459,6 +459,7 @@ class JobListTileWidget extends StatelessWidget {
         BotToast.closeAllLoading();
       }, (r) {
         BotToast.closeAllLoading();
+        r.title+=" (copy)";
         Get.to(PostNewJobScreen(
           jobModel: r,
           copyAsNew: copyAsNew,
