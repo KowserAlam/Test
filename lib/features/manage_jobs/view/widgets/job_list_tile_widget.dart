@@ -456,6 +456,7 @@ class JobListTileWidget extends StatelessWidget {
         BotToast.closeAllLoading();
       }, (r) {
         BotToast.closeAllLoading();
+        r.title+=" (copy)";
         Get.to(PostNewJobScreen(
           jobModel: r,
           copyAsNew: copyAsNew,
