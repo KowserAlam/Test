@@ -207,9 +207,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             companyDetails.companyProfile.htmlToNotusDocument
-                        .toPlainText()
-                        .length !=
-                    1
+                        .toPlainText().trim()
+                        .length != 0
                 ? HtmlWidget(companyDetails.companyProfile)
                 : SizedBox(),
 //            _htmlItem(
@@ -219,17 +218,15 @@ class _CompanyProfileState extends State<CompanyProfile> {
 //                valueKey: null),
             SizedBox(
                 height: companyDetails.companyProfile.htmlToNotusDocument
-                            .toPlainText()
-                            .length !=
-                        1
+                            .toPlainText().trim()
+                    .length != 0
                     ? 5
                     : 0),
-            companyProfileFormattedText(
+            companyDetails.yearOfEstablishment != null
+                ?companyProfileFormattedText(
                 StringResources.companyYearsOfEstablishmentText,
-                companyDetails.yearOfEstablishment != null
-                    ? DateFormatUtil.formatDate(
-                        companyDetails.yearOfEstablishment)
-                    : ""),
+                 DateFormatUtil.formatDate(
+                        companyDetails.yearOfEstablishment)):SizedBox(),
             companyDetails.basisMembershipNo != null
                 ? SizedBox(
                     height: 5,
