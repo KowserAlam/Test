@@ -78,6 +78,7 @@ class _CandidateProfileScreenState extends State<CandidateProfileScreen> {
                         ReferenceSection(vm.candidate.value.referenceData),
                         spaceBetweenSectionSizedBox,
                         PersonalInfoWidget(vm.candidate.value.personalInfo),
+                        spaceBetweenSectionSizedBox,
                       ],
                     ),
                   ),

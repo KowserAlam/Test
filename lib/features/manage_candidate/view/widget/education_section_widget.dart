@@ -61,9 +61,9 @@ class _EducationsListItemState extends State<EducationsListItem> {
           @required String label,
           @required String value,
           @required Key valueKey}) {
-//    double width = MediaQuery.of(context).size.width > 720 ? 160 : 130;
+
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 2),
+        padding: EdgeInsets.symmetric(vertical: 4),
         child: Row(
           crossAxisAlignment:CrossAxisAlignment.start,
           children: [
@@ -138,32 +138,41 @@ class _EducationsListItemState extends State<EducationsListItem> {
               ),
             ],
           ),
-          SizedBox(height: 8,),
-          widget.eduInfoModel.educationLevel!=null?Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2),
-            child: Text(widget.eduInfoModel.educationLevel),
-          ):SizedBox(),
-          if(widget.eduInfoModel.majorText!=null && expanded)_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
-          if(widget.eduInfoModel.cgpa!=null && expanded)_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
-          if(widget.eduInfoModel.degreeText!=null && expanded)_item(context: context, label: StringResources.degreeText, value: widget.eduInfoModel.degreeText, valueKey: null),
-          expanded?Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: HtmlWidget(widget.eduInfoModel.description),
-          ):SizedBox(),
-          expandable()?InkWell(
-            onTap: (){
-              setState(() {
-                expanded = !expanded;
-              });
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: expanded?Colors.orange:Colors.transparent,
-                    border: Border.all(color: expanded?Colors.deepOrangeAccent:Colors.grey[300], width: 1)
+          ExpansionTile(
+            title: null,
+            expandedAlignment: Alignment.centerLeft,
+            tilePadding: EdgeInsets.zero,
+            children: [
+              widget.eduInfoModel.educationLevel!=null?Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Text(widget.eduInfoModel.educationLevel),
+              ):SizedBox(),
+              if(widget.eduInfoModel.majorText!=null)_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
+              if(widget.eduInfoModel.cgpa!=null)_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
+              if(widget.eduInfoModel.degreeText!=null)_item(context: context, label: StringResources.degreeText, value: widget.eduInfoModel.degreeText, valueKey: null),
+              widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1?Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: HtmlWidget(widget.eduInfoModel.description),
                 ),
-                child: Icon(expanded?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, color: expanded?Colors.white:Colors.black,)),
-          ):SizedBox()
+              ):SizedBox(),
+            ],
+          ),
+//          expandable()?InkWell(
+//            onTap: (){
+//              setState(() {
+//                expanded = !expanded;
+//              });
+//            },
+//            child: Container(
+//                decoration: BoxDecoration(
+//                    shape: BoxShape.circle,
+//                    color: expanded?Colors.orange:Colors.transparent,
+//                    border: Border.all(color: expanded?Colors.deepOrangeAccent:Colors.grey[300], width: 1)
+//                ),
+//                child: Icon(expanded?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, color: expanded?Colors.white:Colors.black,)),
+//          ):SizedBox()
         ],
       ),
     );

@@ -45,13 +45,13 @@ class ExperienceListItem extends StatefulWidget {
 }
 
 class _ExperienceListItemState extends State<ExperienceListItem> {
-  bool expanded = false;
   bool expandable(){
     if(widget.experienceInfoModel.description.htmlToNotusDocument.toPlainText().length>1){
       return true;
     }
     return false;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +63,14 @@ class _ExperienceListItemState extends State<ExperienceListItem> {
     String date = "$startDate"
         "- ${widget.experienceInfoModel.endDate == null ? "Ongoing" : DateFormatUtil().dateFormat1(widget.experienceInfoModel.endDate)}";
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 5000),
+    return Container(
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
         borderRadius: BorderRadius.circular(5),
         boxShadow: CommonStyle.boxShadow,
       ),
-      padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 5),
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -115,27 +114,15 @@ class _ExperienceListItemState extends State<ExperienceListItem> {
               ),
             ],
           ),
-          SizedBox(height: 8,),
-          expanded?HtmlWidget(widget.experienceInfoModel.description):SizedBox(),
-          expandable()?Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          expandable()?ExpansionTile(
+            tilePadding: EdgeInsets.zero,
+            title: null,
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            expandedAlignment: Alignment.centerLeft,
             children: [
-              InkWell(
-                onTap: (){
-                  setState(() {
-                    expanded = !expanded;
-                  });
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: expanded?Colors.orange:Colors.transparent,
-                        border: Border.all(color: expanded?Colors.deepOrangeAccent:Colors.grey[300], width: 1)
-                    ),
-                    child: Icon(expanded?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, color: expanded?Colors.white:Colors.black,)),
-              )
+              HtmlWidget(widget.experienceInfoModel.description),
             ],
-          ):SizedBox(),
+          ):SizedBox()
         ],
       ),
     );
