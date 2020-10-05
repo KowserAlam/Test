@@ -180,6 +180,7 @@ class _HomeState extends State<Home> {
             title: Text(appbarTitle, key: Key('appBarTitleKey'),),
             actions: [
               IconButton(
+                key: Key('messageIconButtonOnAppbar'),
                 icon: Icon(FontAwesomeIcons.solidComments),
                 iconSize: 18,
                 onPressed: () {

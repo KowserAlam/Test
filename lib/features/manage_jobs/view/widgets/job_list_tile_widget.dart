@@ -34,9 +34,9 @@ class JobListTileWidget extends StatelessWidget {
     String deadLineText = jobModel.applicationDeadline != null
         ? jobModel.applicationDeadline.isBefore(DateTime.now())
             ? 'Date Expired'
-            : jobModel.applicationDeadline
+            : (jobModel.applicationDeadline
                     .difference(DateTime.now())
-                    .inDays
+                    .inDays+1)
                     .toString() +
                 ' day(s) remaining'
         : "";
@@ -82,6 +82,7 @@ class JobListTileWidget extends StatelessWidget {
         : true;
 
     var viewApplications = Tooltip(
+      key: Key('manageCandidatesTileViewApplicationsKey$index'),
       message: "View Applications",
       child: InkWell(
         onTap: () {
@@ -366,6 +367,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
 //edit
         ListTile(
+          key: Key('editJobKey'),
           onTap: allowEdit
               ? () {
                   Navigator.pop(context);
@@ -383,6 +385,7 @@ class JobListTileWidget extends StatelessWidget {
         ),
 //copy
         ListTile(
+          key: Key('copyAsNewJobKey'),
           onTap: () {
             Navigator.pop(context);
             _navigateToEditNNewJobScreen(true);
@@ -444,7 +447,7 @@ class JobListTileWidget extends StatelessWidget {
   }
 
   _navigateToJobDetailsScreen() {
-    Get.to(JobDetails(jobModel.slug));
+    Get.to(JobDetails(jobModel.slug, index));
     // Navigator.of(context).push(CupertinoPageRoute(
     //     builder: (context) => JobDetails(jobModel.slug)));
   }

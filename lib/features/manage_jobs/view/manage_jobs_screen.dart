@@ -89,6 +89,7 @@ class _JobListWidget extends StatelessWidget {
     var jobList = jobListViewModel.jobList;
     return Obx((){
       return ListView.builder(
+        key: Key('manageJobsScreenListViewKey'),
           padding: EdgeInsets.symmetric(vertical: 4),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,

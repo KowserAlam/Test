@@ -76,6 +76,42 @@ Future<void> manageJobsTest()async{
       await driver.tap(Keys.bottomNavBarManageJobsKey);
     });
 
+    test('Check On tile Applications button working which is to see that job applied candidates', () async {
+      await driver.tap(Keys.manageCandidatesTileViewApplicationsKey1);
+      await expect(await driver.getText(Keys.manageCandidatesAppBarTextKey), 'Manage Candidates');
+      await Future.delayed(const Duration(seconds: 4), () {});
+      await driver.tap(Keys.bottomNavBarManageJobsKey);
+    });
+
+    test('Check edit job is working', () async {
+      await driver.tap(Keys.menuButtonKey1);
+      await driver.tap(Keys.editJobKey);
+      await expect(await driver.getText(Keys.postJobAppBarKey), 'UPDATE JOB');
+      await Future.delayed(const Duration(seconds: 4), () {});
+      await driver.tap(Keys.postJobPostAndUpdateButtonKey);
+      await expect(await driver.getText(Keys.appBarTitleKey), 'Manage Jobs');
+    });
+
+    test('Check copy as new working', () async {
+      await driver.tap(Keys.menuButtonKey1);
+      await driver.tap(Keys.copyAsNewJobKey);
+      await expect(await driver.getText(Keys.postJobAppBarKey), 'POST JOB');
+      await Future.delayed(const Duration(seconds: 4), () {});
+      await driver.tap(Keys.jobTitleTextfieldKey);
+      await driver.enterText('Testing Automation Job Title');
+      await driver.tap(Keys.postJobDraftButtonKey);
+      await driver.scrollUntilVisible(Keys.manageJobsScreenListViewKey, find.text('Testing Automation Job Title') , dyScroll: -200);
+      await driver.scrollUntilVisible(Keys.manageJobsScreenListViewKey, Keys.appBarTitleKey , dyScroll: 200);
+    });
+
+    test('Check message icon button is working', () async {
+      await driver.tap(Keys.messageIconButtonOnAppbar);
+      await expect(await driver.getText(Keys.messageListScreenAppBarKey), 'Messages');
+      await Future.delayed(const Duration(seconds: 4), () {});
+      await driver.tap(Keys.backButton);
+      await expect(await driver.getText(Keys.appBarTitleKey), 'Manage Jobs');
+    });
+
   });
 
 }

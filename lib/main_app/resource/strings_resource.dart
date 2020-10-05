@@ -200,6 +200,10 @@ class StringResources {
   static var qualificationText = "Qualification";
   static var updateInfoText = "Update Info";
 
+  static var majorText = "Major";
+  static var cgpaText = "CGPA";
+  static var degreeText = "Degree";
+
 
   static String saveText = "Save";
   static String doneText = "Done";

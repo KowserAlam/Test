@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobxprss_company/features/manage_candidate/view/candidate_profile_sections/candidate_profile_experience.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_profile_header.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/certifications_section_widget.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/education_section_widget.dart';
@@ -79,6 +78,7 @@ class _CandidateProfileScreenState extends State<CandidateProfileScreen> {
                         ReferenceSection(vm.candidate.value.referenceData),
                         spaceBetweenSectionSizedBox,
                         PersonalInfoWidget(vm.candidate.value.personalInfo),
+                        spaceBetweenSectionSizedBox,
                       ],
                     ),
                   ),

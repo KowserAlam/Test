@@ -8,9 +8,11 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
+import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
+import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
 import 'package:jobxprss_company/main_app/api_helpers/url_launcher_helper.dart';
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/failure/app_error.dart';
@@ -26,8 +28,9 @@ import 'package:jobxprss_company/method_extension.dart';
 
 class JobDetails extends StatefulWidget {
   final String slug;
+  final int index;
 
-  JobDetails(this.slug);
+  JobDetails(this.slug, this.index);
 
   @override
   _JobDetailsState createState() => _JobDetailsState();
@@ -118,6 +121,92 @@ class _JobDetailsState extends State<JobDetails> {
       _isBusy = false;
       setState(() {});
     });
+  }
+
+
+//  List<ActionMenuOptions> choices(JobStatus jobStatus){
+//    bool allowEdit = jobStatus != JobStatus.PUBLISHED;
+//    bool isPublished = jobStatus == JobStatus.PUBLISHED;
+//    bool isDraft = jobStatus == JobStatus.DRAFT;
+//    bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
+//    return
+//      [
+//        ActionMenuOptions(title:'Edit', onTap: (){
+//
+//        }),
+//        ActionMenuOptions(title:'Copy as New', onTap: (){
+//
+//        })
+//      ];
+//  }
+
+  List<PopupMenuItem<String>> options(JobStatus jobStatus){
+    bool allowEdit = jobStatus != JobStatus.PUBLISHED;
+    bool isPublished = jobStatus == JobStatus.PUBLISHED;
+    bool isDraft = jobStatus == JobStatus.DRAFT;
+    bool isUnPublished = jobStatus == JobStatus.UNPUBLISHED;
+    bool isPosted = jobStatus == JobStatus.POSTED;
+    List<PopupMenuItem<String>> a = [];
+    if(allowEdit){
+      a.add(PopupMenuItem<String>(
+          value: StringResources.editText,
+          child: Text(StringResources.editText)));
+    }
+    if(isDraft){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.postText,
+        child: Text(StringResources.postText)));
+    }
+    if(isUnPublished){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.publishText,
+        child: Text(StringResources.publishText),));
+    }
+    if(isPublished){
+      a.add(PopupMenuItem<String>(
+        value: StringResources.unpublishText,
+        child: Text(StringResources.unpublishText),));
+    }
+    a.add(
+        PopupMenuItem<String>(
+          value: StringResources.copyAsNewText,
+          child: Text(StringResources.copyAsNewText),),
+    );
+    a.add(
+      PopupMenuItem<String>(
+        value: StringResources.viewApplicationsText,
+        child: Text(StringResources.viewApplicationsText),),
+    );
+//    if(isPosted){
+//      a.add(PopupMenuItem<String>(
+//        value: StringResources.unpublishText,
+//        child: Text(StringResources.unpublishText),));
+//    }
+    return a;
+  }
+
+  onOptionSelect(String choice){
+    var vm = Get.find<ManageJobViewModel>();
+    if(choice == StringResources.editText){
+      Get.to(PostNewJobScreen(
+        jobModel: jobDetails,
+        copyAsNew: false,
+      ));
+    }else if(choice == StringResources.copyAsNewText){
+      Get.to(PostNewJobScreen(
+        jobModel: jobDetails,
+        copyAsNew: true,
+      ));
+    }else if(choice == StringResources.postText){
+      vm.changeJobStatus(JobStatus.POSTED, jobDetails.jobId, widget.index);
+
+    }else if(choice == StringResources.publishText){
+      vm.changeJobStatus(JobStatus.PUBLISHED, jobDetails.jobId, widget.index);
+    }else if(choice == StringResources.unpublishText){
+      vm.changeJobStatus(JobStatus.UNPUBLISHED, jobDetails.jobId, widget.index);
+    }else if(choice == StringResources.viewApplicationsText){
+      Get.to(ManageCandidateScreen(jobDetails.jobId));
+    }
   }
 
 //  getCompany(JobModel jobModel) async{
@@ -844,15 +933,12 @@ class _JobDetailsState extends State<JobDetails> {
         title: Text(
           StringResources.jobDetailsAppBarTitle,
         ),
-        actions: [
-          IconButton(icon: Icon(FeatherIcons.edit),
-          onPressed: (){
-            Get.to(PostNewJobScreen(
-              jobModel: jobDetails,
-              copyAsNew: false,
-            ));
-          }
-          )
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: onOptionSelect,
+            itemBuilder: (BuildContext context){
+            return options(jobDetails.jobStatus);
+          })
         ],
       ),
       body: ListView(
@@ -994,3 +1080,4 @@ class _JobDetailsState extends State<JobDetails> {
 
 
 }
+

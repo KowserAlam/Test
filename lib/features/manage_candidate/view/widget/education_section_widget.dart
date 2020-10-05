@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobxprss_company/features/manage_candidate/models/edu_info.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/user_info_list_item.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/util/date_format_uitl.dart';
+import 'package:jobxprss_company/method_extension.dart';
 
 class EducationSectionWidget extends StatelessWidget {
   final List<EduInfo> eduInfo;
@@ -30,75 +32,146 @@ class EducationSectionWidget extends StatelessWidget {
 
 
 
-class EducationsListItem extends StatelessWidget {
+class EducationsListItem extends StatefulWidget {
   final EduInfo eduInfoModel;
 
   EducationsListItem(
       {@required this.eduInfoModel,});
 
   @override
+  _EducationsListItemState createState() => _EducationsListItemState();
+}
+
+class _EducationsListItemState extends State<EducationsListItem> {
+  bool expanded = false;
+  bool expandable(){
+    if(widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1
+      || widget.eduInfoModel.degree!= null
+      || widget.eduInfoModel.cgpa!=null
+      || widget.eduInfoModel.degreeText != null
+      || widget.eduInfoModel.educationLevel != null
+    ){return true;}else{
+      return false;
+    }
+  }
+  @override
   Widget build(BuildContext context) {
+    Widget _item(
+        {@required BuildContext context,
+          @required String label,
+          @required String value,
+          @required Key valueKey}) {
+
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          crossAxisAlignment:CrossAxisAlignment.start,
+          children: [
+            Text("$label: ",style: TextStyle(fontWeight: FontWeight.bold)),
+            Expanded(child: Text("${value ?? ""}", key: valueKey,)),
+          ],),
+      );
+    }
+    
     var backgroundColor = Theme.of(context).backgroundColor;
-    String graduationDateText = eduInfoModel.graduationDate != null
-        ? DateFormatUtil.formatDate(eduInfoModel.graduationDate)
+    String graduationDateText = widget.eduInfoModel.graduationDate != null
+        ? DateFormatUtil.formatDate(widget.eduInfoModel.graduationDate)
         : StringResources.ongoingText;
     String date =
-        "${eduInfoModel.enrolledDate != null ? DateFormatUtil.formatDate(eduInfoModel.enrolledDate) : ""} - $graduationDateText";
+        "${widget.eduInfoModel.enrolledDate != null ? DateFormatUtil.formatDate(widget.eduInfoModel.enrolledDate) : ""} - $graduationDateText";
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 9),
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 5),
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(5),
         boxShadow: CommonStyle.boxShadow,
       ),
-      child: Row(
+      child: Column(
         children: [
-          CachedNetworkImage(
-            imageUrl: eduInfoModel?.institutionObj?.image??"",
-            height: 61,
-            width: 61,
-            placeholder: (v,i)=>    Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Center(
-                child: Icon(
-                  FontAwesomeIcons.university,
-                  size: 45,
-                  color: Colors.grey[400],
+          Row(
+            children: [
+              CachedNetworkImage(
+                imageUrl: widget.eduInfoModel?.institutionObj?.image??"",
+                height: 61,
+                width: 61,
+                placeholder: (v,i)=>    Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.university,
+                      size: 45,
+                      color: Colors.grey[400],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
 
-          SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  eduInfoModel.institutionObj?.name ??
-                      eduInfoModel.institutionText ??
-                      "",style: Theme.of(context).textTheme.subtitle1,
-                ),
-                Column(
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("${eduInfoModel?.degreeText??eduInfoModel.degreeText??""}",style: TextStyle(fontSize: 13),),
+                  children: [
                     Text(
-                      date,
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      widget.eduInfoModel.institutionObj?.name ??
+                          widget.eduInfoModel.institutionText ??
+                          "",style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("${widget.eduInfoModel?.degreeText??widget.eduInfoModel.degreeText??""}",style: TextStyle(fontSize: 13),),
+                        Text(
+                          date,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+          ExpansionTile(
+            title: null,
+            expandedAlignment: Alignment.centerLeft,
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            tilePadding: EdgeInsets.zero,
+            children: [
+              widget.eduInfoModel.educationLevel!=null?Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Text(widget.eduInfoModel.educationLevel),
+              ):SizedBox(),
+              if(widget.eduInfoModel.majorText!=null)_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
+              if(widget.eduInfoModel.cgpa!=null)_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
+              if(widget.eduInfoModel.degreeText!=null)_item(context: context, label: StringResources.degreeText, value: widget.eduInfoModel.degreeText, valueKey: null),
+              widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1?
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: HtmlWidget(widget.eduInfoModel.description),
+              ):SizedBox(),
+            ],
+          ),
+//          expandable()?InkWell(
+//            onTap: (){
+//              setState(() {
+//                expanded = !expanded;
+//              });
+//            },
+//            child: Container(
+//                decoration: BoxDecoration(
+//                    shape: BoxShape.circle,
+//                    color: expanded?Colors.orange:Colors.transparent,
+//                    border: Border.all(color: expanded?Colors.deepOrangeAccent:Colors.grey[300], width: 1)
+//                ),
+//                child: Icon(expanded?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, color: expanded?Colors.white:Colors.black,)),
+//          ):SizedBox()
         ],
       ),
     );
