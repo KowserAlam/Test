@@ -94,7 +94,7 @@ class _ChangeProfileImageState extends State<ChangeProfileImage> {
                               fileProfileImage,
                               fit: BoxFit.cover,
                             )
-                          : GetBuilder(builder: (companyVm)=> CachedNetworkImage(
+                          : GetBuilder<CompanyProfileViewModel>(builder: (companyVm)=> CachedNetworkImage(
                               placeholder: (context, _) => Image.asset(
                                 kCompanyImagePlaceholder,
                                 fit: BoxFit.cover,

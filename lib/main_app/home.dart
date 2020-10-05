@@ -68,8 +68,11 @@ class _HomeState extends State<Home> {
     //       duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
     //
     // }
+currentIndex = index;
+    // _paeViewController.jumpToPage(index);
+    setState(() {
 
-    _paeViewController.jumpToPage(index);
+    });
   }
 
   @override
@@ -104,75 +107,24 @@ class _HomeState extends State<Home> {
             label: StringResources.profileText, key: Key('bottomNavBarProfileKey'),),
       ],
     );
-//    var bottomNavBar = BottomNavigationBar(
-////        selectedItemColor: Theme.of(context).primaryColor,
-////        unselectedItemColor: Colors.grey,
-//        onTap: (int index) {
-//          _paeViewController.animateToPage(index,
-//              duration: const Duration(milliseconds: 400),
-//              curve: Curves.easeInOut);
-//        },
-//        currentIndex: currentIndex,
-//        iconSize: 17,
-//        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-//        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-//        selectedFontSize: 10,
-//        unselectedFontSize: 10,
-//        type: BottomNavigationBarType.fixed,
-//        items: [
-//          // dashboard
-//          BottomNavigationBarItem(
-//              icon: Padding(
-//                padding: const EdgeInsets.only(
-//                  bottom: 3,
-//                ),
-//                child: Icon(
-//                  FontAwesomeIcons.home,
-//                ),
-//              ),
-//              title: Text(StringResources.dashBoardText)),
-//          //manageJobs
-//          BottomNavigationBarItem(
-//              icon: Padding(
-//                padding: const EdgeInsets.only(
-//                  bottom: 3,
-//                ),
-//                child: Icon(
-//                  FontAwesomeIcons.briefcase,
-//                ),
-//              ),
-//              title: Text(StringResources.manageJobsText)),
-//
-//          //post
-//          BottomNavigationBarItem(
-//              icon: Padding(
-//                padding: const EdgeInsets.only(bottom: 5),
-//                child: Icon(FontAwesomeIcons.solidPlusSquare),
-//              ),
-//              title: Text(StringResources.postText)),
-//          //manage candidate
-//          BottomNavigationBarItem(
-//              icon: Padding(
-//                  padding: const EdgeInsets.only(bottom: 5),
-//                  child: Icon(FontAwesomeIcons.users)),
-//              title: Text(StringResources.candidatesText)),
-//          // shortedListedCandidatesText
-//          BottomNavigationBarItem(
-//              icon: Padding(
-//                padding: const EdgeInsets.only(bottom: 5),
-//                child: Icon(FontAwesomeIcons.solidHeart),
-//              ),
-//              title: Text(StringResources.shortedListedText)),
-//        ]);
+
+    var pages = [
+      DashBoardScreen(
+        onTapJobPosted: (){_modeToPage(1);},
+        onTapApplications: (){_modeToPage(2);},
+        onTapShortlisted: (){},
+      ),
+      ManageJobsScreen(),
+      ManageCandidateScreenAll(),
+      CompanyProfile(),
+    ];
 
     return WillPopScope(
       onWillPop: () async {
         if (currentIndex == 0)
           return true;
         else {
-          _paeViewController.animateToPage(0,
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOut);
+          _modeToPage(0);
           return false;
         }
       },
@@ -204,27 +156,7 @@ class _HomeState extends State<Home> {
             child: Icon(Icons.add),
             elevation: 2.0,
           ),
-          body: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            onPageChanged: (index) {
-              _updateAppBar(index);
-              setState(() {
-                currentIndex = index;
-              });
-            },
-            controller: _paeViewController,
-            children: <Widget>[
-              DashBoardScreen(
-                onTapJobPosted: (){_modeToPage(1);},
-                onTapApplications: (){_modeToPage(2);},
-                onTapShortlisted: (){},
-              ),
-              ManageJobsScreen(),
-//              ManageCandidateScreen(),
-              ManageCandidateScreenAll(),
-              CompanyProfile(),
-            ],
-          ),
+          body: pages[currentIndex],
         ),
       ),
     );
