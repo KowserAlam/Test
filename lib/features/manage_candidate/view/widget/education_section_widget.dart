@@ -46,10 +46,9 @@ class _EducationsListItemState extends State<EducationsListItem> {
   bool expanded = false;
   bool expandable(){
     if(widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1
-      || widget.eduInfoModel.degree!= null
-      || widget.eduInfoModel.cgpa!=null
-      || widget.eduInfoModel.degreeText != null
-      || widget.eduInfoModel.educationLevel != null
+      || widget.eduInfoModel.cgpa!=''
+      || widget.eduInfoModel.majorText!=''
+//      || widget.eduInfoModel.educationLevel != ''
     ){return true;}else{
       return false;
     }
@@ -138,7 +137,7 @@ class _EducationsListItemState extends State<EducationsListItem> {
               ),
             ],
           ),
-          ExpansionTile(
+          expandable()?ExpansionTile(
             title: null,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -148,30 +147,15 @@ class _EducationsListItemState extends State<EducationsListItem> {
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: Text(widget.eduInfoModel.educationLevel),
               ):SizedBox(),
-              if(widget.eduInfoModel.majorText!=null)_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
-              if(widget.eduInfoModel.cgpa!=null)_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
-              if(widget.eduInfoModel.degreeText!=null)_item(context: context, label: StringResources.degreeText, value: widget.eduInfoModel.degreeText, valueKey: null),
+              if(widget.eduInfoModel.majorText!='')_item(context: context, label: StringResources.majorText, value: widget.eduInfoModel.majorText, valueKey: null),
+              if(widget.eduInfoModel.cgpa!='')_item(context: context, label: StringResources.cgpaText, value: widget.eduInfoModel.cgpa, valueKey: null),
               widget.eduInfoModel.description.htmlToNotusDocument.toPlainText().length>1?
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: HtmlWidget(widget.eduInfoModel.description),
               ):SizedBox(),
             ],
-          ),
-//          expandable()?InkWell(
-//            onTap: (){
-//              setState(() {
-//                expanded = !expanded;
-//              });
-//            },
-//            child: Container(
-//                decoration: BoxDecoration(
-//                    shape: BoxShape.circle,
-//                    color: expanded?Colors.orange:Colors.transparent,
-//                    border: Border.all(color: expanded?Colors.deepOrangeAccent:Colors.grey[300], width: 1)
-//                ),
-//                child: Icon(expanded?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, color: expanded?Colors.white:Colors.black,)),
-//          ):SizedBox()
+          ):SizedBox(height: 3,),
         ],
       ),
     );

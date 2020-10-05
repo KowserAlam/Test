@@ -42,7 +42,7 @@ class CertificationsListItemWidget extends StatefulWidget {
 
 class _CertificationsListItemWidgetState extends State<CertificationsListItemWidget> {
   bool expandable(){
-    if(widget.certificationInfo.credentialId!=null || widget.certificationInfo.credentialUrl!=null){
+    if(widget.certificationInfo.credentialId!= '' || widget.certificationInfo.credentialUrl!= ''){
       return true;
     }
     return false;
@@ -124,7 +124,7 @@ class _CertificationsListItemWidgetState extends State<CertificationsListItemWid
               if(widget.certificationInfo.credentialId!=null)_item(context: context, label: StringResources.certificationCredentialIdText, value: widget.certificationInfo.credentialId, valueKey: null),
               SizedBox(height: 7,)
             ],
-          ):SizedBox()
+          ):SizedBox(height: 8,)
         ],
       ),
     );
