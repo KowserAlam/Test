@@ -27,7 +27,6 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
   String appbarTitle = StringResources.appName;
 
-
   @override
   void initState() {
     TokenRefreshScheduler.getInstance();
@@ -68,11 +67,10 @@ class _HomeState extends State<Home> {
     //       duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
     //
     // }
-currentIndex = index;
+    currentIndex = index;
+    _updateAppBar(index);
     // _paeViewController.jumpToPage(index);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -90,29 +88,41 @@ currentIndex = index;
       items: [
         // dashboard
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.home,
-            label: StringResources.dashBoardText, key: Key('bottomNavBarDashboardKey'),),
+          iconData: FontAwesomeIcons.home,
+          label: StringResources.dashBoardText,
+          key: Key('bottomNavBarDashboardKey'),
+        ),
         //manageJobs
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.briefcase,
-            label: StringResources.manageJobsText, key: Key('bottomNavBarManageJobsKey'),),
+          iconData: FontAwesomeIcons.briefcase,
+          label: StringResources.manageJobsText,
+          key: Key('bottomNavBarManageJobsKey'),
+        ),
 
         //manageCandidatesText
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.users,
-            label: StringResources.candidatesText, key: Key('bottomNavBarCandidatesKey'),),
+          iconData: FontAwesomeIcons.users,
+          label: StringResources.candidatesText,
+          key: Key('bottomNavBarCandidatesKey'),
+        ),
         // profile
         FABBottomAppBarItem(
-            iconData: FontAwesomeIcons.solidBuilding,
-            label: StringResources.profileText, key: Key('bottomNavBarProfileKey'),),
+          iconData: FontAwesomeIcons.solidBuilding,
+          label: StringResources.profileText,
+          key: Key('bottomNavBarProfileKey'),
+        ),
       ],
     );
 
     var pages = [
       DashBoardScreen(
-        onTapJobPosted: (){_modeToPage(1);},
-        onTapApplications: (){_modeToPage(2);},
-        onTapShortlisted: (){},
+        onTapJobPosted: () {
+          _modeToPage(1);
+        },
+        onTapApplications: () {
+          _modeToPage(2);
+        },
+        onTapShortlisted: () {},
       ),
       ManageJobsScreen(),
       ManageCandidateScreenAll(),
@@ -131,7 +141,10 @@ currentIndex = index;
       child: FlavorBanner(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appbarTitle, key: Key('appBarTitleKey'),),
+            title: Text(
+              appbarTitle,
+              key: Key('appBarTitleKey'),
+            ),
             actions: [
               IconButton(
                 key: Key('messageIconButtonOnAppbar'),
