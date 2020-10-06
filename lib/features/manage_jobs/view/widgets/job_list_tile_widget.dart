@@ -48,16 +48,12 @@ class JobListTileWidget extends StatelessWidget {
     var titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
     var subTitleStyle = TextStyle(fontSize: 12, color: subtitleColor);
     double iconSize = 12;
-    var jobTitle = InkWell(
-        onTap: () {
-          _navigateToJobDetailsScreen();
-        },
-        child: Text(
-          jobModel.title ?? "",
-          style: titleStyle,
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ));
+    var jobTitle = Text(
+      jobModel.title ?? "",
+      style: titleStyle,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
     var companyLocation = Row(
       children: <Widget>[
         Icon(
@@ -181,7 +177,7 @@ class JobListTileWidget extends StatelessWidget {
             _showBottomSheet(context);
           },
           onTap: () {
-            _showBottomSheet(context);
+            _navigateToJobDetailsScreen();
           },
           child: LayoutBuilder(builder: (context, constrain) {
             bool isTablet = context.isTablet;
@@ -459,7 +455,10 @@ class JobListTileWidget extends StatelessWidget {
         BotToast.closeAllLoading();
       }, (r) {
         BotToast.closeAllLoading();
-        r.title+=" (copy)";
+        if(copyAsNew){
+          r.title+=" (copy)";
+        }
+
         Get.to(PostNewJobScreen(
           jobModel: r,
           copyAsNew: copyAsNew,
