@@ -409,37 +409,37 @@ class JobListTileWidget extends StatelessWidget {
     );
     Get.context.isTablet
         ? showGeneralDialog(
-            barrierDismissible: true,
-            barrierLabel:
-                MaterialLocalizations.of(context).modalBarrierDismissLabel,
-            transitionDuration: const Duration(milliseconds: 400),
-            barrierColor: const Color(0x80000000),
-            context: context,
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                AlertDialog(
-                  content: items,
-                  actions: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(StringResources.closeText),
-                      ),
-                    )
-                  ],
-                ))
+        barrierDismissible: true,
+        barrierLabel:
+        MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        transitionDuration: const Duration(milliseconds: 400),
+        barrierColor: const Color(0x80000000),
+        context: context,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AlertDialog(
+              content: items,
+              actions: [
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(StringResources.closeText),
+                  ),
+                )
+              ],
+            ))
         : showModalBottomSheet(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             )),
-            context: context,
-            builder: (context) => items);
+        context: context,
+        builder: (context) => items);
   }
 
   _navigateToJobDetailsScreen() {

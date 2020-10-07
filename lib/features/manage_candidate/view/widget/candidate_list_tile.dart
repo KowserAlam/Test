@@ -12,6 +12,7 @@ import 'package:jobxprss_company/features/messaging/view/conversation_screen.dar
 import 'package:jobxprss_company/main_app/app_theme/app_theme.dart';
 import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
+import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
@@ -43,8 +44,13 @@ class CandidateListTile extends StatelessWidget {
     var name = Text(candidate.fullName ?? "");
     // candidate.
 
+    String year(){
+      if(candidate.experience==null || candidate.experience=='0' || candidate.experience=='1'){
+        return 'Year';
+      }else{return 'Years';}
+    }
     var experience = Text(
-      "Experience: ${candidate.experience ?? "0"} year",
+      "${candidate.experience ?? "0"} "+ year() +" of experience" ,
       style: subTitleStyle,
     );
     var skills = Text(
@@ -109,19 +115,9 @@ class CandidateListTile extends StatelessWidget {
                     IconButton(
                       iconSize: 20,
                       onPressed: () {
-
-//                            _showSendMessageDialog(context);
-//
-                        var model = MessageSenderModel(
-                            otherPartyImage: candidate.image,
-                            otherPartyName: candidate.fullName,
-                            otherPartyUserId: candidate.user);
-                        Get.to(ConversationScreen(
-                          model,
-//                              senderListId: vm.company?.user?.toString(),
-                        ));
+                        _showBottomSheet(context);
                       },
-                      icon: Icon(FontAwesomeIcons.comment),
+                      icon: Icon(FontAwesomeIcons.ellipsisV),
                     ),
 
                     ValueBuilder<bool>(
@@ -236,4 +232,70 @@ class CandidateListTile extends StatelessWidget {
 //      },
 //    );
 //  }
+  _showBottomSheet(context){
+    var items = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 12,
+            width: 50,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+        ListTile(
+          leading: Icon(FontAwesomeIcons.comment),
+          title: Text('Message'),
+          onTap: (){
+            var model = MessageSenderModel(
+                otherPartyImage: candidate.image,
+                otherPartyName: candidate.fullName,
+                otherPartyUserId: candidate.user);
+            Get.to(ConversationScreen(
+              model,
+//                              senderListId: vm.company?.user?.toString(),
+            ));
+          },
+        ),
+      ],
+    );
+
+    Get.context.isTablet
+        ? showGeneralDialog(
+        barrierDismissible: true,
+        barrierLabel:
+        MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        transitionDuration: const Duration(milliseconds: 400),
+        barrierColor: const Color(0x80000000),
+        context: context,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AlertDialog(
+              content: items,
+              actions: [
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(StringResources.closeText),
+                  ),
+                )
+              ],
+            ))
+        : showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            )),
+        context: context,
+        builder: (context) => items);
+  }
+
+
 }

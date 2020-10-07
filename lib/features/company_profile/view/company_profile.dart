@@ -208,18 +208,12 @@ class _CompanyProfileState extends State<CompanyProfile> {
           children: [
             companyDetails.companyProfile.htmlToNotusDocument
                         .toPlainText().trim()
-                        .length != 0
-
-
-
-
-                ? HtmlWidget(companyDetails.companyProfile)
-                : SizedBox(),
-//            _htmlItem(
-//                context: context,
-//                label: StringResources.companyProfileText,
-//                value: companyDetails.companyProfile,
-//                valueKey: null),
+                        .length != 0?
+           _htmlItem(
+               context: context,
+               label: StringResources.companyProfileText,
+               value: companyDetails.companyProfile,
+               valueKey: null):SizedBox(),
             SizedBox(
                 height: companyDetails.companyProfile.htmlToNotusDocument
                             .toPlainText().trim()
@@ -231,12 +225,12 @@ class _CompanyProfileState extends State<CompanyProfile> {
                 StringResources.companyYearsOfEstablishmentText,
                  DateFormatUtil.formatDate(
                         companyDetails.yearOfEstablishment)):SizedBox(),
-            companyDetails.basisMembershipNo != null
+            companyDetails.basisMembershipNo.isNotEmptyOrNotNull
                 ? SizedBox(
                     height: 5,
                   )
                 : SizedBox(),
-            companyDetails.basisMembershipNo != null
+            companyDetails.basisMembershipNo.isNotEmptyOrNotNull
                 ? companyProfileFormattedText(
                     StringResources.companyBasisMembershipNoText,
                     companyDetails.basisMembershipNo)
