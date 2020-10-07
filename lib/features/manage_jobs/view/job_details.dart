@@ -193,6 +193,9 @@ class _JobDetailsState extends State<JobDetails> {
         copyAsNew: false,
       ));
     }else if(choice == StringResources.copyAsNewText){
+
+      jobDetails.title+=" (copy)";
+
       Get.to(PostNewJobScreen(
         jobModel: jobDetails,
         copyAsNew: true,
@@ -937,6 +940,7 @@ class _JobDetailsState extends State<JobDetails> {
         ),
         actions: <Widget>[
           PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert),
             onSelected: onOptionSelect,
             itemBuilder: (BuildContext context){
             return options(jobDetails.jobStatus);
