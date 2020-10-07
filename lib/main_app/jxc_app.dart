@@ -29,13 +29,13 @@ class JXCApp extends StatelessWidget {
       defaultDurationTransition: Duration(milliseconds: 180),
     );
 
+    //TODO: We are middle of changing state management Provider to GetX. Which are partially done.
+    //TODO: Need to shift all those into GetX ! Because GetXBuilder is liter then ChangeNotifier!
+    //TODO: Also we have advantage of context free dependency injection, Reactive State Management, Context free Navigation and more !
     var providers = [
       ChangeNotifierProvider(create: (context) => SigninViewModel()),
       ChangeNotifierProvider(create: (context) => PasswordResetViewModel()),
       ChangeNotifierProvider(create: (context) => PasswordChangeViewModel()),
-      // ChangeNotifierProvider(create: (context) => DashboardViewModel()),
-      // ChangeNotifierProvider(
-      //     create: (context) => MessageSenderListScreenViewModel()),
     ];
     var appName = FlavorConfig.appName();
 
