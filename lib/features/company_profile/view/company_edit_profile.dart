@@ -516,7 +516,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
       spaceBetween,
       CustomTextFormField(
         textFieldKey: Key('companyContactPersonEmailTextKey'),
-        validator: Validator().validateEmail,
+        validator: Validator().validateNonMandatoryEmail,
         keyboardType: TextInputType.emailAddress,
         controller: _contactPersonEmailTextController,
         hintText: StringResources.emailHintText,
