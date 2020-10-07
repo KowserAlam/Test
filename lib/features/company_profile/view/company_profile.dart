@@ -209,6 +209,10 @@ class _CompanyProfileState extends State<CompanyProfile> {
             companyDetails.companyProfile.htmlToNotusDocument
                         .toPlainText().trim()
                         .length != 0
+
+
+
+
                 ? HtmlWidget(companyDetails.companyProfile)
                 : SizedBox(),
 //            _htmlItem(

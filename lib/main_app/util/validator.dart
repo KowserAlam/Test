@@ -22,6 +22,19 @@ class Validator {
       return null;
   }
 
+  String validateNonMandatoryEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+
+    if (value.isEmpty) {
+      return null;
+    }else if (!regex.hasMatch(value))
+      return StringResources.pleaseEnterAValidEmailText;
+    else
+      return null;
+  }
+
   String validatePassword(String value) {
     final RegExp _passwordRegExp = RegExp(
       r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
