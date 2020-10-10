@@ -192,8 +192,8 @@ Future<void> postJobTest()async{
 
     test('Check draft button and confirm all data saved successfully', () async {
       await driver.tap(Keys.postJobDraftButtonKey);
-      await Future.delayed(const Duration(seconds: 4),() {});
       await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, find.text('Sample Job Title'), dyScroll: -400);
+      await Future.delayed(const Duration(seconds: 4),() {});
     });
 
   });
