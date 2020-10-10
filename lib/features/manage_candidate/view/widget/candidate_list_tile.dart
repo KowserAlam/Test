@@ -50,7 +50,7 @@ class CandidateListTile extends StatelessWidget {
       }else{return 'Years';}
     }
     var experience = Text(
-      "${candidate.experience ?? "0"} "+ year() +" of experience" ,
+      "${candidate.experience ?? "0"} "+ year() +" of Experience" ,
       style: subTitleStyle,
     );
     var skills = Text(
@@ -58,7 +58,7 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var designation = Text(
-      "${candidate.currentDesignation ?? ""} @${candidate.currentCompany ?? ""}",
+      "${candidate.currentDesignation ?? ""}, ${candidate.currentCompany ?? ""}",
       style: subTitleStyle,
     );
     var profileImage = Container(
@@ -103,8 +103,11 @@ class CandidateListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       name,
+                      SizedBox(height: 5,),
                       designation,
+                      SizedBox(height: 3,),
                       experience,
+                      SizedBox(height: 3,),
                       skills,
                     ],
                   ),

@@ -10,8 +10,9 @@ import 'package:jobxprss_company/main_app/views/widgets/page_state_builder.dart'
 class ManageCandidateScreen extends StatefulWidget {
   final String jobId;
   final showAppBar;
+  final bool isShortListed;
 
-  ManageCandidateScreen(this.jobId,{this.showAppBar = true});
+  ManageCandidateScreen(this.jobId,this.isShortListed,{this.showAppBar = true});
 
   @override
   _ManageCandidateScreenState createState() => _ManageCandidateScreenState(jobId);
@@ -42,7 +43,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen> {
         title: Text(StringResources.manageCandidatesText, key: Key('manageCandidatesAppBarTextKey'),),
       ):null,
       body: Obx((){
-        var candidates = manageCandidateVm.candidates;
+        var candidates = manageCandidateVm.toggleShortListed(widget.isShortListed);
         return PageStateBuilder(
           onRefresh: ()=>manageCandidateVm.refresh(widget.jobId),
           showError: manageCandidateVm.showError,

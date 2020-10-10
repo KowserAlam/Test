@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/widget/candidate_list_tile.dart';
 import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_all_view_model.dart';
+import 'package:jobxprss_company/features/manage_candidate/view_models/manage_candidate_view_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
@@ -18,7 +20,9 @@ class ManageCandidateScreenAll extends StatefulWidget {
 
 class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
   final ManageJobViewModel manageJobsVm = Get.find();
+  final ManageCandidateVewModel manageCandidateVM = Get.put(ManageCandidateVewModel());
   ManageJobCandidateAllViewModel manageJobCandidateAllViewModel;
+  bool isShortListed = false;
 
   @override
   void initState() {
@@ -70,18 +74,32 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
             ),
           );
         }),
+        Obx((){
+          return manageJobCandidateAllViewModel.selectedJob.value?.jobId != null?
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text('Shortlisted Only'),
+              Checkbox(value: isShortListed, onChanged: (v){setState(() {
+                isShortListed = v;
+              });})
+            ],
+          ):SizedBox();
+        }),
         Obx(() {
           return manageJobCandidateAllViewModel.selectedJob.value?.jobId != null
               ? Expanded(
-              key: Key(manageJobCandidateAllViewModel.selectedJob.value?.jobId),
-              child: ManageCandidateScreen(
-                manageJobCandidateAllViewModel.selectedJob.value?.jobId,
-                showAppBar: false,
-              ),)
+            key: Key(manageJobCandidateAllViewModel.selectedJob.value?.jobId),
+            child: ManageCandidateScreen(
+              manageJobCandidateAllViewModel.selectedJob.value?.jobId,
+              isShortListed,
+              showAppBar: false,
+            ),)
               : SizedBox();
         }),
         Obx(() {
-          return manageJobsVm.showLoader
+          return manageCandidateVM.showLoader
               ? Expanded(
                   child: Center(
                     child: Loader(),

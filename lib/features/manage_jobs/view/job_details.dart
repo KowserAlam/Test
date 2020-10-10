@@ -210,7 +210,7 @@ class _JobDetailsState extends State<JobDetails> {
       vm.changeJobStatus(JobStatus.UNPUBLISHED, jobDetails.jobId, widget.index);
       getJobDetails();
     }else if(choice == StringResources.viewApplicationsText){
-      Get.to(ManageCandidateScreen(jobDetails.jobId));
+      Get.to(ManageCandidateScreen(jobDetails.jobId, false));
     }
   }
 
@@ -383,7 +383,7 @@ class _JobDetailsState extends State<JobDetails> {
         ],
       ),
     );
-    var description = jobDetails.descriptions.htmlToNotusDocument.toPlainText().length!=1?Container(
+    var description = jobDetails.descriptions.htmlToNotusDocument.toPlainText().trim().length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -417,10 +417,11 @@ class _JobDetailsState extends State<JobDetails> {
 //            style: descriptionFontStyle,
 //          ),
           HtmlWidget(jobDetails.descriptions),
+          spaceBetweenSections
         ],
       ),
     ):SizedBox();
-    var responsibilities = jobDetails.responsibilities.htmlToNotusDocument.toPlainText().length!=1?Container(
+    var responsibilities = jobDetails.responsibilities.htmlToNotusDocument.toPlainText().trim().length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -449,10 +450,11 @@ class _JobDetailsState extends State<JobDetails> {
 //            style: descriptionFontStyle,
 //          ),
           HtmlWidget(jobDetails.responsibilities),
+          spaceBetweenSections
         ],
       ),
     ):SizedBox();
-    var education = jobDetails.education.htmlToNotusDocument.toPlainText().length!=1?Container(
+    var education = jobDetails.education.htmlToNotusDocument.toPlainText().trim().length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -475,11 +477,12 @@ class _JobDetailsState extends State<JobDetails> {
             height: 5,
           ),
           HtmlWidget(jobDetails.education),
+          spaceBetweenSections
         ],
       ),
     ):SizedBox();
 
-    var additionalRequirements = jobDetails.additionalRequirements.htmlToNotusDocument.toPlainText().length!=1?Container(
+    var additionalRequirements = jobDetails.additionalRequirements.htmlToNotusDocument.toPlainText().trim().length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -495,6 +498,7 @@ class _JobDetailsState extends State<JobDetails> {
             height: 5,
           ),
           HtmlWidget(jobDetails.additionalRequirements),
+          spaceBetweenSections
         ],
       ),
     ):SizedBox();
@@ -618,7 +622,7 @@ class _JobDetailsState extends State<JobDetails> {
           SizedBox(
             height: 5,
           ),
-          jobDetails.companyProfile.htmlToNotusDocument.toPlainText().length!=1?Row(
+          jobDetails.companyProfile.htmlToNotusDocument.toPlainText().trim().length!=0?Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -631,10 +635,7 @@ class _JobDetailsState extends State<JobDetails> {
                     UrlLauncherHelper.launchUrl(
                         jobDetails.companyProfile.trim());
                   },
-                  child: Text(
-                    jobDetails.companyProfile.htmlToNotusDocument.toPlainText(),
-                    style: TextStyle(color: Colors.lightBlue),
-                  ))
+                  child: HtmlWidget(jobDetails.companyProfile))
             ],
           ):SizedBox(),
           SizedBox(
@@ -709,7 +710,7 @@ class _JobDetailsState extends State<JobDetails> {
         ],
       ),
     );
-    var otherBenefits = jobDetails.otherBenefits.htmlToNotusDocument.toPlainText().length!=1?Container(
+    var otherBenefits = jobDetails.otherBenefits.htmlToNotusDocument.toPlainText().trim().length!=0?Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

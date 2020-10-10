@@ -475,7 +475,7 @@ class JobListTileWidget extends StatelessWidget {
   }
 
   _navigateToApplicationsScreen() {
-    Get.to(ManageCandidateScreen(jobModel.jobId));
+    Get.to(ManageCandidateScreen(jobModel.jobId, false));
     // Navigator.push(
     //     context,
     //     CupertinoPageRoute(

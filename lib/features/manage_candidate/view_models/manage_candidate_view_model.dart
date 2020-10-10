@@ -12,6 +12,7 @@ import 'package:jobxprss_company/main_app/util/logger_util.dart';
 
 class ManageCandidateVewModel extends GetxController {
   var candidates = <Candidate>[].obs;
+  var candidatesShortlisted = <Candidate>[].obs;
   var _isFetchingData = false.obs;
   var _appError = AppError.none.obs;
 
@@ -19,18 +20,33 @@ class ManageCandidateVewModel extends GetxController {
     _isFetchingData.value = true;
     _appError.value = AppError.none;
 
+
     var res = await ManageCandidateRepository().getCandidateList(jobId);
     return res.fold((AppError l) {
       _appError.value = l;
       _isFetchingData.value = false;
+      candidatesShortlisted.clear();
 
       return false;
     }, (ManageCandidateListDataModel r) {
       candidates.value = r.candidates;
+      for(int i=0; i<= r.candidates.length; i++){
+        if(candidates[i].isShortlisted){
+          candidatesShortlisted.add(r.candidates[i]);
+        }
+      }
       _isFetchingData.value = false;
 
       return true;
     });
+  }
+
+  List<Candidate> toggleShortListed(bool isShortListed){
+    if(isShortListed){
+      return candidatesShortlisted;
+    }else{
+      return candidates;
+    }
   }
 
   Future<bool> refresh(String jobID) {
