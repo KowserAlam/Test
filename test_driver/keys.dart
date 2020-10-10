@@ -130,15 +130,15 @@ class Keys{
   static final candidatesMessageTapOnWriteTextfield = find.byValueKey('candidatesMessageTapOnWriteTextfield');
   static final messageSendButtonKey = find.byValueKey('messageSendButtonKey');
 
-  //settings ***
+  //settings
   static final leftMenubarIconKey = find.byValueKey('leftMenubarIconKey');
   static final leftMenubarsettingsIconKey = find.byValueKey('leftMenubarsettingsIconKey');
-  static final settingsAppBarTextKey = find.byValueKey('settingsAppBarTextKey');
-  static final changePasswordAppbarTitle = find.byValueKey('changePasswordAppbarTitle');
-  static final goIntoChangePassword = find.byValueKey('goIntoChangePassword');
-  static final currentPasswordTextboxKey = find.byValueKey('currentPasswordTextboxKey');
-  static final newPasswordTextboxKey = find.byValueKey('newPasswordTextboxKey');
-  static final passwordChangeSubmitButtonKey = find.byValueKey('passwordChangeSubmitButtonKey');
+  static final settingsAppBarTextKey = find.byValueKey('settingsAppBarTextKey'); //
+  static final changePasswordAppbarTitle = find.byValueKey('changePasswordAppbarTitle'); //
+  static final goIntoChangePassword = find.byValueKey('goIntoChangePassword'); //
+  static final currentPasswordTextboxKey = find.byValueKey('currentPasswordTextboxKey');//
+  static final newPasswordTextboxKey = find.byValueKey('newPasswordTextboxKey');//
+  static final passwordChangeSubmitButtonKey = find.byValueKey('passwordChangeSubmitButtonKey');//
 
 
 }

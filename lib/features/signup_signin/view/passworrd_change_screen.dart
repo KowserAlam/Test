@@ -40,6 +40,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         bool isObscure = passwordChangeViewModel.isObscurePasswordOld;
         return CustomTextFieldRounded(
           labelText: StringResources.currentPasswordText,
+          textFieldKey: Key('currentPasswordTextboxKey'),
           onChanged: passwordChangeViewModel.onChangeOldPassword,
           errorText: passwordChangeViewModel.errorTextOldPassword,
           prefixIcon: Icon(
@@ -69,6 +70,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         bool isObscure = passwordChangeViewModel.isObscurePasswordNew;
         return CustomTextFieldRounded(
           labelText: StringResources.newPasswordText,
+          key: Key('newPasswordTextboxKey'),
           onChanged: passwordChangeViewModel.onChangeNewPassword,
           errorText: passwordChangeViewModel.errorTextNewPassword,
           prefixIcon: Icon(
@@ -132,12 +134,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               }
             : null,
         label: StringResources.submitButtonText,
+        key: Key('passwordChangeSubmitButtonKey'),
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringResources.changePasswordAppbarText),
+        title: Text(StringResources.changePasswordAppbarText, key: Key('changePasswordAppbarTitle'),),
       ),
       body: SingleChildScrollView(
         child: Container(
