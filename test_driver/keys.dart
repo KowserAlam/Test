@@ -102,7 +102,7 @@ class Keys{
   static final jobTypeDropDownListKey = find.byValueKey('jobTypeDropDownListKey');
   static final jobAboutCompanyTextfieldKey = find.byValueKey('jobAboutCompanyTextfieldKey');
 
-  //ManageJobs
+  //Manage Jobs
   static final manageJobsScreenListViewKey = find.byValueKey('manageJobsScreenListViewKey');
   static final noJobsFoundKey = find.byValueKey('noJobsFoundKey');
   static final manageJobsListViewKey = find.byValueKey('manageJobsListViewKey');
@@ -118,5 +118,16 @@ class Keys{
   static final manageCandidatesTileViewApplicationsKey1 = find.byValueKey('manageCandidatesTileViewApplicationsKey1');
   static final editJobKey = find.byValueKey('editJobKey');
   static final copyAsNewJobKey = find.byValueKey('copyAsNewJobKey');
+
+  //Manage Candidates
+  static final candidatesJobDropdownListKey = find.byValueKey('candidatesJobDropdownListKey');
+  static final candidateProfileTileKey1 = find.byValueKey('candidateProfileTileKey1');
+  static final candidateProfileTileKey2 = find.byValueKey('candidateProfileTileKey2');
+  static final candidateProfileAppBarKey = find.byValueKey('candidateProfileAppBarKey');
+  static final candidatesShortlistedIconButtonKey = find.byValueKey('candidatesShortlistedIconButtonKey');
+  static final candidatesMessageIconButtonKey1 = find.byValueKey('candidatesMessageIconButtonKey1');
+  static final candidatesMessageIconButtonKey2 = find.byValueKey('candidatesMessageIconButtonKey2');
+  static final candidatesMessageTapOnWriteTextfield = find.byValueKey('candidatesMessageTapOnWriteTextfield');
+  static final messageSendButtonKey = find.byValueKey('messageSendButtonKey');
 
 }
