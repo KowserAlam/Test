@@ -119,7 +119,7 @@ class Keys{
   static final editJobKey = find.byValueKey('editJobKey');
   static final copyAsNewJobKey = find.byValueKey('copyAsNewJobKey');
 
-  //Manage Candidates
+  //Manage Candidates ***
   static final candidatesJobDropdownListKey = find.byValueKey('candidatesJobDropdownListKey');
   static final candidateProfileTileKey1 = find.byValueKey('candidateProfileTileKey1');
   static final candidateProfileTileKey2 = find.byValueKey('candidateProfileTileKey2');
@@ -129,5 +129,16 @@ class Keys{
   static final candidatesMessageIconButtonKey2 = find.byValueKey('candidatesMessageIconButtonKey2');
   static final candidatesMessageTapOnWriteTextfield = find.byValueKey('candidatesMessageTapOnWriteTextfield');
   static final messageSendButtonKey = find.byValueKey('messageSendButtonKey');
+
+  //settings ***
+  static final leftMenubarIconKey = find.byValueKey('leftMenubarIconKey');
+  static final leftMenubarsettingsIconKey = find.byValueKey('leftMenubarsettingsIconKey');
+  static final settingsAppBarTextKey = find.byValueKey('settingsAppBarTextKey');
+  static final changePasswordAppbarTitle = find.byValueKey('changePasswordAppbarTitle');
+  static final goIntoChangePassword = find.byValueKey('goIntoChangePassword');
+  static final currentPasswordTextboxKey = find.byValueKey('currentPasswordTextboxKey');
+  static final newPasswordTextboxKey = find.byValueKey('newPasswordTextboxKey');
+  static final passwordChangeSubmitButtonKey = find.byValueKey('passwordChangeSubmitButtonKey');
+
 
 }
