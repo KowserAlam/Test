@@ -16,7 +16,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringResources.settingsText),
+        title: Text(StringResources.settingsText, key: Key('settingsAppBarTextKey'),),
       ),
       body: ListView(
         children: <Widget>[
@@ -50,6 +50,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Icons.lock_open,
             ),
             title: Text(StringResources.changePassword),
+            key: Key('goIntoChangePassword'),
           ),
           ListTile(
             onTap: () {

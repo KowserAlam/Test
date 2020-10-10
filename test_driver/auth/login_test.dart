@@ -27,7 +27,7 @@ Future<void> loginTest()async{
     });
 
     //test cases are started from here
-    test('Make sure that we are in the login page and press the signin button while all fields are empty', () async {
+    test('Make sure that we are in the login page and press the signin button where all fields are empty', () async {
       await expect(await driver.getText(Keys.welcomeBackKey), 'Welcome back!');
       await expect(await driver.getText(Keys.loginToYourExistingAccountKey), 'Login to your existing account');
       await driver.tap(Keys.signInButtonKey);
