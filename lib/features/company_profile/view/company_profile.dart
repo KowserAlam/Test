@@ -177,8 +177,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(FeatherIcons.edit),
                           key: Key('companyEditProfileIconKey'),
+                          icon: Icon(FeatherIcons.edit),
                           onPressed: () {
                             Navigator.push(
                                 context,
