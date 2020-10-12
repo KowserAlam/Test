@@ -51,28 +51,28 @@ class _ConfigScreenState extends State<ConfigScreen> {
             ),
             title: Text(StringResources.changePassword),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => LicensePage(
-                        applicationLegalese: "Copyright © 2020 Job Search",
-                        applicationVersion: appVersion,
-                            applicationIcon: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(kDefaultLogoFull))
-                              ),
-                            ),
-                          )));
-            },
-            leading: Icon(
-              Icons.featured_play_list,
-            ),
-            title: Text(StringResources.licenses),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     Navigator.push(
+          //         context,
+          //         CupertinoPageRoute(
+          //             builder: (context) => LicensePage(
+          //               applicationLegalese: "Copyright © 2020 Job Search",
+          //               applicationVersion: appVersion,
+          //                   applicationIcon: Container(
+          //                     height: 30,
+          //                     width: 30,
+          //                     decoration: BoxDecoration(
+          //                       image: DecorationImage(image: AssetImage(kDefaultLogoFull))
+          //                     ),
+          //                   ),
+          //                 )));
+          //   },
+          //   leading: Icon(
+          //     Icons.featured_play_list,
+          //   ),
+          //   title: Text(StringResources.licenses),
+          // ),
           ListTile(
             leading: Icon(
               FontAwesomeIcons.infoCircle,

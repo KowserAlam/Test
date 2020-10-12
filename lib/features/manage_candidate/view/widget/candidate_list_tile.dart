@@ -14,6 +14,7 @@ import 'package:jobxprss_company/main_app/models/candidate.dart';
 import 'package:jobxprss_company/main_app/resource/const.dart';
 import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
+import 'package:jobxprss_company/main_app/views/widgets/custom_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +59,7 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var designation = Text(
-      "${candidate.currentDesignation ?? ""}, ${candidate.currentCompany ?? ""}",
+      "${candidate.currentDesignation ?? ""}${candidate.currentDesignation!=null?', ':''} ${candidate.currentCompany ?? ""}",
       style: subTitleStyle,
     );
     var profileImage = Container(
@@ -262,6 +263,11 @@ class CandidateListTile extends StatelessWidget {
             ));
           },
         ),
+        ListTile(
+          leading: Icon(Icons.add),
+          title: Text('Change Candidate Status'),
+          onTap: _applicationStatusDialogue(context),
+        )
       ],
     );
 
@@ -298,6 +304,30 @@ class CandidateListTile extends StatelessWidget {
             )),
         context: context,
         builder: (context) => items);
+  }
+
+  _applicationStatusDialogue(context){
+    TextEditingController noteController = TextEditingController();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_)=> AlertDialog(
+        title: Text('Add a note'),
+        content: CustomTextField(
+          hintText: 'Type here',
+          controller: noteController,
+          maxLines: 3,
+        ),
+        actions: [
+          FlatButton(
+            child: Text('ADD'),
+            onPressed: (){
+              print('meh');
+            },
+          )
+        ],
+      )
+    );
   }
 
 

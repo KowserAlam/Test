@@ -357,7 +357,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     children: [
       spaceBetween,
       Text(
-        StringResources.contactText,
+        StringResources.contactInfo,
         style: labelStyle,
       ),
       spaceBetween,
