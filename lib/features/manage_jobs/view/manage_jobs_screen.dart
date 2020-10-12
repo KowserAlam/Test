@@ -10,6 +10,12 @@ import 'package:jobxprss_company/main_app/views/widgets/page_state_builder.dart'
 import 'package:provider/provider.dart';
 
 class ManageJobsScreen extends StatefulWidget {
+
+  final Function onTapApplications;
+
+
+  ManageJobsScreen({Key key, this.onTapApplications,}) : super(key: key);
+
   @override
   _ManageJobsScreenState createState() => _ManageJobsScreenState();
 }
@@ -45,9 +51,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
   Widget build(BuildContext context) {
     var backgroundColor = Theme.of(context).backgroundColor;
     var scaffoldBackgroundColor = Theme.of(context).backgroundColor;
-
     return Obx( () {
-
       return Scaffold(
         key: _scaffoldKey,
         body: PageStateBuilder(
@@ -72,7 +76,7 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
                   : Center(
                     child: Container(
                         constraints: BoxConstraints(maxWidth: 720),
-                        child: _JobListWidget()),
+                        child: _JobListWidget(onTapApplications: widget.onTapApplications)),
                   ),
             ],
           ),
@@ -83,7 +87,10 @@ class _ManageJobsScreenState extends State<ManageJobsScreen>
 }
 
 class _JobListWidget extends StatelessWidget {
-  final     jobListViewModel = Get.find<ManageJobViewModel>();
+  final Function onTapApplications;
+  _JobListWidget({Key key, this.onTapApplications,}) : super(key: key);
+
+  final jobListViewModel = Get.find<ManageJobViewModel>();
   @override
   Widget build(BuildContext context) {
     var jobList = jobListViewModel.jobList;
@@ -107,7 +114,7 @@ class _JobListWidget extends StatelessWidget {
 
             JobListModel job = jobList[index];
 
-            return JobListTileWidget(job,index: index,);
+            return JobListTileWidget(job,index: index, onTapApplications: onTapApplications);
           });
     });
 

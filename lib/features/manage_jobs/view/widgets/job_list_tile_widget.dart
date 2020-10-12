@@ -24,9 +24,12 @@ class JobListTileWidget extends StatelessWidget {
   final Function onApply;
   final Function onFavorite;
   final Function onTapChange;
+
+  final Function onTapApplications;
+
   final int index;
   GetStatusControllers getStatusControllers = Get.find();
-  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index,this.onTapChange});
+  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index,this.onTapChange,this.onTapApplications});
 
   @override
   Widget build(BuildContext context) {
@@ -480,16 +483,9 @@ class JobListTileWidget extends StatelessWidget {
   }
 
   _navigateToApplicationsScreen() {
-   // Get.to(ManageCandidateScreen(jobModel.jobId, false));
-    getStatusControllers.storeStatus(2);
-
-    //print( getStatusControllers.status.value);
-
-    // Navigator.push(
-    //     context,
-    //     CupertinoPageRoute(
-    //         builder: (BuildContext context) =>
-    //             ManageCandidateScreen(jobModel.jobId)));
+     Get.to(ManageCandidateScreen(jobModel.jobId, false));
+    //getStatusControllers.storeStatus(jobModel.jobId, false);
+    onTapApplications();
   }
 }
 
