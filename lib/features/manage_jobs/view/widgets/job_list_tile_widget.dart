@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:jobxprss_company/features/dashboard/view_model/12ka4.dart';
+import 'package:jobxprss_company/features/dashboard/view_model/getBottomController.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/repositories/manage_job_repository.dart';
@@ -21,9 +23,10 @@ class JobListTileWidget extends StatelessWidget {
   final JobListModel jobModel;
   final Function onApply;
   final Function onFavorite;
+  final Function onTapChange;
   final int index;
-
-  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index});
+  GetStatusControllers getStatusControllers = Get.find();
+  JobListTileWidget(this.jobModel, {this.onFavorite, this.onApply, this.index,this.onTapChange});
 
   @override
   Widget build(BuildContext context) {
@@ -398,6 +401,8 @@ class JobListTileWidget extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
             _navigateToApplicationsScreen();
+
+
           },
           leading: Icon(
             FontAwesomeIcons.fileWord,
@@ -475,7 +480,11 @@ class JobListTileWidget extends StatelessWidget {
   }
 
   _navigateToApplicationsScreen() {
-    Get.to(ManageCandidateScreen(jobModel.jobId, false));
+   // Get.to(ManageCandidateScreen(jobModel.jobId, false));
+    getStatusControllers.storeStatus(2);
+
+    //print( getStatusControllers.status.value);
+
     // Navigator.push(
     //     context,
     //     CupertinoPageRoute(
@@ -483,3 +492,4 @@ class JobListTileWidget extends StatelessWidget {
     //             ManageCandidateScreen(jobModel.jobId)));
   }
 }
+

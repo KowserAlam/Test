@@ -60,7 +60,7 @@ dependencies:
 #  velocity_x: ^0.4.1
 
 
-dependency_overrides:
+dependency_override:
   platform: 3.0.0-nullsafety.1
 
 

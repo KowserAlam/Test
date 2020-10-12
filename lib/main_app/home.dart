@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jobxprss_company/features/company_profile/view/company_profile.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/view/dash_board_screen.dart';
+import 'package:jobxprss_company/features/dashboard/view_model/getBottomController.dart';
 import 'package:jobxprss_company/features/manage_candidate/view/manage_candidate_screen_all.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/manage_jobs_screen.dart';
 import 'package:jobxprss_company/features/manage_jobs/view/post_new_job_screen.dart';
@@ -26,6 +27,7 @@ class _HomeState extends State<Home> {
   var _paeViewController = PageController();
   int currentIndex = 0;
   String appbarTitle = StringResources.appName;
+  GetStatusControllers getStatusControllers = Get.find();
 
   @override
   void initState() {
@@ -54,34 +56,18 @@ class _HomeState extends State<Home> {
     }
   }
 
-  _modeToPage(int index) async {
-    // if (currentIndex != index) {
-    //   var offset = 0;
-    //
-    //   if (index > currentIndex) {
-    //     offset = 300;
-    //   } else if (index < currentIndex) {
-    //     offset = -300;
-    //   }
-    //   await _paeViewController.animateTo(_paeViewController.offset + offset,
-    //       duration: const Duration(milliseconds: 50), curve: Curves.easeInOut);
-    //
-    // }
-    currentIndex = index;
-    _updateAppBar(index);
-    // _paeViewController.jumpToPage(index);
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     var bottomAppbar = FABBottomAppBar(
-      selectedIndex: currentIndex,
+      selectedIndex: getStatusControllers.status.value,
       selectedColor: Theme.of(context).primaryColor,
       notchedShape: CircularNotchedRectangle(),
       centerItemText: StringResources.postText,
       onTap: (int index) {
-        _modeToPage(index);
+        getStatusControllers.storeStatus(index);
+        _updateAppBar(getStatusControllers.status.value);
+        print(getStatusControllers.status.value);
       },
       iconSize: 17,
       color: Colors.grey[700],
@@ -117,10 +103,10 @@ class _HomeState extends State<Home> {
     var pages = [
       DashBoardScreen(
         onTapJobPosted: () {
-          _modeToPage(1);
+          getStatusControllers.storeStatus(1);
         },
         onTapApplications: () {
-          _modeToPage(2);
+          getStatusControllers.storeStatus(2);
         },
         onTapShortlisted: () {},
       ),
@@ -131,47 +117,49 @@ class _HomeState extends State<Home> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (currentIndex == 0)
+        if (getStatusControllers.status.value == 0)
           return true;
         else {
-          _modeToPage(0);
+          getStatusControllers.storeStatus(0);
           return false;
         }
       },
       child: FlavorBanner(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              appbarTitle,
-              key: Key('appBarTitleKey'),
-            ),
-            actions: [
-              IconButton(
-                key: Key('messageIconButtonOnAppbar'),
-                icon: Icon(FontAwesomeIcons.solidComments),
-                iconSize: 18,
-                onPressed: () {
-                  Get.to(MessageListScreen());
-                },
+        child: Obx((){
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                appbarTitle,
+                key: Key('appBarTitleKey'),
               ),
-            ],
-          ),
-          drawer: AppDrawer(),
-          bottomNavigationBar: bottomAppbar,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-            key: Key('PostJobsFloatingActionButtonKey'),
-            onPressed: () {
-              Navigator.of(context).push(
-                  CupertinoPageRoute(builder: (context) => PostNewJobScreen()));
-            },
-            tooltip: 'Post',
-            child: Icon(Icons.add),
-            elevation: 2.0,
-          ),
-          body: pages[currentIndex],
-        ),
+              actions: [
+                IconButton(
+                  key: Key('messageIconButtonOnAppbar'),
+                  icon: Icon(FontAwesomeIcons.solidComments),
+                  iconSize: 18,
+                  onPressed: () {
+                    Get.to(MessageListScreen());
+                  },
+                ),
+              ],
+            ),
+            drawer: AppDrawer(),
+            bottomNavigationBar: bottomAppbar,
+            floatingActionButtonLocation:
+            FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: FloatingActionButton(
+              key: Key('PostJobsFloatingActionButtonKey'),
+              onPressed: () {
+                Navigator.of(context).push(
+                    CupertinoPageRoute(builder: (context) => PostNewJobScreen()));
+              },
+              tooltip: 'Post',
+              child: Icon(Icons.add),
+              elevation: 2.0,
+            ),
+            body: pages[getStatusControllers.status.value],
+          );
+        })
       ),
     );
   }

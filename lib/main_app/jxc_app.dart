@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jobxprss_company/features/company_profile/view_model/company_profile_view_model.dart';
 import 'package:jobxprss_company/features/dashboard/view_model/dashboard_view_model.dart';
+import 'package:jobxprss_company/features/dashboard/view_model/getBottomController.dart';
 import 'package:jobxprss_company/features/messaging/view_model/message_sender_list_screen_view_model.dart';
 import 'package:jobxprss_company/features/signup_signin/view_models/password_change_view_model.dart';
 import 'package:jobxprss_company/features/signup_signin/view_models/password_reset_view_model.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 
 class JXCApp extends StatelessWidget {
   final CommonServiceRule commonServiceRule = CommonServiceRule();
+  final GetStatusControllers getStatusControllers = Get.put(GetStatusControllers());
 
   JXCApp(Key key) :super(key: key);
 
