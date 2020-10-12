@@ -13,6 +13,7 @@ import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdo
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
 
 class ManageCandidateScreenAll extends StatefulWidget {
+
   @override
   _ManageCandidateScreenAllState createState() =>
       _ManageCandidateScreenAllState();
@@ -29,13 +30,7 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
     Get.put(ManageJobCandidateAllViewModel());
 
     manageJobCandidateAllViewModel = Get.find();
-    manageJobsVm.getJobList(pageSize: 100).then((value) {
-      if (manageJobCandidateAllViewModel.selectedJob.value?.jobId ==
-          null) if (manageJobsVm.jobList.length != 0) {
-        manageJobCandidateAllViewModel.selectedJob.value =
-            manageJobsVm.jobList[0];
-      }
-    });
+    manageJobsVm.getJobList(pageSize: 100);
     super.initState();
   }
 
@@ -44,10 +39,18 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
     return Scaffold(
       body: Column(children: [
         Obx(() {
-          if (manageJobsVm.jobList.length == 0) {
-            return SizedBox();
-          }
           var selected = manageJobCandidateAllViewModel.selectedJob.value;
+          if (manageJobsVm.jobList.length == 0) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(),
+                Text('Retrieving Data'),
+                Loader()
+              ],
+            );
+          }
+
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
             decoration: BoxDecoration(
@@ -94,7 +97,6 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
             child: ManageCandidateScreen(
               manageJobCandidateAllViewModel.selectedJob.value?.jobId,
               isShortListed,
-              showAppBar: false,
             ),)
               : SizedBox();
         }),

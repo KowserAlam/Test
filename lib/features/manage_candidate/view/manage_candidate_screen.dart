@@ -9,10 +9,9 @@ import 'package:jobxprss_company/main_app/views/widgets/page_state_builder.dart'
 
 class ManageCandidateScreen extends StatefulWidget {
   final String jobId;
-  final showAppBar;
   final bool isShortListed;
 
-  ManageCandidateScreen(this.jobId,this.isShortListed,{this.showAppBar = true});
+  ManageCandidateScreen(this.jobId,this.isShortListed);
 
   @override
   _ManageCandidateScreenState createState() => _ManageCandidateScreenState(jobId);
@@ -41,42 +40,7 @@ class _ManageCandidateScreenState extends State<ManageCandidateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.showAppBar?AppBar(
-        title: Text(StringResources.manageCandidatesText, key: Key('manageCandidatesAppBarTextKey'),),
-      ):null,
-      body: widget.showAppBar?Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text('Shortlisted Only'),
-              Checkbox(value: isShortListed, onChanged: (v){setState(() {
-                isShortListed = v;
-              });})
-            ],
-          ),
-          Expanded(
-            child: Obx((){
-              var candidates = manageCandidateVm.toggleShortListed(isShortListed);
-              return PageStateBuilder(
-                onRefresh: ()=>manageCandidateVm.refresh(widget.jobId),
-                showError: manageCandidateVm.showError,
-                appError: manageCandidateVm.appError,
-                showLoader: manageCandidateVm.showLoader,
-                child:
-                candidates.length == 0? NoApplicationWidget():
-                ListView.builder(
-                    itemCount: candidates.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Candidate candidate = candidates[index];
-                      return CandidateListTile(candidate,index: index,jobId: widget.jobId,);
-                    }),
-              );
-            }),
-          )
-        ],
-      ):Obx((){
+      body: Obx((){
         var candidates = manageCandidateVm.toggleShortListed(widget.isShortListed);
         return PageStateBuilder(
           onRefresh: ()=>manageCandidateVm.refresh(widget.jobId),

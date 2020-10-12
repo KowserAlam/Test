@@ -55,7 +55,7 @@ class CandidateListTile extends StatelessWidget {
       style: subTitleStyle,
     );
     var skills = Text(
-      " Skills: ${candidate.skills.join(", ")}",
+      "Skills: ${candidate.skills.join(", ")}",
       style: subTitleStyle,
     );
     var designation = Text(
@@ -267,7 +267,7 @@ class CandidateListTile extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.add),
           title: Text('Change Candidate Status'),
-          onTap: _applicationStatusDialogue(context),
+          // onTap: _applicationStatusDialogue(context),
         )
       ],
     );
@@ -307,31 +307,31 @@ class CandidateListTile extends StatelessWidget {
         builder: (context) => items);
   }
 
-  _applicationStatusDialogue(context){
-    TextEditingController noteController = TextEditingController();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_)=> AlertDialog(
-        title: Text('Add a note'),
-        content: Column(
-          children: [
-            CustomTextField(
-              hintText: 'Type here',
-              controller: noteController,
-              maxLines: 3,
-            ),
-            FlatButton(
-              child: Text('ADD'),
-              onPressed: (){
-                print('meh');
-              },
-            )
-          ],
-        )
-      )
-    );
-  }
+  // _applicationStatusDialogue(context){
+  //   TextEditingController noteController = TextEditingController();
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (_)=> AlertDialog(
+  //       title: Text('Add a note'),
+  //       content: Column(
+  //         children: [
+  //           CustomTextField(
+  //             hintText: 'Type here',
+  //             controller: noteController,
+  //             maxLines: 3,
+  //           ),
+  //           FlatButton(
+  //             child: Text('ADD'),
+  //             onPressed: (){
+  //               print('meh');
+  //             },
+  //           )
+  //         ],
+  //       )
+  //     )
+  //   );
+  // }
 
 
 }
