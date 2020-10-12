@@ -247,7 +247,7 @@ class CandidateListTile extends StatelessWidget {
 //      },
 //    );
 //  }
-  _showBottomSheet(context){
+  _showBottomSheet(context1){
     var items = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -277,7 +277,12 @@ class CandidateListTile extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.add),
           title: Text('Change Candidate Status'),
-          // onTap: _applicationStatusDialogue(context),
+         // onTap:
+          onTap:(){
+            print('123');
+            Navigator.pop(context1);
+            _applicationStatusDialogue(context1);
+        },
         )
       ],
     );
@@ -286,11 +291,11 @@ class CandidateListTile extends StatelessWidget {
         ? showGeneralDialog(
         barrierDismissible: true,
         barrierLabel:
-        MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        MaterialLocalizations.of(context1).modalBarrierDismissLabel,
         transitionDuration: const Duration(milliseconds: 400),
         barrierColor: const Color(0x80000000),
-        context: context,
-        pageBuilder: (context, animation, secondaryAnimation) =>
+        context: context1,
+        pageBuilder: (context1, animation, secondaryAnimation) =>
             AlertDialog(
               content: items,
               actions: [
@@ -313,35 +318,37 @@ class CandidateListTile extends StatelessWidget {
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             )),
-        context: context,
-        builder: (context) => items);
+        context: context1,
+        builder: (context1) => items);
   }
 
-  // _applicationStatusDialogue(context){
-  //   TextEditingController noteController = TextEditingController();
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (_)=> AlertDialog(
-  //       title: Text('Add a note'),
-  //       content: Column(
-  //         children: [
-  //           CustomTextField(
-  //             hintText: 'Type here',
-  //             controller: noteController,
-  //             maxLines: 3,
-  //           ),
-  //           FlatButton(
-  //             child: Text('ADD'),
-  //             onPressed: (){
-  //               print('meh');
-  //             },
-  //           )
-  //         ],
-  //       )
-  //     )
-  //   );
-  // }
+  _applicationStatusDialogue(ctx){
+    TextEditingController noteController = TextEditingController();
+    showDialog(
+      context: ctx,
+      barrierDismissible: true,
+      builder: (_)=> AlertDialog(
+        title: Text('Add a note'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomTextField(
+              hintText: 'Type here',
+              controller: noteController,
+              maxLines: 3,
+            ),
+            FlatButton(
+              child: Text('ADD'),
+              onPressed: (){
+                Navigator.pop(ctx);
+                print('meh');
+              },
+            )
+          ],
+        )
+      )
+    );
+  }
 
 
 }
