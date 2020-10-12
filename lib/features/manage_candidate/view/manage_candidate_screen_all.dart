@@ -8,6 +8,7 @@ import 'package:jobxprss_company/features/manage_candidate/view_models/manage_ca
 import 'package:jobxprss_company/features/manage_jobs/models/job_list_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/models/job_model.dart';
 import 'package:jobxprss_company/features/manage_jobs/view_models/manages_jobs_view_model.dart';
+import 'package:jobxprss_company/main_app/resource/strings_resource.dart';
 import 'package:jobxprss_company/main_app/util/common_style_text_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
 import 'package:jobxprss_company/main_app/views/widgets/loader.dart';
@@ -83,7 +84,7 @@ class _ManageCandidateScreenAllState extends State<ManageCandidateScreenAll> {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('Shortlisted Only'),
+              Text(StringResources.shortListCheckBoxText),
               Checkbox(value: isShortListed, onChanged: (v){setState(() {
                 isShortListed = v;
               });})

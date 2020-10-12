@@ -215,6 +215,10 @@ class StringResources {
   static var companyListAppbarText = "Companies";
   static var searchLetterCapText = "You need to enter at least 3 letters";
 
+  //Manage Candidates
+  static var shortListCheckBoxText = "Show the shortlisted candidates only";
+
+
   //Company Details Screen
   static var companyDetailsText = "Company Details";
 
