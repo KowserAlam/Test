@@ -30,11 +30,26 @@ class ManageCandidateVewModel extends GetxController {
       return false;
     }, (ManageCandidateListDataModel r) {
       candidates.value = r.candidates;
-      for(int i=0; i<= r.candidates.length; i++){
-        if(candidates[i].isShortlisted){
-          candidatesShortlisted.add(r.candidates[i]);
-        }
-      }
+      _isFetchingData.value = false;
+
+      return true;
+    });
+  }
+
+  Future<bool> getDataShortlisted(String jobId) async {
+    _isFetchingData.value = true;
+    _appError.value = AppError.none;
+
+
+    var res = await ManageCandidateRepository().getCandidateShortlistedList(jobId);
+    return res.fold((AppError l) {
+      _appError.value = l;
+      _isFetchingData.value = false;
+      candidatesShortlisted.clear();
+
+      return false;
+    }, (ManageCandidateListDataModel r) {
+      candidatesShortlisted.value = r.candidates;
       _isFetchingData.value = false;
 
       return true;
@@ -50,7 +65,7 @@ class ManageCandidateVewModel extends GetxController {
   }
 
   Future<bool> refresh(String jobID) {
-    return getData(jobID);
+    return getData(jobID).then((value) => getDataShortlisted(jobID));
   }
 
   bool get showError =>

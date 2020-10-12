@@ -22,6 +22,7 @@ class Urls {
 
   static String openJobsCompany = "/api/company/job/search/"; //cname
   static String manageCandidateList = "/api/application/list"; //cname
+  static String manageCandidateShortlistedList = "/api/application/shortlist"; //cname
   static String infoBoxUrl = "/api/company/dashboard/infobox/"; //cname
   static String dashboardChartUrl = "/api/company/dashboard/chart/"; //cname
   static String dashboardRecentActivityUrl = "/api/company/dashboard/recent_activity/"; //cname

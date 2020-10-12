@@ -67,5 +67,30 @@ class ManageCandidateRepository{
       return Left(AppError.unknownError);
     }
   }
+
+  Future<Either<AppError, ManageCandidateListDataModel>> getCandidateShortlistedList(String jobId) async {
+    try {
+      var url = "${Urls.manageCandidateShortlistedList}/$jobId/";
+      var res = await ApiClient().getRequest(url);
+      logger.i(res.statusCode);
+      if (res.statusCode == 200) {
+        var decodedJson = json.decode(res.body);
+        // Logger().i(decodedJson);
+        // print(res.body);
+        var model = ManageCandidateListDataModel.fromJson(decodedJson);
+        return Right(model);
+      } else if (res.statusCode == 401) {
+        return Left(AppError.unauthorized);
+      } else {
+        return Left(AppError.serverError);
+      }
+    } on SocketException catch (e) {
+      logger.e(e);
+      return Left(AppError.networkError);
+    } catch (e) {
+      logger.e(e);
+      return Left(AppError.unknownError);
+    }
+  }
 }
 

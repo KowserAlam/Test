@@ -143,6 +143,7 @@ class CandidateListTile extends StatelessWidget {
                               manageCandidateVm
                                   .toggleCandidateShortlistedStatus(
                                       candidate.applicationId, index).then((value) {
+                                        manageCandidateVm.getDataShortlisted(jobId);
                                 updateFn(false);
                               });
                             },
@@ -313,19 +314,21 @@ class CandidateListTile extends StatelessWidget {
       barrierDismissible: false,
       builder: (_)=> AlertDialog(
         title: Text('Add a note'),
-        content: CustomTextField(
-          hintText: 'Type here',
-          controller: noteController,
-          maxLines: 3,
-        ),
-        actions: [
-          FlatButton(
-            child: Text('ADD'),
-            onPressed: (){
-              print('meh');
-            },
-          )
-        ],
+        content: Column(
+          children: [
+            CustomTextField(
+              hintText: 'Type here',
+              controller: noteController,
+              maxLines: 3,
+            ),
+            FlatButton(
+              child: Text('ADD'),
+              onPressed: (){
+                print('meh');
+              },
+            )
+          ],
+        )
       )
     );
   }
