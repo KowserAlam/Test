@@ -63,6 +63,13 @@ class CandidateListTile extends StatelessWidget {
       designationText,
       style: subTitleStyle,
     ):SizedBox();
+
+    String statusText = candidate.applicationStatusName!=null?candidate.applicationStatusName:'';
+    var status = statusText.trim()!=''?Text(
+      statusText,
+      style: subTitleStyle,
+    ):SizedBox();
+
     var profileImage = Container(
       height: 80,
       width: 80,
@@ -111,6 +118,8 @@ class CandidateListTile extends StatelessWidget {
                       experience,
                       SizedBox(height: 3,),
                       skills,
+                      // SizedBox(height: 3,),
+                      // status,
                     ],
                   ),
                 ),
