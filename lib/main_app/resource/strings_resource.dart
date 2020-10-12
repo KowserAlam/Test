@@ -241,7 +241,7 @@ class StringResources {
   static var companyDistrictText = "District";
   static var companyCountryText = "Country";
   static var companyPostCodeText = "Post Code";
-  static var companyContactSectionText = "CONTACT";
+  static var companyContactSectionText = "CONTACT INFO";
   static var companyEmailText = "Email";
   static var companyWebAddressText = "Web Address";
   static var webAddressHintText = "eg.  example.com";
