@@ -58,10 +58,11 @@ class CandidateListTile extends StatelessWidget {
       "Skills: ${candidate.skills.join(", ")}",
       style: subTitleStyle,
     );
-    var designation = Text(
-      "${candidate.currentDesignation ?? ""}${candidate.currentDesignation!=null?', ':''} ${candidate.currentCompany ?? ""}",
+    String designationText = "${candidate.currentDesignation ?? ""}${candidate.currentDesignation!=null?', ':''} ${candidate.currentCompany ?? ""}";
+    var designation = designationText.trim()!=''?Text(
+      designationText,
       style: subTitleStyle,
-    );
+    ):SizedBox();
     var profileImage = Container(
       height: 80,
       width: 80,
@@ -106,7 +107,7 @@ class CandidateListTile extends StatelessWidget {
                       name,
                       SizedBox(height: 5,),
                       designation,
-                      SizedBox(height: 3,),
+                      SizedBox(height: designationText!=''?3:0,),
                       experience,
                       SizedBox(height: 3,),
                       skills,
