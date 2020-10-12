@@ -74,6 +74,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             IconButton(
                               icon: Icon(
                                 Icons.settings,
+                                key: Key('leftMenubarsettingsIconKey'),
                               ),
                               color: navBarTextColor,
                               onPressed: () {
@@ -87,6 +88,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             Container(
                               child: IconButton(
                                 icon: Icon(Icons.menu),
+                                key: Key('leftMenubarIconKey'),
                                 color: navBarTextColor,
                                 onPressed: () {
                                   Navigator.pop(context);

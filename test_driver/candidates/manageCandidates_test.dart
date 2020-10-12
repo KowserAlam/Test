@@ -27,7 +27,7 @@ Future<void> manageCandidates()async{
     });
 
     //test cases are started from here
-    test('Try to login with registered email and password', () async {
+    /*test('Try to login with registered email and password', () async {
       await driver.tap(Keys.emailAddressTextfieldKey);
       await driver.enterText('rahat@ishraak.com');
       await driver.tap(Keys.passwordTextfieldKey);
@@ -35,7 +35,7 @@ Future<void> manageCandidates()async{
       await driver.tap(Keys.signInButtonKey);
       await Future.delayed(const Duration(seconds: 4), () {});
       await expect(await driver.getText(Keys.appBarTitleKey), 'Dashboard');
-    });
+    });*/
 
     test('Go to Manage Candidates screen', () async {
       await driver.tap(Keys.bottomNavBarCandidatesKey);

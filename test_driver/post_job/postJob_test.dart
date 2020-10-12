@@ -27,14 +27,14 @@ Future<void> postJobTest()async{
     });
 
     //test cases are started from here
-    test('Try to login with registered email and password', () async {
+    /*test('Try to login with registered email and password', () async {
       await driver.tap(Keys.emailAddressTextfieldKey);
       await driver.enterText('rahat@ishraak.com');
       await driver.tap(Keys.passwordTextfieldKey);
       await driver.enterText('1234567r');
       await driver.tap(Keys.signInButtonKey);
       await Future.delayed(const Duration(seconds: 5), () {});
-    });
+    });*/
 
     test('Navigate to Post Job screen from bottom navigation bar', () async {
       await driver.tap(Keys.PostJobsFloatingActionButtonKey);
@@ -192,6 +192,7 @@ Future<void> postJobTest()async{
 
     test('Check draft button and confirm all data saved successfully', () async {
       await driver.tap(Keys.postJobDraftButtonKey);
+      await driver.scrollUntilVisible(Keys.singleChildScrollViewKey, find.text('Sample Job Title'), dyScroll: -400);
       await Future.delayed(const Duration(seconds: 4),() {});
     });
 

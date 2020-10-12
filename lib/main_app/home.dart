@@ -88,9 +88,9 @@ class _HomeState extends State<Home> {
       items: [
         // dashboard
         FABBottomAppBarItem(
+          key: Key('bottomNavBarDashboardKey'),
           iconData: FontAwesomeIcons.home,
           label: StringResources.dashBoardText,
-          key: Key('bottomNavBarDashboardKey'),
         ),
         //manageJobs
         FABBottomAppBarItem(
@@ -161,6 +161,7 @@ class _HomeState extends State<Home> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
+            key: Key('PostJobsFloatingActionButtonKey'),
             onPressed: () {
               Navigator.of(context).push(
                   CupertinoPageRoute(builder: (context) => PostNewJobScreen()));

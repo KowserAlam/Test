@@ -27,7 +27,7 @@ Future<void> manageJobsTest()async{
     });
 
     //test cases are started from here
-    test('Try to login with registered email and password', () async {
+    /*test('Try to login with registered email and password', () async {
       await driver.tap(Keys.emailAddressTextfieldKey);
       await driver.enterText('rahat@ishraak.com');
       await driver.tap(Keys.passwordTextfieldKey);
@@ -35,7 +35,7 @@ Future<void> manageJobsTest()async{
       await driver.tap(Keys.signInButtonKey);
       await Future.delayed(const Duration(seconds: 4), () {});
       await expect(await driver.getText(Keys.appBarTitleKey), 'Dashboard');
-    });
+    });*/
 
     test('Go to manage jobs screen', () async {
       await driver.tap(Keys.bottomNavBarManageJobsKey);
@@ -101,7 +101,6 @@ Future<void> manageJobsTest()async{
       await driver.enterText('Testing Automation Job Title');
       await driver.tap(Keys.postJobDraftButtonKey);
       await driver.scrollUntilVisible(Keys.manageJobsScreenListViewKey, find.text('Testing Automation Job Title') , dyScroll: -200);
-      await driver.scrollUntilVisible(Keys.manageJobsScreenListViewKey, Keys.appBarTitleKey , dyScroll: 200);
     });
 
     test('Check message icon button is working', () async {
